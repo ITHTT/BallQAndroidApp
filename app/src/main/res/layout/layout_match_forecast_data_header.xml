@@ -1,0 +1,335 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp">
+        <com.tysci.ballq.views.widgets.chartview.PieChartView
+            android:id="@+id/piechartview"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_gravity="center" />
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|right"
+            android:layout_marginRight="20dp"
+            android:layout_marginBottom="5dp"
+            android:orientation="vertical">
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingBottom="5dp"
+                android:paddingTop="5dp">
+                <ImageView
+                    android:layout_width="15dp"
+                    android:layout_height="15dp"
+                    android:background="#ca574b" />
+                <TextView
+                    android:id="@+id/pieTextUp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:paddingLeft="5dp"
+                    android:text="上盘"
+                    android:textColor="@color/c_3a3a3a"
+                    android:textSize="13sp"
+                    android:typeface="monospace" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingBottom="5dp"
+                android:paddingTop="5dp">
+                <ImageView
+                    android:layout_width="15dp"
+                    android:layout_height="15dp"
+                    android:background="#c3c3c3" />
+                <TextView
+                    android:id="@+id/pieTextGone"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:paddingLeft="5dp"
+                    android:text="走盘"
+                    android:textColor="@color/c_3a3a3a"
+                    android:textSize="13sp"
+                    android:typeface="monospace" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingBottom="5dp"
+                android:paddingTop="5dp">
+                <ImageView
+                    android:layout_width="15dp"
+                    android:layout_height="15dp"
+                    android:background="#66b249" />
+                <TextView
+                    android:id="@+id/pieTextDown"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:paddingLeft="5dp"
+                    android:text="下盘"
+                    android:textColor="@color/c_3a3a3a"
+                    android:textSize="13sp"
+                    android:typeface="monospace" />
+            </LinearLayout>
+        </LinearLayout>
+    </FrameLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="本场"
+            android:textColor="#555555"
+            android:textSize="14sp"
+            android:typeface="monospace" />
+        <TextView
+            android:id="@+id/textView1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:text="历史"
+            android:textColor="#555555"
+            android:textSize="12sp"
+            android:typeface="monospace" />
+        <com.tysci.ballq.views.widgets.switchbutton.SwitchButton
+            android:id="@+id/historyCheck"
+            android:layout_width="40dp"
+            android:layout_height="20dp"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="5dp"
+            android:layout_toLeftOf="@+id/textView1" />
+    </RelativeLayout>
+    <LinearLayout
+        android:id="@+id/lineChartGroup"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:orientation="vertical">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+            <RelativeLayout
+                android:layout_width="40dp"
+                android:layout_height="match_parent"
+                android:paddingRight="5dp">
+                <TextView
+                    android:id="@+id/topDataX"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="right"
+                    android:textColor="#b68e4b"
+                    android:textSize="14sp"
+                    android:typeface="monospace" />
+                <TextView
+                    android:id="@+id/centerDataX"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="right"
+                    android:textColor="#b68e4b"
+                    android:textSize="14sp"
+                    android:typeface="monospace" />
+                <TextView
+                    android:id="@+id/bottomDataX"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="right"
+                    android:textColor="#b68e4b"
+                    android:textSize="14sp"
+                    android:typeface="monospace" />
+            </RelativeLayout>
+            <com.tysci.ballq.views.widgets.chartview.LineChartView
+                android:id="@+id/lineChartView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginRight="10dp"/>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="40dp"
+            android:layout_marginRight="7dp"
+            android:orientation="horizontal"
+            android:paddingTop="2dp">
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="left"
+                android:text="初"
+                android:textColor="#555555"
+                android:textSize="10sp"
+                android:typeface="monospace" />
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="5h"
+                android:textColor="#555555"
+                android:textSize="10sp"
+                android:typeface="monospace" />
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="4h"
+                android:textColor="#555555"
+                android:textSize="10sp"
+                android:typeface="monospace" />
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="3h"
+                android:textColor="#555555"
+                android:textSize="10sp"
+                android:typeface="monospace" />
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="2.5h"
+                android:textColor="#555555"
+                android:textSize="10sp"
+                android:typeface="monospace" />
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="2h"
+                android:textColor="#555555"
+                android:textSize="10sp"
+                android:typeface="monospace" />
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="1.5h"
+                android:textColor="#555555"
+                android:textSize="10sp"
+                android:typeface="monospace" />
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="1h"
+                android:textColor="#555555"
+                android:textSize="10sp"
+                android:typeface="monospace" />
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="50m"
+                android:textColor="#555555"
+                android:textSize="10sp"
+                android:typeface="monospace" />
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="40m"
+                android:textColor="#555555"
+                android:textSize="10sp"
+                android:typeface="monospace" />
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="30m"
+                android:textColor="#555555"
+                android:textSize="10sp"
+                android:typeface="monospace" />
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="20m"
+                android:textColor="#555555"
+                android:textSize="10sp"
+                android:typeface="monospace" />
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="10m"
+                android:textColor="#555555"
+                android:textSize="10sp"
+                android:typeface="monospace" />
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="right"
+                android:text="终"
+                android:textColor="#555555"
+                android:textSize="10sp"
+                android:typeface="monospace" />
+        </LinearLayout>
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/layout_forecast_data"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
+        android:background="#f6f6f6"
+        android:gravity="center_vertical">
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:gravity="left"
+            android:paddingLeft="16dp"
+            android:text="历史样本"
+            android:textColor="@color/c_3a3a3a"
+            android:textSize="14sp"
+            android:typeface="monospace" />
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="吻合度"
+            android:textColor="@color/c_3a3a3a"
+            android:textSize="14sp"
+            android:typeface="monospace" />
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="赛果"
+            android:textColor="@color/c_3a3a3a"
+            android:textSize="14sp"
+            android:typeface="monospace" />
+    </LinearLayout>
+</LinearLayout>

@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:orientation="horizontal"
+    android:paddingBottom="10dp"
+    android:paddingTop="10dp"
+    android:paddingLeft="5dp"
+    android:paddingRight="5dp">
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1.2"
+        android:gravity="center">
+        <TextView
+            android:id="@+id/tvRanking"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:ellipsize="end"
+            android:textSize="12sp"
+            android:textColor="#3a3a3a"
+            android:gravity="center"
+            android:lines="1"
+            android:text="1" />
+        <ImageView
+            android:id="@+id/ivTeamLogo"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_centerInParent="true"
+            android:contentDescription="@string/app_name"
+            android:scaleType="fitXY"
+            android:src="@mipmap/ic_ballq_logo"/>
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tvTeamName"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1.8"
+        android:textSize="12sp"
+        android:textColor="#3a3a3a"
+        android:gravity="center"
+        android:ellipsize="end"
+        android:lines="1"
+        android:paddingLeft="5dp"
+        android:text="球队" />
+
+    <TextView
+        android:id="@+id/tvRounds"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:textSize="12sp"
+        android:textColor="#3a3a3a"
+        android:gravity="center"
+        android:ellipsize="end"
+        android:lines="1"
+        android:text="场次" />
+
+    <TextView
+        android:id="@+id/tvGoalDifference"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:textSize="12sp"
+        android:textColor="#3a3a3a"
+        android:gravity="center"
+        android:ellipsize="end"
+        android:lines="1"
+        android:text="净胜球"
+        android:visibility="gone" />
+
+    <TextView
+        android:id="@+id/tvWin"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.6"
+        android:textSize="12sp"
+        android:textColor="#3a3a3a"
+        android:gravity="center"
+        android:ellipsize="end"
+        android:lines="1"
+        android:text="胜" />
+
+    <TextView
+        android:id="@+id/tvEqual"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.6"
+        android:textSize="12sp"
+        android:textColor="#3a3a3a"
+        android:gravity="center"
+        android:ellipsize="end"
+        android:lines="1"
+        android:text="平" />
+
+    <TextView
+        android:id="@+id/tvLose"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.6"
+        android:textSize="12sp"
+        android:textColor="#3a3a3a"
+        android:gravity="center"
+        android:ellipsize="end"
+        android:lines="1"
+        android:text="负" />
+
+    <TextView
+        android:id="@+id/tvHaveConceded"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:textSize="12sp"
+        android:textColor="#3a3a3a"
+        android:gravity="center"
+        android:ellipsize="end"
+        android:lines="1"
+        android:text="得失球" />
+
+    <TextView
+        android:id="@+id/tvIntegral"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:textSize="12sp"
+        android:textColor="#3a3a3a"
+        android:gravity="center"
+        android:ellipsize="end"
+        android:lines="1"
+        android:text="积分" />
+</LinearLayout>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#f6f6f6"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:paddingTop="10dp"
+    android:paddingLeft="5dp"
+    android:paddingRight="5dp">
+    <CheckBox
+        android:id="@+id/gold_coin_item"
+        android:layout_width="120dp"
+        android:layout_height="wrap_content"
+        android:button="@null"
+        android:background="@drawable/gold_coin_buy_item_selector"
+        android:gravity="center_horizontal"
+        android:paddingBottom="8dp"
+        android:paddingTop="8dp"
+        android:checked="true"
+        android:clickable="false"
+        android:textColor="@drawable/gold_coin_buy_text_selector"
+        android:textSize="12sp" />
+</LinearLayout>

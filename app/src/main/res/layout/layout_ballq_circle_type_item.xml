@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:paddingTop="8dp"
+    android:paddingBottom="8dp"
+    android:orientation="vertical">
+    <com.tysci.ballq.views.widgets.CircleImageView
+        android:id="@+id/iv_ballq_circle_icon"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:src="@mipmap/icon_user_bg"
+        android:layout_gravity="center_horizontal"
+        android:button="@null"
+        android:clickable="false"
+        app:border_color="@color/white"
+        app:border_width="0.5dp"/>
+
+    <CheckBox
+        android:id="@+id/cb_ballq_circle_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="3dp"
+        android:singleLine="true"
+        android:textSize="13sp"
+        android:textColor="@drawable/icon_circle_type_text_color_selector"
+        android:layout_gravity="center_horizontal"
+        android:button="@null"
+        android:clickable="false"
+        android:text="足球圈"/>
+</LinearLayout>

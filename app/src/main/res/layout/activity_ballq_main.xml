@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
+    <include
+        layout="@layout/layout_title_bar"/>
+    <FrameLayout
+        android:id="@+id/layout_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/title_bar"
+        android:layout_marginBottom="55dp"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:gravity="bottom"
+        android:orientation="horizontal">
+
+        <com.tysci.ballq.views.widgets.MainBottomMenuView
+            android:id="@+id/menu_home"
+            android:layout_width="0dp"
+            android:layout_height="55dp"
+            android:layout_weight="1"
+            android:background="@color/colorPrimary"
+            app:main_menu_icon="@drawable/main_menu_index_selector"
+            app:main_menu_name="首页"
+            app:main_menu_is_checked="true"/>
+
+        <com.tysci.ballq.views.widgets.MainBottomMenuView
+            android:id="@+id/menu_match"
+            android:layout_width="0dp"
+            android:layout_height="55dp"
+            android:layout_weight="1"
+            android:background="@color/colorPrimary"
+            app:main_menu_icon="@drawable/main_menu_match_selector"
+            app:main_menu_name="竞技场"/>
+
+        <com.tysci.ballq.views.widgets.MainBottomMenuView
+            android:id="@+id/menu_tip_off"
+            android:layout_width="0dp"
+            android:layout_height="60dp"
+            android:layout_weight="1.2"
+            android:background="#000"
+            app:main_menu_icon="@drawable/main_menu_tip_off_selector"
+            app:main_menu_name="爆料"/>
+
+        <com.tysci.ballq.views.widgets.MainBottomMenuView
+            android:id="@+id/menu_find"
+            android:layout_width="0dp"
+            android:layout_height="55dp"
+            android:layout_weight="1"
+            android:background="@color/colorPrimary"
+            app:main_menu_icon="@drawable/main_menu_find_selector"
+            app:main_menu_name="发现"/>
+
+        <com.tysci.ballq.views.widgets.MainBottomMenuView
+            android:id="@+id/menu_my"
+            android:layout_width="0dp"
+            android:layout_height="55dp"
+            android:layout_weight="1"
+            android:background="@color/colorPrimary"
+            app:main_menu_icon="@drawable/main_menu_my_selector"
+            app:main_menu_name="我的"/>
+    </LinearLayout>
+</RelativeLayout>

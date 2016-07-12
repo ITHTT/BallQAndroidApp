@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#dedfe4">
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv_circle_type"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@mipmap/icon_select_menu_bg"/>
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <include
+            layout="@layout/layout_swiperefresh_recyclerview"/>
+        <Button
+            android:id="@+id/bt_post_note"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_gravity="bottom|right"
+            android:background="@drawable/icon_button_post_note_bg"
+            android:layout_margin="15dp"
+            android:textSize="14sp"
+            android:text="发帖"/>
+    </FrameLayout>
+</LinearLayout>
+

@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#ffffff"
+    android:orientation="vertical">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#f8f8f8">
+        <RadioGroup
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="5dp">
+            <RadioButton
+                android:id="@+id/tvAll"
+                android:layout_width="50dp"
+                android:layout_height="25dp"
+                android:background="@drawable/icon_league_table_menu_selector"
+                android:gravity="center"
+                android:button="@null"
+                android:text="全部"
+                android:textColor="@drawable/icon_match_league_menu_text_color_selector"
+                android:textSize="14sp"
+                android:typeface="monospace" />
+            <RadioButton
+                android:id="@+id/tvHome"
+                android:layout_width="50dp"
+                android:layout_height="25dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginStart="10dp"
+                android:button="@null"
+                android:background="@drawable/icon_league_table_menu_selector"
+                android:gravity="center"
+                android:text="主场"
+                android:textColor="@drawable/icon_match_league_menu_text_color_selector"
+                android:textSize="14sp"
+                android:typeface="monospace" />
+            <RadioButton
+                android:id="@+id/tvAway"
+                android:layout_width="50dp"
+                android:layout_height="25dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginStart="10dp"
+                android:button="@null"
+                android:background="@drawable/icon_league_table_menu_selector"
+                android:gravity="center"
+                android:text="客场"
+                android:textColor="@drawable/icon_match_league_menu_text_color_selector"
+                android:textSize="14sp"
+                android:typeface="monospace" />
+        </RadioGroup>
+        <ImageView
+            android:id="@+id/imageView1"
+            android:layout_width="50dp"
+            android:layout_height="20dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="10dp"
+            android:layout_marginRight="10dp"
+            android:checked="true"
+            android:contentDescription="@string/app_name"
+            android:src="@drawable/icon_league_table_left_right_selector" />
+    </RelativeLayout>
+    <TextView
+        android:id="@+id/tvTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="8dp"
+        android:text="@string/app_name"
+        android:textColor="@color/c_3a3a3a"
+        android:textSize="15sp"
+        android:typeface="monospace" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp">
+        <TextView
+            android:textSize="12sp"
+            android:gravity="center"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1.2"
+            android:textColor="#8a8a8a"
+            android:typeface="monospace"
+            android:text="排名"/>
+        <TextView
+            android:id="@+id/tvTeamName"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textColor="#8a8a8a"
+            android:textSize="12sp"
+            android:layout_weight="1.8"
+            android:gravity="center"
+            android:paddingLeft="5dp"
+            android:text="球队"
+            android:typeface="monospace" />
+        <TextView
+            android:id="@+id/tvRounds"
+            android:textColor="#8a8a8a"
+            android:textSize="12sp"
+            android:gravity="center"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="场次"
+            android:typeface="monospace" />
+        <TextView
+            android:id="@+id/tvGoalDifference"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textColor="#8a8a8a"
+            android:textSize="12sp"
+            android:gravity="center"
+            android:text="净胜球"
+            android:typeface="monospace"
+            android:visibility="gone" />
+        <TextView
+            android:id="@+id/tvWin"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.6"
+            android:textColor="#8a8a8a"
+            android:textSize="12sp"
+            android:gravity="center"
+            android:text="胜"
+            android:visibility="visible"
+            android:typeface="monospace" />
+
+        <TextView
+            android:id="@+id/tvDraw"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.6"
+            android:textColor="#8a8a8a"
+            android:textSize="12sp"
+            android:gravity="center"
+            android:text="平"
+            android:visibility="visible"
+            android:typeface="monospace" />
+
+        <TextView
+            android:id="@+id/tvLose"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.6"
+            android:textColor="#8a8a8a"
+            android:textSize="12sp"
+            android:gravity="center"
+            android:text="负"
+            android:visibility="visible"
+            android:typeface="monospace" />
+
+        <TextView
+            android:id="@+id/tvHaveConceded"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textColor="#8a8a8a"
+            android:textSize="12sp"
+            android:gravity="center"
+            android:text="得失球"
+            android:typeface="monospace" />
+        <TextView
+            android:id="@+id/tvIntegral"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textColor="#8a8a8a"
+            android:textSize="12sp"
+            android:gravity="center"
+            android:text="积分"
+            android:typeface="monospace" />
+    </LinearLayout>
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="5dp"
+        android:contentDescription="@string/app_name"
+        android:src="#dcdcdc" />
+</LinearLayout>

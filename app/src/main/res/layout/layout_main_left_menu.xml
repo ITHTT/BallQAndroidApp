@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@mipmap/icon_main_menu_bg">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:ellipsize="marquee"
+            android:gravity="center"
+            android:maxLines="1"
+            android:text="球商"
+            android:textColor="#ffffff"
+            android:textSize="30sp" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp"
+            android:ellipsize="marquee"
+            android:gravity="center"
+            android:maxLines="1"
+            android:text="享受比赛预测的快感"
+            android:textColor="#ffffff"
+            android:textSize="15sp" />
+    </LinearLayout>
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+        <LinearLayout
+            android:id="@+id/layout_left_menus"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <com.tysci.ballq.views.widgets.MainMenuItemView
+                android:id="@+id/menu_index"
+                android:layout_width="match_parent"
+                android:layout_height="55dp"
+                app:menu_icon="@mipmap/icon_main_menu_home"
+                app:menu_name="首页"
+                app:menu_brief="全球1500+位分析师入驻" />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#4d4d4f" />
+            <com.tysci.ballq.views.widgets.MainMenuItemView
+                android:id="@+id/menu_match"
+                android:layout_width="match_parent"
+                android:layout_height="55dp"
+                app:menu_icon="@mipmap/icon_main_menu_ballq_go"
+                app:menu_name="比赛"
+                app:menu_brief="比分、爆料、数据、竞猜" />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#4d4d4f" />
+            <com.tysci.ballq.views.widgets.MainMenuItemView
+                android:id="@+id/menu_find"
+                android:layout_width="match_parent"
+                android:layout_height="55dp"
+                app:menu_icon="@mipmap/icon_main_menu_find"
+                app:menu_name="发现"
+                app:menu_brief="话题、圈子、图集、反馈" />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#4d4d4f" />
+            <com.tysci.ballq.views.widgets.MainMenuItemView
+                android:id="@+id/menu_ballq_go"
+                android:layout_width="match_parent"
+                android:layout_height="55dp"
+                app:menu_icon="@mipmap/icon_main_menu_ballq_go"
+                app:menu_name="大战球商GO"
+                app:menu_brief="PK球商GO赢大奖"/>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#4d4d4f" />
+            <com.tysci.ballq.views.widgets.MainMenuItemView
+                android:id="@+id/menu_rank"
+                android:layout_width="match_parent"
+                android:layout_height="55dp"
+                app:menu_icon="@mipmap/icon_main_menu_rank"
+                app:menu_name="排行榜"
+                app:menu_brief="大牌都在这里" />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#4d4d4f" />
+        </LinearLayout>
+    </ScrollView>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+        <View
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_weight="1"
+            android:background="#555557" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:text="合作伙伴"
+            android:textColor="@color/white"
+            android:textSize="13sp" />
+        <View
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_weight="1"
+            android:background="#555557"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+        <ImageView
+            android:layout_width="80dp"
+            android:layout_height="24dp"
+            android:layout_marginLeft="5dp"
+            android:contentDescription=""
+            android:src="@mipmap/icon_app_whoscore" />
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:orientation="vertical">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:ellipsize="marquee"
+                android:maxLines="1"
+                android:text="WhoScored"
+                android:textColor="@color/white"
+                android:textSize="14sp" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="3dp"
+                android:ellipsize="marquee"
+                android:maxLines="1"
+                android:text="全球顶级足球数据资讯"
+                android:textColor="@color/white"
+                android:textSize="12sp" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+        <ImageView
+            android:layout_width="80dp"
+            android:layout_height="24dp"
+            android:layout_marginLeft="5dp"
+            android:contentDescription=""
+            android:src="@mipmap/icon_app_clevergames" />
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:orientation="vertical">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:ellipsize="marquee"
+                android:maxLines="1"
+                android:text="Clevergames"
+                android:textColor="@color/white"
+                android:textSize="14sp" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="3dp"
+                android:ellipsize="marquee"
+                android:maxLines="1"
+                android:text="最强悍的体育数据游戏"
+                android:textColor="@color/white"
+                android:textSize="12sp" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/layout_titan_app"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:gravity="center_vertical"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal">
+        <ImageView
+            android:layout_width="80dp"
+            android:layout_height="24dp"
+            android:layout_marginLeft="5dp"
+            android:contentDescription=""
+            android:src="@mipmap/icon_app_titan" />
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:orientation="vertical">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:ellipsize="marquee"
+                android:maxLines="1"
+                android:text="体坛+"
+                android:textColor="@color/white"
+                android:textSize="14sp" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="3dp"
+                android:ellipsize="marquee"
+                android:maxLines="1"
+                android:text="所有关于《体坛周报》的记忆"
+                android:textColor="@color/white"
+                android:textSize="12sp" />
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="match_parent"
+    android:layout_gravity="center">
+    <TextView
+        android:id="@+id/tv_tab_title"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_centerInParent="true"
+        android:textSize="14.0sp"
+        android:textColor="@drawable/icon_attention_tab_title_text_color_selector"
+        android:gravity="center"
+        android:text="日榜"/>
+</RelativeLayout>

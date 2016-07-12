@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
+    <TextView
+        android:id="@+id/tv_player_number"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:lines="1"
+        android:ellipsize="end"
+        android:paddingBottom="10dp"
+        android:paddingTop="10dp"
+        android:text="5"
+        android:textColor="#3a3a3a" />
+
+    <TextView
+        android:id="@+id/tv_player_name"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="2"
+        android:gravity="center"
+        android:paddingBottom="10dp"
+        android:lines="1"
+        android:ellipsize="end"
+        android:paddingTop="10dp"
+        android:text="兰博"
+        android:textColor="#3a3a3a"
+        />
+
+    <TextView
+        android:id="@+id/tv_player_position"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:lines="1"
+        android:ellipsize="end"    android:gravity="center"
+        android:paddingBottom="10dp"
+        android:paddingTop="10dp"
+        android:text="前锋"
+        android:textColor="#3a3a3a"
+        />
+
+    <TextView
+        android:id="@+id/tv_player_appear"
+        android:layout_width="0dp"
+        android:lines="1"
+        android:ellipsize="end"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:paddingBottom="10dp"
+        android:paddingTop="10dp"
+        android:text="10"
+        android:textColor="#3a3a3a"
+        />
+
+    <TextView
+        android:id="@+id/tv_player_first"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:lines="1"
+        android:ellipsize="end"
+        android:paddingBottom="10dp"
+        android:paddingTop="10dp"
+        android:text="33"
+        android:textColor="#3a3a3a"
+        />
+    <TextView
+        android:id="@+id/tv_player_score"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:lines="1"
+        android:ellipsize="end"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:paddingBottom="10dp"
+        android:paddingTop="10dp"
+        android:text="2"
+        android:textColor="#3a3a3a"
+        />
+</LinearLayout>

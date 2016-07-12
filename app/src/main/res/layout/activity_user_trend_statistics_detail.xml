@@ -1,0 +1,303 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <include
+        layout="@layout/layout_title_bar"/>
+    <LinearLayout
+        android:id="@+id/layout_trend_static_info"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <android.support.v4.widget.SwipeRefreshLayout
+            android:id="@+id/swipe_refresh"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="#ffffff">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true">
+                    <include
+                        layout="@layout/layout_user_trend_statistics_header"/>
+                    <!--<com.db.chart.view.LineChartView-->
+                        <!--android:id="@+id/lineChartView"-->
+                        <!--android:layout_width="match_parent"-->
+                        <!--android:layout_height="200dp"-->
+                        <!--android:layout_marginLeft="10dp"-->
+                        <!--android:layout_marginRight="10dp"/>-->
+                    <com.github.mikephil.charting.charts.LineChart
+                        android:id="@+id/lineChartView"
+                        android:layout_width="match_parent"
+                        android:layout_height="200dp"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="5dp"/>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:orientation="horizontal"
+                        android:paddingBottom="15dp"
+                        android:paddingTop="15dp">
+                        <LinearLayout
+                            android:layout_width="100dp"
+                            android:layout_height="70dp"
+                            android:background="@drawable/icon_rounded_rectangle_0068b7"
+                            android:orientation="vertical">
+                            <TextView
+                                android:id="@+id/tvTrendProfit"
+                                android:layout_width="match_parent"
+                                android:layout_height="40dp"
+                                android:gravity="center"
+                                android:text="0.00"
+                                android:textColor="#ce483d"
+                                android:textSize="13sp" />
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="30dp"
+                                android:background="@drawable/icon_rounded_rectangle_bottom"
+                                android:gravity="center"
+                                android:text="盈利"
+                                android:textColor="#ffffff"
+                                android:textSize="13sp" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="100dp"
+                            android:layout_height="70dp"
+                            android:background="@drawable/icon_rounded_rectangle_0068b7"
+                            android:orientation="vertical"
+                            android:layout_marginLeft="70dp">
+                            <TextView
+                                android:id="@+id/tvTrendProfitably"
+                                android:layout_width="match_parent"
+                                android:layout_height="40dp"
+                                android:gravity="center"
+                                android:text="0.00%"
+                                android:textColor="#3a3a3a"
+                                android:textSize="13sp" />
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="30dp"
+                                android:background="@drawable/icon_rounded_rectangle_bottom"
+                                android:gravity="center"
+                                android:text="盈利"
+                                android:textColor="#ffffff"
+                                android:textSize="13sp" />
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="#d3d3d3" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="20dp"
+                        android:orientation="horizontal">
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical"
+                            android:paddingLeft="20dp"
+                            android:paddingRight="20dp">
+
+                            <RelativeLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="胜率"
+                                    android:textColor="@color/c_3a3a3a"
+                                    android:textSize="13sp" />
+
+                                <TextView
+                                    android:id="@+id/textView1"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentEnd="true"
+                                    android:layout_alignParentRight="true"
+                                    android:text="0.00%"
+                                    android:textColor="#7c7c7c"
+                                    android:textSize="13sp" />
+                            </RelativeLayout>
+
+                            <RelativeLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="平局球币"
+                                    android:textColor="@color/c_3a3a3a"
+                                    android:textSize="13sp" />
+
+                                <TextView
+                                    android:id="@+id/textView2"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentEnd="true"
+                                    android:layout_alignParentRight="true"
+                                    android:text="0.00"
+                                    android:textColor="#7c7c7c"
+                                    android:textSize="13sp" />
+                            </RelativeLayout>
+
+                            <RelativeLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="平均赔率"
+                                    android:textColor="@color/c_3a3a3a"
+                                    android:textSize="13sp" />
+
+                                <TextView
+                                    android:id="@+id/textView3"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentEnd="true"
+                                    android:layout_alignParentRight="true"
+                                    android:text="0.00"
+                                    android:textColor="#7c7c7c"
+                                    android:textSize="13sp" />
+                            </RelativeLayout>
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical"
+                            android:paddingLeft="20dp"
+                            android:paddingRight="20dp">
+                            <RelativeLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="投注额"
+                                    android:textColor="@color/c_3a3a3a"
+                                    android:textSize="13sp" />
+                                <TextView
+                                    android:id="@+id/textView4"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentEnd="true"
+                                    android:layout_alignParentRight="true"
+                                    android:text="0.00"
+                                    android:textColor="#7c7c7c"
+                                    android:textSize="13sp" />
+                            </RelativeLayout>
+
+                            <RelativeLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="返回额"
+                                    android:textColor="@color/c_3a3a3a"
+                                    android:textSize="13sp" />
+                                <TextView
+                                    android:id="@+id/textView5"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentEnd="true"
+                                    android:layout_alignParentRight="true"
+                                    android:text="0.00"
+                                    android:textColor="#7c7c7c"
+                                    android:textSize="13sp" />
+                            </RelativeLayout>
+
+                            <RelativeLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="走势"
+                                    android:textColor="@color/c_3a3a3a"
+                                    android:textSize="13sp" />
+                                <TextView
+                                    android:id="@+id/textView6"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentEnd="true"
+                                    android:layout_alignParentRight="true"
+                                    android:text=""
+                                    android:textColor="#7c7c7c"
+                                    android:textSize="13sp" />
+                            </RelativeLayout>
+                        </LinearLayout>
+                    </LinearLayout>
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="2dp"
+                        android:layout_marginTop="10dp"
+                        android:background="#eacb70" />
+                    <com.tysci.ballq.views.widgets.BallQTrendProfitStatisticLayout
+                        android:id="@+id/layout_trend_ahc_profit"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="2dp"
+                        android:background="#eacb70" />
+                    <com.tysci.ballq.views.widgets.BallQTrendProfitStatisticLayout
+                        android:id="@+id/layout_trend_league_profit"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="2dp"
+                        android:background="#eacb70" />
+                    <com.tysci.ballq.views.widgets.BallQTrendProfitStatisticLayout
+                        android:id="@+id/layout_trend_month_profit"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="2dp"
+                        android:background="#eacb70" />
+                    <com.tysci.ballq.views.widgets.BallQTrendProfitStatisticLayout
+                        android:id="@+id/layout_trend_to_profit"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="2dp"
+                        android:background="#eacb70" />
+                    <com.tysci.ballq.views.widgets.BallQTrendProfitStatisticLayout
+                        android:id="@+id/layout_trend_gold_profit"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="2dp"
+                        android:background="#eacb70" />
+                    <com.tysci.ballq.views.widgets.BallQTrendProfitStatisticLayout
+                        android:id="@+id/layout_trend_week_profit"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+                </LinearLayout>
+            </ScrollView>
+        </android.support.v4.widget.SwipeRefreshLayout>
+    </LinearLayout>
+</LinearLayout>

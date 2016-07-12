@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#ffffff"
+    android:orientation="vertical">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+        <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_marginLeft="5dp"
+            xmlns:app="http://schemas.android.com/apk/res-auto">
+            <com.tysci.ballq.views.widgets.CircleImageView
+                android:id="@+id/ivUserIcon"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:contentDescription="@string/app_name"
+                android:src="@mipmap/ic_ballq_logo"
+                app:border_color="@color/white"
+                app:border_width="3dp"/>
+            <ImageView
+                android:id="@+id/isV"
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:layout_alignEnd="@id/ivUserIcon"
+                android:layout_alignRight="@id/ivUserIcon"
+                android:layout_alignTop="@id/ivUserIcon"
+                android:contentDescription="@string/app_name"
+                android:src="@mipmap/icon_user_v_mark"
+                android:visibility="gone"/>
+        </RelativeLayout>
+        <TextView
+            android:id="@+id/tvUserNickName"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.8"
+            android:layout_marginLeft="5dp"
+            android:gravity="center"
+            android:singleLine="true"
+            android:text="哈哈哈哈哈哈"
+            android:textColor="#1b1b1b"
+            android:textSize="10sp"
+            android:typeface="monospace" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.8"
+            android:gravity="center"
+            android:orientation="horizontal">
+            <ImageView
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:src="@mipmap/icon_tip_count" />
+            <TextView
+                android:id="@+id/tvTipCount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:allowUndo="true"
+                android:gravity="center"
+                android:text="0"
+                android:textColor="#1b1b1b"
+                android:textSize="10sp"
+                android:typeface="monospace" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="horizontal">
+            <ImageView
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:src="@mipmap/icon_tip_win_rate" />
+            <TextView
+                android:id="@+id/tvWins"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="0"
+                android:textColor="#1b1b1b"
+                android:textSize="10sp"
+                android:typeface="monospace" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="horizontal">
+            <ImageView
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:src="@mipmap/icon_tip_trend" />
+            <TextView
+                android:id="@+id/tvRor"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="0"
+                android:textColor="#1b1b1b"
+                android:textSize="10sp"
+                android:typeface="monospace" />
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/divider"
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:layout_marginRight="4dp"
+            android:layout_marginLeft="4dp"
+            android:background="#d4d4d4" />
+
+        <FrameLayout
+            android:id="@+id/layout_attention"
+            android:layout_width="35dp"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:id="@+id/ivAttention"
+                android:layout_width="16dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:src="@drawable/icon_user_push_attention_selector" />
+        </FrameLayout>
+        <FrameLayout
+            android:id="@+id/layout_push"
+            android:layout_width="35dp"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:id="@+id/ivPush"
+                android:layout_width="16dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:src="@drawable/icon_user_push_check_selector" />
+        </FrameLayout>
+    </LinearLayout>
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#d4d4d4" />
+</LinearLayout>

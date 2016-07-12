@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="umeng_key" translatable="false">555e8e3e67e58e0ffc0069ca</string>
+    <string name="umeng_channel" translatable="false">ballq</string>
+    <string name="umeng_secret" translatable="false">9bbc113023cdbd560adf947d0cf2d2a9</string>
+
+    <!--<string name="pgy_id" translatable="false">87e76dbcf1b58f2cf269ffdd2e924f7d</string>-->
+    <!--林德-->
+    <string name="pgy_id" translatable="false">a16a5882bcabf26638e704135e1fe393</string>
+    <!--王林-->
+</resources>

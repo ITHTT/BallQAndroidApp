@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <ImageView
+        android:id="@+id/message_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@mipmap/page_icon_failed"
+        android:visibility="gone"/>
+
+    <TextView
+        android:id="@+id/message_info"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:layout_marginTop="10dp"
+        android:textSize="14sp"
+        android:textColor="#3a3a3a"/>
+
+    <TextView
+        android:id="@+id/tv_click_info"
+        android:layout_width="70dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        android:textSize="14sp"
+        android:textColor="@color/c_3a3a3a"
+        android:background="@drawable/icon_white_rectangle"
+        android:text="点击重试"/>
+</LinearLayout>

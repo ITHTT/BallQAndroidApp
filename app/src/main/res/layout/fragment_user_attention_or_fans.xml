@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <LinearLayout
+        android:id="@+id/vgTop"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="35dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:gravity="center"
+            android:text="头像"
+            android:textColor="#1b1b1b"
+            android:textSize="11sp"
+            android:typeface="monospace" />
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="5dp"
+            android:layout_weight="0.8"
+            android:gravity="center"
+            android:singleLine="true"
+            android:text="昵称"
+            android:textColor="#1b1b1b"
+            android:textSize="11sp"
+            android:typeface="monospace" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.8"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:text="爆料数"
+            android:textColor="#1b1b1b"
+            android:textSize="11sp"
+            android:typeface="monospace" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:text="亚盘胜率"
+            android:textColor="#1b1b1b"
+            android:textSize="11sp"
+            android:typeface="monospace" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:text="盈利率"
+            android:textColor="#1b1b1b"
+            android:textSize="11sp"
+            android:typeface="monospace" />
+
+        <ImageView
+            android:id="@+id/divider"
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:layout_marginRight="4dp"
+            android:layout_marginLeft="4dp"
+            android:background="#d4d4d4" />
+
+        <TextView
+            android:id="@+id/tv_attention"
+            android:layout_width="35dp"
+            android:layout_height="20dp"
+            android:gravity="center"
+            android:text="关注"
+            android:textColor="#1b1b1b"
+            android:textSize="11sp"
+            android:typeface="monospace" />
+
+        <TextView
+            android:id="@+id/tv_push"
+            android:layout_width="35dp"
+            android:layout_height="20dp"
+            android:gravity="center"
+            android:text="推送"
+            android:textColor="#1b1b1b"
+            android:textSize="11sp"
+            android:typeface="monospace" />
+    </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#d4d4d4"/>
+    <include
+        layout="@layout/layout_swiperefresh_recyclerview"/>
+</LinearLayout>

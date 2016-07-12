@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <include
+        layout="@layout/layout_title_bar"/>
+    <include
+        layout="@layout/layout_ballq_match_header"/>
+    <FrameLayout
+        android:id="@+id/layout_match_guess_content"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </FrameLayout>
+    <Button
+        android:id="@+id/bt_betting"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_alignParentBottom="true"
+        android:textColor="#eacb70"
+        android:background="@drawable/icon_match_betting_ok_button_selector"
+        android:text="提交"
+        android:visibility="gone"/>
+</LinearLayout>

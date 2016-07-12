@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#ff2B2B2B</color>
+    <color name="colorPrimaryDark">#ee2B2B2B</color>
+    <color name="colorAccent">#FF4081</color>
+
+    <color name="white">#ffffff</color>
+    <color name="gold">#eacb70</color>
+    <color name="gray">#dedfe4</color>
+
+    <color name="c_3a3a3a">#3a3a3a</color>
+    <color name="c_f8f8f8">#f8f8f8</color>
+    <color name="default_circle_img">#dedfe4</color>
+    <color name="black">#000000</color>
+</resources>
