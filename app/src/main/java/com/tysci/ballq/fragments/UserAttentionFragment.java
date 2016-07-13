@@ -18,6 +18,7 @@ import com.tysci.ballq.networks.HttpClientUtil;
 import com.tysci.ballq.networks.HttpUrls;
 import com.tysci.ballq.utils.CommonUtils;
 import com.tysci.ballq.utils.KLog;
+import com.tysci.ballq.utils.ToastUtil;
 import com.tysci.ballq.utils.UserInfoUtil;
 import com.tysci.ballq.views.adapters.UserAttentionOrFansAdapter;
 import com.tysci.ballq.views.widgets.loadmorerecyclerview.AutoLoadMoreRecyclerView;
@@ -63,6 +64,7 @@ public class UserAttentionFragment extends BaseFragment implements SwipeRefreshL
         recyclerView.setLayoutManager(new LinearLayoutManager(baseActivity));
         recyclerView.setOnLoadMoreListener(this);
         swipeRefresh.setOnRefreshListener(this);
+        showLoading();
         requestDatas(1, false);
         setTitleAttrs();
     }
@@ -75,7 +77,7 @@ public class UserAttentionFragment extends BaseFragment implements SwipeRefreshL
         }else{
             tvPush.setVisibility(View.VISIBLE);
             tvAttention.setVisibility(View.VISIBLE);
-            String id= UserInfoUtil.getUserId(baseActivity);
+            String id=UserInfoUtil.getUserId(baseActivity);
             if(!uid.equals(id)){
                 tvPush.setVisibility(View.GONE);
                 tvAttention.setVisibility(View.GONE);
@@ -86,15 +88,34 @@ public class UserAttentionFragment extends BaseFragment implements SwipeRefreshL
 
     @Override
     protected View getLoadingTargetView() {
-        return null;
+        return swipeRefresh;
     }
 
-    @Override
-    protected boolean isCancledEventBus() {
-        return false;
+    private void setRefreshing(){
+        swipeRefresh.post(new Runnable() {
+            @Override
+            public void run() {
+                swipeRefresh.setRefreshing(true);
+            }
+        });
     }
 
-    private void requestDatas(int pages, final boolean isLoadMore){
+    private void onRefreshCompelete(){
+        if(swipeRefresh!=null) {
+            swipeRefresh.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    if (swipeRefresh != null) {
+                        swipeRefresh.setRefreshing(false);
+                        // recyclerView.setStartLoadMore();
+                    }
+                }
+            }, 1000);
+        }
+    }
+
+
+    private void requestDatas(final int pages, final boolean isLoadMore){
         String url= HttpUrls.HOST_URL_V5 + "user/follow/?etype=" + etype + "&uid=" + uid + "&p=" + pages;
         Map<String,String> params=null;
         if(UserInfoUtil.checkLogin(baseActivity)){
@@ -110,7 +131,22 @@ public class UserAttentionFragment extends BaseFragment implements SwipeRefreshL
 
             @Override
             public void onError(Call call, Exception error) {
-
+                if (!isLoadMore) {
+                    if (adapter != null) {
+                        ToastUtil.show(baseActivity,"请求失败");
+                        recyclerView.setStartLoadMore();
+                    } else {
+                        showErrorInfo(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                showLoading();
+                                requestDatas(pages,isLoadMore);
+                            }
+                        });
+                    }
+                } else {
+                    recyclerView.setLoadMoreDataFailed();
+                }
             }
 
             @Override
@@ -121,6 +157,7 @@ public class UserAttentionFragment extends BaseFragment implements SwipeRefreshL
                     if(obj!=null&&!obj.isEmpty()){
                         JSONArray arrays=obj.getJSONArray("data");
                         if(arrays!=null&&!arrays.isEmpty()){
+                            hideLoad();
                             publishLoadDataEvent(arrays.size());
                             if(userAttentionOrFansEntityList==null){
                                 userAttentionOrFansEntityList=new ArrayList<BallQUserAttentionOrFansEntity>(10);
@@ -130,7 +167,7 @@ public class UserAttentionFragment extends BaseFragment implements SwipeRefreshL
                                     userAttentionOrFansEntityList.clear();
                                 }
                             }
-                            CommonUtils.getJSONListObject(arrays, userAttentionOrFansEntityList, BallQUserAttentionOrFansEntity.class);
+                            CommonUtils.getJSONListObject(arrays,userAttentionOrFansEntityList,BallQUserAttentionOrFansEntity.class);
                             if(adapter==null){
                                 adapter=new UserAttentionOrFansAdapter(userAttentionOrFansEntityList);
                                 if(etype==1){
@@ -159,11 +196,22 @@ public class UserAttentionFragment extends BaseFragment implements SwipeRefreshL
                         }
                     }
                 }
+                if (!isLoadMore) {
+                    recyclerView.setLoadMoreDataComplete();
+                    showEmptyInfo();
+                } else {
+                    recyclerView.setLoadMoreDataComplete("没有更多数据了...");
+                }
             }
 
             @Override
             public void onFinish(Call call) {
-
+                if (!isLoadMore) {
+                    if (recyclerView != null) {
+                        recyclerView.setRefreshComplete();
+                    }
+                    onRefreshCompelete();
+                }
             }
         });
     }
@@ -184,6 +232,10 @@ public class UserAttentionFragment extends BaseFragment implements SwipeRefreshL
         EventObject.postEventObject(eventObject,"user_attention");
     }
 
+    @Override
+    protected boolean isCancledEventBus() {
+        return false;
+    }
 
     @Override
     protected void notifyEvent(String action) {
@@ -197,11 +249,25 @@ public class UserAttentionFragment extends BaseFragment implements SwipeRefreshL
 
     @Override
     public void onLoadMore() {
-
+        if(recyclerView.isRefreshing()){
+            recyclerView.setLoadMoreDataComplete("刷新数据中...");
+        }else{
+            recyclerView.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    requestDatas(currentPages,true);
+                }
+            },300);
+        }
     }
 
     @Override
     public void onRefresh() {
-
+        if(recyclerView.isLoadMoreing()){
+            recyclerView.setRefreshing();
+            onRefreshCompelete();
+        }else{
+            requestDatas(1,false);
+        }
     }
 }

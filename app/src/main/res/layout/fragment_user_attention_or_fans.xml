@@ -6,7 +6,7 @@
     <LinearLayout
         android:id="@+id/vgTop"
         android:layout_width="match_parent"
-        android:layout_height="30dp"
+        android:layout_height="35dp"
         android:gravity="center_vertical"
         android:orientation="horizontal">
         <TextView
@@ -24,7 +24,6 @@
             android:layout_marginLeft="5dp"
             android:layout_weight="0.8"
             android:gravity="center"
-            android:singleLine="true"
             android:text="昵称"
             android:textColor="#1b1b1b"
             android:textSize="11sp"

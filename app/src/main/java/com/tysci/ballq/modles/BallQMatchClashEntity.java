@@ -6,6 +6,8 @@ package com.tysci.ballq.modles;
 public class BallQMatchClashEntity {
 
 
+
+
     /**
      * status : 已完成
      * city :
@@ -46,6 +48,7 @@ public class BallQMatchClashEntity {
     private String id;
     private String home_team_score;
     private String matchType;
+    private int team_result;
 
     public void setStatus(String status) {
         this.status = status;
@@ -197,5 +200,13 @@ public class BallQMatchClashEntity {
 
     public void setMatchType(String matchType) {
         this.matchType = matchType;
+    }
+
+    public int getTeam_result() {
+        return team_result;
+    }
+
+    public void setTeam_result(int team_result) {
+        this.team_result = team_result;
     }
 }

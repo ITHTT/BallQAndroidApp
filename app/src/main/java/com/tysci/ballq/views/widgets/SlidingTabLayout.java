@@ -7,6 +7,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.Rect;
+import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.os.Parcelable;
@@ -80,6 +81,7 @@ public class SlidingTabLayout extends HorizontalScrollView implements ViewPager.
     private int mDividerColor;
     private float mDividerWidth;
     private float mDividerPadding;
+    private Drawable mDividerDrawable;
 
     /** title */
     private float mTextsize;
@@ -149,6 +151,7 @@ public class SlidingTabLayout extends HorizontalScrollView implements ViewPager.
         mDividerColor = ta.getColor(R.styleable.SlidingTabLayout_tl_divider_color, Color.parseColor("#ffffff"));
         mDividerWidth = ta.getDimension(R.styleable.SlidingTabLayout_tl_divider_width, dp2px(0));
         mDividerPadding = ta.getDimension(R.styleable.SlidingTabLayout_tl_divider_padding, dp2px(12));
+        mDividerDrawable=ta.getDrawable(R.styleable.SlidingTabLayout_tl_divider_drawable);
 
         mTextsize = ta.getDimension(R.styleable.SlidingTabLayout_tl_textsize, sp2px(14));
         mTextSelectColor = ta.getColor(R.styleable.SlidingTabLayout_tl_textSelectColor, Color.parseColor("#ffffff"));
@@ -435,7 +438,13 @@ public class SlidingTabLayout extends HorizontalScrollView implements ViewPager.
             mDividerPaint.setColor(mDividerColor);
             for (int i = 0; i < mTabCount - 1; i++) {
                 View tab = mTabsContainer.getChildAt(i);
-                canvas.drawLine(paddingLeft + tab.getRight(), mDividerPadding, paddingLeft + tab.getRight(), height - mDividerPadding, mDividerPaint);
+                if(mDividerDrawable==null) {
+                    canvas.drawLine(paddingLeft + tab.getRight(), mDividerPadding, paddingLeft + tab.getRight(), height - mDividerPadding, mDividerPaint);
+                }else{
+                    mDividerDrawable.setBounds(paddingLeft + tab.getRight(), (int)mDividerPadding, paddingLeft + tab.getRight()+(int)mDividerWidth, (int)(height - mDividerPadding));
+                    mDividerDrawable.draw(canvas);
+                }
+                //canvas.drawBitmap();
             }
         }
 

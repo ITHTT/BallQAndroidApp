@@ -82,6 +82,14 @@ public class UserInfoUtil {
         return null;
     }
 
+    public static boolean isVIPUser(Context context){
+        UserInfoEntity info=getUserInfo(context);
+        if(info!=null){
+            return info.getRank()>=10;
+        }
+        return false;
+    }
+
     public static void setUserRank(Context context,int rank){
         SharedPreferencesUtil.setIntValue(context,userFileName,USER_RANK,rank);
     }

@@ -12,6 +12,7 @@ import com.tysci.ballq.networks.HttpClientUtil;
 import com.tysci.ballq.networks.HttpUrls;
 import com.tysci.ballq.utils.CommonUtils;
 import com.tysci.ballq.utils.KLog;
+import com.tysci.ballq.utils.ToastUtil;
 import com.tysci.ballq.utils.UserInfoUtil;
 import com.tysci.ballq.views.adapters.BallQMatchAdapter;
 
@@ -95,41 +96,45 @@ public class BallQMatchListFragment extends AppSwipeRefreshLoadMoreRecyclerViewF
             public void onBefore(Request request) {
 
             }
+
             @Override
             public void onError(Call call, Exception error) {
-                if(matchAdapter==null){
-                    showErrorInfo(new View.OnClickListener(){
+                if (matchAdapter == null) {
+                    showErrorInfo(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
                             showLoading();
                             requestDatas();
                         }
                     });
-                }else{
-
+                } else {
+                    ToastUtil.show(baseActivity, "请求失败");
                 }
             }
+
             @Override
             public void onSuccess(Call call, String response) {
                 hideLoad();
                 KLog.json(response);
-                if(!TextUtils.isEmpty(response)){
-                    JSONObject obj=JSONObject.parseObject(response);
-                    if(obj!=null){
-                        JSONObject data=obj.getJSONObject("data");
-                        if(data!=null){
-                            JSONArray array=data.getJSONArray("matches");
-                            if(array!=null&&!array.isEmpty()){
-                                if(matchEntityList==null){
-                                    matchEntityList=new ArrayList<BallQMatchEntity>(10);
-                                }else if(!matchEntityList.isEmpty()){
+                if (!TextUtils.isEmpty(response)) {
+                    JSONObject obj = JSONObject.parseObject(response);
+                    if (obj != null) {
+                        JSONObject data = obj.getJSONObject("data");
+                        if (data != null) {
+                            JSONArray array = data.getJSONArray("matches");
+                            if (array != null && !array.isEmpty()) {
+                                if (matchEntityList == null) {
+                                    matchEntityList = new ArrayList<BallQMatchEntity>(10);
+                                } else if (!matchEntityList.isEmpty()) {
                                     matchEntityList.clear();
                                 }
                                 CommonUtils.getJSONListObject(array, matchEntityList, BallQMatchEntity.class);
-                                if(matchAdapter==null){
-                                    matchAdapter=new BallQMatchAdapter(matchEntityList);
+                                if (matchAdapter == null) {
+                                    matchAdapter = new BallQMatchAdapter(matchEntityList);
+                                    matchAdapter.setTag(Tag);
+                                    matchAdapter.setMatchType(0);
                                     recyclerView.setAdapter(matchAdapter);
-                                }else{
+                                } else {
                                     matchAdapter.notifyDataSetChanged();
                                 }
                                 recyclerView.setLoadMoreDataComplete(loadFinishedTip);
@@ -138,12 +143,54 @@ public class BallQMatchListFragment extends AppSwipeRefreshLoadMoreRecyclerViewF
                         }
                     }
                 }
+                showEmptyInfo();
             }
+
             @Override
             public void onFinish(Call call) {
                 onRefreshCompelete();
             }
         });
+    }
+
+    /**
+     * 刷选数据
+     * @param filter
+     */
+    public void filterUpdateData(String filter,String selectDate){
+        boolean isUpdate=false;
+        if(!"tournament".equals(filter)) {
+            if (TextUtils.isEmpty(filter)) {
+                if (!TextUtils.isEmpty(this.filter)) {
+                    this.filter = null;
+                    isUpdate = true;
+                }
+            } else if (!filter.equals(this.filter)) {
+                this.filter = filter;
+                isUpdate = true;
+            }
+        }else if(!filter.equals(this.filter)){
+            this.filter=null;
+            isUpdate=true;
+        }
+        if(!this.selectDate.equals(selectDate)){
+            this.selectDate=selectDate;
+            isUpdate=true;
+        }
+
+        if(isUpdate) {
+            HttpClientUtil.getHttpClientUtil().cancelTag(Tag);
+            recyclerView.setLoadMoreDataComplete();
+            if(matchAdapter!=null){
+                if(matchEntityList.size()>0){
+                    matchEntityList.clear();
+                    matchAdapter.notifyDataSetChanged();
+                }
+            }
+            hideLoad();
+            setRefreshing();
+            requestDatas();
+        }
     }
 
     @Override
@@ -158,6 +205,19 @@ public class BallQMatchListFragment extends AppSwipeRefreshLoadMoreRecyclerViewF
 
     @Override
     protected void notifyEvent(String action, Bundle data) {
+        if(!TextUtils.isEmpty(action)){
+            if(action.equals("attention_refresh")){
+                int etype=data.getInt("etype",-1);
+                int eid=data.getInt("id",-1);
+                if(etype>=0){
+                    if(etype==type){
+                        if(matchAdapter!=null){
+                            matchAdapter.cancelUserAttention(eid);
+                        }
+                    }
+                }
+            }
+        }
 
     }
 

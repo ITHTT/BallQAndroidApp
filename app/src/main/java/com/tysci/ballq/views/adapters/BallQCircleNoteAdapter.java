@@ -27,10 +27,10 @@ import java.util.List;
 /**
  * Created by Administrator on 2016/5/31.
  */
-public class BallQHomeCircleNoteAdapter extends RecyclerView.Adapter<BallQHomeCircleNoteAdapter.BallQHomeCircleNoteViewHolder>{
+public class BallQCircleNoteAdapter extends RecyclerView.Adapter<BallQCircleNoteAdapter.BallQHomeCircleNoteViewHolder>{
     private List<BallQCircleNoteEntity> ballQNoteEntities;
 
-    public BallQHomeCircleNoteAdapter(List<BallQCircleNoteEntity> list) {
+    public BallQCircleNoteAdapter(List<BallQCircleNoteEntity> list) {
         this.ballQNoteEntities = list;
     }
 

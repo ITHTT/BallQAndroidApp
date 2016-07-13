@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.tysci.ballq.R;
 import com.tysci.ballq.activitys.UserAccountActivity;
+import com.tysci.ballq.activitys.UserAchievementActivity;
 import com.tysci.ballq.activitys.UserAttentionActivity;
 import com.tysci.ballq.activitys.UserBettingGuessRecordActivity;
 import com.tysci.ballq.activitys.UserCollectionRecordActivity;
@@ -164,6 +165,9 @@ public class BallQPersonalFragment extends BaseFragment{
                     break;
                 case R.id.menu_user_asset:
                     cls=UserAccountActivity.class;
+                    break;
+                case  R.id.menu_user_achievement:
+                    cls=UserAchievementActivity.class;
                     break;
             }
             if(cls!=null){

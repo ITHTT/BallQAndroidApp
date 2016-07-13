@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:background="#ffffff">
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -10,8 +12,8 @@
         android:layout_marginBottom="5dp">
         <com.tysci.ballq.views.widgets.chartview.PieChartView
             android:id="@+id/piechartview"
-            android:layout_width="150dp"
-            android:layout_height="150dp"
+            android:layout_width="140dp"
+            android:layout_height="140dp"
             android:layout_gravity="center" />
         <LinearLayout
             android:layout_width="wrap_content"
@@ -106,13 +108,15 @@
             android:textColor="#555555"
             android:textSize="12sp"
             android:typeface="monospace" />
-        <com.tysci.ballq.views.widgets.switchbutton.SwitchButton
+        <com.tysci.ballq.views.widgets.togglebutton.ToggleButton
             android:id="@+id/historyCheck"
             android:layout_width="40dp"
             android:layout_height="20dp"
             android:layout_centerVertical="true"
             android:layout_marginRight="5dp"
-            android:layout_toLeftOf="@+id/textView1" />
+            android:layout_toLeftOf="@+id/textView1"
+            app:isDefaultOn="true"
+            app:onColor="@color/gold"/>
     </RelativeLayout>
     <LinearLayout
         android:id="@+id/lineChartGroup"

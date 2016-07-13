@@ -22,8 +22,15 @@ import butterknife.ButterKnife;
 public class BallQMatchLeagueTableAdapter extends RecyclerView.Adapter<BallQMatchLeagueTableAdapter.BallQMatchLeagueTableViewHolder>{
     private List<BallQMatchLeagueTableEntity> matchLeagueTableEntityList=null;
 
+    private boolean isFilter=true;
+
     public BallQMatchLeagueTableAdapter(List<BallQMatchLeagueTableEntity> matchLeagueTableEntityList) {
         this.matchLeagueTableEntityList = matchLeagueTableEntityList;
+    }
+
+    public void setFilter(boolean isFilter){
+        this.isFilter=isFilter;
+        notifyDataSetChanged();
     }
 
     @Override
@@ -36,7 +43,7 @@ public class BallQMatchLeagueTableAdapter extends RecyclerView.Adapter<BallQMatc
     public void onBindViewHolder(BallQMatchLeagueTableViewHolder holder, int position) {
         BallQMatchLeagueTableEntity info=matchLeagueTableEntityList.get(position);
 
-        GlideImageLoader.loadImage(holder.itemView.getContext(),info.getTeam_logo(), R.drawable.icon_circle_item_bg,holder.ivTeamLogo);
+        GlideImageLoader.loadImage(holder.itemView.getContext(), info.getTeam_logo(), R.drawable.icon_default_team_logo, holder.ivTeamLogo);
         holder.tvTeamRank.setText(String.valueOf(info.getRanking()));
         holder.tvTeamName.setText(info.getTeam());
         holder.tvRounds.setText(String.valueOf(info.getMatches_total()));
@@ -46,6 +53,21 @@ public class BallQMatchLeagueTableAdapter extends RecyclerView.Adapter<BallQMatc
         holder.tvLose.setText(String.valueOf(info.getLose_total()));
         holder.tvHaveConceded.setText(String.valueOf(info.getGoals_total() + ":" + info.getLost_total()));
         holder.tvIntegeral.setText(String.valueOf(info.getPoints_total()));
+        if(isFilter){
+            holder.tvWin.setVisibility(View.GONE);
+            holder.tvEqual.setVisibility(View.GONE);
+            holder.tvLose.setVisibility(View.GONE);
+            holder.tvHaveConceded.setVisibility(View.GONE);
+            holder.ivTeamLogo.setVisibility(View.VISIBLE);
+            holder.tvGoalDifference.setVisibility(View.VISIBLE);
+        }else{
+            holder.tvWin.setVisibility(View.VISIBLE);
+            holder.tvEqual.setVisibility(View.VISIBLE);
+            holder.tvLose.setVisibility(View.VISIBLE);
+            holder.tvHaveConceded.setVisibility(View.VISIBLE);
+            holder.ivTeamLogo.setVisibility(View.GONE);
+            holder.tvGoalDifference.setVisibility(View.GONE);
+        }
     }
 
     @Override

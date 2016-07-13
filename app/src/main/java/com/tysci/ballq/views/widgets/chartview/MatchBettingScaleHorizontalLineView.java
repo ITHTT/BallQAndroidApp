@@ -36,6 +36,7 @@ public class MatchBettingScaleHorizontalLineView extends View {
     private int lineHeight;
     private int padding;
     private int textHeght;
+    private boolean isBigSmall=false;
 
 
     private Rect rect=null;
@@ -62,9 +63,9 @@ public class MatchBettingScaleHorizontalLineView extends View {
     }
 
     private void initViews(Context context){
-        lineHeight= CommonUtils.dip2px(context,10);
-        padding= CommonUtils.dip2px(context,5);
-        textHeght= CommonUtils.dip2px(context,15);
+        lineHeight= CommonUtils.dip2px(context, 10);
+        padding= CommonUtils.dip2px(context, 5);
+        textHeght= CommonUtils.dip2px(context, 15);
 
         rect=new Rect();
         paint=new Paint();
@@ -80,7 +81,7 @@ public class MatchBettingScaleHorizontalLineView extends View {
         int width=MeasureSpec.getSize(widthMeasureSpec);
         int height=MeasureSpec.getSize(heightMeasureSpec);
         if(height<lineHeight+2*(padding+textHeght)){
-            height=lineHeight+2*(padding+textHeght);
+            height=lineHeight+2*(padding+textHeght)+20;
         }
         setMeasuredDimension(width,height);
     }
@@ -94,12 +95,17 @@ public class MatchBettingScaleHorizontalLineView extends View {
         }
     }
 
-    private void setBettingScaleData(float win,float equal,float lose){
+
+    public void setBettingScaleData(float win,float equal,float lose){
         this.winScale=win;
         this.equalScale=equal;
         this.loseScale=lose;
         this.all=win+equal+lose;
         postInvalidate();
+    }
+
+    public void setIsBigSmall(boolean isBigSmall) {
+        this.isBigSmall = isBigSmall;
     }
 
     @Override
@@ -109,6 +115,8 @@ public class MatchBettingScaleHorizontalLineView extends View {
     }
 
     private void drawLineInfo(Canvas canvas){
+        paint.setStrokeWidth(0.5f);
+        paint.setTextSize(CommonUtils.sp2px(getContext(), 13));
         int winWidth= (int) ((this.winScale/this.all)*width);
         if(winWidth>0){
             paint.setColor(winColor);
@@ -119,24 +127,23 @@ public class MatchBettingScaleHorizontalLineView extends View {
             canvas.drawRect(rect,paint);
 
             /**绘制数值*/
-            paint.setTextSize(textHeght);
-            String winScaleText="胜 "+String.format(Locale.getDefault(),"%.1f",winScale);
+            String winScaleText=(isBigSmall?"大球 ":"胜 ")+String.format(Locale.getDefault(),"%.1f",winScale);
             float textWidth=paint.measureText(winScaleText, 0, winScaleText.length());
             float textX=winWidth/2-textWidth/2;
             if(textX<0){
                 textX=winWidth/2;
             }
-            canvas.drawText(winScaleText,textX,height/2-lineHeight/2-padding-textHeght/2,paint);
+            canvas.drawText(winScaleText,textX,height/2-lineHeight-padding+textHeght/2-10,paint);
 
             /**绘制百分比*/
             paint.setColor(percentColor);
-            String winPercentText=String.format(Locale.getDefault(),"%.0f",winScale/all)+"%";
+            String winPercentText=String.format(Locale.getDefault(),"%.0f",winScale/all*100)+"%";
             textWidth=paint.measureText(winPercentText, 0, winPercentText.length());
             textX=winWidth/2-textWidth/2;
             if(textX<0){
                 textX=winWidth/2;
             }
-            canvas.drawText(winPercentText,textX,height/2+lineHeight/2+padding,paint);
+            canvas.drawText(winPercentText,textX,height/2+lineHeight+padding+15,paint);
         }
 
         int equalWidth=winWidth+(int) ((this.equalScale/this.all)*width);
@@ -149,28 +156,27 @@ public class MatchBettingScaleHorizontalLineView extends View {
             canvas.drawRect(rect,paint);
 
             /**绘制数值*/
-            paint.setTextSize(textHeght);
             String equalScaleText="平 "+String.format(Locale.getDefault(),"%.1f",equalScale);
             float textWidth=paint.measureText(equalScaleText, 0, equalScaleText.length());
-            float textX=winWidth+equalWidth/2-textWidth/2;
+            float textX=winWidth+(equalWidth-winWidth)/2-textWidth/2;
             if(textX<0){
                 textX=winWidth+equalWidth/2;
             }else if(winWidth+textWidth>width){
                 textX=width-textWidth;
             }
-            canvas.drawText(equalScaleText,textX,height/2-lineHeight/2-padding-textHeght/2,paint);
+            canvas.drawText(equalScaleText,textX,height/2-lineHeight-padding+textHeght/2-10,paint);
 
             /**绘制百分比*/
             paint.setColor(percentColor);
-            String equalPercentText=String.format(Locale.getDefault(),"%.0f",equalScale/all)+"%";
+            String equalPercentText=String.format(Locale.getDefault(),"%.0f",equalScale/all*100)+"%";
             textWidth=paint.measureText(equalPercentText, 0, equalPercentText.length());
-            textX=winWidth+equalWidth/2-textWidth/2;
+            textX=winWidth+(equalWidth-winWidth)/2-textWidth/2;
             if(textX<0){
                 textX=winWidth+equalWidth/2;
             }else if(winWidth+textWidth>width){
                 textX=width-textWidth;
             }
-            canvas.drawText(equalPercentText,textX,height/2+lineHeight/2+padding,paint);
+            canvas.drawText(equalPercentText,textX,height/2+lineHeight+padding+15,paint);
         }
 
         int loseWidth=width-equalWidth;
@@ -178,13 +184,12 @@ public class MatchBettingScaleHorizontalLineView extends View {
             paint.setColor(loseColor);
             rect.left=equalWidth;
             rect.top=height/2-lineHeight/2;
-            rect.right=equalWidth;
+            rect.right=width;
             rect.bottom=height/2+lineHeight/2;
             canvas.drawRect(rect,paint);
 
             /**绘制数值*/
-            paint.setTextSize(textHeght);
-            String loseScaleText="负 "+String.format(Locale.getDefault(),"%.1f",loseScale);
+            String loseScaleText=(isBigSmall?"小球 ":"负 ")+String.format(Locale.getDefault(),"%.1f",loseScale);
             float textWidth=paint.measureText(loseScaleText, 0, loseScaleText.length());
             float textX=equalWidth+loseWidth/2-textWidth/2;
             if(textX<0){
@@ -192,11 +197,11 @@ public class MatchBettingScaleHorizontalLineView extends View {
             }else if(equalWidth+textWidth>width){
                 textX=width-textWidth;
             }
-            canvas.drawText(loseScaleText,textX,height/2-lineHeight/2-padding-textHeght/2,paint);
+            canvas.drawText(loseScaleText,textX,height/2-lineHeight-padding+textHeght/2-10,paint);
 
             /**绘制百分比*/
             paint.setColor(percentColor);
-            String losePercentText=String.format(Locale.getDefault(),"%.0f",loseScale/all)+"%";
+            String losePercentText=String.format(Locale.getDefault(),"%.0f",loseScale/all*100)+"%";
             textWidth=paint.measureText(losePercentText, 0, losePercentText.length());
             textX=equalWidth+loseWidth/2-textWidth/2;
             if(textX<0){
@@ -204,8 +209,7 @@ public class MatchBettingScaleHorizontalLineView extends View {
             }else if(equalWidth+textWidth>width){
                 textX=width-textWidth;
             }
-            canvas.drawText(losePercentText,textX,height/2+lineHeight/2+padding,paint);
+            canvas.drawText(losePercentText,textX,height/2+lineHeight+padding+15,paint);
         }
     }
-
 }

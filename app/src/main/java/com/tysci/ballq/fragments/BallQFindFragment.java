@@ -1,10 +1,14 @@
 package com.tysci.ballq.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
 import com.tysci.ballq.R;
+import com.tysci.ballq.activitys.BallQCircleNoteActivity;
 import com.tysci.ballq.base.BaseFragment;
+
+import butterknife.OnClick;
 
 /**
  * Created by HTT on 2016/7/12.
@@ -39,5 +43,11 @@ public class BallQFindFragment extends BaseFragment{
     @Override
     protected void notifyEvent(String action, Bundle data) {
 
+    }
+
+    @OnClick(R.id.layout_circle)
+    protected void onClickCircle(View view){
+        Intent intent=new Intent(baseActivity, BallQCircleNoteActivity.class);
+        startActivity(intent);
     }
 }

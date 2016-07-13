@@ -43,6 +43,23 @@ public class BallQMatchClashAdapter extends RecyclerView.Adapter<BallQMatchClash
             holder.tvMatchDate.setText(CommonUtils.getMMdd(date));
         }
         holder.tvMatchScoreState.setText(info.getHome_team_score()+":"+info.getAway_team_score());
+        setMatchResult(holder,info);
+    }
+
+    private void setMatchResult(BallQMatchClashViewHolder holder,BallQMatchClashEntity clashEntity){
+        switch (clashEntity.getTeam_result()){
+            case 1:
+                holder.ivMatchResult.setImageResource(R.mipmap.against_win);
+                break;
+            case 2:
+                holder.ivMatchResult.setImageResource(R.mipmap.against_lose);
+                break;
+            case 3:
+                holder.ivMatchResult.setImageResource(R.mipmap.against_draw);
+                break;
+            default:
+                holder.ivMatchResult.setImageResource(0);
+        }
     }
 
     @Override

@@ -3,6 +3,7 @@ package com.tysci.ballq.views.dialogs;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.Display;
@@ -21,6 +22,7 @@ import android.widget.TextView;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.tysci.ballq.R;
+import com.tysci.ballq.activitys.BallQUserGuessBettingTipOffActivity;
 import com.tysci.ballq.modles.BallQMatchEntity;
 import com.tysci.ballq.modles.BallQMatchGuessBettingEntity;
 import com.tysci.ballq.networks.HttpClientUtil;
@@ -279,7 +281,7 @@ public class BallQMatchBettingGuessDialog extends Dialog implements MatchGuessBe
     }
 
     private void onBettingClick() {
-        boolean isVip = false;
+        boolean isVip = UserInfoUtil.isVIPUser(getContext());
         boolean isChecked = checkBox.isChecked();
         if (bettingMoney == 0 && !isVip) {
             ToastUtil.show(context, "请选择投注金额");
@@ -311,12 +313,11 @@ public class BallQMatchBettingGuessDialog extends Dialog implements MatchGuessBe
         data.setOtype(bettingInfo.getOtype());
         data.setBettingType(bettingType);
         if (isVip) {
-//            Intent intent = new Intent(context, BallQMatchBettingTipEditActivity.class);
-//            intent.putExtra("betting_data", data);
-//            intent.putExtra("is_checked", isChecked);
-//            intent.putExtra("ballq_data", ballQData);
-//            Activity activity = (Activity) context;
-//            activity.startActivityForResult(intent, 0x0001);
+            Intent intent = new Intent(context, BallQUserGuessBettingTipOffActivity.class);
+            intent.putExtra("betting_data", data);
+            intent.putExtra("match_data", ballQData);
+            Activity activity = (Activity) context;
+            activity.startActivityForResult(intent, 0x0001);
         } else {
             if (onBettingClickListener != null) {
                 onBettingClickListener.onBettingClick(data);

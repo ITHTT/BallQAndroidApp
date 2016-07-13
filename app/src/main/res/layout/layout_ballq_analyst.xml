@@ -39,6 +39,7 @@
                         android:layout_height="15dp"
                         android:layout_gravity="bottom"
                         android:layout_marginLeft="2dp"
+                        android:layout_marginBottom="2dp"
                         android:src="@mipmap/icon_user_level_experts"/>
                 </LinearLayout>
                 <TextView

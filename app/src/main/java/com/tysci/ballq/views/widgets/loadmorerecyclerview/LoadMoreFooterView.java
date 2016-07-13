@@ -63,8 +63,16 @@ public class LoadMoreFooterView extends LinearLayout {
         this.loadFailedTip = loadFailedTip;
     }
 
+    public void setLoadFailedTip(int loadFailedTip) {
+        this.loadFailedTip = this.getContext().getResources().getString(loadFailedTip);
+    }
+
     public void setLoadFinishedTip(String loadFinishedTip) {
         this.loadFinishedTip = loadFinishedTip;
+    }
+
+    public void setLoadFinishedTip(int loadFinishedTip) {
+        this.loadFinishedTip = this.getContext().getResources().getString(loadFinishedTip);
     }
 
     public void setLoadingMoreState(){

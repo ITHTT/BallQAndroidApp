@@ -14,23 +14,29 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.tysci.ballq.R;
 import com.tysci.ballq.base.BaseActivity;
+import com.tysci.ballq.fragments.BallQMatchListFragment;
 import com.tysci.ballq.modles.BallQMatchEntity;
 import com.tysci.ballq.modles.BallQMatchGuessBettingEntity;
+import com.tysci.ballq.modles.event.EventObject;
 import com.tysci.ballq.networks.GlideImageLoader;
 import com.tysci.ballq.networks.HttpClientUtil;
 import com.tysci.ballq.networks.HttpUrls;
+import com.tysci.ballq.utils.BallQMatchStateUtil;
 import com.tysci.ballq.utils.CommonUtils;
 import com.tysci.ballq.utils.KLog;
 import com.tysci.ballq.utils.ToastUtil;
 import com.tysci.ballq.utils.UserInfoUtil;
 import com.tysci.ballq.views.adapters.BallQMatchGuessBettingInfoAdapter;
 import com.tysci.ballq.views.dialogs.BallQMatchBettingGuessDialog;
+import com.tysci.ballq.views.dialogs.LoadingProgressDialog;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
 import butterknife.Bind;
+import butterknife.OnClick;
 import okhttp3.Call;
 import okhttp3.Request;
 
@@ -63,7 +69,10 @@ public class BallQMatchGuessBettingActivity extends BaseActivity implements Ball
     private BallQMatchGuessBettingInfoAdapter adapter=null;
 
     private BallQMatchBettingGuessDialog bettingDialog=null;
+    private LoadingProgressDialog loadingProgressDialog;
 
+    private int bettingCounts=0;
+    private int successBettingCount=0;
 
     @Override
     protected int getContentViewId() {
@@ -90,6 +99,21 @@ public class BallQMatchGuessBettingActivity extends BaseActivity implements Ball
             getMatchGuessInfo(matchEntity.getEid(),matchEntity.getEtype());
         }
 
+    }
+
+    private void showProgressDialog(String msg){
+        if(loadingProgressDialog==null){
+            loadingProgressDialog=new LoadingProgressDialog(this);
+            loadingProgressDialog.setCanceledOnTouchOutside(false);
+        }
+        loadingProgressDialog.setMessage(msg);
+        loadingProgressDialog.show();
+    }
+
+    private void dimssProgressDialog(){
+        if(loadingProgressDialog!=null&&loadingProgressDialog.isShowing()){
+            loadingProgressDialog.dismiss();
+        }
     }
 
     @Override
@@ -119,7 +143,12 @@ public class BallQMatchGuessBettingActivity extends BaseActivity implements Ball
 
     @Override
     protected void notifyEvent(String action, Bundle data) {
-
+        if(!TextUtils.isEmpty(action)){
+            if(action.equals("betting_success")){
+                bettingDialog.dismiss();
+                finish();
+            }
+        }
     }
 
     private void initMatchInfo(BallQMatchEntity data){
@@ -128,6 +157,24 @@ public class BallQMatchGuessBettingActivity extends BaseActivity implements Ball
         GlideImageLoader.loadImage(this, data.getAtlogo(), R.drawable.icon_default_team_logo, ivAwayTeamIcon);
         tvAwayTeamName.setText(data.getAtname());
         tvGameLeagueName.setText(data.getTourname());
+        Date date= CommonUtils.getDateAndTimeFromGMT(data.getMtime());
+        if(date!=null) {
+            if (date.getTime() <= System.currentTimeMillis()) {
+                // 已开始
+                String gameState = BallQMatchStateUtil.getMatchState(data.getStatus(), data.getEtype());
+                if (!TextUtils.isEmpty(gameState) && gameState.equals("未开始")) {
+                    tvGameTime.setText(CommonUtils.getTimeOfDay(date));
+                    tvGameDate.setText(CommonUtils.getMM_ddString(date));
+                } else {
+                    final String tmpScore = data.getHtscore() + " - " + data.getAtscore();
+                    tvGameTime.setText(tmpScore);
+                    tvGameDate.setText(gameState);
+                }
+            } else {
+                tvGameTime.setText(CommonUtils.getTimeOfDay(date));
+                tvGameDate.setText(CommonUtils.getMM_ddString(date));
+            }
+        }
     }
 
     private void getMatchGuessInfo(int eid,int etype){
@@ -245,5 +292,85 @@ public class BallQMatchGuessBettingActivity extends BaseActivity implements Ball
         }
         matchGuessBettingEntityList.add(info);
         adapter.notifyDataSetChanged();
+    }
+
+    @OnClick(R.id.bt_betting)
+    protected void onBetting(View view){
+        if(adapter!=null) {
+            int position = adapter.getDividerPosition();
+            if(position>=0){
+                int size=matchGuessBettingEntityList.size();
+                bettingCounts=size-position;
+                KLog.e("bettingCounts:"+bettingCounts);
+                successBettingCount=0;
+                btBetting.setText("投注请求中...");
+                btBetting.setEnabled(false);
+                showProgressDialog("投注请求中...");
+                for(int i=position;i<size;i++){
+                    requestBetting(matchGuessBettingEntityList.get(i));
+                }
+            }
+        }
+    }
+
+    private void requestBetting(BallQMatchGuessBettingEntity data){
+        String url=HttpUrls.HOST_URL_V5 + "match/" + matchEntity.getEid() + "/add_tip/";
+        final HashMap<String,String>params=new HashMap<>();
+        params.put("stake",String.valueOf(data.getBettingMoney() * 100));
+        params.put("choice",data.getBettingType());
+        params.put("otype",data.getOtype());
+        params.put("eid", String.valueOf(matchEntity.getEid()));
+        params.put("etype",String.valueOf(matchEntity.getEtype()));
+        params.put("oid", String.valueOf(data.getId()));
+        if (UserInfoUtil.checkLogin(this)) {
+            params.put("user", UserInfoUtil.getUserId(this));
+            params.put("token", UserInfoUtil.getUserToken(this));
+        }
+        HttpClientUtil.getHttpClientUtil().sendPostRequest(Tag, url, params, new HttpClientUtil.StringResponseCallBack() {
+            @Override
+            public void onBefore(Request request) {
+
+            }
+            @Override
+            public void onError(Call call, Exception error) {
+                KLog.e("投注失败");
+                successBettingCount++;
+                if(successBettingCount==bettingCounts){
+                    btBetting.setText("投注");
+                    btBetting.setEnabled(true);
+                }
+            }
+            @Override
+            public void onSuccess(Call call, String response) {
+                KLog.e("投注成功");
+                KLog.json(response);
+                successBettingCount++;
+                if(successBettingCount==bettingCounts){
+                    if (!TextUtils.isEmpty(response)) {
+                        JSONObject object=JSONObject.parseObject(response);
+                        if(object!=null&&!object.isEmpty()) {
+                            ToastUtil.show(BallQMatchGuessBettingActivity.this, object.getString("message"));
+                            if (this != null) {
+                                dimssProgressDialog();
+                                refreshMatchList();
+                                finish();
+                            }
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void onFinish(Call call) {
+
+            }
+        });
+    }
+
+    private void refreshMatchList(){
+        EventObject eventObject=new EventObject();
+        eventObject.addReceiver(BallQMatchListFragment.class);
+        eventObject.getData().putInt("match_id", matchEntity.getEtype());
+        EventObject.postEventObject(eventObject, "betting_success");
     }
 }

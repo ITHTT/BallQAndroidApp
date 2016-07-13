@@ -99,7 +99,7 @@ public class BallQMatchTipOffListFragment extends BaseFragment implements SwipeR
         }
     }
 
-    private void requestDatas(int matchId, int etype, int pages, final boolean isLoadMore) {
+    private void requestDatas(int matchId, int etype, final int pages, final boolean isLoadMore) {
         String url = HttpUrls.HOST_URL_V5 + "match/" + matchId + "/tips/?etype=" + etype + "&p=" + pages;
         KLog.e("url:" + url);
         HttpClientUtil.getHttpClientUtil().sendGetRequest(Tag, url, 30, new HttpClientUtil.StringResponseCallBack() {
@@ -118,7 +118,7 @@ public class BallQMatchTipOffListFragment extends BaseFragment implements SwipeR
                             @Override
                             public void onClick(View v) {
                                 showLoading();
-                                requestDatas(ballQMatchEntity.getEid(), ballQMatchEntity.getEtype(), currentPages, false);
+                                requestDatas(ballQMatchEntity.getEid(), ballQMatchEntity.getEtype(),pages,isLoadMore);
                             }
                         });
                     }
@@ -162,13 +162,13 @@ public class BallQMatchTipOffListFragment extends BaseFragment implements SwipeR
                             return;
                         }
                     }
-                    if (!isLoadMore) {
-                        if (adapter == null) {
-                            showEmptyInfo();
-                        }
-                    } else {
-                        recyclerView.setLoadMoreDataComplete("没有更多数据了...");
+                }
+                if (!isLoadMore) {
+                    if (adapter == null) {
+                        showEmptyInfo();
                     }
+                } else {
+                    recyclerView.setLoadMoreDataComplete("没有更多数据了...");
                 }
             }
 

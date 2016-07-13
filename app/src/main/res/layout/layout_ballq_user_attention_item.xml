@@ -20,7 +20,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:contentDescription="@string/app_name"
-                android:src="@mipmap/ic_ballq_logo"
+                android:src="@mipmap/icon_user_default"
                 app:border_color="@color/white"
                 app:border_width="3dp"/>
             <ImageView

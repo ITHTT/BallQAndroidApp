@@ -25,7 +25,7 @@
         android:typeface="monospace" />
     <View
         android:layout_width="match_parent"
-        android:layout_height="1dp"
+        android:layout_height="1.5dp"
         android:background="@drawable/icon_line"
         android:layerType="software"/>
     <LinearLayout
@@ -66,11 +66,17 @@
             android:textSize="13sp"
             android:typeface="monospace" />
     </LinearLayout>
-    <com.tysci.ballq.views.widgets.chartview.MatchBettingScaleHorizontalLineView
-        android:id="@+id/horizontal_lineView"
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#ffffff"/>
+        android:background="#ffffff"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp">
+        <com.tysci.ballq.views.widgets.chartview.MatchBettingScaleHorizontalLineView
+            android:id="@+id/horizontal_lineView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </FrameLayout>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -106,4 +112,17 @@
             android:textSize="13sp"
             android:typeface="monospace" />
     </LinearLayout>
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#ffffff"
+        android:paddingTop="5dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:paddingBottom="5dp">
+        <com.tysci.ballq.views.widgets.chartview.MatchBettingScaleLineView
+            android:id="@+id/scale_line_view"
+            android:layout_width="match_parent"
+            android:layout_height="90dp" />
+    </FrameLayout>
 </LinearLayout>

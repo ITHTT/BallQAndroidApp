@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <include
+        layout="@layout/layout_title_bar"/>
+    <LinearLayout
+        android:id="@+id/layout_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <com.tysci.ballq.views.widgets.SlidingTabLayout
+            android:id="@+id/tab_layout"
+            android:layout_width="match_parent"
+            android:layout_height="35dp"
+            android:background="@mipmap/top_tab_background"
+            app:tl_indicator_color="@color/gold"
+            app:tl_indicator_height="2dp"
+            app:tl_indicator_width="55dp"
+            app:tl_textSelectColor="@color/gold"
+            app:tl_textUnselectColor="#808080"
+            app:tl_textsize="14sp"
+            app:tl_divider_color="#f5c6c6c6"
+            app:tl_divider_width="2dp"
+            app:tl_divider_padding="5dp"
+            app:tl_divider_drawable="@mipmap/icon_divider" />
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <android.support.v4.view.ViewPager
+                android:id="@+id/view_pager"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+            <Button
+                android:id="@+id/bt_post_note"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_gravity="bottom|right"
+                android:background="@drawable/button_post_note_bg"
+                android:layout_margin="10dp"
+                android:textSize="14sp"
+                android:text="发帖"/>
+        </FrameLayout>
+    </LinearLayout>
+
+</LinearLayout>

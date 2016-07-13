@@ -15,8 +15,8 @@
         app:border_width="3dp"/>
     <ImageView
         android:id="@+id/isV"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
+        android:layout_width="15dp"
+        android:layout_height="15dp"
         android:layout_alignEnd="@id/ivUserIcon"
         android:layout_alignRight="@id/ivUserIcon"
         android:layout_alignTop="@id/ivUserIcon"

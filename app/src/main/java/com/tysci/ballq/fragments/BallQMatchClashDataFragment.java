@@ -38,7 +38,12 @@ public class BallQMatchClashDataFragment extends AppSwipeRefreshLoadMoreRecycler
 
     @Override
     protected View getLoadingTargetView() {
-        return null;
+        return swipeRefresh;
+    }
+
+    @Override
+    protected boolean isCancledEventBus() {
+        return false;
     }
 
     private void getDatas(){
@@ -46,15 +51,15 @@ public class BallQMatchClashDataFragment extends AppSwipeRefreshLoadMoreRecycler
         if(data!=null){
             matchEntity=data.getParcelable("match_data");
             if(matchEntity!=null){
-                setRefreshing();
+                showLoading();
                 requestDatas(matchEntity.getEid(),false);
             }
         }
     }
 
-    private void requestDatas(int eid, final boolean isLoadMore){
-       String url= HttpUrls.HOST_URL_V3 + "stats/match/" + eid + "/history/";
-        KLog.e("url:"+url);
+    private void requestDatas(final int eid, final boolean isLoadMore){
+        String url= HttpUrls.HOST_URL_V3 + "stats/match/" + eid + "/history/";
+        KLog.e("url:" + url);
         HttpClientUtil.getHttpClientUtil().sendGetRequest(Tag,url,30, new HttpClientUtil.StringResponseCallBack() {
             @Override
             public void onBefore(Request request) {
@@ -63,7 +68,15 @@ public class BallQMatchClashDataFragment extends AppSwipeRefreshLoadMoreRecycler
 
             @Override
             public void onError(Call call, Exception error) {
-
+                if(adapter==null){
+                    showErrorInfo(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            showLoading();
+                            requestDatas(eid,false);
+                        }
+                    });
+                }
             }
 
             @Override
@@ -80,7 +93,7 @@ public class BallQMatchClashDataFragment extends AppSwipeRefreshLoadMoreRecycler
                             List<BallQMatchClashEntity>aways=null;
                             if(allMettingArrays!=null&&!allMettingArrays.isEmpty()){
                                 alls=new ArrayList<BallQMatchClashEntity>(allMettingArrays.size());
-                                CommonUtils.getJSONListObject(allMettingArrays,alls,BallQMatchClashEntity.class);
+                                CommonUtils.getJSONListObject(allMettingArrays, alls, BallQMatchClashEntity.class);
                                 setMatchType("两对交锋",alls);
                             }
                             JSONObject lastObj=dataObj.getJSONObject("last_matches");
@@ -88,18 +101,19 @@ public class BallQMatchClashDataFragment extends AppSwipeRefreshLoadMoreRecycler
                                 JSONArray homeArrays=lastObj.getJSONArray("home_team");
                                 if(homeArrays!=null&&!homeArrays.isEmpty()){
                                     homes=new ArrayList<BallQMatchClashEntity>(homeArrays.size());
-                                    CommonUtils.getJSONListObject(homeArrays,homes,BallQMatchClashEntity.class);
+                                    CommonUtils.getJSONListObject(homeArrays, homes, BallQMatchClashEntity.class);
                                     setMatchType(matchEntity.getHtname()+"近期比赛",homes);
                                 }
 
                                 JSONArray awayArrays=lastObj.getJSONArray("away_team");
                                 if(awayArrays!=null&&!awayArrays.isEmpty()){
                                     aways=new ArrayList<BallQMatchClashEntity>(awayArrays.size());
-                                    CommonUtils.getJSONListObject(awayArrays,aways,BallQMatchClashEntity.class);
+                                    CommonUtils.getJSONListObject(awayArrays, aways, BallQMatchClashEntity.class);
                                     setMatchType(matchEntity.getAtname()+"近期比赛",aways);
                                 }
                             }
                             if(alls!=null||homes!=null||aways!=null){
+                                hideLoad();
                                 if(matchClashEntityList==null){
                                     matchClashEntityList=new ArrayList<BallQMatchClashEntity>();
                                 }
@@ -125,15 +139,22 @@ public class BallQMatchClashDataFragment extends AppSwipeRefreshLoadMoreRecycler
                                     adapter.notifyDataSetChanged();
                                 }
                                 recyclerView.setLoadMoreDataComplete("没有更多数据了...");
+                                return;
                             }
                         }
                     }
+                }
+                if(adapter==null){
+                    showEmptyInfo();
                 }
             }
 
             @Override
             public void onFinish(Call call) {
                 if(!isLoadMore){
+                    if(recyclerView!=null) {
+                        recyclerView.setRefreshComplete();
+                    }
                     onRefreshCompelete();
                 }
             }
@@ -154,12 +175,8 @@ public class BallQMatchClashDataFragment extends AppSwipeRefreshLoadMoreRecycler
 
     @Override
     protected void onRefreshData() {
+        requestDatas(matchEntity.getEid(),false);
 
-    }
-
-    @Override
-    protected boolean isCancledEventBus() {
-        return false;
     }
 
     @Override

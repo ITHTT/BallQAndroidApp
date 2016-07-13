@@ -48,9 +48,14 @@ public class BallQMatchLineupDataFragment extends AppSwipeRefreshLoadMoreRecycle
 
     @Override
     protected View getLoadingTargetView() {
-        return null;
+        return swipeRefresh;
     }
 
+
+    @Override
+    protected boolean isCancledEventBus() {
+        return false;
+    }
 
     private void getDatas(){
         Bundle data=getArguments();
@@ -63,8 +68,8 @@ public class BallQMatchLineupDataFragment extends AppSwipeRefreshLoadMoreRecycle
     }
 
     private void requestDatas(final int matchId){
-       String url= HttpUrls.HOST_URL_V3 + "stats/match/" + matchId + "/lineups/";
-        KLog.e("url:"+url);
+        String url= HttpUrls.HOST_URL_V3 + "stats/match/" + matchId + "/lineups/";
+        KLog.e("url:" + url);
         HttpClientUtil.getHttpClientUtil().sendGetRequest(Tag, url, 30, new HttpClientUtil.StringResponseCallBack() {
             @Override
             public void onBefore(Request request) {
@@ -74,7 +79,15 @@ public class BallQMatchLineupDataFragment extends AppSwipeRefreshLoadMoreRecycle
 
             @Override
             public void onError(Call call, Exception error) {
-
+                if(adapter==null){
+                    showErrorInfo(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            showLoading();
+                            requestDatas(matchId);
+                        }
+                    });
+                }
             }
 
             @Override
@@ -84,45 +97,45 @@ public class BallQMatchLineupDataFragment extends AppSwipeRefreshLoadMoreRecycle
                 if(!TextUtils.isEmpty(response)){
                     KLog.e("获取数据JSON...");
                     JSONObject obj=JSONObject.parseObject(response);
-                    if(obj!=null){
+                    if(obj!=null&&obj.getIntValue("status")==0){
                         JSONObject dataObj=obj.getJSONObject("data");
-                        if(dataObj!=null){
+                        if(dataObj!=null&&!dataObj.isEmpty()){
                             KLog.e("dataObject...");
                             BallQMatchLineupEntity homeLineupMap=null;
                             List<BallQMatchLineupEntity> homePlayers=null;
                             List<BallQMatchLineupEntity> homeSubstitutes = null;
 
                             JSONObject homeTeamObj=dataObj.getJSONObject("home_team_players");
-                            if(homeTeamObj!=null){
+                            if(homeTeamObj!=null&&!homeTeamObj.isEmpty()){
                                 KLog.e("dataHomeTeam...");
                                 String homeTeamFormation=homeTeamObj.getString("formation");
-                                KLog.e("homeTeamFormation:"+homeTeamFormation);
+                                KLog.e("homeTeamFormation:" + homeTeamFormation);
                                 JSONObject homeLineupObj=homeTeamObj.getJSONObject("lineup");
                                 if(!TextUtils.isEmpty(homeTeamFormation)&&homeLineupObj!=null){
                                     KLog.e("homeLineupObj...");
                                     JSONArray homeMaps=homeLineupObj.getJSONArray("map");
                                     if(homeMaps!=null&&!homeMaps.isEmpty()){
-                                        KLog.e("homeMaps:"+homeMaps.size());
+                                        KLog.e("homeMaps:" + homeMaps.size());
                                         homeLineupMap=new BallQMatchLineupEntity();
                                         List<Integer> homeMapList=new ArrayList<Integer>(homeMaps.size());
-                                        CommonUtils.getJSONListObject(homeMaps,homeMapList,Integer.class);
+                                        CommonUtils.getJSONListObject(homeMaps, homeMapList, Integer.class);
                                         homeLineupMap.setMap(homeMapList);
                                         homeLineupMap.setLineupFormation(matchEntity.getHtname()+"阵型:"+homeTeamFormation);
                                     }
 
                                     JSONArray homePlayerArrays=homeLineupObj.getJSONArray("players");
                                     if(homePlayerArrays!=null&&!homePlayerArrays.isEmpty()){
-                                        KLog.e("homePlayers:"+homePlayerArrays.size());
+                                        KLog.e("homePlayers:" + homePlayerArrays.size());
                                         homePlayers=new ArrayList<BallQMatchLineupEntity>(homePlayerArrays.size());
-                                        CommonUtils.getJSONListObject(homePlayerArrays,homePlayers,BallQMatchLineupEntity.class);
+                                        CommonUtils.getJSONListObject(homePlayerArrays, homePlayers, BallQMatchLineupEntity.class);
                                     }
                                 }
                                 JSONArray substituteArrays=homeTeamObj.getJSONArray("substitute");
                                 KLog.e("substituteArrays....");
                                 if(substituteArrays!=null&&!substituteArrays.isEmpty()){
-                                    KLog.e("homesubstibutes:"+substituteArrays.size());
+                                    KLog.e("homesubstibutes:" + substituteArrays.size());
                                     homeSubstitutes=new ArrayList<BallQMatchLineupEntity>(substituteArrays.size());
-                                    CommonUtils.getJSONListObject(substituteArrays,homeSubstitutes,BallQMatchLineupEntity.class);
+                                    CommonUtils.getJSONListObject(substituteArrays, homeSubstitutes, BallQMatchLineupEntity.class);
                                 }
                             }
 
@@ -139,7 +152,7 @@ public class BallQMatchLineupDataFragment extends AppSwipeRefreshLoadMoreRecycle
                                     if(awayMaps!=null&&!awayMaps.isEmpty()){
                                         awayLineupMap=new BallQMatchLineupEntity();
                                         List<Integer> awayMapList=new ArrayList<Integer>(awayMaps.size());
-                                        CommonUtils.getJSONListObject(awayMaps,awayMapList,Integer.class);
+                                        CommonUtils.getJSONListObject(awayMaps, awayMapList, Integer.class);
                                         awayLineupMap.setMap(awayMapList);
                                         awayLineupMap.setLineupFormation(matchEntity.getAtname()+"阵型:"+awayTeamFormation);
                                     }
@@ -147,18 +160,18 @@ public class BallQMatchLineupDataFragment extends AppSwipeRefreshLoadMoreRecycle
                                     JSONArray awayPlayerArrays=awayLineupObj.getJSONArray("players");
                                     if(awayPlayerArrays!=null&&!awayPlayerArrays.isEmpty()){
                                         awayPlayers=new ArrayList<BallQMatchLineupEntity>(awayPlayerArrays.size());
-                                        CommonUtils.getJSONListObject(awayPlayerArrays,awayPlayers,BallQMatchLineupEntity.class);
+                                        CommonUtils.getJSONListObject(awayPlayerArrays, awayPlayers, BallQMatchLineupEntity.class);
                                     }
                                 }
                                 JSONArray substituteArrays=awayTeamObj.getJSONArray("substitute");
                                 if(substituteArrays!=null&&!substituteArrays.isEmpty()){
                                     awaySubstitutes=new ArrayList<BallQMatchLineupEntity>(substituteArrays.size());
-                                    CommonUtils.getJSONListObject(substituteArrays,awaySubstitutes,BallQMatchLineupEntity.class);
+                                    CommonUtils.getJSONListObject(substituteArrays, awaySubstitutes, BallQMatchLineupEntity.class);
                                 }
                             }
 
                             if(homeLineupMap!=null||homePlayers!=null||homeSubstitutes!=null||awayLineupMap!=null
-                              ||awayPlayers!=null||awaySubstitutes!=null){
+                                    ||awayPlayers!=null||awaySubstitutes!=null){
                                 if(matchLineupEntityList==null){
                                     matchLineupEntityList=new ArrayList<BallQMatchLineupEntity>(10);
                                 }else{
@@ -203,7 +216,7 @@ public class BallQMatchLineupDataFragment extends AppSwipeRefreshLoadMoreRecycle
                                     matchLineupEntityList.addAll(awaySubstitutes);
                                 }
 
-                                KLog.e("Size:"+matchLineupEntityList.size());
+                                KLog.e("Size:" + matchLineupEntityList.size());
 
                                 if(adapter==null){
                                     adapter=new BallQMatchLineupAdapter(matchLineupEntityList);
@@ -212,9 +225,13 @@ public class BallQMatchLineupDataFragment extends AppSwipeRefreshLoadMoreRecycle
                                     adapter.notifyDataSetChanged();
                                 }
                                 recyclerView.setLoadMoreDataComplete("已没有更多数据了...");
+                                return;
                             }
                         }
                     }
+                }
+                if(adapter==null){
+                    showEmptyInfo();
                 }
             }
 
@@ -223,11 +240,6 @@ public class BallQMatchLineupDataFragment extends AppSwipeRefreshLoadMoreRecycle
                 onRefreshCompelete();
             }
         });
-    }
-
-    @Override
-    protected boolean isCancledEventBus() {
-        return false;
     }
 
     @Override

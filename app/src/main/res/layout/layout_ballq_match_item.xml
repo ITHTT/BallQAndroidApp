@@ -98,7 +98,7 @@
                 android:textSize="13sp"/>
             <LinearLayout
                 android:layout_width="70dp"
-                android:layout_height="14dp"
+                android:layout_height="15dp"
                 android:layout_marginTop="5dp"
                 android:background="@mipmap/match_state_backgroud_img"
                 android:gravity="center"
@@ -115,7 +115,7 @@
                     android:layout_marginStart="5dp"
                     android:text="爆料"
                     android:textColor="#eacb70"
-                    android:textSize="12sp" />
+                    android:textSize="11.5sp" />
                 <TextView
                     android:id="@+id/tvTipNum"
                     android:layout_width="wrap_content"
@@ -124,7 +124,7 @@
                     android:layout_marginStart="10dp"
                     android:text="0"
                     android:textColor="#eacb70"
-                    android:textSize="12sp" />
+                    android:textSize="11.5sp" />
             </LinearLayout>
             <LinearLayout
                 android:id="@+id/vgBet"

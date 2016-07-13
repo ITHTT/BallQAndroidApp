@@ -54,7 +54,7 @@ public class BallQHomeFragment extends BaseFragment {
         List<BaseFragment> fragments=new ArrayList<>(3);
         fragments.add(new BallQHomeTipOffListFragment());
         fragments.add(new BallQHomeBallWarpListFragment());
-        fragments.add(new BallQHomeCircleListFragment());
+        fragments.add(new BallQCircleNoteListFragment());
         BallQFragmentPagerAdapter adapter=new BallQFragmentPagerAdapter(getChildFragmentManager(),titles,fragments);
         viewPager.setAdapter(adapter);
         viewPager.setOffscreenPageLimit(fragments.size());

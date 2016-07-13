@@ -40,7 +40,10 @@ ViewPager.OnPageChangeListener{
 
     private BallQMatchListFragment footerBallMatchListFragment;
     private BallQMatchListFragment basketBallMatchListFragment;
-    private BallQUserAttentionMatchListFragment userAttentionMatchListFragment;
+    private UserAttentionMatchListFragment userAttentionMatchListFragment;
+
+    private int currentPosition=0;
+    private String filter;
 
     @Override
     protected int getViewLayoutId() {
@@ -91,7 +94,7 @@ ViewPager.OnPageChangeListener{
         basketBallMatchListFragment.setSelectDate(currentSelectedDate);
         fragments.add(basketBallMatchListFragment);
 
-        userAttentionMatchListFragment=new BallQUserAttentionMatchListFragment();
+        userAttentionMatchListFragment=new UserAttentionMatchListFragment();
         fragments.add(userAttentionMatchListFragment);
 
         BallQFragmentPagerAdapter adapter=new BallQFragmentPagerAdapter(getChildFragmentManager(),titles,fragments);
@@ -131,6 +134,21 @@ ViewPager.OnPageChangeListener{
 
     @Override
     public void onSelectDateItem(int position, String date) {
+        if(position>=1){
+            LinearLayoutManager linearLayoutManager= (LinearLayoutManager) rvDates.getLayoutManager();
+            linearLayoutManager.scrollToPositionWithOffset(position-1,0);
+            rvDates.smoothScrollToPosition(position-1);
+        }
+        if(date.equals("今日")){
+            date=CommonUtils.getYYMMdd(new Date());
+        }
+        if(!currentSelectedDate.equals(date)){
+            currentSelectedDate=date;
+            BallQMatchListFragment fragment=getCurrentMatchListFragment();
+            if (fragment !=null){
+                fragment.filterUpdateData(filter,currentSelectedDate);
+            }
+        }
 
     }
 
@@ -141,11 +159,29 @@ ViewPager.OnPageChangeListener{
 
     @Override
     public void onPageSelected(int position) {
-
+        currentPosition=position;
+        if(position==0){
+            rvDates.setVisibility(View.VISIBLE);
+            footerBallMatchListFragment.filterUpdateData(filter,currentSelectedDate);
+        }else if(position==1){
+            rvDates.setVisibility(View.VISIBLE);
+            basketBallMatchListFragment.filterUpdateData(filter,currentSelectedDate);
+        }else{
+            rvDates.setVisibility(View.GONE);
+        }
     }
 
     @Override
     public void onPageScrollStateChanged(int state) {
 
+    }
+
+    private BallQMatchListFragment getCurrentMatchListFragment(){
+        if(currentPosition==0){
+            return footerBallMatchListFragment;
+        }else if(currentPosition==1){
+            return basketBallMatchListFragment;
+        }
+        return null;
     }
 }

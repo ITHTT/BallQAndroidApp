@@ -60,6 +60,7 @@ public class UserCollectionRecordActivity extends BaseActivity {
         }
         BallQFragmentPagerAdapter adapter=new BallQFragmentPagerAdapter(getSupportFragmentManager(),titles,fragments);
         viewPager.setAdapter(adapter);
+        viewPager.setOffscreenPageLimit(fragments.size());
         tabLayout.setTabPxWidth(CommonUtils.getScreenDisplayMetrics(this).widthPixels/3);
         tabLayout.setViewPager(viewPager);
     }

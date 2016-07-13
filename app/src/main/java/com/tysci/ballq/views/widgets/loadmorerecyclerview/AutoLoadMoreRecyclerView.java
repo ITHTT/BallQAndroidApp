@@ -26,6 +26,7 @@ public class AutoLoadMoreRecyclerView extends RecyclerView {
     protected boolean isLoadMoreing = false;
     /**是否正在刷新*/
     protected boolean isRefreshing=false;
+
     /**添加的头部视图*/
     private View mHeaderView = null;
     /**添加的底部视图*/
@@ -104,44 +105,6 @@ public class AutoLoadMoreRecyclerView extends RecyclerView {
         mAdapter.registerAdapterDataObserver(mDataObserver);
     }
 
-    public void setRefreshingTip(String tip){
-        if(loadMoreFooterView!=null){
-            loadMoreFooterView.setLoadFinishedTip(tip);
-            loadMoreFooterView.setLoadMoreDataFinishedState(true);
-        }
-    }
-
-    public void setRefreshing(){
-        this.isRefreshing=true;
-    }
-
-    public boolean isRefreshing(){
-        return this.isRefreshing;
-    }
-
-    public void setRefreshComplete(){
-        this.isRefreshing=false;
-        if(loadMoreFooterView!=null){
-            if(!isLoadFinished) {
-                loadMoreFooterView.setLoadingMoreState();
-            }else{
-                loadMoreFooterView.setLoadMoreDataFinishedState(false);
-            }
-        }
-    }
-
-    public void setRefreshComplete(String tip){
-        this.isRefreshing=false;
-        if(loadMoreFooterView!=null){
-            if(!isLoadFinished) {
-                loadMoreFooterView.setLoadingMoreState();
-            }else{
-                loadMoreFooterView.setLoadFinishedTip(tip);
-                loadMoreFooterView.setLoadMoreDataFinishedState(true);
-            }
-        }
-    }
-
     /**
      * 设置正在加载的状态
      */
@@ -156,6 +119,7 @@ public class AutoLoadMoreRecyclerView extends RecyclerView {
      * 设置开始准备加载的状态
      */
     public void setStartLoadMore(){
+        KLog.e("设置加载状态...");
         isLoadMoreing=false;
         isLoadFinished=false;
         if(loadMoreFooterView!=null){
@@ -187,21 +151,83 @@ public class AutoLoadMoreRecyclerView extends RecyclerView {
         }
     }
 
-    public void setLoadMoreDataComplete(String tip){
-        isLoadFinished=true;
-        isLoadMoreing=false;
+    public void setRefreshingTip(String tip){
         if(loadMoreFooterView!=null){
             loadMoreFooterView.setLoadFinishedTip(tip);
             loadMoreFooterView.setLoadMoreDataFinishedState(true);
         }
     }
 
+    public void setRefreshingTip(int tip){
+        if(loadMoreFooterView!=null){
+            loadMoreFooterView.setLoadFinishedTip(tip);
+            loadMoreFooterView.setLoadMoreDataFinishedState(true);
+        }
+    }
+
+    public void setRefreshing(){
+        this.isRefreshing=true;
+    }
+
+    public boolean isRefreshing(){
+        return this.isRefreshing;
+    }
+
+    public void setRefreshComplete(){
+        this.isRefreshing=false;
+        if(loadMoreFooterView!=null){
+            if(!isLoadFinished) {
+                loadMoreFooterView.setLoadingMoreState();
+            }else{
+                loadMoreFooterView.setLoadFinishedTip("没有更多数据了...");
+                loadMoreFooterView.setLoadMoreDataFinishedState(true);
+            }
+        }
+    }
+
+    public void setRefreshComplete(final String tip){
+        this.isRefreshing=false;
+        if(loadMoreFooterView!=null){
+            if(!isLoadFinished) {
+                loadMoreFooterView.setLoadingMoreState();
+            }else{
+                loadMoreFooterView.setLoadFinishedTip(tip);
+                loadMoreFooterView.setLoadMoreDataFinishedState(true);
+            }
+        }
+    }
+
+    public void setLoadMoreDataComplete(String tip){
+        isLoadFinished=true;
+        isLoadMoreing=false;
+//        KLog.e("isLoadFinished:"+isLoadFinished);
+//        KLog.e("isLoadMoreing:"+isLoadMoreing());
+        if(loadMoreFooterView!=null){
+            loadMoreFooterView.setLoadFinishedTip(tip);
+            loadMoreFooterView.setLoadMoreDataFinishedState(true);
+        }
+    }
+
+    public void setLoadMoreDataComplete(int tip){
+        isLoadFinished=true;
+        isLoadMoreing=false;
+//        KLog.e("isLoadFinished:"+isLoadFinished);
+//        KLog.e("isLoadMoreing:"+isLoadMoreing());
+        if(loadMoreFooterView!=null){
+            loadMoreFooterView.setLoadFinishedTip(tip);
+            loadMoreFooterView.setLoadMoreDataFinishedState(true);
+        }
+    }
+
+
+
     public void setLoadMoreDataFailed(){
         isLoadMoreing = false;
+        isRefreshing=false;
         if(loadMoreFooterView!=null){
             loadMoreFooterView.setLoadFailedTip("加载失败，可点击重试");
             loadMoreFooterView.setLoadMoreFailedState();
-            loadMoreFooterView.setOnClickListener(new View.OnClickListener() {
+            loadMoreFooterView.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     if (!isLoadMoreing&&loadMoreListener!=null) {
@@ -229,7 +255,7 @@ public class AutoLoadMoreRecyclerView extends RecyclerView {
                 int[] into = new int[((StaggeredGridLayoutManager) layoutManager).getSpanCount()];
                 ((StaggeredGridLayoutManager) layoutManager).findLastVisibleItemPositions(into);
                 lastVisibleItemPosition = findMax(into);
-            //} //else if(layoutManager instanceof com.tysci.gameathletics.views.widgets.superslim.LayoutManager){
+                //} //else if(layoutManager instanceof com.tysci.gameathletics.views.widgets.superslim.LayoutManager){
                 //lastVisibleItemPosition=((com.tysci.gameathletics.views.widgets.superslim.LayoutManager) layoutManager).findLastCompletelyVisibleItemPosition();
             }else{
                 lastVisibleItemPosition = ((LinearLayoutManager) layoutManager).findLastVisibleItemPosition();
@@ -240,7 +266,6 @@ public class AutoLoadMoreRecyclerView extends RecyclerView {
                     mFootView.setVisibility(VISIBLE);
                 }
                 KLog.e("开始尝试加载更多...");
-
                 if(isCanLoadMore()){
                     setLoadingMore();
                     isLoadMoreing=true;
@@ -270,7 +295,11 @@ public class AutoLoadMoreRecyclerView extends RecyclerView {
      * @return
      */
     private boolean isCanLoadMore(){
-        KLog.e("isLoading:"+isLoadMoreing+" isLoadFinished:"+isLoadFinished);
+        KLog.e("isLoading:" + isLoadMoreing + " isLoadFinished:" + isLoadFinished);
+        if(isRefreshing){
+            return false;
+        }
+
         if(!isLoadMore){
             return false;
         }

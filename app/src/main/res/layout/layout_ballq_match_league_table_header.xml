@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:background="#ffffff"
     android:orientation="vertical">
     <RelativeLayout
@@ -9,12 +9,13 @@
         android:layout_height="wrap_content"
         android:background="#f8f8f8">
         <RadioGroup
+            android:id="@+id/layout_group"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:padding="5dp">
             <RadioButton
-                android:id="@+id/tvAll"
+                android:id="@+id/rbAll"
                 android:layout_width="50dp"
                 android:layout_height="25dp"
                 android:background="@drawable/icon_league_table_menu_selector"
@@ -23,9 +24,10 @@
                 android:text="全部"
                 android:textColor="@drawable/icon_match_league_menu_text_color_selector"
                 android:textSize="14sp"
-                android:typeface="monospace" />
+                android:typeface="monospace"
+                android:checked="true"/>
             <RadioButton
-                android:id="@+id/tvHome"
+                android:id="@+id/rbHome"
                 android:layout_width="50dp"
                 android:layout_height="25dp"
                 android:layout_marginLeft="10dp"
@@ -38,7 +40,7 @@
                 android:textSize="14sp"
                 android:typeface="monospace" />
             <RadioButton
-                android:id="@+id/tvAway"
+                android:id="@+id/rbAway"
                 android:layout_width="50dp"
                 android:layout_height="25dp"
                 android:layout_marginLeft="10dp"
@@ -52,7 +54,7 @@
                 android:typeface="monospace" />
         </RadioGroup>
         <ImageView
-            android:id="@+id/imageView1"
+            android:id="@+id/iv_filter"
             android:layout_width="50dp"
             android:layout_height="20dp"
             android:layout_alignParentEnd="true"

@@ -12,7 +12,7 @@ import com.tysci.ballq.networks.HttpClientUtil;
 import com.tysci.ballq.networks.HttpUrls;
 import com.tysci.ballq.utils.CommonUtils;
 import com.tysci.ballq.utils.KLog;
-import com.tysci.ballq.views.adapters.BallQHomeCircleNoteAdapter;
+import com.tysci.ballq.views.adapters.BallQCircleNoteAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,9 +23,9 @@ import okhttp3.Request;
 /**
  * Created by Administrator on 2016/5/31.
  */
-public class BallQHomeCircleListFragment extends AppSwipeRefreshLoadMoreRecyclerViewFragment{
+public class BallQCircleNoteListFragment extends AppSwipeRefreshLoadMoreRecyclerViewFragment{
     private List<BallQCircleNoteEntity> ballQCircleNoteEntityList;
-    private BallQHomeCircleNoteAdapter adapter=null;
+    private BallQCircleNoteAdapter adapter=null;
 
     @Override
     protected void initViews(View view, Bundle savedInstanceState) {
@@ -84,7 +84,7 @@ public class BallQHomeCircleListFragment extends AppSwipeRefreshLoadMoreRecycler
                                 }
                                 CommonUtils.getJSONListObject(jsonArray,ballQCircleNoteEntityList,BallQCircleNoteEntity.class);
                                 if(adapter==null){
-                                    adapter=new BallQHomeCircleNoteAdapter(ballQCircleNoteEntityList);
+                                    adapter=new BallQCircleNoteAdapter(ballQCircleNoteEntityList);
                                     recyclerView.setAdapter(adapter);
                                 }else{
                                     adapter.notifyDataSetChanged();

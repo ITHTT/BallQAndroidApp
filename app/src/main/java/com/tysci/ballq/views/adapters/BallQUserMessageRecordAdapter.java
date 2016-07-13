@@ -1,6 +1,7 @@
 package com.tysci.ballq.views.adapters;
 
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,9 +11,14 @@ import android.widget.TextView;
 
 import com.tysci.ballq.R;
 import com.tysci.ballq.modles.BallQUserMessageRecordEntity;
+import com.tysci.ballq.networks.GlideImageLoader;
+import com.tysci.ballq.utils.CommonUtils;
+import com.tysci.ballq.utils.UserInfoUtil;
 import com.tysci.ballq.views.widgets.CircleImageView;
 
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -34,8 +40,51 @@ public class BallQUserMessageRecordAdapter extends RecyclerView.Adapter<BallQUse
     }
 
     @Override
-    public void onBindViewHolder(BallQUserMessageRecordViewHolder holder, int position) {
+    public void onBindViewHolder(final BallQUserMessageRecordViewHolder holder, int position) {
+        final BallQUserMessageRecordEntity info=userMessageRecordEntityList.get(position);
 
+        GlideImageLoader.loadImage(holder.itemView.getContext(),info.getPt(),R.mipmap.icon_user_default,holder.ivUserIcon);
+        UserInfoUtil.setUserHeaderVMark(info.getIsv(),holder.isV,holder.ivUserIcon);
+        holder.tvUserName.setText(info.getFname());
+
+        Date date= CommonUtils.getDateAndTimeFromGMT(info.getCtime());
+        if(date!=null){
+            holder.tvCreateTime.setText(CommonUtils.getMMddString(date));
+        }
+
+        /**爆料*/
+        if(info.getEtype()==38){
+            holder.tvFaceObject.setText("评论了我");
+            holder.layoutRewardContent.setVisibility(View.GONE);
+            holder.tvTextContent.setVisibility(View.VISIBLE);
+            holder.tvTextContent.setText(info.getCont());
+        }else if(info.getEtype()==54){
+            /**球经*/
+            holder.tvFaceObject.setText("关注了我");
+            holder.layoutRewardContent.setVisibility(View.GONE);
+            holder.tvTextContent.setVisibility(View.GONE);
+        }else if(info.getEtype()==43){
+            holder.tvFaceObject.setText("打赏了我");
+            holder.layoutRewardContent.setVisibility(View.VISIBLE);
+            holder.tvTextContent.setVisibility(View.GONE);
+            //holder.tvRewardMoneys.setText(info.getCont());
+            String rewardInfo=info.getCont();
+            if(!TextUtils.isEmpty(rewardInfo)&&TextUtils.isDigitsOnly(rewardInfo)){
+                float rewardMoneys=Float.parseFloat(rewardInfo)/100;
+                holder.tvRewardMoneys.setText(String.format(Locale.getDefault(),"%.2f",rewardMoneys));
+            }
+        }else{
+            holder.tvFaceObject.setText("");
+            holder.layoutRewardContent.setVisibility(View.GONE);
+            holder.tvTextContent.setVisibility(View.GONE);
+        }
+
+        holder.ivUserIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                UserInfoUtil.lookUserInfo(holder.itemView.getContext(),info.getUid());
+            }
+        });
     }
 
     @Override

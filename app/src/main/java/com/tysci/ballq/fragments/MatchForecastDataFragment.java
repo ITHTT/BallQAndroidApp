@@ -22,6 +22,7 @@ import com.tysci.ballq.views.widgets.chartview.LineChartView;
 import com.tysci.ballq.views.widgets.chartview.PieChartData;
 import com.tysci.ballq.views.widgets.chartview.PieChartView;
 import com.tysci.ballq.views.widgets.loadmorerecyclerview.AutoLoadMoreRecyclerView;
+import com.tysci.ballq.views.widgets.togglebutton.ToggleButton;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -60,14 +61,42 @@ public class MatchForecastDataFragment extends BaseFragment implements SwipeRefr
         recyclerView.setLayoutManager(new LinearLayoutManager(baseActivity));
         recyclerView.setOnLoadMoreListener(this);
         headerView= LayoutInflater.from(baseActivity).inflate(R.layout.layout_match_forecast_data_header,null);
+        setOddsTypeInfo();
+        ToggleButton toggleButton= (ToggleButton) headerView.findViewById(R.id.historyCheck);
+        toggleButton.setOnToggleChanged(new ToggleButton.OnToggleChanged() {
+            @Override
+            public void onToggle(boolean on) {
+                LineChartView lineChartView= (LineChartView) headerView.findViewById(R.id.lineChartView);
+                lineChartView.setToShowHistoryList(on);
+            }
+        });
         recyclerView.addHeaderView(headerView);
         showLoading();
         requestDatas(currentPages, false);
     }
 
+    private void setOddsTypeInfo(){
+        if(headerView!=null){
+            TextView tvUp= (TextView) headerView.findViewById(R.id.pieTextUp);
+            TextView tvDown= (TextView) headerView.findViewById(R.id.pieTextDown);
+            if(oddsType==5){
+                tvUp.setText("上盘");
+                tvDown.setText("下盘");
+            }else if(oddsType==2){
+                tvUp.setText("大球");
+                tvDown.setText("小球");
+            }
+        }
+    }
+
     @Override
     protected View getLoadingTargetView() {
         return swipeRefresh;
+    }
+
+    @Override
+    protected boolean isCancledEventBus() {
+        return false;
     }
 
     public void setMatchEntity(BallQMatchEntity matchEntity) {
@@ -92,16 +121,17 @@ public class MatchForecastDataFragment extends BaseFragment implements SwipeRefr
             swipeRefresh.postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    if (swipeRefresh != null)
+                    if (swipeRefresh != null) {
                         swipeRefresh.setRefreshing(false);
+                    }
                 }
             }, 1000);
         }
     }
 
-    private void requestDatas(final int pages, final boolean isLoadMore){
+    private void requestDatas(int pages, final boolean isLoadMore){
         String url="http://apib.ballq.cn/bigdata/oroc/v1/"+matchEntity.getEid()+"/"+oddsType
-                   +"/?limit=10&p="+pages;
+                +"/?limit=10&p="+pages;
         KLog.e("url:" + url);
         HttpClientUtil.getHttpClientUtil().sendGetRequest(Tag, url, 60, new HttpClientUtil.StringResponseCallBack() {
             @Override
@@ -111,18 +141,18 @@ public class MatchForecastDataFragment extends BaseFragment implements SwipeRefr
 
             @Override
             public void onError(Call call, Exception error) {
-                if(recyclerView!=null) {
+                if (recyclerView != null) {
                     if (!isLoadMore) {
-                        if(adapter!=null) {
-                            recyclerView.setStartLoadMore();
-                        }else{
+                        if (adapter == null) {
                             showErrorInfo(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
                                     showLoading();
-                                    requestDatas(pages,false);
+                                    requestDatas(1, false);
                                 }
                             });
+                        } else {
+                            recyclerView.setStartLoadMore();
                         }
                     } else {
                         recyclerView.setLoadMoreDataFailed();
@@ -133,42 +163,46 @@ public class MatchForecastDataFragment extends BaseFragment implements SwipeRefr
             @Override
             public void onSuccess(Call call, String response) {
                 KLog.json(response);
-                if(!TextUtils.isEmpty(response)){
-                    JSONObject obj=JSONObject.parseObject(response);
-                    if(obj!=null){
-                        BallQMatchForecastDataEntity entity=obj.getObject("data",BallQMatchForecastDataEntity.class);
-                        if(entity!=null){
-                            if(!isLoadMore){
+                if (!TextUtils.isEmpty(response)) {
+                    JSONObject obj = JSONObject.parseObject(response);
+                    if (obj != null) {
+                        BallQMatchForecastDataEntity entity = obj.getObject("data", BallQMatchForecastDataEntity.class);
+                        if (entity != null) {
+                            hideLoad();
+                            if (!isLoadMore) {
                                 setPieChartViewDatas(entity);
-                                if(matchForecastDataEntityList==null) {
+                                setMatchLineChartData(entity);
+                                if (matchForecastDataEntityList == null) {
                                     matchForecastDataEntityList = new ArrayList<BallQMatchForecastDataEntity.MatchForecastDataEntity>(10);
-                                    adapter=new BallQMatchForecastDataAdapter(matchForecastDataEntityList);
+                                    adapter = new BallQMatchForecastDataAdapter(matchForecastDataEntityList);
                                     recyclerView.setAdapter(adapter);
                                 }
                             }
-
-                            List<BallQMatchForecastDataEntity.MatchForecastDataEntity> matchs=entity.getMatchs();
-                            if(matchs!=null&&!matchs.isEmpty()){
-                                if(!isLoadMore&&!matchForecastDataEntityList.isEmpty()){
-                                    matchForecastDataEntityList.clear();
+                            List<BallQMatchForecastDataEntity.MatchForecastDataEntity> matchs = entity.getMatchs();
+                            if (matchs != null && !matchs.isEmpty()) {
+                                if (!isLoadMore) {
+                                    matchs.remove(0);
+                                    if (!matchForecastDataEntityList.isEmpty()) {
+                                        matchForecastDataEntityList.clear();
+                                    }
                                 }
                                 matchForecastDataEntityList.addAll(matchs);
                                 adapter.notifyDataSetChanged();
-                                if(matchs.size()<10){
+                                if (matchs.size() < 10) {
                                     recyclerView.setLoadMoreDataComplete("没有更多数据了");
-                                }else{
+                                } else {
                                     recyclerView.setStartLoadMore();
-                                    if(isLoadMore){
+                                    if (isLoadMore) {
                                         currentPages++;
-                                    }else{
-                                        currentPages=2;
+                                    } else {
+                                        currentPages = 2;
                                     }
                                 }
-                            }else{
-                                if(matchForecastDataEntityList.isEmpty()){
+                            } else {
+                                if (matchForecastDataEntityList.isEmpty()) {
                                     recyclerView.setLoadMoreDataComplete();
                                     headerView.findViewById(R.id.layout_forecast_data).setVisibility(View.GONE);
-                                }else{
+                                } else {
                                     recyclerView.setLoadMoreDataComplete("没有更多数据了");
                                     headerView.findViewById(R.id.layout_forecast_data).setVisibility(View.VISIBLE);
                                 }
@@ -177,13 +211,17 @@ public class MatchForecastDataFragment extends BaseFragment implements SwipeRefr
                         }
                     }
                 }
-                showEmptyInfo();
+                if (!isLoadMore && adapter == null) {
+                    showEmptyInfo();
+                }
             }
 
             @Override
             public void onFinish(Call call) {
-                if(!isLoadMore){
-                    recyclerView.setRefreshComplete();
+                if (!isLoadMore) {
+                    if (recyclerView != null) {
+                        recyclerView.setRefreshComplete();
+                    }
                     onRefreshCompelete();
                 }
             }
@@ -353,7 +391,7 @@ public class MatchForecastDataFragment extends BaseFragment implements SwipeRefr
     @Override
     public void onLoadMore() {
         if(recyclerView.isRefreshing()){
-            recyclerView.setRefreshingTip("刷新数据中...");
+            recyclerView.setLoadMoreDataComplete("刷新数据中...");
         }else{
             recyclerView.postDelayed(new Runnable() {
                 @Override
@@ -362,11 +400,6 @@ public class MatchForecastDataFragment extends BaseFragment implements SwipeRefr
                 }
             },300);
         }
-    }
-
-    @Override
-    protected boolean isCancledEventBus() {
-        return false;
     }
 
     @Override
