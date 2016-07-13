@@ -14,7 +14,7 @@ public class KLog {
 
     private static boolean IS_SHOW_LOG = true;
 
-    private static final String DEFAULT_MESSAGE = "execute";
+    private static final String DEFAULT_MESSAGE = "ballq";
     private static final String LINE_SEPARATOR = System.getProperty("line.separator");
     private static final int JSON_INDENT = 4;
 
@@ -34,11 +34,11 @@ public class KLog {
         printLog(V, null, DEFAULT_MESSAGE);
     }
 
-    public static void v(String msg) {
+    public static <T> void v(T msg) {
         printLog(V, null, msg);
     }
 
-    public static void v(String tag, String msg) {
+    public static <T> void v(String tag, T msg) {
         printLog(V, tag, msg);
     }
 
@@ -46,11 +46,11 @@ public class KLog {
         printLog(D, null, DEFAULT_MESSAGE);
     }
 
-    public static void d(String msg) {
+    public static <T> void d(T msg) {
         printLog(D, null, msg);
     }
 
-    public static void d(String tag, String msg) {
+    public static <T> void d(String tag, T msg) {
         printLog(D, tag, msg);
     }
 
@@ -58,11 +58,11 @@ public class KLog {
         printLog(I, null, DEFAULT_MESSAGE);
     }
 
-    public static void i(String msg) {
+    public static <T> void i(T msg) {
         printLog(I, null, msg);
     }
 
-    public static void i(String tag, String msg) {
+    public static <T> void i(String tag, T msg) {
         printLog(I, tag, msg);
     }
 
@@ -70,11 +70,11 @@ public class KLog {
         printLog(W, null, DEFAULT_MESSAGE);
     }
 
-    public static void w(String msg) {
+    public static <T> void w(T msg) {
         printLog(W, null, msg);
     }
 
-    public static void w(String tag, String msg) {
+    public static <T> void w(String tag, T msg) {
         printLog(W, tag, msg);
     }
 
@@ -82,11 +82,11 @@ public class KLog {
         printLog(E, null, DEFAULT_MESSAGE);
     }
 
-    public static void e(String msg) {
+    public static <T> void e(T msg) {
         printLog(E, null, msg);
     }
 
-    public static void e(String tag, String msg) {
+    public static <T> void e(String tag, T msg) {
         printLog(E, tag, msg);
     }
 
@@ -94,25 +94,27 @@ public class KLog {
         printLog(A, null, DEFAULT_MESSAGE);
     }
 
-    public static void a(String msg) {
+    public static <T> void a(T msg) {
         printLog(A, null, msg);
     }
 
-    public static void a(String tag, String msg) {
+    public static <T> void a(String tag, T msg) {
         printLog(A, tag, msg);
     }
 
 
-    public static void json(String jsonFormat) {
+    public static <T> void json(T jsonFormat) {
         printLog(JSON, null, jsonFormat);
     }
 
-    public static void json(String tag, String jsonFormat) {
+    public static <T> void json(String tag, T jsonFormat) {
         printLog(JSON, tag, jsonFormat);
     }
 
 
-    private static void printLog(int type, String tagStr, String msg) {
+    private static <T> void printLog(int type, String tagStr, T t) {
+
+        String msg = t.toString();
 
         if (!IS_SHOW_LOG) {
             return;

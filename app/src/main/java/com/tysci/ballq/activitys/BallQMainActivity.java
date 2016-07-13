@@ -12,6 +12,7 @@ import com.tysci.ballq.fragments.BallQIndexPageFragment;
 import com.tysci.ballq.fragments.BallQMatchFragment;
 import com.tysci.ballq.fragments.BallQPersonalFragment;
 import com.tysci.ballq.fragments.BallQTipOffFragment;
+import com.tysci.ballq.utils.CToast;
 import com.tysci.ballq.views.widgets.MainBottomMenuView;
 
 import butterknife.Bind;
@@ -20,7 +21,7 @@ import butterknife.OnClick;
 /**
  * Created by HTT on 2016/7/12.
  */
-public class BallQMainActivity extends BaseActivity{
+public class BallQMainActivity extends BaseActivity {
     @Bind(R.id.menu_home)
     protected MainBottomMenuView menuHome;
     @Bind(R.id.menu_match)
@@ -47,7 +48,7 @@ public class BallQMainActivity extends BaseActivity{
 
     @Override
     protected void initViews() {
-        titleBar.setTitleBarLeftIcon(0,null);
+        titleBar.setTitleBarLeftIcon(0, null);
         setSelectedTab(R.id.menu_home);
 
     }
@@ -62,36 +63,36 @@ public class BallQMainActivity extends BaseActivity{
 
     }
 
-    public void setSelectedTab(int id){
-        if(id==R.id.menu_home){
+    public void setSelectedTab(int id) {
+        if (id == R.id.menu_home) {
             setTitle("首页");
             menuHome.setMenuChecked(true);
             menuMatch.setMenuChecked(false);
             menuTipOff.setMenuChecked(false);
             menuFind.setMenuChecked(false);
             menuMy.setMenuChecked(false);
-        }else if(id==R.id.menu_match){
+        } else if (id == R.id.menu_match) {
             setTitle("竞技场");
             menuHome.setMenuChecked(false);
             menuMatch.setMenuChecked(true);
             menuTipOff.setMenuChecked(false);
             menuFind.setMenuChecked(false);
             menuMy.setMenuChecked(false);
-        }else if(id==R.id.menu_tip_off){
+        } else if (id == R.id.menu_tip_off) {
             setTitle("爆料");
             menuHome.setMenuChecked(false);
             menuMatch.setMenuChecked(false);
             menuTipOff.setMenuChecked(true);
             menuFind.setMenuChecked(false);
             menuMy.setMenuChecked(false);
-        }else if(id==R.id.menu_find){
+        } else if (id == R.id.menu_find) {
             setTitle("发现");
             menuHome.setMenuChecked(false);
             menuMatch.setMenuChecked(false);
             menuTipOff.setMenuChecked(false);
             menuFind.setMenuChecked(true);
             menuMy.setMenuChecked(false);
-        }else if(id==R.id.menu_my){
+        } else if (id == R.id.menu_my) {
             setTitle("我的");
             menuHome.setMenuChecked(false);
             menuMatch.setMenuChecked(false);
@@ -103,91 +104,90 @@ public class BallQMainActivity extends BaseActivity{
     }
 
 
-    private void hideFragments(int tab,FragmentTransaction transaction){
-        if(tab==R.id.menu_home){
-            if(homePageFragment!=null){
+    private void hideFragments(int tab, FragmentTransaction transaction) {
+        if (tab == R.id.menu_home) {
+            if (homePageFragment != null) {
                 transaction.hide(homePageFragment);
             }
-        }else if(tab==R.id.menu_match){
-            if(matchFragment!=null){
+        } else if (tab == R.id.menu_match) {
+            if (matchFragment != null) {
                 transaction.hide(matchFragment);
             }
-        }else if(tab==R.id.menu_tip_off){
-            if(tipOffFragment!=null){
+        } else if (tab == R.id.menu_tip_off) {
+            if (tipOffFragment != null) {
                 transaction.hide(tipOffFragment);
             }
-        }else if(tab==R.id.menu_find){
-            if(findFragment!=null){
+        } else if (tab == R.id.menu_find) {
+            if (findFragment != null) {
                 transaction.hide(findFragment);
             }
-        }else if(tab==R.id.menu_my){
-            if(personalFragment!=null){
+        } else if (tab == R.id.menu_my) {
+            if (personalFragment != null) {
                 transaction.hide(personalFragment);
             }
         }
     }
 
-    private void setTabPager(int tab){
-        FragmentTransaction transaction=null;
-        if(tab!=currentTab){
+    private void setTabPager(int tab) {
+        FragmentTransaction transaction = null;
+        if (tab != currentTab) {
             //setSelectedTab(tab);
-            transaction=this.getSupportFragmentManager().beginTransaction();
-            hideFragments(currentTab,transaction);
-        }else{
+            transaction = this.getSupportFragmentManager().beginTransaction();
+            hideFragments(currentTab, transaction);
+        } else {
             return;
         }
-        switch(tab){
+        switch (tab) {
             case R.id.menu_home:
-                if(homePageFragment==null){
-                    homePageFragment=new BallQIndexPageFragment();
-                    transaction.add(R.id.layout_container,homePageFragment);
-                }else{
+                if (homePageFragment == null) {
+                    homePageFragment = new BallQIndexPageFragment();
+                    transaction.add(R.id.layout_container, homePageFragment);
+                } else {
                     transaction.show(homePageFragment);
                 }
                 break;
             case R.id.menu_match:
-                if(matchFragment==null){
-                    matchFragment=new BallQMatchFragment();
-                    transaction.add(R.id.layout_container,matchFragment);
-                }else{
+                if (matchFragment == null) {
+                    matchFragment = new BallQMatchFragment();
+                    transaction.add(R.id.layout_container, matchFragment);
+                } else {
                     transaction.show(matchFragment);
                 }
                 break;
             case R.id.menu_tip_off:
-                if(tipOffFragment==null){
-                    tipOffFragment=new BallQTipOffFragment();
+                if (tipOffFragment == null) {
+                    tipOffFragment = new BallQTipOffFragment();
                     // matchFragment.setUrl(url);
-                    transaction.add(R.id.layout_container,tipOffFragment);
-                }else{
+                    transaction.add(R.id.layout_container, tipOffFragment);
+                } else {
                     transaction.show(tipOffFragment);
                 }
                 break;
             case R.id.menu_find:
-                if(findFragment==null){
-                    findFragment=new BallQFindFragment();
-                    transaction.add(R.id.layout_container,findFragment);
-                }else{
+                if (findFragment == null) {
+                    findFragment = new BallQFindFragment();
+                    transaction.add(R.id.layout_container, findFragment);
+                } else {
                     transaction.show(findFragment);
                 }
                 break;
             case R.id.menu_my:
-                if(personalFragment==null){
-                    personalFragment=new BallQPersonalFragment();
-                    transaction.add(R.id.layout_container,personalFragment);
-                }else{
+                if (personalFragment == null) {
+                    personalFragment = new BallQPersonalFragment();
+                    transaction.add(R.id.layout_container, personalFragment);
+                } else {
                     transaction.show(personalFragment);
                 }
                 break;
         }
-        currentTab=tab;
+        currentTab = tab;
         transaction.commitAllowingStateLoss();
     }
 
-    @OnClick({R.id.menu_home,R.id.menu_match,R.id.menu_tip_off,R.id.menu_find,R.id.menu_my})
-    protected void onClickMenuItem(View view){
+    @OnClick({R.id.menu_home, R.id.menu_match, R.id.menu_tip_off, R.id.menu_find, R.id.menu_my})
+    protected void onClickMenuItem(View view) {
         setSelectedTab(view.getId());
     }
-
 
 
     @Override
