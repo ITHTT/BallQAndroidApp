@@ -13,6 +13,7 @@ import com.tysci.ballq.networks.HttpUrls;
 import com.tysci.ballq.utils.CommonUtils;
 import com.tysci.ballq.utils.KLog;
 import com.tysci.ballq.views.adapters.BallQCircleNoteAdapter;
+import com.tysci.ballq.views.adapters.BallQFindCircleNoteAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,10 +24,10 @@ import okhttp3.Request;
 /**
  * Created by Administrator on 2016/5/31.
  */
-public class BallQCircleNoteListFragment extends AppSwipeRefreshLoadMoreRecyclerViewFragment{
+public class BallQFindCircleNoteListFragment extends AppSwipeRefreshLoadMoreRecyclerViewFragment{
     private List<BallQCircleNoteEntity> ballQCircleNoteEntityList;
-    private BallQCircleNoteAdapter adapter=null;
-    private int circleType;
+    private BallQFindCircleNoteAdapter adapter=null;
+    private int sectionId;
 
     @Override
     protected void initViews(View view, Bundle savedInstanceState) {
@@ -40,7 +41,7 @@ public class BallQCircleNoteListFragment extends AppSwipeRefreshLoadMoreRecycler
     }
 
     private void requestDatas(final int pages, final boolean isLoadMore){
-        String url= HttpUrls.HOT_CIRCLE_LIST_URL+"?pageNo="+pages+"&pageSize=10";
+        String url= HttpUrls.CIRCLE_HOST_URL+"bbs/topic/list?sortType=0&pageNo="+pages+"&sectionId="+sectionId+"&pageSize=10";
         HttpClientUtil.getHttpClientUtil().sendGetRequest(Tag, url, 30, new HttpClientUtil.StringResponseCallBack() {
             @Override
             public void onBefore(Request request) {
@@ -67,16 +68,14 @@ public class BallQCircleNoteListFragment extends AppSwipeRefreshLoadMoreRecycler
             @Override
             public void onSuccess(Call call, String response) {
                 KLog.json(response);
-                if(!isLoadMore){
-                    hideLoad();
-                }
                 if(!TextUtils.isEmpty(response)){
                     JSONObject obj=JSONObject.parseObject(response);
                     if(obj!=null&&!obj.isEmpty()){
                         JSONObject dataObj=obj.getJSONObject("dataMap");
                         if(dataObj!=null&&!dataObj.isEmpty()){
-                            JSONArray jsonArray=dataObj.getJSONArray("hotTopics");
+                            JSONArray jsonArray=dataObj.getJSONArray("topics");
                             if(jsonArray!=null&&!jsonArray.isEmpty()){
+                                hideLoad();
                                 if(ballQCircleNoteEntityList==null){
                                     ballQCircleNoteEntityList=new ArrayList<BallQCircleNoteEntity>(10);
                                 }
@@ -85,7 +84,7 @@ public class BallQCircleNoteListFragment extends AppSwipeRefreshLoadMoreRecycler
                                 }
                                 CommonUtils.getJSONListObject(jsonArray,ballQCircleNoteEntityList,BallQCircleNoteEntity.class);
                                 if(adapter==null){
-                                    adapter=new BallQCircleNoteAdapter(ballQCircleNoteEntityList);
+                                    adapter=new BallQFindCircleNoteAdapter(ballQCircleNoteEntityList);
                                     recyclerView.setAdapter(adapter);
                                 }else{
                                     adapter.notifyDataSetChanged();
@@ -107,6 +106,8 @@ public class BallQCircleNoteListFragment extends AppSwipeRefreshLoadMoreRecycler
                 }
                 if(isLoadMore){
                     recyclerView.setLoadMoreDataComplete("没有更多数据了...");
+                }else{
+                    showEmptyInfo();
                 }
             }
             @Override
@@ -144,7 +145,7 @@ public class BallQCircleNoteListFragment extends AppSwipeRefreshLoadMoreRecycler
 
     }
 
-    public void setCircleType(int type){
-        this.circleType=type;
+    public void setCircleSectionId(int type){
+        this.sectionId=type;
     }
 }

@@ -11,7 +11,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.tysci.ballq.R;
 import com.tysci.ballq.base.BaseActivity;
 import com.tysci.ballq.base.BaseFragment;
-import com.tysci.ballq.fragments.BallQCircleNoteListFragment;
+import com.tysci.ballq.fragments.BallQFindCircleNoteListFragment;
 import com.tysci.ballq.modles.BallQCircleSectionEntity;
 import com.tysci.ballq.networks.HttpClientUtil;
 import com.tysci.ballq.networks.HttpUrls;
@@ -30,7 +30,7 @@ import okhttp3.Request;
 /**
  * Created by Administrator on 2016/7/13.
  */
-public class BallQCircleNoteActivity extends BaseActivity{
+public class BallQFindCircleNoteActivity extends BaseActivity{
     @Bind(R.id.view_pager)
     protected ViewPager viewPager;
     @Bind(R.id.tab_layout)
@@ -61,7 +61,7 @@ public class BallQCircleNoteActivity extends BaseActivity{
 
     private void requestCircleSectionList(){
         String url= HttpUrls.CIRCLE_HOST_URL+"bbs/section/list";
-        HttpClientUtil.getHttpClientUtil().sendGetRequest(Tag, url, 30, new HttpClientUtil.StringResponseCallBack() {
+        HttpClientUtil.getHttpClientUtil().sendGetRequest(Tag, url, 60, new HttpClientUtil.StringResponseCallBack() {
             @Override
             public void onBefore(Request request) {
 
@@ -69,6 +69,13 @@ public class BallQCircleNoteActivity extends BaseActivity{
 
             @Override
             public void onError(Call call, Exception error) {
+                showErrorInfo(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        showLoading();
+                        requestCircleSectionList();
+                    }
+                });
 
             }
 
@@ -82,6 +89,7 @@ public class BallQCircleNoteActivity extends BaseActivity{
                         if(dataMapObj!=null&&!dataMapObj.isEmpty()){
                             JSONArray sections=dataMapObj.getJSONArray("sections");
                             if(sections!=null&&!sections.isEmpty()){
+                                hideLoad();
                                 if(sectionEntityList==null){
                                     sectionEntityList=new ArrayList<BallQCircleSectionEntity>(sections.size());
                                 }
@@ -90,15 +98,17 @@ public class BallQCircleNoteActivity extends BaseActivity{
                                 }
                                 CommonUtils.getJSONListObject(sections,sectionEntityList,BallQCircleSectionEntity.class);
                                 setCircleSectionInfo(sectionEntityList);
+                                return;
                             }
                         }
                     }
                 }
+                showEmptyInfo();
             }
 
             @Override
             public void onFinish(Call call) {
-                hideLoad();
+
             }
         });
     }
@@ -111,8 +121,8 @@ public class BallQCircleNoteActivity extends BaseActivity{
             for(int i=0;i<size;i++){
                 BallQCircleSectionEntity info=datas.get(i);
                 titles[i]=info.getName();
-                BallQCircleNoteListFragment fragment= new BallQCircleNoteListFragment();
-                fragment.setCircleType(info.getType());
+                BallQFindCircleNoteListFragment fragment= new BallQFindCircleNoteListFragment();
+                fragment.setCircleSectionId(info.getId());
                 fragments.add(fragment);
             }
 

@@ -43,7 +43,7 @@ public class BallQTipOffFragment extends BaseFragment{
         fragments.add(fragment);
         fragment=new BallQHomeBallWarpListFragment();
         fragments.add(fragment);
-        fragment=new BallQCircleNoteListFragment();
+        fragment=new BallQFindCircleNoteListFragment();
         fragments.add(fragment);
         fragment=new UserAttentionMatchListFragment();
         fragments.add(fragment);

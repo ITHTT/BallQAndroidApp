@@ -167,7 +167,9 @@
         <activity android:name=".activitys.UserAchievementActivity"
             />
 
-        <activity android:name=".activitys.BallQCircleNoteActivity"/>
+        <activity android:name=".activitys.BallQFindCircleNoteActivity"/>
+
+        <activity android:name=".activitys.BallQImageBrowseActivity"/>
 
         <!-- Required SDK核心功能-->
         <activity

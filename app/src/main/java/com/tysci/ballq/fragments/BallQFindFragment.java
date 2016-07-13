@@ -5,7 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.tysci.ballq.R;
-import com.tysci.ballq.activitys.BallQCircleNoteActivity;
+import com.tysci.ballq.activitys.BallQFindCircleNoteActivity;
 import com.tysci.ballq.base.BaseFragment;
 
 import butterknife.OnClick;
@@ -47,7 +47,7 @@ public class BallQFindFragment extends BaseFragment{
 
     @OnClick(R.id.layout_circle)
     protected void onClickCircle(View view){
-        Intent intent=new Intent(baseActivity, BallQCircleNoteActivity.class);
+        Intent intent=new Intent(baseActivity, BallQFindCircleNoteActivity.class);
         startActivity(intent);
     }
 }
