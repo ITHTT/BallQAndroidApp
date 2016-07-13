@@ -26,6 +26,7 @@ import okhttp3.Request;
 public class BallQCircleNoteListFragment extends AppSwipeRefreshLoadMoreRecyclerViewFragment{
     private List<BallQCircleNoteEntity> ballQCircleNoteEntityList;
     private BallQCircleNoteAdapter adapter=null;
+    private int circleType;
 
     @Override
     protected void initViews(View view, Bundle savedInstanceState) {
@@ -120,7 +121,7 @@ public class BallQCircleNoteListFragment extends AppSwipeRefreshLoadMoreRecycler
 
     @Override
     protected void onLoadMoreData() {
-        requestDatas(currentPages,true);
+        requestDatas(currentPages, true);
     }
 
     @Override
@@ -141,5 +142,9 @@ public class BallQCircleNoteListFragment extends AppSwipeRefreshLoadMoreRecycler
     @Override
     protected void notifyEvent(String action, Bundle data) {
 
+    }
+
+    public void setCircleType(int type){
+        this.circleType=type;
     }
 }

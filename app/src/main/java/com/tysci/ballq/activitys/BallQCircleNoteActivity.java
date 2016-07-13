@@ -2,14 +2,28 @@ package com.tysci.ballq.activitys;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.view.ViewPager;
+import android.text.TextUtils;
 import android.view.View;
 
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.tysci.ballq.R;
 import com.tysci.ballq.base.BaseActivity;
+import com.tysci.ballq.base.BaseFragment;
+import com.tysci.ballq.fragments.BallQCircleNoteListFragment;
+import com.tysci.ballq.modles.BallQCircleSectionEntity;
 import com.tysci.ballq.networks.HttpClientUtil;
 import com.tysci.ballq.networks.HttpUrls;
+import com.tysci.ballq.utils.CommonUtils;
 import com.tysci.ballq.utils.KLog;
+import com.tysci.ballq.views.adapters.BallQFragmentPagerAdapter;
+import com.tysci.ballq.views.widgets.SlidingTabLayout;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import butterknife.Bind;
 import okhttp3.Call;
 import okhttp3.Request;
 
@@ -17,6 +31,12 @@ import okhttp3.Request;
  * Created by Administrator on 2016/7/13.
  */
 public class BallQCircleNoteActivity extends BaseActivity{
+    @Bind(R.id.view_pager)
+    protected ViewPager viewPager;
+    @Bind(R.id.tab_layout)
+    protected SlidingTabLayout tabLayout;
+
+    private List<BallQCircleSectionEntity> sectionEntityList=null;
     @Override
     protected int getContentViewId() {
         return R.layout.activity_ballq_circle_note;
@@ -55,7 +75,25 @@ public class BallQCircleNoteActivity extends BaseActivity{
             @Override
             public void onSuccess(Call call, String response) {
                 KLog.json(response);
-
+                if(!TextUtils.isEmpty(response)){
+                    JSONObject obj=JSONObject.parseObject(response);
+                    if(obj!=null&&!obj.isEmpty()){
+                        JSONObject dataMapObj=obj.getJSONObject("dataMap");
+                        if(dataMapObj!=null&&!dataMapObj.isEmpty()){
+                            JSONArray sections=dataMapObj.getJSONArray("sections");
+                            if(sections!=null&&!sections.isEmpty()){
+                                if(sectionEntityList==null){
+                                    sectionEntityList=new ArrayList<BallQCircleSectionEntity>(sections.size());
+                                }
+                                if(!sectionEntityList.isEmpty()){
+                                    sectionEntityList.clear();
+                                }
+                                CommonUtils.getJSONListObject(sections,sectionEntityList,BallQCircleSectionEntity.class);
+                                setCircleSectionInfo(sectionEntityList);
+                            }
+                        }
+                    }
+                }
             }
 
             @Override
@@ -63,6 +101,27 @@ public class BallQCircleNoteActivity extends BaseActivity{
                 hideLoad();
             }
         });
+    }
+
+    private void setCircleSectionInfo(List<BallQCircleSectionEntity>datas){
+        if(datas!=null&&!datas.isEmpty()){
+            int size=datas.size();
+            String[] titles=new String[size];
+            List<BaseFragment> fragments=new ArrayList<>(size);
+            for(int i=0;i<size;i++){
+                BallQCircleSectionEntity info=datas.get(i);
+                titles[i]=info.getName();
+                BallQCircleNoteListFragment fragment= new BallQCircleNoteListFragment();
+                fragment.setCircleType(info.getType());
+                fragments.add(fragment);
+            }
+
+            BallQFragmentPagerAdapter adapter=new BallQFragmentPagerAdapter(getSupportFragmentManager(),titles,fragments);
+            viewPager.setAdapter(adapter);
+            viewPager.setOffscreenPageLimit(fragments.size());
+            tabLayout.setViewPager(viewPager);
+        }
+
     }
 
     @Override

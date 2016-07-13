@@ -7,15 +7,15 @@ public class HttpUrls {
     /**
      * 圈子服务主机地址
      */
-    //public static final String CIRCLE_HOST_URL = "http://int.ballq.cn:8003/ballq/api/v1/";
+    public static final String CIRCLE_HOST_URL = "http://int.ballq.cn:8003/ballq/api/v1/";
 
     /**
      * 其他接口主机地址
      */
-   // public static final String HOST_URL = "http://int.ballq.cn:8004";
+    public static final String HOST_URL = "http://int.ballq.cn:8004";
 
-    public static final String CIRCLE_HOST_URL="http://apijt.ballq.cn/ballq/api/v1/";
-    public static final String HOST_URL="http://apit.ballq.cn";
+    //public static final String CIRCLE_HOST_URL="http://apijt.ballq.cn/ballq/api/v1/";
+    //public static final String HOST_URL="http://apit.ballq.cn";
 
     public static final String HOST_URL_V1 = HOST_URL + "/api/v1/";
     public static final String HOST_URL_V2 = HOST_URL + "/api/v2/";
