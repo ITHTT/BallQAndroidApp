@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <com.tysci.ballq.views.CustomSlidingViewPager
+        android:id="@+id/view_pager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+    <com.tysci.ballq.views.CustomPointView
+        android:id="@+id/point_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="40dp"
+        app:point_image_check="@drawable/guide_check"
+        app:point_image_margin="20dp"
+        app:point_image_normal="@drawable/guide_normal"
+        app:point_image_size="4"
+        app:point_image_width_height="10dp"/>
+
+    <TextView
+        android:id="@+id/tv_commit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="30dp"
+        android:background="@drawable/button_gold"
+        android:paddingBottom="10dp"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:paddingTop="10dp"
+        android:text="进入球商"
+        android:textColor="@color/white"
+        android:textSize="14sp"/>
+</RelativeLayout>

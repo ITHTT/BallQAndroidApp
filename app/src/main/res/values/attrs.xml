@@ -1,5 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <declare-styleable name="CustomPointView">
+        <attr name="point_image_normal" format="reference"/>
+        <attr name="point_image_check" format="reference"/>
+        <attr name="point_image_width_height" format="dimension"/>
+        <attr name="point_image_margin" format="dimension"/>
+        <attr name="point_image_size" format="integer"/>
+    </declare-styleable>
+    <declare-styleable name="CustomSlidingViewPager">
+        <attr name="can_scroll_horizontal" format="boolean"/>
+    </declare-styleable>
     <declare-styleable name="MainBottomMenuView">
         <attr name="main_menu_icon" format="reference"/>
         <attr name="main_menu_name" format="string"/>
@@ -21,18 +31,18 @@
     </declare-styleable>
 
     <declare-styleable name="SelectableRoundedImageView">
-        <attr name="sriv_left_top_corner_radius" format="dimension" />
-        <attr name="sriv_right_top_corner_radius" format="dimension" />
-        <attr name="sriv_left_bottom_corner_radius" format="dimension" />
-        <attr name="sriv_right_bottom_corner_radius" format="dimension" />
-        <attr name="sriv_border_width" format="dimension" />
-        <attr name="sriv_border_color" format="color" />
-        <attr name="sriv_oval" format="boolean" />
-        <attr name="android:scaleType" />
+        <attr name="sriv_left_top_corner_radius" format="dimension"/>
+        <attr name="sriv_right_top_corner_radius" format="dimension"/>
+        <attr name="sriv_left_bottom_corner_radius" format="dimension"/>
+        <attr name="sriv_right_bottom_corner_radius" format="dimension"/>
+        <attr name="sriv_border_width" format="dimension"/>
+        <attr name="sriv_border_color" format="color"/>
+        <attr name="sriv_oval" format="boolean"/>
+        <attr name="android:scaleType"/>
     </declare-styleable>
 
     <declare-styleable name="ConvenientBanner">
-        <attr name="canLoop" format="boolean" />
+        <attr name="canLoop" format="boolean"/>
         <attr name="show_indicator" format="boolean"/>
     </declare-styleable>
 
@@ -75,26 +85,26 @@
     </declare-styleable>
 
     <declare-styleable name="expandableLayout">
-        <attr name="ael_duration" format="integer" />
-        <attr name="ael_expanded" format="boolean" />
-        <attr name="ael_defaultChildIndex" format="integer" />
-        <attr name="ael_defaultPosition" format="dimension" />
+        <attr name="ael_duration" format="integer"/>
+        <attr name="ael_expanded" format="boolean"/>
+        <attr name="ael_defaultChildIndex" format="integer"/>
+        <attr name="ael_defaultPosition" format="dimension"/>
         <attr name="ael_orientation" format="enum">
-            <enum name="horizontal" value="0" />
-            <enum name="vertical" value="1" />
+            <enum name="horizontal" value="0"/>
+            <enum name="vertical" value="1"/>
         </attr>
         <attr name="ael_interpolator" format="enum">
-            <enum name="accelerateDecelerate" value="0" />
-            <enum name="accelerate" value="1" />
-            <enum name="anticipate" value="2" />
-            <enum name="anticipateOvershoot" value="3" />
-            <enum name="bounce" value="4" />
-            <enum name="decelerate" value="5" />
-            <enum name="fastOutLinearIn" value="6" />
-            <enum name="fastOutSlowIn" value="7" />
-            <enum name="linear" value="8" />
-            <enum name="linearOutSlowIn" value="9" />
-            <enum name="overshoot" value="10" />
+            <enum name="accelerateDecelerate" value="0"/>
+            <enum name="accelerate" value="1"/>
+            <enum name="anticipate" value="2"/>
+            <enum name="anticipateOvershoot" value="3"/>
+            <enum name="bounce" value="4"/>
+            <enum name="decelerate" value="5"/>
+            <enum name="fastOutLinearIn" value="6"/>
+            <enum name="fastOutSlowIn" value="7"/>
+            <enum name="linear" value="8"/>
+            <enum name="linearOutSlowIn" value="9"/>
+            <enum name="overshoot" value="10"/>
         </attr>
     </declare-styleable>
 
