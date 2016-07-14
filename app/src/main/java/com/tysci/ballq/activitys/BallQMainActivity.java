@@ -12,7 +12,6 @@ import com.tysci.ballq.fragments.BallQIndexPageFragment;
 import com.tysci.ballq.fragments.BallQMatchFragment;
 import com.tysci.ballq.fragments.BallQPersonalFragment;
 import com.tysci.ballq.fragments.BallQTipOffFragment;
-import com.tysci.ballq.utils.CToast;
 import com.tysci.ballq.views.widgets.MainBottomMenuView;
 
 import butterknife.Bind;
@@ -48,9 +47,7 @@ public class BallQMainActivity extends BaseActivity {
 
     @Override
     protected void initViews() {
-        titleBar.setTitleBarLeftIcon(0, null);
         setSelectedTab(R.id.menu_home);
-
     }
 
     @Override
@@ -65,35 +62,30 @@ public class BallQMainActivity extends BaseActivity {
 
     public void setSelectedTab(int id) {
         if (id == R.id.menu_home) {
-            setTitle("首页");
             menuHome.setMenuChecked(true);
             menuMatch.setMenuChecked(false);
             menuTipOff.setMenuChecked(false);
             menuFind.setMenuChecked(false);
             menuMy.setMenuChecked(false);
         } else if (id == R.id.menu_match) {
-            setTitle("竞技场");
             menuHome.setMenuChecked(false);
             menuMatch.setMenuChecked(true);
             menuTipOff.setMenuChecked(false);
             menuFind.setMenuChecked(false);
             menuMy.setMenuChecked(false);
         } else if (id == R.id.menu_tip_off) {
-            setTitle("爆料");
             menuHome.setMenuChecked(false);
             menuMatch.setMenuChecked(false);
             menuTipOff.setMenuChecked(true);
             menuFind.setMenuChecked(false);
             menuMy.setMenuChecked(false);
         } else if (id == R.id.menu_find) {
-            setTitle("发现");
             menuHome.setMenuChecked(false);
             menuMatch.setMenuChecked(false);
             menuTipOff.setMenuChecked(false);
             menuFind.setMenuChecked(true);
             menuMy.setMenuChecked(false);
         } else if (id == R.id.menu_my) {
-            setTitle("我的");
             menuHome.setMenuChecked(false);
             menuMatch.setMenuChecked(false);
             menuTipOff.setMenuChecked(false);

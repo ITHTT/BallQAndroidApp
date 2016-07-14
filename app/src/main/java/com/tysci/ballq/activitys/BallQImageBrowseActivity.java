@@ -6,16 +6,13 @@ import android.os.Bundle;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
-import android.text.method.Touch;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.resource.drawable.GlideDrawable;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.tysci.ballq.R;
@@ -136,7 +133,7 @@ public class BallQImageBrowseActivity extends BaseActivity implements ViewPager.
             if(TextUtils.isEmpty(url)){
                 url=pictures.get(position).getContent();
             }
-            Glide.with(container.getContext()).load(HttpUrls.getImageUrl(info.getOriginal())).asBitmap().into(new SimpleTarget<Bitmap>() {
+            Glide.with(container.getContext()).load(HttpUrls.getImageUrl(url)).asBitmap().into(new SimpleTarget<Bitmap>() {
                 @Override
                 public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
                     photoView.setImageBitmap(resource);

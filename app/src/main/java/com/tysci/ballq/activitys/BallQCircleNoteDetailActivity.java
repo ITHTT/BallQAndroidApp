@@ -5,8 +5,10 @@ import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -19,21 +21,26 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.tysci.ballq.R;
 import com.tysci.ballq.base.BaseActivity;
+import com.tysci.ballq.fragments.BallQFindCircleNoteListFragment;
 import com.tysci.ballq.modles.BallQCircleNoteEntity;
 import com.tysci.ballq.modles.BallQCircleUserCommentEntity;
 import com.tysci.ballq.modles.BallQNoteContentEntity;
 import com.tysci.ballq.modles.BallQUserAchievementEntity;
 import com.tysci.ballq.modles.BallQUserEntity;
+import com.tysci.ballq.modles.event.EventObject;
 import com.tysci.ballq.networks.GlideImageLoader;
 import com.tysci.ballq.networks.HttpClientUtil;
 import com.tysci.ballq.networks.HttpUrls;
 import com.tysci.ballq.utils.CommonUtils;
 import com.tysci.ballq.utils.KLog;
+import com.tysci.ballq.utils.SoftInputUtil;
 import com.tysci.ballq.utils.ToastUtil;
 import com.tysci.ballq.utils.UserInfoUtil;
 import com.tysci.ballq.views.adapters.BallQCircleNoteCommentAdapter;
 import com.tysci.ballq.views.dialogs.BallQCircleNoteMenu;
+import com.tysci.ballq.views.dialogs.LoadingProgressDialog;
 import com.tysci.ballq.views.dialogs.ShareDialog;
+import com.tysci.ballq.views.interfaces.OnLongClickUserHeaderListener;
 import com.tysci.ballq.views.widgets.CircleImageView;
 import com.tysci.ballq.views.widgets.loadmorerecyclerview.AutoLoadMoreRecyclerView;
 import com.tysci.ballq.wxapi.WXPayEntryActivity;
@@ -50,7 +57,8 @@ import okhttp3.Request;
 /**
  * Created by HTT on 2016/6/25.
  */
-public class BallQCircleNoteDetailActivity extends BaseActivity implements SwipeRefreshLayout.OnRefreshListener,AutoLoadMoreRecyclerView.OnLoadMoreListener{
+public class BallQCircleNoteDetailActivity extends BaseActivity implements SwipeRefreshLayout.OnRefreshListener,AutoLoadMoreRecyclerView.OnLoadMoreListener
+,OnLongClickUserHeaderListener {
     @Bind(R.id.swipe_refresh)
     protected SwipeRefreshLayout swipeRefresh;
     @Bind(R.id.recycler_view)
@@ -87,8 +95,7 @@ public class BallQCircleNoteDetailActivity extends BaseActivity implements Swipe
     private String cacheCommentInfo="";
     private String fid = null;
     private ShareDialog shareDialog=null;
-
-
+    private LoadingProgressDialog loadingProgressDialog=null;
 
     @Override
     protected int getContentViewId() {
@@ -106,12 +113,15 @@ public class BallQCircleNoteDetailActivity extends BaseActivity implements Swipe
         headerView= LayoutInflater.from(this).inflate(R.layout.layout_ballq_circle_note_header,null);
         recyclerView.addHeaderView(headerView);
         ivLike.setOnClickListener(this);
+        ivShare.setOnClickListener(this);
+        btPublish.setOnClickListener(this);
 
         etComment.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if (hasFocus) {
                     ivLike.setVisibility(View.GONE);
+                    ivShare.setVisibility(View.GONE);
                     btPublish.setVisibility(View.VISIBLE);
                     if (!TextUtils.isEmpty(cacheCommentInfo)) {
                         etComment.setText(cacheCommentInfo);
@@ -120,8 +130,33 @@ public class BallQCircleNoteDetailActivity extends BaseActivity implements Swipe
                 } else {
                     etComment.setText("");
                     ivLike.setVisibility(View.VISIBLE);
+                    ivShare.setVisibility(View.VISIBLE);
                     btPublish.setVisibility(View.GONE);
                 }
+            }
+        });
+        recyclerView.addOnItemTouchListener(new RecyclerView.OnItemTouchListener() {
+            @Override
+            public boolean onInterceptTouchEvent(RecyclerView rv, MotionEvent e) {
+                if (e.getAction() == MotionEvent.ACTION_DOWN) {
+                    SoftInputUtil.hideSoftInput(BallQCircleNoteDetailActivity.this);
+                    cacheCommentInfo = etComment.getText().toString();
+                    replyerId = null;
+                    replyerName = null;
+                    etComment.clearFocus();
+                    etComment.setHint("发表评论");
+                    etComment.setText("");
+                }
+                return false;
+            }
+
+            @Override
+            public void onTouchEvent(RecyclerView rv, MotionEvent e) {
+            }
+
+            @Override
+            public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {
+
             }
         });
     }
@@ -178,6 +213,21 @@ public class BallQCircleNoteDetailActivity extends BaseActivity implements Swipe
                     }
                 }
             }, 1000);
+        }
+    }
+
+    private void showProgressDialog(String msg){
+        if(loadingProgressDialog==null){
+            loadingProgressDialog=new LoadingProgressDialog(this);
+            loadingProgressDialog.setCanceledOnTouchOutside(false);
+        }
+        loadingProgressDialog.setMessage(msg);
+        loadingProgressDialog.show();
+    }
+
+    private void dimssProgressDialog(){
+        if(loadingProgressDialog!=null&&loadingProgressDialog.isShowing()){
+            loadingProgressDialog.dismiss();
         }
     }
 
@@ -244,6 +294,7 @@ public class BallQCircleNoteDetailActivity extends BaseActivity implements Swipe
         if(commentEntityList==null){
             commentEntityList=new ArrayList<>(10);
             adapter=new BallQCircleNoteCommentAdapter(commentEntityList);
+            adapter.setOnLongClickUserHeaderListener(this);
             recyclerView.setAdapter(adapter);
         }
 
@@ -684,6 +735,12 @@ public class BallQCircleNoteDetailActivity extends BaseActivity implements Swipe
             case R.id.ivLike:
                 userLike(noteId);
                 break;
+            case R.id.iv_share:
+                weChatShare(circleNoteEntity);
+                break;
+            case R.id.btnPublish:
+                userComment();
+                break;
         }
         onMenuItemClicked(view);
     }
@@ -701,6 +758,7 @@ public class BallQCircleNoteDetailActivity extends BaseActivity implements Swipe
                 break;
             case R.drawable.ballq_circle_reward_selector:
                 userReward(circleNoteEntity);
+                menuView.dismiss();
                 break;
             case R.drawable.ballq_circle_sort_selector:
                 sortCircleComments(v);
@@ -711,7 +769,8 @@ public class BallQCircleNoteDetailActivity extends BaseActivity implements Swipe
                 menuView.dismiss();
                 break;
             case R.drawable.ballq_circle_delete_selector:
-
+                deleteCircleNote(noteId);
+                menuView.dismiss();
                 break;
         }
     }
@@ -736,7 +795,7 @@ public class BallQCircleNoteDetailActivity extends BaseActivity implements Swipe
             recyclerView.postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    requestCircleNoteCommentInfos(noteId, sortType, onlyAuthor, currentPages, true,0);
+                    requestCircleNoteCommentInfos(noteId, sortType, onlyAuthor, currentPages, true, 0);
                 }
             }, 300);
         }
@@ -855,8 +914,139 @@ public class BallQCircleNoteDetailActivity extends BaseActivity implements Swipe
     }
 
     private void userReward(BallQCircleNoteEntity info){
-        if(info!=null){
-            WXPayEntryActivity.userReward(this, "topic", String.valueOf(info.getCreater().getUserId()), info.getId(), info.getCreater().getPortrait(), info.getCreater().getIsV());
+        if(info!=null) {
+            if (UserInfoUtil.checkLogin(this)) {
+                WXPayEntryActivity.userReward(this, "topic", String.valueOf(info.getCreater().getUserId()), info.getId(), info.getCreater().getPortrait(), info.getCreater().getIsV());
+            }else{
+                UserInfoUtil.userLogin(this);
+            }
         }
     }
+
+    private void deleteCircleNote(int id){
+        String url = HttpUrls.CIRCLE_HOST_URL + "bbs/topic/delete/" + id;
+        HashMap<String, String> params = new HashMap<>(1);
+        params.put("userId",UserInfoUtil.getUserId(this));
+        HttpClientUtil.getHttpClientUtil().sendPostRequest(Tag, url, params, new HttpClientUtil.StringResponseCallBack() {
+            @Override
+            public void onBefore(Request request) {
+                showProgressDialog("请求中...");
+            }
+
+            @Override
+            public void onError(Call call, Exception error) {
+                dimssProgressDialog();
+                ToastUtil.show(BallQCircleNoteDetailActivity.this, "请求失败");
+            }
+
+            @Override
+            public void onSuccess(Call call, String response) {
+                dimssProgressDialog();
+                if (!TextUtils.isEmpty(response)) {
+                    JSONObject obj=JSONObject.parseObject(response);
+                    if(obj!=null&&!obj.isEmpty()){
+                        int status=obj.getIntValue("statusCode");
+                        if(status==200){
+                            ToastUtil.show(BallQCircleNoteDetailActivity.this, "删除成功");
+                            EventObject object=new EventObject();
+                            object.addReceiver(BallQFindCircleNoteListFragment.class);
+                            object.getData().putInt("sectionId", circleNoteEntity.getSectionId());
+                            EventObject.postEventObject(object,"delete_circle_note");
+                            finish();
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void onFinish(Call call) {
+
+            }
+        });
+    }
+
+    @Override
+    public void onLongClickUserHead(View v, int position) {
+        BallQCircleUserCommentEntity info=commentEntityList.get(position);
+        if(info!=null){
+            etComment.requestFocus();
+            SoftInputUtil.showSoftInput(this, etComment);
+            replyerName = "@" + info.getCreator().getFirstName().trim() + ":";
+            replyerId = String.valueOf(info.getCreator().getUserId());
+            etComment.setHint(replyerName);
+        }
+    }
+
+    private void userComment(){
+        SoftInputUtil.hideSoftInput(this);
+        if(!UserInfoUtil.checkLogin(this)){
+            UserInfoUtil.userLogin(this);
+        }else {
+            String comment_text = etComment.getText().toString().trim();
+            if (TextUtils.isEmpty(comment_text)) {
+                ToastUtil.show(this, "请输入评论内容");
+                return;
+            }
+            String url = HttpUrls.CIRCLE_HOST_URL + "bbs/topic/" + noteId
+                    + "/comment/add/";
+
+            KLog.e("sendComment url = " + url);
+            HashMap<String, String> params = new HashMap<String, String>();
+            params.put("userId", UserInfoUtil.getUserId(this));
+            params.put("topicId", String.valueOf(noteId));
+            KLog.e("repliedId:" + replyerId);
+            if (!TextUtils.isEmpty(replyerId)) {
+                params.put("repliedId", replyerId);
+                if (!comment_text.contains(replyerName)) {
+                    comment_text = replyerName + comment_text;
+                }
+            }
+            KLog.e("comment_text:" + comment_text);
+            params.put("content", comment_text);
+
+            HttpClientUtil.getHttpClientUtil().uploadFiles(Tag, url, null, params, new HttpClientUtil.ProgressResponseCallBack() {
+                @Override
+                public void onBefore(Request request) {
+                    showProgressDialog("请求中...");
+
+                }
+                @Override
+                public void onError(Call call, Exception error) {
+                    ToastUtil.show(BallQCircleNoteDetailActivity.this, "请求失败");
+
+                }
+                @Override
+                public void onSuccess(Call call, String response) {
+                    KLog.json(response);
+                    if (!TextUtils.isEmpty(response)) {
+                        JSONObject obj = JSONObject.parseObject(response);
+                        if (obj != null && !obj.isEmpty()) {
+                            int statusCode = obj.getIntValue("statusCode");
+                            if (statusCode == 200) {
+                                etComment.setHint("发表评论");
+                                etComment.clearFocus();
+                                etComment.setText("");
+                                cacheCommentInfo="";
+                                ToastUtil.show(BallQCircleNoteDetailActivity.this, "评论成功");
+                                setRefreshing();
+                                requestCircleNoteCommentInfos(noteId, sortType, onlyAuthor, 1, false, 1);
+                            }
+                        }
+                    }
+                }
+                @Override
+                public void onFinish(Call call) {
+                    dimssProgressDialog();
+                }
+
+                @Override
+                public void loadingProgress(int progress) {
+
+                }
+            });
+        }
+
+    }
+
+
 }

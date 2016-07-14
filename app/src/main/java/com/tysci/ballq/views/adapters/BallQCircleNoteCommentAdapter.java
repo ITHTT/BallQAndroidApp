@@ -18,6 +18,7 @@ import com.tysci.ballq.modles.BallQUserEntity;
 import com.tysci.ballq.networks.GlideImageLoader;
 import com.tysci.ballq.utils.CommonUtils;
 import com.tysci.ballq.utils.UserInfoUtil;
+import com.tysci.ballq.views.interfaces.OnLongClickUserHeaderListener;
 import com.tysci.ballq.views.widgets.CircleImageView;
 
 import java.util.List;
@@ -32,10 +33,15 @@ public class BallQCircleNoteCommentAdapter extends RecyclerView.Adapter<BallQCir
     private List<BallQCircleUserCommentEntity> commentEntityList;
     private int contentColor= Color.parseColor("#3a3a3a");
     private LinearLayout.LayoutParams layoutContentParams=null;
+    private OnLongClickUserHeaderListener onLongClickUserHeaderListener;
 
     public BallQCircleNoteCommentAdapter(List<BallQCircleUserCommentEntity> commentEntityList) {
         this.commentEntityList = commentEntityList;
         layoutContentParams=new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+    }
+
+    public void setOnLongClickUserHeaderListener(OnLongClickUserHeaderListener onLongClickUserHeaderListener) {
+        this.onLongClickUserHeaderListener = onLongClickUserHeaderListener;
     }
 
     @Override
@@ -45,13 +51,22 @@ public class BallQCircleNoteCommentAdapter extends RecyclerView.Adapter<BallQCir
     }
 
     @Override
-    public void onBindViewHolder(BallQCircleNoteCommentViewHolder holder, int position) {
+    public void onBindViewHolder(BallQCircleNoteCommentViewHolder holder, final int position) {
         BallQCircleUserCommentEntity info=commentEntityList.get(position);
         BallQUserEntity author=info.getCreator();
         holder.tvFloorNum.setText(info.getIndexCount()+"楼");
         if(author!=null){
             GlideImageLoader.loadImage(holder.itemView.getContext(), author.getPortrait(), R.mipmap.icon_user_default,holder.ivUserIcon);
-            UserInfoUtil.setUserHeaderVMark(author.getIsV(),holder.isV,holder.ivUserIcon);
+            UserInfoUtil.setUserHeaderVMark(author.getIsV(), holder.isV, holder.ivUserIcon);
+            holder.ivUserIcon.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    if (onLongClickUserHeaderListener != null) {
+                        onLongClickUserHeaderListener.onLongClickUserHead(v, position);
+                    }
+                    return true;
+                }
+            });
             holder.tvUserName.setText(author.getFirstName());
             if(author.getIsAuthor()==1){
                 holder.tvLZ.setVisibility(View.VISIBLE);

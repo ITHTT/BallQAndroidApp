@@ -5,8 +5,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
-    <include
-        layout="@layout/layout_title_bar"/>
+
     <FrameLayout
         android:id="@+id/layout_container"
         android:layout_width="match_parent"

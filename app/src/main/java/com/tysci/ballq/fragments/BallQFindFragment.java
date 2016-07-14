@@ -7,13 +7,17 @@ import android.view.View;
 import com.tysci.ballq.R;
 import com.tysci.ballq.activitys.BallQFindCircleNoteActivity;
 import com.tysci.ballq.base.BaseFragment;
+import com.tysci.ballq.views.widgets.TitleBar;
 
+import butterknife.Bind;
 import butterknife.OnClick;
 
 /**
  * Created by HTT on 2016/7/12.
  */
 public class BallQFindFragment extends BaseFragment{
+    @Bind(R.id.title_bar)
+    protected TitleBar titleBar;
     @Override
     protected int getViewLayoutId() {
         return R.layout.fragment_ballq_find;
@@ -21,7 +25,8 @@ public class BallQFindFragment extends BaseFragment{
 
     @Override
     protected void initViews(View view, Bundle savedInstanceState) {
-        baseActivity.getTitleBar().setTitleBarTitle("发现");
+       titleBar.setTitleBarTitle("发现");
+        titleBar.setTitleBarLeftIcon(0,null);
     }
 
     @Override

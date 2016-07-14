@@ -16,6 +16,8 @@ import com.tysci.ballq.utils.ToastUtil;
 import com.tysci.ballq.utils.UserInfoUtil;
 import com.tysci.ballq.views.adapters.BallQMatchAdapter;
 
+import org.greenrobot.eventbus.EventBus;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -216,9 +218,51 @@ public class BallQMatchListFragment extends AppSwipeRefreshLoadMoreRecyclerViewF
                         }
                     }
                 }
+            }else if(action.equals("match_league_filter")){
+                int etype=data.getInt("etype",-1);
+                List<String> leagueIdList=data.getStringArrayList("league_ids");
+                if(etype==this.type) {
+                    if (leagueIdList != null) {
+                        String league_Ids = getLeagueIdsString(leagueIdList);
+                        if (!TextUtils.isEmpty(league_Ids)) {
+                            EventBus.getDefault().post("reset_tip_off");
+                            this.filter = "tournament";
+                            this.leagueIds = league_Ids;
+                            HttpClientUtil.getHttpClientUtil().cancelTag(Tag);
+                            recyclerView.setLoadMoreDataComplete();
+                            if (matchAdapter != null) {
+                                if (matchEntityList.size() > 0) {
+                                    matchEntityList.clear();
+                                    matchAdapter.notifyDataSetChanged();
+                                }
+                            }
+                            hideLoad();
+                            setRefreshing();
+                            requestDatas();
+                        }
+                    }
+                }
             }
         }
+    }
 
+    /**
+     * 获取选则的赛事ID
+     * @param ids
+     * @return
+     */
+    private String getLeagueIdsString(List<String>ids){
+        int size=ids.size();
+        StringBuilder stringBuilder=new StringBuilder();
+        for(int i=0;i<size;i++){
+            if(i==0){
+                stringBuilder.append(ids.get(i));
+            }else{
+                stringBuilder.append(',');
+                stringBuilder.append(ids.get(i));
+            }
+        }
+        return stringBuilder.toString();
     }
 
 }

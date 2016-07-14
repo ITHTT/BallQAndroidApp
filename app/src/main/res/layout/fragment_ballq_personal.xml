@@ -4,6 +4,8 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+    <include
+        layout="@layout/layout_title_bar"/>
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="120dp"
@@ -245,7 +247,7 @@
                 android:id="@+id/menu_user_ball_warp_record"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:menu_icon="@mipmap/icon_main_menu_ball_warp"
+                app:menu_icon="@mipmap/icon_main_menu_ball_wrap"
                 app:menu_name="球经记录"/>
             <View
                 android:layout_width="match_parent"

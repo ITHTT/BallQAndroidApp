@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RadioButton xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rb_league_item"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingTop="8dp"
+    android:paddingBottom="8dp"
+    android:button="@null"
+    android:textSize="14sp"
+    android:gravity="center"
+    android:text="球商APP"
+    android:singleLine="true"
+    android:textColor="@drawable/select_league_text_color_selector"
+    android:background="@drawable/select_menu_item_selector">
+
+</RadioButton>

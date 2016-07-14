@@ -21,6 +21,7 @@ import com.tysci.ballq.modles.event.EventType;
 import com.tysci.ballq.networks.GlideImageLoader;
 import com.tysci.ballq.utils.UserInfoUtil;
 import com.tysci.ballq.views.widgets.CircleImageView;
+import com.tysci.ballq.views.widgets.TitleBar;
 
 import java.util.Locale;
 
@@ -31,6 +32,8 @@ import butterknife.OnClick;
  * Created by HTT on 2016/7/12.
  */
 public class BallQPersonalFragment extends BaseFragment{
+    @Bind(R.id.title_bar)
+    protected TitleBar titleBar;
     @Bind(R.id.iv_user_header)
     protected CircleImageView ivUserHeader;
     @Bind(R.id.iv_user_v)
@@ -57,6 +60,8 @@ public class BallQPersonalFragment extends BaseFragment{
 
     @Override
     protected void initViews(View view, Bundle savedInstanceState) {
+        titleBar.setTitleBarTitle("我的");
+        titleBar.setTitleBarLeftIcon(0,null);
         if(UserInfoUtil.checkLogin(baseActivity)){
             setUserInfo(UserInfoUtil.getUserInfo(baseActivity));
             UserInfoUtil.getUserInfo(baseActivity,Tag, UserInfoUtil.getUserId(baseActivity),false,null);

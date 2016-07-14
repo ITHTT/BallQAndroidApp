@@ -8,6 +8,7 @@ import android.widget.ImageView;
 import com.tysci.ballq.R;
 import com.tysci.ballq.base.BaseFragment;
 import com.tysci.ballq.views.widgets.BallQUserAnalystView;
+import com.tysci.ballq.views.widgets.TitleBar;
 import com.tysci.ballq.views.widgets.convenientbanner.ConvenientBanner;
 
 import butterknife.Bind;
@@ -16,6 +17,8 @@ import butterknife.Bind;
  * Created by HTT on 2016/7/12.
  */
 public class BallQIndexPageFragment extends BaseFragment{
+    @Bind(R.id.title_bar)
+    protected TitleBar titleBar;
     @Bind(R.id.swipe_refresh)
     protected SwipeRefreshLayout swipeRefresh;
     @Bind(R.id.convenientBanner)
@@ -38,6 +41,8 @@ public class BallQIndexPageFragment extends BaseFragment{
 
     @Override
     protected void initViews(View view, Bundle savedInstanceState) {
+        titleBar.setTitleBarTitle("首页");
+        titleBar.setTitleBarLeftIcon(0,null);
 
     }
 

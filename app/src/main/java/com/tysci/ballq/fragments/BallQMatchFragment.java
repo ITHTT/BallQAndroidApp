@@ -1,5 +1,6 @@
 package com.tysci.ballq.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -7,12 +8,14 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.tysci.ballq.R;
+import com.tysci.ballq.activitys.BallQMatchLeagueSelectActivity;
 import com.tysci.ballq.base.BaseFragment;
 import com.tysci.ballq.utils.CommonUtils;
 import com.tysci.ballq.utils.KLog;
 import com.tysci.ballq.views.adapters.BallQFragmentPagerAdapter;
 import com.tysci.ballq.views.adapters.BallQMatchFilterDateAdapter;
 import com.tysci.ballq.views.widgets.SlidingTabLayout;
+import com.tysci.ballq.views.widgets.TitleBar;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -24,7 +27,9 @@ import butterknife.Bind;
  * Created by HTT on 2016/5/28.
  */
 public class BallQMatchFragment extends BaseFragment implements BallQMatchFilterDateAdapter.OnSelectDateListener,
-ViewPager.OnPageChangeListener{
+ViewPager.OnPageChangeListener,View.OnClickListener{
+    @Bind(R.id.title_bar)
+    protected TitleBar titleBar;
     @Bind(R.id.tab_layout)
     protected SlidingTabLayout tabLayout;
     @Bind(R.id.rv_dates)
@@ -67,6 +72,9 @@ ViewPager.OnPageChangeListener{
 
     @Override
     protected void initViews(View view, Bundle savedInstanceState) {
+        titleBar.setTitleBarTitle("竞技场");
+        titleBar.setTitleBarLeftIcon(0, null);
+        titleBar.setRightMenuIcon(R.mipmap.icon_match_filter,this);
         LinearLayoutManager linearLayoutManager=new LinearLayoutManager(this.getActivity());
         linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
         linearLayoutManager.setSmoothScrollbarEnabled(true);
@@ -161,12 +169,15 @@ ViewPager.OnPageChangeListener{
     public void onPageSelected(int position) {
         currentPosition=position;
         if(position==0){
+            setMatchLeagueMenuVisibility(true);
             rvDates.setVisibility(View.VISIBLE);
             footerBallMatchListFragment.filterUpdateData(filter,currentSelectedDate);
         }else if(position==1){
+            setMatchLeagueMenuVisibility(true);
             rvDates.setVisibility(View.VISIBLE);
             basketBallMatchListFragment.filterUpdateData(filter,currentSelectedDate);
         }else{
+            setMatchLeagueMenuVisibility(false);
             rvDates.setVisibility(View.GONE);
         }
     }
@@ -183,5 +194,31 @@ ViewPager.OnPageChangeListener{
             return basketBallMatchListFragment;
         }
         return null;
+    }
+
+    @Override
+    public void onClick(View v) {
+        int id=v.getId();
+        switch(id){
+            case R.id.iv_titlebar_next_menu01:
+                matchLeagueFilter();
+                break;
+        }
+    }
+
+    private void setMatchLeagueMenuVisibility(boolean isVi){
+        View right=titleBar.getRightMenuImageView();
+        if(isVi){
+            right.setVisibility(View.VISIBLE);
+        }else{
+            right.setVisibility(View.GONE);
+        }
+    }
+
+    private void matchLeagueFilter(){
+        Intent intent=new Intent(baseActivity, BallQMatchLeagueSelectActivity.class);
+        intent.putExtra("date",currentSelectedDate);
+        intent.putExtra("etype",currentPosition);
+        startActivity(intent);
     }
 }

@@ -8,6 +8,7 @@ import com.tysci.ballq.R;
 import com.tysci.ballq.base.BaseFragment;
 import com.tysci.ballq.views.adapters.BallQFragmentPagerAdapter;
 import com.tysci.ballq.views.widgets.SlidingTabLayout;
+import com.tysci.ballq.views.widgets.TitleBar;
 import com.tysci.ballq.views.widgets.convenientbanner.ConvenientBanner;
 
 import java.util.ArrayList;
@@ -19,6 +20,8 @@ import butterknife.Bind;
  * Created by HTT on 2016/7/12.
  */
 public class BallQTipOffFragment extends BaseFragment{
+    @Bind(R.id.title_bar)
+    protected TitleBar titleBar;
     @Bind(R.id.convenientBanner)
     protected ConvenientBanner banner;
     @Bind(R.id.tab_layout)
@@ -33,6 +36,8 @@ public class BallQTipOffFragment extends BaseFragment{
 
     @Override
     protected void initViews(View view, Bundle savedInstanceState) {
+        titleBar.setTitleBarTitle("爆料");
+        titleBar.setTitleBarLeftIcon(0,null);
         addFragments();
     }
 

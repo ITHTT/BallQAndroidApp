@@ -103,7 +103,7 @@ public class HttpClientUtil {
      */
     public void cancelTag(Object tag)
     {
-        KLog.e("取消请求Tag:"+tag);
+        KLog.e("取消请求Tag:" + tag);
         for (Call call : okHttpClient.dispatcher().queuedCalls())
         {
             KLog.e("Tag:"+call.request().tag());
@@ -383,8 +383,18 @@ public class HttpClientUtil {
      * @param files
      */
     public void uploadFiles(String tag,String url,Map<String,String>header,Map<String,String>params, final ProgressResponseCallBack responseCallBack,File...files){
-        Request.Builder builder=createRequestBuilder(tag,url,0,header);
-        RequestBody requestBody=createRequestBody(params,files);
+        Request.Builder builder=createRequestBuilder(tag, url, 0, header);
+        MultipartBody.Builder bodyBuilder = new MultipartBody.Builder()
+                .setType(MultipartBody.FORM);
+        addParams(params,bodyBuilder);
+        if(files!=null&&files.length>0) {
+            for (int i = 0; i < files.length; i++) {
+                File file = files[i];
+                RequestBody fileBody = RequestBody.create(MediaType.parse(guessMimeType(file.getName())), file);
+                bodyBuilder.addFormDataPart(file.getName(), file.getName(), fileBody);
+            }
+        }
+        RequestBody requestBody=bodyBuilder.build();
         builder.post(new ProgressRequestBody(requestBody, new ProgressRequestBody.ProgressListener() {
             @Override
             public void onRequestProgress(long bytesWritten, long contentLength) {

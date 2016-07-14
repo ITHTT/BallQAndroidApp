@@ -46,56 +46,58 @@ public class BallQFindCircleNoteListFragment extends AppSwipeRefreshLoadMoreRecy
             public void onBefore(Request request) {
 
             }
+
             @Override
             public void onError(Call call, Exception error) {
-                if(!isLoadMore){
-                    if(adapter==null){
+                if (!isLoadMore) {
+                    if (adapter == null) {
                         recyclerView.setStartLoadMore();
-                    }else{
+                    } else {
                         showErrorInfo(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
                                 showLoading();
-                                requestDatas(pages,isLoadMore);
+                                requestDatas(pages, isLoadMore);
                             }
                         });
                     }
-                }else{
+                } else {
                     recyclerView.setLoadMoreDataFailed();
                 }
             }
+
             @Override
             public void onSuccess(Call call, String response) {
                 KLog.json(response);
-                if(!TextUtils.isEmpty(response)){
-                    JSONObject obj=JSONObject.parseObject(response);
-                    if(obj!=null&&!obj.isEmpty()){
-                        JSONObject dataObj=obj.getJSONObject("dataMap");
-                        if(dataObj!=null&&!dataObj.isEmpty()){
-                            JSONArray jsonArray=dataObj.getJSONArray("topics");
-                            if(jsonArray!=null&&!jsonArray.isEmpty()){
+                if (!TextUtils.isEmpty(response)) {
+                    JSONObject obj = JSONObject.parseObject(response);
+                    if (obj != null && !obj.isEmpty()) {
+                        JSONObject dataObj = obj.getJSONObject("dataMap");
+                        if (dataObj != null && !dataObj.isEmpty()) {
+                            JSONArray jsonArray = dataObj.getJSONArray("topics");
+                            if (jsonArray != null && !jsonArray.isEmpty()) {
                                 hideLoad();
-                                if(ballQCircleNoteEntityList==null){
-                                    ballQCircleNoteEntityList=new ArrayList<BallQCircleNoteEntity>(10);
+                                if (ballQCircleNoteEntityList == null) {
+                                    ballQCircleNoteEntityList = new ArrayList<BallQCircleNoteEntity>(10);
                                 }
-                                if(!isLoadMore&&!ballQCircleNoteEntityList.isEmpty()){
+                                if (!isLoadMore && !ballQCircleNoteEntityList.isEmpty()) {
                                     ballQCircleNoteEntityList.clear();
                                 }
-                                CommonUtils.getJSONListObject(jsonArray,ballQCircleNoteEntityList,BallQCircleNoteEntity.class);
-                                if(adapter==null){
-                                    adapter=new BallQFindCircleNoteAdapter(ballQCircleNoteEntityList);
+                                CommonUtils.getJSONListObject(jsonArray, ballQCircleNoteEntityList, BallQCircleNoteEntity.class);
+                                if (adapter == null) {
+                                    adapter = new BallQFindCircleNoteAdapter(ballQCircleNoteEntityList);
                                     recyclerView.setAdapter(adapter);
-                                }else{
+                                } else {
                                     adapter.notifyDataSetChanged();
                                 }
-                                if(jsonArray.size()<10){
+                                if (jsonArray.size() < 10) {
                                     recyclerView.setLoadMoreDataComplete("没有更多数据了");
-                                }else{
+                                } else {
                                     recyclerView.setStartLoadMore();
-                                    if(isLoadMore){
+                                    if (isLoadMore) {
                                         currentPages++;
-                                    }else{
-                                        currentPages=2;
+                                    } else {
+                                        currentPages = 2;
                                     }
                                 }
                                 return;
@@ -103,15 +105,16 @@ public class BallQFindCircleNoteListFragment extends AppSwipeRefreshLoadMoreRecy
                         }
                     }
                 }
-                if(isLoadMore){
+                if (isLoadMore) {
                     recyclerView.setLoadMoreDataComplete("没有更多数据了...");
-                }else{
+                } else {
                     showEmptyInfo();
                 }
             }
+
             @Override
             public void onFinish(Call call) {
-                if(!isLoadMore){
+                if (!isLoadMore) {
                     recyclerView.setRefreshComplete();
                     onRefreshCompelete();
                 }
@@ -141,6 +144,15 @@ public class BallQFindCircleNoteListFragment extends AppSwipeRefreshLoadMoreRecy
 
     @Override
     protected void notifyEvent(String action, Bundle data) {
+        if(!TextUtils.isEmpty(action)){
+            if(action.equals("delete_circle_note")){
+                int id=data.getInt("sectionId",-1);
+                if(id==sectionId){
+                    setRefreshing();
+                    requestDatas(1,false);
+                }
+            }
+        }
 
     }
 
