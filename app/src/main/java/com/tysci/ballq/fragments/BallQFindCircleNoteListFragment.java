@@ -12,7 +12,6 @@ import com.tysci.ballq.networks.HttpClientUtil;
 import com.tysci.ballq.networks.HttpUrls;
 import com.tysci.ballq.utils.CommonUtils;
 import com.tysci.ballq.utils.KLog;
-import com.tysci.ballq.views.adapters.BallQCircleNoteAdapter;
 import com.tysci.ballq.views.adapters.BallQFindCircleNoteAdapter;
 
 import java.util.ArrayList;
@@ -32,7 +31,7 @@ public class BallQFindCircleNoteListFragment extends AppSwipeRefreshLoadMoreRecy
     @Override
     protected void initViews(View view, Bundle savedInstanceState) {
         showLoading();
-        requestDatas(currentPages,false);
+        requestDatas(1,false);
     }
 
     @Override
@@ -127,7 +126,7 @@ public class BallQFindCircleNoteListFragment extends AppSwipeRefreshLoadMoreRecy
 
     @Override
     protected void onRefreshData() {
-        requestDatas(currentPages,false);
+        requestDatas(1,false);
     }
 
     @Override

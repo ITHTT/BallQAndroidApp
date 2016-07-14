@@ -29,6 +29,7 @@ public class BallQCircleNoteEntity implements Parcelable {
     private int fid;
     private List<BallQNoteContentEntity> contents;
     private BallQUserEntity creater;
+    private String summaryText;
 
     public int getClickCount() {
         return clickCount;
@@ -174,6 +175,14 @@ public class BallQCircleNoteEntity implements Parcelable {
         this.sectionPortrait = sectionPortrait;
     }
 
+    public String getSummaryText() {
+        return summaryText;
+    }
+
+    public void setSummaryText(String summaryText) {
+        this.summaryText = summaryText;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -199,6 +208,7 @@ public class BallQCircleNoteEntity implements Parcelable {
         dest.writeInt(this.fid);
         dest.writeTypedList(contents);
         dest.writeParcelable(this.creater, 0);
+        dest.writeString(this.summaryText);
     }
 
     public BallQCircleNoteEntity() {
@@ -225,6 +235,7 @@ public class BallQCircleNoteEntity implements Parcelable {
             in.readTypedList(contents, BallQNoteContentEntity.CREATOR);
         }
         this.creater = in.readParcelable(Config.class.getClassLoader());
+        this.summaryText=in.readString();
     }
 
     public static final Creator<BallQCircleNoteEntity> CREATOR = new Creator<BallQCircleNoteEntity>() {

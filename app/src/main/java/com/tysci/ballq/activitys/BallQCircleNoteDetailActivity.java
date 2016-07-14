@@ -9,6 +9,8 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -27,10 +29,14 @@ import com.tysci.ballq.networks.HttpClientUtil;
 import com.tysci.ballq.networks.HttpUrls;
 import com.tysci.ballq.utils.CommonUtils;
 import com.tysci.ballq.utils.KLog;
+import com.tysci.ballq.utils.ToastUtil;
 import com.tysci.ballq.utils.UserInfoUtil;
 import com.tysci.ballq.views.adapters.BallQCircleNoteCommentAdapter;
+import com.tysci.ballq.views.dialogs.BallQCircleNoteMenu;
+import com.tysci.ballq.views.dialogs.ShareDialog;
 import com.tysci.ballq.views.widgets.CircleImageView;
 import com.tysci.ballq.views.widgets.loadmorerecyclerview.AutoLoadMoreRecyclerView;
+import com.tysci.ballq.wxapi.WXPayEntryActivity;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -49,19 +55,40 @@ public class BallQCircleNoteDetailActivity extends BaseActivity implements Swipe
     protected SwipeRefreshLayout swipeRefresh;
     @Bind(R.id.recycler_view)
     protected AutoLoadMoreRecyclerView recyclerView;
+    @Bind(R.id.et_comment)
+    protected EditText etComment;
+    @Bind(R.id.ivLike)
+    protected ImageView ivLike;
+    @Bind(R.id.iv_share)
+    protected ImageView ivShare;
+    @Bind(R.id.btnPublish)
+    protected Button btPublish;
+    private ImageView menuDelete;
+    private ImageView menuCollect;
 
     private LinearLayout.LayoutParams layoutContentParams;
     private int imageWidth;
 
+    private BallQCircleNoteMenu menuView;
+
     private List<BallQCircleUserCommentEntity> commentEntityList;
     private BallQCircleNoteCommentAdapter adapter=null;
+    private BallQCircleNoteEntity circleNoteEntity=null;
 
     private View headerView;
     private int noteId;
     private int sortType = 1;
     private int onlyAuthor = 0;
+    private int isCollected = 0;
     private String loadFinishedTip="没有更多数据了";
     private int currentPages=1;
+    private String replyerName;
+    private String replyerId;
+    private String cacheCommentInfo="";
+    private String fid = null;
+    private ShareDialog shareDialog=null;
+
+
 
     @Override
     protected int getContentViewId() {
@@ -78,16 +105,35 @@ public class BallQCircleNoteDetailActivity extends BaseActivity implements Swipe
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         headerView= LayoutInflater.from(this).inflate(R.layout.layout_ballq_circle_note_header,null);
         recyclerView.addHeaderView(headerView);
+        ivLike.setOnClickListener(this);
+
+        etComment.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus) {
+                    ivLike.setVisibility(View.GONE);
+                    btPublish.setVisibility(View.VISIBLE);
+                    if (!TextUtils.isEmpty(cacheCommentInfo)) {
+                        etComment.setText(cacheCommentInfo);
+                        etComment.setSelection(cacheCommentInfo.length());
+                    }
+                } else {
+                    etComment.setText("");
+                    ivLike.setVisibility(View.VISIBLE);
+                    btPublish.setVisibility(View.GONE);
+                }
+            }
+        });
     }
 
     private void setRightMenuAttrs(){
         ImageView ivRightMenu=titleBar.getRightMenuImageView();
-        ivRightMenu.getLayoutParams().height= CommonUtils.dip2px(this,15);
+        ivRightMenu.getLayoutParams().height= CommonUtils.dip2px(this,10);
         ivRightMenu.getLayoutParams().width=LinearLayout.LayoutParams.WRAP_CONTENT;
-        ivRightMenu.setPadding(0, 0, CommonUtils.dip2px(this, 10), 0);
+        ivRightMenu.setPadding(0, 0, CommonUtils.dip2px(this, 8), 0);
         ivRightMenu.setImageResource(R.mipmap.icon_titlebar_right_menu);
         ivRightMenu.setScaleType(ImageView.ScaleType.CENTER);
-        ivRightMenu.setOnClickListener(this);
+        titleBar.setRightOnClickListener(this);
     }
 
     private void initContentLayoutParams(){
@@ -105,11 +151,37 @@ public class BallQCircleNoteDetailActivity extends BaseActivity implements Swipe
     protected void getIntentData(Intent intent) {
         noteId=intent.getIntExtra(Tag,-1);
         if(noteId>=0){
+            showLoading();
             requestCircleDetailInfos(noteId);
+            getCircleUserInfo(noteId);
         }
     }
 
-    private void requestCircleDetailInfos(int id){
+    private void setRefreshing(){
+        if(swipeRefresh!=null){
+            swipeRefresh.post(new Runnable() {
+                @Override
+                public void run() {
+                    swipeRefresh.setRefreshing(true);
+                }
+            });
+        }
+    }
+
+    private void onRefreshCompelete() {
+        if (swipeRefresh != null) {
+            swipeRefresh.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    if (swipeRefresh != null) {
+                        swipeRefresh.setRefreshing(false);
+                    }
+                }
+            }, 1000);
+        }
+    }
+
+    private void requestCircleDetailInfos(final int id){
         String url= HttpUrls.CIRCLE_HOST_URL+"bbs/topic/view/"+id;
         Map<String,String> params=null;
         if(UserInfoUtil.checkLogin(this)){
@@ -124,7 +196,19 @@ public class BallQCircleNoteDetailActivity extends BaseActivity implements Swipe
 
             @Override
             public void onError(Call call, Exception error) {
-
+                onRefreshCompelete();
+                if(adapter==null){
+                    showErrorInfo(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            showLoading();
+                            requestCircleDetailInfos(id);
+                        }
+                    });
+                }else{
+                    recyclerView.setStartLoadMore();
+                    ToastUtil.show(BallQCircleNoteDetailActivity.this,"请求失败");
+                }
             }
 
             @Override
@@ -135,17 +219,20 @@ public class BallQCircleNoteDetailActivity extends BaseActivity implements Swipe
                     if(obj!=null&!obj.isEmpty()){
                         JSONObject dataMap=obj.getJSONObject("dataMap");
                         if(dataMap!=null&&!dataMap.isEmpty()){
+                            hideLoad();
                             BallQCircleNoteEntity noteEntity=dataMap.getObject("topic",BallQCircleNoteEntity.class);
                             if(noteEntity!=null){
+                                circleNoteEntity=noteEntity;
                                 initBallQCircleNoteDetailInfos(headerView,noteEntity);
-                                requestCircleNoteCommentInfos(noteId,sortType,onlyAuthor,currentPages,false);
+                                requestCircleNoteCommentInfos(noteId,sortType,onlyAuthor,1,false,0);
                                 return;
                             }
                         }
                     }
                 }
+                onRefreshCompelete();
+                showEmptyInfo();
             }
-
             @Override
             public void onFinish(Call call) {
 
@@ -210,7 +297,10 @@ public class BallQCircleNoteDetailActivity extends BaseActivity implements Swipe
         }
         tvTitle.setText(info.getTitle());
         tvReadNum.setText(String.valueOf(info.getViewCount()));
-        initContentType(info.getContents(),layoutContent);
+        if(layoutContent.getChildCount()>0){
+            layoutContent.removeAllViews();
+        }
+        initContentType(info.getContents(), layoutContent);
     }
 
     private void initContentType(List<BallQNoteContentEntity> contents, LinearLayout layoutContent) {
@@ -229,7 +319,7 @@ public class BallQCircleNoteDetailActivity extends BaseActivity implements Swipe
                         imgUrls = new ArrayList<>(9);
                     }
                     if (imgClickListener == null) {
-                        //imgClickListener = getImageClickListener(imgUrls);
+                        imgClickListener = getImageClickListener(imgUrls);
                     }
                     imgUrls.add(content);
                     initContentImg(layoutContent, content, imgCounts, imgClickListener);
@@ -247,6 +337,20 @@ public class BallQCircleNoteDetailActivity extends BaseActivity implements Swipe
             }
         }
     }
+
+    private View.OnClickListener getImageClickListener(final ArrayList<BallQNoteContentEntity> imgUrls) {
+        return new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int index = (int) v.getTag(R.id.tag);
+                Intent intent = new Intent(BallQCircleNoteDetailActivity.this, BallQImageBrowseActivity.class);
+                intent.putExtra("index", index);
+                intent.putParcelableArrayListExtra("images", imgUrls);
+                startActivity(intent);
+            }
+        };
+    }
+
 
     private void initContentText(LinearLayout layout_content, BallQNoteContentEntity content) {
         TextView tv = new TextView(this);
@@ -266,18 +370,158 @@ public class BallQCircleNoteDetailActivity extends BaseActivity implements Swipe
         iv.setScaleType(ImageView.ScaleType.FIT_XY);
         iv.setTag(R.id.tag, index);
         iv.setOnClickListener(listener);
-        GlideImageLoader.loadImage(this,content.getContent(), R.color.default_circle_img,iv);
+        GlideImageLoader.loadImage(this, content.getContent(), R.color.default_circle_img, iv);
         layoutContent.addView(iv);
     }
 
-    private void requestCircleNoteCommentInfos(int id, int sortType, int onlyAuthor, int pages, final boolean isLoadMore){
+    private void requestCircleNoteCommentInfos(final int id, final int sortType, final int onlyAuthor, final int pages, final boolean isLoadMore,final int scrollPosition){
         String url = HttpUrls.CIRCLE_HOST_URL + "bbs/topic/" + id
                 + "/comments?sortType=" + sortType
                 + "&onlyAuthor=" + onlyAuthor
                 + "&pageNo=" + pages
                 + "&pageSize=10";
-        HttpClientUtil.getHttpClientUtil().sendGetRequest(Tag,url,60,new HttpClientUtil.StringResponseCallBack(){
+        HttpClientUtil.getHttpClientUtil().sendGetRequest(Tag, url, 60, new HttpClientUtil.StringResponseCallBack() {
 
+            @Override
+            public void onBefore(Request request) {
+
+            }
+
+            @Override
+            public void onError(Call call, Exception error) {
+                KLog.e("error:" + error.getMessage());
+                if (!isLoadMore) {
+                    recyclerView.setRefreshComplete();
+                    if (commentEntityList == null || commentEntityList.isEmpty()) {
+                        recyclerView.setLoadMoreDataFailed(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                recyclerView.setStartLoadMore();
+                                requestCircleNoteCommentInfos(id, sortType, onlyAuthor, pages, isLoadMore, scrollPosition);
+                            }
+                        });
+                    } else {
+                        ToastUtil.show(BallQCircleNoteDetailActivity.this, "请求失败");
+                    }
+                } else {
+                    recyclerView.setLoadMoreDataFailed();
+                }
+            }
+
+            @Override
+            public void onSuccess(Call call, String response) {
+                if (!isLoadMore) {
+                    recyclerView.setRefreshComplete();
+                }
+                KLog.json(response);
+                if (!TextUtils.isEmpty(response)) {
+                    JSONObject obj = JSONObject.parseObject(response);
+                    if (obj != null && !obj.isEmpty()) {
+                        JSONObject dataMap = obj.getJSONObject("dataMap");
+                        if (dataMap != null && !dataMap.isEmpty()) {
+                            JSONArray arrays = dataMap.getJSONArray("comments");
+                            if (arrays != null && !arrays.isEmpty()) {
+                                if (!isLoadMore && !commentEntityList.isEmpty()) {
+                                    commentEntityList.clear();
+                                }
+                                CommonUtils.getJSONListObject(arrays, commentEntityList, BallQCircleUserCommentEntity.class);
+                                adapter.notifyDataSetChanged();
+                                if (arrays.size() < 10) {
+                                    recyclerView.setLoadMoreDataComplete(loadFinishedTip);
+                                } else {
+                                    recyclerView.setStartLoadMore();
+                                    if (isLoadMore) {
+                                        currentPages++;
+                                    } else {
+                                        currentPages = 2;
+                                    }
+                                }
+                                if (scrollPosition > 0) {
+                                    LinearLayoutManager linearLayoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
+                                    linearLayoutManager.scrollToPositionWithOffset(scrollPosition, 0);
+                                }
+                                return;
+                            }
+                        }
+                    }
+                }
+                if (isLoadMore) {
+                    if (!commentEntityList.isEmpty()) {
+                        recyclerView.setLoadMoreDataComplete("没有更多数据了");
+                    } else {
+                        recyclerView.setLoadMoreDataComplete();
+                    }
+                } else {
+                    if (commentEntityList.isEmpty()) {
+                        recyclerView.setLoadMoreDataComplete("没有更多数据了");
+                    }
+                }
+            }
+
+            @Override
+            public void onFinish(Call call) {
+                if (!isLoadMore) {
+                    onRefreshCompelete();
+                }
+            }
+        });
+    }
+
+    private void getCircleUserInfo(int id){
+        if(UserInfoUtil.checkLogin(this)){
+            checkUserLike(id);
+            checkUserCollect(id);
+        }
+    }
+
+    private void checkUserLike(int id){
+        String url = HttpUrls.CIRCLE_HOST_URL + "bbs/topic/islike/" + id;
+        HashMap<String, String> params = new HashMap<>(1);
+        params.put("userId", UserInfoUtil.getUserId(this));
+        KLog.e("userId:" + UserInfoUtil.getUserId(this));
+
+        HttpClientUtil.getHttpClientUtil().sendPostRequest(Tag, url, params, new HttpClientUtil.StringResponseCallBack() {
+            @Override
+            public void onBefore(Request request) {
+
+            }
+
+            @Override
+            public void onError(Call call, Exception error) {
+                //ToastUtil.show(BallQCircleNoteDetailActivity.this, "请求失败");
+            }
+
+            @Override
+            public void onSuccess(Call call, String response) {
+                KLog.json(response);
+                if (!TextUtils.isEmpty(response)) {
+                    JSONObject obj = JSONObject.parseObject(response);
+                    if (obj != null && !obj.isEmpty()) {
+                        int statusCode = obj.getIntValue("statusCode");
+                        if (statusCode == 200) {
+                            JSONObject dataMap = obj.getJSONObject("dataMap");
+                            if (dataMap != null && !dataMap.isEmpty()) {
+                                ivLike.setSelected(dataMap.getIntValue("isLike") == 1);
+                                ivLike.setTag("isLike");
+                            }
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void onFinish(Call call) {
+
+            }
+        });
+    }
+
+    private void checkUserCollect(int id){
+        KLog.e("检查是否收藏...");
+        String url = HttpUrls.CIRCLE_HOST_URL + "bbs/topic/iscollect/" + id;
+        HashMap<String, String> params = new HashMap<>(1);
+        params.put("userId", UserInfoUtil.getUserId(this));
+        HttpClientUtil.getHttpClientUtil().sendPostRequest(Tag, url, params, new HttpClientUtil.StringResponseCallBack() {
             @Override
             public void onBefore(Request request) {
 
@@ -291,35 +535,21 @@ public class BallQCircleNoteDetailActivity extends BaseActivity implements Swipe
             @Override
             public void onSuccess(Call call, String response) {
                 KLog.json(response);
-                if(!TextUtils.isEmpty(response)){
-                    JSONObject obj=JSONObject.parseObject(response);
-                    if(obj!=null&&!obj.isEmpty()){
-                        JSONObject dataMap=obj.getJSONObject("dataMap");
-                        if(dataMap!=null&&!dataMap.isEmpty()){
-                            JSONArray arrays=dataMap.getJSONArray("comments");
-                            if(arrays!=null&&!arrays.isEmpty()){
-                                if(!isLoadMore&&!commentEntityList.isEmpty()){
-                                    commentEntityList.clear();
+                if (!TextUtils.isEmpty(response)) {
+                    JSONObject obj = JSONObject.parseObject(response);
+                    if (obj != null && !obj.isEmpty()) {
+                        int statusCode = obj.getIntValue("statusCode");
+                        if (statusCode == 200) {
+                            JSONObject dataMap = obj.getJSONObject("dataMap");
+                            if (dataMap != null && !dataMap.isEmpty()) {
+                                isCollected = dataMap.getIntValue("isCollect");
+                                fid = dataMap.getString("fid");
+                                if (menuCollect != null) {
+                                    menuCollect.setSelected(isCollected == 1);
                                 }
-                                CommonUtils.getJSONListObject(arrays,commentEntityList,BallQCircleUserCommentEntity.class);
-                                adapter.notifyDataSetChanged();
-                                if(arrays.size()<10){
-                                    recyclerView.setLoadMoreDataComplete(loadFinishedTip);
-                                }else{
-                                    recyclerView.setStartLoadMore();
-                                    if(isLoadMore){
-                                        currentPages++;
-                                    }else{
-                                        currentPages=2;
-                                    }
-                                }
-                                return;
                             }
                         }
                     }
-                }
-                if(isLoadMore){
-                    recyclerView.setLoadMoreDataComplete(loadFinishedTip);
                 }
             }
 
@@ -330,6 +560,104 @@ public class BallQCircleNoteDetailActivity extends BaseActivity implements Swipe
         });
     }
 
+    private void userCollect(int id){
+        if(!UserInfoUtil.checkLogin(this)){
+            UserInfoUtil.userLogin(this);
+        }else {
+            String url = HttpUrls.HOST_URL_V5 + "user/favorites/add/?etype=2&eid=" + id;
+            String delUrl = HttpUrls.HOST_URL_V5 + "user/favorites/del/?etype=2&fid=" + fid;
+            HashMap<String, String> params = new HashMap<>();
+            params.put("user", UserInfoUtil.getUserId(this));
+            params.put("token", UserInfoUtil.getUserToken(this));
+
+            if (isCollected == 1 && !TextUtils.isEmpty(fid)) {
+                url = delUrl;
+            }
+            HttpClientUtil.getHttpClientUtil().sendPostRequest(Tag, url, params, new HttpClientUtil.StringResponseCallBack() {
+                @Override
+                public void onBefore(Request request) {
+
+                }
+                @Override
+                public void onError(Call call, Exception error) {
+                    ToastUtil.show(BallQCircleNoteDetailActivity.this, "请求失败");
+                }
+
+                @Override
+                public void onSuccess(Call call, String response) {
+                    KLog.json(response);
+                    if (!TextUtils.isEmpty(response)) {
+                        JSONObject obj = JSONObject.parseObject(response);
+                        if (obj != null && !obj.isEmpty()) {
+                            int status = obj.getIntValue("status");
+                            if (status == 0) {
+                                if (isCollected == 1) {
+                                    isCollected = 0;
+                                    menuCollect.setSelected(false);
+                                    ToastUtil.show(BallQCircleNoteDetailActivity.this, "取消收藏成功");
+                                } else {
+                                    fid = obj.getString("data");
+                                    isCollected = 1;
+                                    menuCollect.setSelected(true);
+                                    ToastUtil.show(BallQCircleNoteDetailActivity.this, "收藏成功");
+                                }
+                            }
+                        }
+                    }
+                }
+                @Override
+                public void onFinish(Call call) {
+
+                }
+            });
+        }
+    }
+
+    private void userLike(int id){
+        if(!UserInfoUtil.checkLogin(this)){
+            UserInfoUtil.userLogin(this);
+        }else{
+            String url = HttpUrls.CIRCLE_HOST_URL+ "bbs/topic/like/" + id;
+            final HashMap<String, String> params = new HashMap<>();
+            params.put("userId",UserInfoUtil.getUserId(this));
+            params.put("op", ivLike.isSelected() ? "0" : "1");
+            HttpClientUtil.getHttpClientUtil().sendPostRequest(Tag, url, params, new HttpClientUtil.StringResponseCallBack() {
+                @Override
+                public void onBefore(Request request) {
+                    ivLike.setEnabled(false);
+                }
+
+                @Override
+                public void onError(Call call, Exception error) {
+                    ToastUtil.show(BallQCircleNoteDetailActivity.this, "请求失败");
+                }
+
+                @Override
+                public void onSuccess(Call call, String response) {
+                    KLog.json(response);
+                    if (!TextUtils.isEmpty(response)) {
+                        JSONObject obj=JSONObject.parseObject(response);
+                        if(obj!=null&&!obj.isEmpty()){
+                            int statusCode=obj.getIntValue("statusCode");
+                            boolean isLike=ivLike.isSelected();
+                            if(isLike){
+                                ivLike.setSelected(false);
+                                ToastUtil.show(BallQCircleNoteDetailActivity.this,"取消点赞成功");
+                            }else{
+                                ivLike.setSelected(true);
+                                ToastUtil.show(BallQCircleNoteDetailActivity.this,"点赞成功");
+                            }
+                        }
+                    }
+                }
+
+                @Override
+                public void onFinish(Call call) {
+                    ivLike.setEnabled(true);
+                }
+            });
+        }
+    }
 
     @Override
     protected boolean isCanceledEventBus() {
@@ -348,7 +676,44 @@ public class BallQCircleNoteDetailActivity extends BaseActivity implements Swipe
 
     @Override
     protected void onViewClick(View view) {
+        int id=view.getId();
+        switch(id){
+            case R.id.layout_titlebar_next:
+                showMenuView(view);
+                break;
+            case R.id.ivLike:
+                userLike(noteId);
+                break;
+        }
+        onMenuItemClicked(view);
+    }
 
+    private void onMenuItemClicked(View v) {
+        int id = v.getId();
+        switch (id) {
+            case R.drawable.ballq_circle_share_selector:
+                weChatShare(circleNoteEntity);
+                menuView.dismiss();
+                break;
+            case R.drawable.ballq_circle_collection_selector:
+                userCollect(noteId);
+                menuView.dismiss();
+                break;
+            case R.drawable.ballq_circle_reward_selector:
+                userReward(circleNoteEntity);
+                break;
+            case R.drawable.ballq_circle_sort_selector:
+                sortCircleComments(v);
+                menuView.dismiss();
+                break;
+            case R.drawable.ballq_circle_first_selector:
+                searchAuthorComments(v);
+                menuView.dismiss();
+                break;
+            case R.drawable.ballq_circle_delete_selector:
+
+                break;
+        }
     }
 
     @Override
@@ -363,11 +728,135 @@ public class BallQCircleNoteDetailActivity extends BaseActivity implements Swipe
 
     @Override
     public void onLoadMore() {
-
+        if (recyclerView.isRefreshing()) {
+            //KLog.e("刷新数据中....");
+            recyclerView.setRefreshingTip("刷新数据中...");
+        } else {
+            // KLog.e("currentPage:" + currentPages);
+            recyclerView.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    requestCircleNoteCommentInfos(noteId, sortType, onlyAuthor, currentPages, true,0);
+                }
+            }, 300);
+        }
     }
 
     @Override
     public void onRefresh() {
+        if (recyclerView.isLoadMoreing()) {
+            onRefreshCompelete();
+        } else {
+            recyclerView.setRefreshing();
+            requestCircleDetailInfos(noteId);
+        }
+    }
 
+    private void showMenuView(View view) {
+        recyclerView.stopScroll();
+        if (circleNoteEntity != null) {
+            if (menuView == null) {
+                menuView = new BallQCircleNoteMenu(this);
+                menuView.addItem(R.drawable.ballq_circle_first_selector, BallQCircleNoteDetailActivity.this);
+                menuView.addItem(R.drawable.ballq_circle_sort_selector, BallQCircleNoteDetailActivity.this);
+                int type = getMenuType();
+                menuDelete = (ImageView) menuView.addItem(type, BallQCircleNoteDetailActivity.this);
+                menuCollect = (ImageView) menuView.addItem(R.drawable.ballq_circle_collection_selector, BallQCircleNoteDetailActivity.this);
+                /**表明已获取是否已收藏的状态,但没有更新视图显示*/
+                menuCollect.setSelected(isCollected==1);
+                menuView.addItem(R.drawable.ballq_circle_share_selector, BallQCircleNoteDetailActivity.this);
+            } else {
+                int type = getMenuType();
+                if (menuDelete != null) {
+                    menuDelete.setBackgroundResource(type);
+                    menuDelete.setId(type);
+                }
+            }
+            menuView.onShow(view, 0, titleBar.getBottom() - view.getBottom());
+        }
+    }
+
+    private int getMenuType() {
+        int type = R.drawable.ballq_circle_reward_selector;
+        if (UserInfoUtil.checkLogin(this)) {
+            String userId = UserInfoUtil.getUserId(this);
+            KLog.e("UserId:" + userId);
+            BallQUserEntity user = circleNoteEntity.getCreater();
+            if (user != null) {
+                String id = String.valueOf(user.getUserId());
+                if (userId.equals(id)) {
+                    KLog.e("用户自己的帖子");
+                    type = R.drawable.ballq_circle_delete_selector;
+                }
+                KLog.e("userid:" + id);
+            }
+        }
+        return type;
+    }
+
+    private void sortCircleComments(View view){
+        ImageView item= (ImageView) view;
+        if(item.isSelected()){
+            item.setSelected(false);
+            sortType=1;
+        }else{
+            item.setSelected(true);
+            sortType=0;
+        }
+        HttpClientUtil.getHttpClientUtil().cancelTag(Tag);
+        if(adapter!=null){
+            if(commentEntityList!=null&&!commentEntityList.isEmpty()){
+                commentEntityList.clear();
+                adapter.notifyDataSetChanged();
+            }
+        }
+        setRefreshing();
+        requestCircleNoteCommentInfos(noteId,sortType,onlyAuthor,1,false,1);
+    }
+
+    private void searchAuthorComments(View view){
+        ImageView item= (ImageView) view;
+        if(item.isSelected()){
+            item.setSelected(false);
+            onlyAuthor=0;
+        }else{
+            item.setSelected(true);
+            onlyAuthor=1;
+        }
+        HttpClientUtil.getHttpClientUtil().cancelTag(Tag);
+        if(adapter!=null){
+            if(commentEntityList!=null&&!commentEntityList.isEmpty()) {
+                commentEntityList.clear();
+                adapter.notifyDataSetChanged();
+            }
+        }
+        setRefreshing();
+        requestCircleNoteCommentInfos(noteId,sortType,onlyAuthor,1,false,1);
+    }
+
+    private void weChatShare(BallQCircleNoteEntity info){
+        if(info!=null&&!TextUtils.isEmpty(info.getShareUrl())){
+            if (shareDialog == null) {
+                shareDialog = new ShareDialog(this);
+                String title = null;
+                if (TextUtils.isEmpty(info.getTitle())) {
+                    title = info.getCreater().getFirstName() + "在球商APP上发的帖子";
+                } else {
+                    title = info.getTitle();
+                }
+                String describ = info.getSummaryText();
+                shareDialog.setShareType("0")
+                        .setShareTitle(title)
+                        .setShareExcerpt(describ)
+                        .setShareUrl(info.getShareUrl());
+            }
+            shareDialog.show();
+        }
+    }
+
+    private void userReward(BallQCircleNoteEntity info){
+        if(info!=null){
+            WXPayEntryActivity.userReward(this, "topic", String.valueOf(info.getCreater().getUserId()), info.getId(), info.getCreater().getPortrait(), info.getCreater().getIsV());
+        }
     }
 }

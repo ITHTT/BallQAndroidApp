@@ -158,7 +158,8 @@
 
         <activity
             android:name=".activitys.BallQCircleNoteDetailActivity"
-            android:launchMode="singleTop"/>
+            android:launchMode="singleTop"
+            android:windowSoftInputMode="adjustResize"/>
 
         <activity
             android:name=".activitys.BallQTaskPointsRecordActivity"
@@ -170,6 +171,11 @@
         <activity android:name=".activitys.BallQFindCircleNoteActivity"/>
 
         <activity android:name=".activitys.BallQImageBrowseActivity"/>
+
+        <activity android:name=".activitys.BallQPublishCircleNoteActivity"/>
+
+        <activity android:name=".views.widgets.multiphotopicker.ui.activitys.PhotoPagerActivity"/>
+        <activity android:name=".views.widgets.multiphotopicker.ui.activitys.PhotoPickerActivity"/>
 
         <!-- Required SDK核心功能-->
         <activity

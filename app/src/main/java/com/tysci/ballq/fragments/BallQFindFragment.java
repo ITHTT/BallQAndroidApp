@@ -22,7 +22,6 @@ public class BallQFindFragment extends BaseFragment{
     @Override
     protected void initViews(View view, Bundle savedInstanceState) {
         baseActivity.getTitleBar().setTitleBarTitle("发现");
-
     }
 
     @Override

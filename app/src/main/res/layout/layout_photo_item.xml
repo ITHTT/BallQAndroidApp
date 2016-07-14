@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.tysci.ballq.views.widgets.multiphotopicker.ui.widget.PhotoItemLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <ImageView
+        android:id="@+id/iv_photo"
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        android:padding="1dip"
+        android:layout_gravity="center"
+        android:scaleType="centerCrop"
+        android:background="@drawable/photo_item_background"
+        android:adjustViewBounds="true"
+        />
+
+    <ImageView
+        android:id="@+id/iv_picker_mark"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dip"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:clickable="true"
+        android:padding="5dip"
+        android:src="@mipmap/icon_photo_unselected" />
+    <View
+        android:id="@+id/photo_cover_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+</com.tysci.ballq.views.widgets.multiphotopicker.ui.widget.PhotoItemLayout>

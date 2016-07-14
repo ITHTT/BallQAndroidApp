@@ -2,6 +2,7 @@ package com.tysci.ballq.activitys;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
 import android.view.View;
@@ -17,6 +18,7 @@ import com.tysci.ballq.networks.HttpClientUtil;
 import com.tysci.ballq.networks.HttpUrls;
 import com.tysci.ballq.utils.CommonUtils;
 import com.tysci.ballq.utils.KLog;
+import com.tysci.ballq.utils.UserInfoUtil;
 import com.tysci.ballq.views.adapters.BallQFragmentPagerAdapter;
 import com.tysci.ballq.views.widgets.SlidingTabLayout;
 
@@ -24,6 +26,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
+import butterknife.OnClick;
 import okhttp3.Call;
 import okhttp3.Request;
 
@@ -162,5 +165,17 @@ public class BallQFindCircleNoteActivity extends BaseActivity{
     @Override
     protected void notifyEvent(String action, Bundle data) {
 
+    }
+
+    @OnClick(R.id.bt_post_note)
+    protected void publishCircleNote(View view){
+        if(UserInfoUtil.checkLogin(this)){
+            Intent intent=new Intent(this,BallQPublishCircleNoteActivity.class);
+            intent.putExtra("index",viewPager.getCurrentItem());
+            intent.putParcelableArrayListExtra("circle_sections", (ArrayList<? extends Parcelable>) sectionEntityList);
+            startActivity(intent);
+        }else{
+            UserInfoUtil.userLogin(this);
+        }
     }
 }

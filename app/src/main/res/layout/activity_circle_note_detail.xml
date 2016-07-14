@@ -44,7 +44,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/icon_comment_edit_bg"
-                android:hint="请输入评论内容"
+                android:hint="发表评论"
                 android:maxLength="800"
                 android:paddingBottom="8dp"
                 android:paddingEnd="5dp"
@@ -64,7 +64,7 @@
                 android:src="@mipmap/icon_comment"/>
         </RelativeLayout>
         <ImageView
-            android:id="@+id/iv_good"
+            android:id="@+id/ivLike"
             android:layout_width="25dp"
             android:layout_height="25dp"
             android:layout_gravity="center"
@@ -72,7 +72,7 @@
             android:layout_marginRight="10dp"
             android:contentDescription="@string/app_name"
             android:scaleType="fitXY"
-            android:src="@mipmap/icon_like_normal"/>
+            android:src="@drawable/icon_user_like_selector"/>
         <ImageView
             android:id="@+id/iv_share"
             android:layout_width="25dp"
@@ -90,6 +90,7 @@
             android:layout_marginRight="5dp"
             android:background="@mipmap/icon_publish"
             android:gravity="center"
+            android:visibility="gone"
             android:padding="3dp"/>
     </LinearLayout>
 </LinearLayout>

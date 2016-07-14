@@ -105,5 +105,9 @@ public class TitleBar extends LinearLayout{
         return tvNextMenu;
     }
 
+    public void setRightOnClickListener(OnClickListener listener){
+        this.findViewById(R.id.layout_titlebar_next).setOnClickListener(listener);
+    }
+
 
 }

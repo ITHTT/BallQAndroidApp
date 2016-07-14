@@ -27,4 +27,9 @@
         <item name="android:windowBackground">@android:color/transparent</item>
     </style>
 
+    <style name="MenuAnim">
+        <item name="android:windowEnterAnimation">@anim/menu_popup_enter_ainm</item>
+        <item name="android:windowExitAnimation">@anim/menu_popup_exit_anim</item>
+    </style>
+
 </resources>

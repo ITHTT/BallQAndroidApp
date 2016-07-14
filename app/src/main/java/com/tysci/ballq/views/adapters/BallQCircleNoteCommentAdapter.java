@@ -48,8 +48,9 @@ public class BallQCircleNoteCommentAdapter extends RecyclerView.Adapter<BallQCir
     public void onBindViewHolder(BallQCircleNoteCommentViewHolder holder, int position) {
         BallQCircleUserCommentEntity info=commentEntityList.get(position);
         BallQUserEntity author=info.getCreator();
+        holder.tvFloorNum.setText(info.getIndexCount()+"楼");
         if(author!=null){
-            GlideImageLoader.loadImage(holder.itemView.getContext(),author.getPortrait(), R.mipmap.icon_user_default,holder.ivUserIcon);
+            GlideImageLoader.loadImage(holder.itemView.getContext(), author.getPortrait(), R.mipmap.icon_user_default,holder.ivUserIcon);
             UserInfoUtil.setUserHeaderVMark(author.getIsV(),holder.isV,holder.ivUserIcon);
             holder.tvUserName.setText(author.getFirstName());
             if(author.getIsAuthor()==1){

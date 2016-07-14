@@ -90,7 +90,7 @@ public class TimeTaskPickerService extends BaseService implements Runnable {
         final long timeMinute3 = minute3Flag;
         final long timeNow = System.currentTimeMillis();
 
-        KLog.a("球商后台正在执行...");
+       // KLog.a("球商后台正在执行...");
 
         // 三分钟
         if (timeNow - timeMinute3 > 3 * 60 * 1000L) {

@@ -2,6 +2,7 @@ package com.tysci.ballq.networks;
 
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.os.Handler;
 import android.os.Looper;
 import android.text.TextUtils;
@@ -9,6 +10,7 @@ import android.text.TextUtils;
 import com.tysci.ballq.networks.cookie.CookieJarImpl;
 import com.tysci.ballq.networks.cookie.store.PersistentCookieStore;
 import com.tysci.ballq.utils.KLog;
+import com.tysci.ballq.utils.PhotoUtil;
 
 import java.io.BufferedInputStream;
 import java.io.ByteArrayInputStream;
@@ -19,6 +21,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.FileNameMap;
 import java.net.URLConnection;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 import java.util.zip.GZIPInputStream;
@@ -315,6 +318,58 @@ public class HttpClientUtil {
                 });
             }
         });
+    }
+
+    public void uploadImages(String tag,String url, Map<String, String> headers, Map<String, String> params, List<String> urls, final ProgressResponseCallBack responseCallBack){
+        Request.Builder builder = new Request.Builder().tag(tag).url(url);
+        /**添加请求头部*/
+        if (headers != null && headers.size() > 0) {
+            for (String key : headers.keySet()) {
+                builder.addHeader(key, headers.get(key));
+            }
+        }
+        MultipartBody.Builder multipartBuilder = new MultipartBody.Builder()
+                .setType(MultipartBody.FORM);
+        if (params != null && params.size() > 0) {
+            for (String key : params.keySet()) {
+                multipartBuilder.addFormDataPart(key, params.get(key));
+            }
+        }
+        if (urls != null && urls.size() > 0) {
+            RequestBody fileBody = null;
+            int size = urls.size();
+            for (int i = 0; i < size - 1; i++) {
+                String imgUrl = urls.get(i);
+                String fileKeyName = imgUrl + i;
+                Bitmap bitmap = PhotoUtil.compressBitmap(imgUrl, 480, 480);
+                if (bitmap != null) {
+                    ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                    bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+                    byte[] bytes = baos.toByteArray();
+                    System.out.println("图片大小:" + bytes.length / 1024);
+                    fileBody = RequestBody.create(MediaType.parse("image/jpeg"), bytes);
+                    multipartBuilder.addPart(Headers.of("Content-Disposition",
+                                    "form-data; name=\"" + fileKeyName + "\"; filename=\"" + fileKeyName + "\""),
+                            fileBody);
+
+                }
+            }
+        }
+        RequestBody requestBody=multipartBuilder.build();
+        builder.post(new ProgressRequestBody(requestBody, new ProgressRequestBody.ProgressListener() {
+            @Override
+            public void onRequestProgress(long bytesWritten, long contentLength) {
+                final int progress = (int) ((int) (bytesWritten * 100) / contentLength);
+                devidlerHandler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        responseCallBack.loadingProgress(progress);
+                    }
+                });
+            }
+        }));
+        Request request=builder.build();
+        handlerReqeust(request, responseCallBack);
     }
 
 
