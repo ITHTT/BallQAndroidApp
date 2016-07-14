@@ -96,7 +96,7 @@ public class MainMenuItemView extends LinearLayout {
             layoutMenuContent.setBackgroundColor(checkedColor);
             selectMark.setVisibility(View.VISIBLE);
         }else{
-            layoutMenuContent.setBackgroundColor(android.R.color.transparent);
+            layoutMenuContent.setBackgroundResource(android.R.color.transparent);
             selectMark.setVisibility(View.INVISIBLE);
         }
     }

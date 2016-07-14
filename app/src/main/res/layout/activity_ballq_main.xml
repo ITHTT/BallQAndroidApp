@@ -42,9 +42,9 @@
         <com.tysci.ballq.views.widgets.MainBottomMenuView
             android:id="@+id/menu_tip_off"
             android:layout_width="0dp"
-            android:layout_height="60dp"
+            android:layout_height="63dp"
             android:layout_weight="1.2"
-            android:background="#000"
+            android:background="@drawable/shape_main_tip_button_bg"
             app:main_menu_icon="@drawable/main_menu_tip_off_selector"
             app:main_menu_name="爆料"/>
 

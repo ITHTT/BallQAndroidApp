@@ -10,7 +10,8 @@ import java.util.Locale;
 import java.util.TimeZone;
 
 /**
- * Created by Administrator on 2016-07-13 0013.
+ * Created by LinDe on 2016-07-13 0013.
+ * 日期
  */
 public final class CalendarUtil {
     public static final int A_SECOND_MILLIS;
@@ -80,13 +81,15 @@ public final class CalendarUtil {
         this.second = cal.get(Calendar.SECOND);
     }
 
+    public static
     @Nullable
-    public static CalendarUtil parseStringTZ(String tz) {
+    CalendarUtil parseStringTZ(String tz) {
         return parseStringTZ(tz, TimeZone.getTimeZone("+GMT"));
     }
 
+    public static
     @Nullable
-    public static CalendarUtil parseStringTZ(String tz, TimeZone timeZone) {
+    CalendarUtil parseStringTZ(String tz, TimeZone timeZone) {
         if (!TextUtils.isEmpty(tz)) {
             if (tz.length() > 20) {
                 tz = tz.substring(0, 19) + "Z";
@@ -101,5 +104,25 @@ public final class CalendarUtil {
             }
         }
         return null;
+    }
+
+    public String format(String format) {
+        return format(format, TimeZone.getDefault());
+    }
+
+    public String format(String format, TimeZone timeZone) {
+        Calendar cal = Calendar.getInstance();
+        cal.clear();
+        cal.setTimeInMillis(timeMillis);
+        cal.setTimeZone(timeZone);
+
+        SimpleDateFormat sdf = new SimpleDateFormat(format, Locale.getDefault());
+        sdf.setTimeZone(TimeZone.getDefault());
+        try {
+            return sdf.format(cal.getTime());
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+        }
+        return "";
     }
 }

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include layout="@layout/layout_title_bar"/>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <com.tysci.ballq.views.SettingItemView
+                android:id="@+id/setting_user_icon"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:setting_show_icon="true"
+                app:setting_text_title="头像:"/>
+
+            <com.tysci.ballq.views.SettingItemView
+                android:id="@+id/setting_user_nickname"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:setting_text_name=""
+                app:setting_text_title="昵称:"/>
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

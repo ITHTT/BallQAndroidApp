@@ -88,12 +88,11 @@ public class UserTaskService extends BaseService {
         HttpClientUtil.getHttpClientUtil().sendPostRequest("UserTaskService", HttpUrls.HOST_URL_V5 + "user/notify/usersystem/", map, new HttpClientUtil.StringResponseCallBack() {
             @Override
             public void onBefore(Request request) {
-                KLog.e();
             }
 
             @Override
             public void onError(Call call, Exception error) {
-                KLog.e();
+                KLog.e("UserTaskService获取用户任务错误...");
             }
 
             @Override
@@ -119,7 +118,6 @@ public class UserTaskService extends BaseService {
 
             @Override
             public void onFinish(Call call) {
-                KLog.e();
             }
         });
     }
