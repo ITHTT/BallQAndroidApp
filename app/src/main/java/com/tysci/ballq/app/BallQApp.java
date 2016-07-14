@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 
+import com.tysci.ballq.bigdata.BigDataUtil;
 import com.tysci.ballq.networks.HttpClientUtil;
 import com.tysci.ballq.services.TimeTaskPickerService;
 import com.tysci.ballq.utils.SharedPreferencesUtil;
@@ -41,5 +42,7 @@ public class BallQApp extends Application {
         JPushInterface.init(this);
 
         startService(new Intent(this, TimeTaskPickerService.class));
+
+        BigDataUtil.init(this);
     }
 }

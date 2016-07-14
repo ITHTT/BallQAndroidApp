@@ -151,6 +151,7 @@ public final class BigDataUtil {
                 + "&cid=" + CID // 渠道ID
                 + "&ccid=" + CCID//子渠道ID
                 + "&uuid=" + getUuid(c);
+        KLog.d(url);
         lastPosition = position;
         return url;
     }
