@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <declare-styleable name="SettingItemView">
+        <attr name="setting_text_title" format="string"/>
+        <attr name="setting_text_name" format="string"/>
+        <attr name="setting_show_icon" format="boolean"/>
+    </declare-styleable>
     <declare-styleable name="CustomPointView">
         <attr name="point_image_normal" format="reference"/>
         <attr name="point_image_check" format="reference"/>

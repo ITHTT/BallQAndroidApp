@@ -11,6 +11,9 @@ import android.widget.TextView;
 
 import com.tysci.ballq.R;
 import com.tysci.ballq.base.BaseActivity;
+import com.tysci.ballq.bigdata.BigDataOPT;
+import com.tysci.ballq.bigdata.BigDataST;
+import com.tysci.ballq.bigdata.BigDataUtil;
 import com.tysci.ballq.services.TimeTaskPickerService;
 import com.tysci.ballq.utils.CalendarUtil;
 import com.tysci.ballq.utils.FileUtil;
@@ -41,6 +44,8 @@ public class FirstWelcomeActivity extends BaseActivity {
 
     @Override
     protected void initViews() {
+        BigDataUtil.uploadNormal(this, BigDataST.OTHERS, BigDataOPT.IN, "0");
+
         tv_cancel.setVisibility(View.GONE);
 
 //        Animation animation = AnimationUtils.loadAnimation(this, R.anim.first_welcome_anim);
