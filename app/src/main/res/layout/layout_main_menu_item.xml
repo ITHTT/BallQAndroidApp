@@ -1,32 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/layout_menu_content"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="#050404">
+                android:id="@+id/layout_menu_content"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="#050404">
+
     <View
         android:id="@+id/selected_mark"
         android:layout_width="5dp"
         android:layout_height="match_parent"
         android:background="#eacb70"
         />
+
     <ImageView
         android:id="@+id/iv_menu_icon"
         android:layout_width="20dp"
         android:layout_height="20dp"
-        android:layout_toRightOf="@+id/selected_mark"
         android:layout_centerVertical="true"
         android:layout_marginLeft="20dp"
+        android:layout_toRightOf="@+id/selected_mark"
         android:contentDescription="@string/app_name"
         android:scaleType="fitCenter"
-        android:src="@mipmap/ic_launcher" />
+        android:src="@mipmap/ic_launcher"/>
+
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="55dp"
-        android:layout_toRightOf="@+id/iv_menu_icon"
         android:layout_marginLeft="20dp"
-        android:orientation="vertical"
-        android:gravity="center_vertical">
+        android:layout_toRightOf="@+id/iv_menu_icon"
+        android:gravity="center_vertical"
+        android:orientation="vertical">
+
         <TextView
             android:id="@+id/tv_menu_title"
             android:layout_width="wrap_content"
@@ -35,6 +39,7 @@
             android:textColor="#ffffff"
             android:textSize="14sp"
             android:typeface="monospace"/>
+
         <TextView
             android:id="@+id/tv_menu_brief"
             android:layout_width="wrap_content"
@@ -43,8 +48,9 @@
             android:text="sdfafdafdfasdfaf"
             android:textColor="#b8b8b8"
             android:textSize="12sp"
-            android:typeface="monospace" />
+            android:typeface="monospace"/>
     </LinearLayout>
+
     <TextView
         android:id="@+id/tv_menu_message"
         android:layout_width="40dp"
@@ -55,9 +61,14 @@
         android:layout_marginRight="30dp"
         android:background="@drawable/icon_menu_message_bg"
         android:gravity="center"
-        android:typeface="monospace"
         android:text="0"
         android:textColor="#ffffff"
         android:textSize="15sp"
+        android:typeface="monospace"
         android:visibility="gone"/>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@null"/>
 </RelativeLayout>

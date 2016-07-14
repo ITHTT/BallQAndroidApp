@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/tv_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="15dp"
+        android:layout_marginStart="15dp"
+        android:text="@string/app_name"
+        android:textColor="#3a3a3a"
+        android:textSize="13sp"/>
+
+    <com.tysci.ballq.views.widgets.CircleImageView
+        android:id="@+id/iv_user_icon"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="10dp"
+        android:layout_marginStart="10dp"
+        android:layout_toEndOf="@id/tv_title"
+        android:layout_toRightOf="@id/tv_title"
+        android:src="@mipmap/icon_user_default"
+        app:border_color="#0000"
+        app:border_width="2dp"/>
+
+    <TextView
+        android:id="@+id/tv_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="10dp"
+        android:layout_marginStart="10dp"
+        android:layout_toEndOf="@id/tv_title"
+        android:layout_toRightOf="@id/tv_title"
+        android:text="@string/app_name"
+        android:textColor="#3a3a3a"
+        android:textSize="13sp"/>
+
+    <ImageView
+        android:id="@+id/iv_1"
+        android:layout_width="10dp"
+        android:layout_height="20dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginEnd="15dp"
+        android:layout_marginRight="15dp"
+        android:contentDescription="@string/app_name"
+        android:src="@mipmap/icon_go_right"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginEnd="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_toLeftOf="@id/iv_1"
+        android:layout_toStartOf="@id/iv_1"
+        android:text="修改"
+        android:textColor="#3a3a3a"
+        android:textSize="13sp"/>
+</RelativeLayout>
