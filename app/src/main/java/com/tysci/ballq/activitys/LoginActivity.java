@@ -20,6 +20,7 @@ import com.tysci.ballq.modles.UserInfoEntity;
 import com.tysci.ballq.networks.HttpClientUtil;
 import com.tysci.ballq.networks.HttpUrls;
 import com.tysci.ballq.utils.KLog;
+import com.tysci.ballq.utils.ToastUtil;
 import com.tysci.ballq.utils.UserInfoUtil;
 import com.tysci.ballq.views.dialogs.LoadingProgressDialog;
 
@@ -194,15 +195,23 @@ public class LoginActivity extends BaseActivity {
                 if (!TextUtils.isEmpty(response)) {
                     JSONObject responseObj = JSONObject.parseObject(response);
                     if (responseObj != null && !responseObj.isEmpty()) {
-                        JSONObject data = responseObj.getJSONObject("data");
-                        if (data != null && !data.isEmpty()) {
-                            cacheUserInfo(data);
-                            String userId = data.getString("user");
-                            UserInfoUtil.getUserInfo(LoginActivity.this, Tag, userId, true,loadingProgressDialog);
-                            return;
+                        String message=responseObj.getString("message");
+                        int status=responseObj.getIntValue("status");
+                        if(status==0) {
+                            JSONObject data = responseObj.getJSONObject("data");
+                            if (data != null && !data.isEmpty()) {
+                                //ToastUtil.show(LoginActivity.this,"登录成功");
+                                cacheUserInfo(data);
+                                String userId = data.getString("user");
+                                UserInfoUtil.getUserInfo(LoginActivity.this, Tag, userId, true, loadingProgressDialog);
+                                return;
+                            }
+                        }else{
+                            ToastUtil.show(LoginActivity.this,message);
                         }
                     }
                 }
+
                 loadingProgressDialog.dismiss();
             }
 

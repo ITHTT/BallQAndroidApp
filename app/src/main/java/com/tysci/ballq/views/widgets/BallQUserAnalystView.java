@@ -10,6 +10,9 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.tysci.ballq.R;
+import com.tysci.ballq.modles.BallQAuthorAnalystsEntity;
+import com.tysci.ballq.networks.GlideImageLoader;
+import com.tysci.ballq.utils.UserInfoUtil;
 
 /**
  * Created by HTT on 2016/7/12.
@@ -59,5 +62,12 @@ public class BallQUserAnalystView extends LinearLayout{
         tvWins=(TextView)this.findViewById(R.id.tv_wins);
         tvPopularity=(TextView)this.findViewById(R.id.tv_popularity);
         tvUserBreif=(TextView)this.findViewById(R.id.tv_user_brief);
+    }
+
+    public void setBallQAuthorAnalystsInfo(BallQAuthorAnalystsEntity info){
+        tvUserName.setText(info.getFname());
+        GlideImageLoader.loadImage(getContext(),info.getPt(),R.mipmap.icon_user_default,ivUserHeader);
+        UserInfoUtil.setUserHeaderVMark(0,iV,ivUserHeader);
+
     }
 }

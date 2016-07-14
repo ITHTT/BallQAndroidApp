@@ -3,7 +3,8 @@
                 android:id="@+id/layout_menu_content"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="#050404">
+                android:background="#050404"
+    android:clickable="false">
 
     <View
         android:id="@+id/selected_mark"
@@ -66,9 +67,4 @@
         android:textSize="15sp"
         android:typeface="monospace"
         android:visibility="gone"/>
-
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@null"/>
 </RelativeLayout>
