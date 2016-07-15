@@ -19,6 +19,9 @@ public final class FileUtil {
 
     public static String readStringFromFile(File file) {
         String result = "";
+        if (!file.exists()) {
+            return result;
+        }
         FileInputStream fis = null;
         ByteArrayOutputStream outputStream = null;
         try {

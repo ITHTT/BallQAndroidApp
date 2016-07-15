@@ -14,7 +14,7 @@ public class KLog {
 
     private static boolean IS_SHOW_LOG = true;
 
-    private static final String DEFAULT_MESSAGE = "ballq";
+    private static final String DEFAULT_MESSAGE = "BallQ";
     private static final String LINE_SEPARATOR = System.getProperty("line.separator");
     private static final int JSON_INDENT = 4;
 

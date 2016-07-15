@@ -4,6 +4,7 @@ import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
+import android.graphics.Bitmap;
 import android.os.Build;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
@@ -72,13 +73,11 @@ public class SettingItemView extends RelativeLayout {
         }
     }
 
-//    @Override
-//    public void setOnClickListener(OnClickListener l) {
-//        findViewById(R.id.button).setOnClickListener(l);
-//    }
-
     public final <T> void setIcon(T icon) {
-        ImageUtil.loadImage(iv_user_icon, R.mipmap.icon_user_default, icon);
+        if (icon instanceof Bitmap) {
+            iv_user_icon.setImageBitmap((Bitmap) icon);
+        } else
+            ImageUtil.loadImage(iv_user_icon, R.mipmap.icon_user_default, icon);
     }
 
     public final <T> void setName(T name) {
