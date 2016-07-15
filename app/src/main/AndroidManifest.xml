@@ -180,6 +180,20 @@
 
         <activity android:name=".activitys.BallQMatchLeagueSelectActivity"/>
 
+        <activity android:name=".activitys.BallQMatchTeamTipOffHistoryActivity"/>
+
+        <activity android:name=".activitys.BallQTipOffSearchActivity"/>
+
+        <activity android:name=".activitys.BallQTipOffUserListActivity"/>
+
+        <activity android:name=".activitys.BallQWebViewActivity"
+            android:hardwareAccelerated="true"/>
+
+        <activity android:name=".activitys.BallQEventsPlazaActivity"
+            android:hardwareAccelerated="true"/>
+
+        <activity android:name=".activitys.BallQGreatWarGoActivity"/>
+
         <activity android:name=".views.widgets.multiphotopicker.ui.activitys.PhotoPagerActivity"/>
         <activity android:name=".views.widgets.multiphotopicker.ui.activitys.PhotoPickerActivity"/>
 

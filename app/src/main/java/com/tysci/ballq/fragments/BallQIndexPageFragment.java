@@ -1,5 +1,6 @@
 package com.tysci.ballq.fragments;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -11,11 +12,13 @@ import android.widget.ImageView;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.tysci.ballq.R;
+import com.tysci.ballq.activitys.BallQGreatWarGoActivity;
 import com.tysci.ballq.base.BaseFragment;
 import com.tysci.ballq.modles.BallQAuthorAnalystsEntity;
 import com.tysci.ballq.modles.BallQBannerImageEntity;
 import com.tysci.ballq.networks.HttpClientUtil;
 import com.tysci.ballq.networks.HttpUrls;
+import com.tysci.ballq.utils.BallQBusinessControler;
 import com.tysci.ballq.utils.CommonUtils;
 import com.tysci.ballq.utils.KLog;
 import com.tysci.ballq.views.widgets.BallQUserAnalystView;
@@ -23,18 +26,21 @@ import com.tysci.ballq.views.widgets.BannerNetworkImageView;
 import com.tysci.ballq.views.widgets.TitleBar;
 import com.tysci.ballq.views.widgets.convenientbanner.ConvenientBanner;
 import com.tysci.ballq.views.widgets.convenientbanner.holder.CBViewHolderCreator;
+import com.tysci.ballq.views.widgets.convenientbanner.listener.OnItemClickListener;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
+import butterknife.OnClick;
 import okhttp3.Call;
 import okhttp3.Request;
 
 /**
  * Created by HTT on 2016/7/12.
  */
-public class BallQIndexPageFragment extends BaseFragment{
+public class BallQIndexPageFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener,
+        OnItemClickListener{
     @Bind(R.id.title_bar)
     protected TitleBar titleBar;
     @Bind(R.id.swipe_refresh)
@@ -62,8 +68,9 @@ public class BallQIndexPageFragment extends BaseFragment{
     @Override
     protected void initViews(View view, Bundle savedInstanceState) {
         titleBar.setTitleBarTitle("首页");
-        titleBar.setTitleBarLeftIcon(0,null);
+        titleBar.setTitleBarLeftIcon(0, null);
         banner.setBackgroundColor(Color.parseColor("#f6f6f6"));
+        banner.setOnItemClickListener(this);
         banner.getViewPager().setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
@@ -81,6 +88,7 @@ public class BallQIndexPageFragment extends BaseFragment{
                 return false;
             }
         });
+        swipeRefresh.setOnRefreshListener(this);
         showLoading();
         getHomePageInfo();
 
@@ -153,6 +161,7 @@ public class BallQIndexPageFragment extends BaseFragment{
                     showErrorInfo(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
+                            showLoading();
                             getHomePageInfo();
                         }
                     });
@@ -234,6 +243,35 @@ public class BallQIndexPageFragment extends BaseFragment{
                     }
                 }
             }
+        }
+    }
+
+    @Override
+    public void onRefresh() {
+        getHomePageInfo();
+    }
+
+    @Override
+    public void onItemClick(int position) {
+        if(bannerImageEntityList!=null){
+            BallQBannerImageEntity info=bannerImageEntityList.get(position);
+            BallQBusinessControler.businessControler(baseActivity,Integer.parseInt(info.getJump_type()),info.getJump_url());
+        }
+    }
+
+    @OnClick({R.id.iv_fight_ballq_gou,R.id.iv_get_ballq_gold})
+    protected void onClickBallQEvents(View view){
+        int id=view.getId();
+        Intent intent=null;
+        switch(id){
+            case R.id.iv_fight_ballq_gou:
+                intent=new Intent(baseActivity, BallQGreatWarGoActivity.class);
+                break;
+            case R.id.iv_get_ballq_gold:
+                break;
+        }
+        if(intent!=null){
+            startActivity(intent);
         }
     }
 }

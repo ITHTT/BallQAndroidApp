@@ -1,10 +1,12 @@
 package com.tysci.ballq.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.view.View;
 
 import com.tysci.ballq.R;
+import com.tysci.ballq.activitys.BallQTipOffSearchActivity;
 import com.tysci.ballq.base.BaseFragment;
 import com.tysci.ballq.views.adapters.BallQFragmentPagerAdapter;
 import com.tysci.ballq.views.widgets.SlidingTabLayout;
@@ -19,7 +21,7 @@ import butterknife.Bind;
 /**
  * Created by HTT on 2016/7/12.
  */
-public class BallQTipOffFragment extends BaseFragment{
+public class BallQTipOffFragment extends BaseFragment implements View.OnClickListener{
     @Bind(R.id.title_bar)
     protected TitleBar titleBar;
     @Bind(R.id.convenientBanner)
@@ -37,14 +39,15 @@ public class BallQTipOffFragment extends BaseFragment{
     @Override
     protected void initViews(View view, Bundle savedInstanceState) {
         titleBar.setTitleBarTitle("爆料");
-        titleBar.setTitleBarLeftIcon(0,null);
+        titleBar.setTitleBarLeftIcon(0, null);
+        titleBar.setRightMenuIcon(R.mipmap.icon_search_mark,this);
         addFragments();
     }
 
     private void addFragments(){
         String[] titles={"爆料","球经","视频","我的关注"};
         List<BaseFragment> fragments=new ArrayList<>(4);
-        BaseFragment fragment=new BallQHomeTipOffListFragment();
+        BaseFragment fragment=new BallQTipOffListFragment();
         fragments.add(fragment);
         fragment=new BallQHomeBallWarpListFragment();
         fragments.add(fragment);
@@ -76,5 +79,20 @@ public class BallQTipOffFragment extends BaseFragment{
     @Override
     protected void notifyEvent(String action, Bundle data) {
 
+    }
+
+    @Override
+    public void onClick(View v) {
+        int id=v.getId();
+        switch (id){
+            case R.id.iv_titlebar_next_menu01:
+                searchTipOff();
+                break;
+        }
+    }
+
+    private void searchTipOff(){
+        Intent intent=new Intent(baseActivity, BallQTipOffSearchActivity.class);
+        startActivity(intent);
     }
 }

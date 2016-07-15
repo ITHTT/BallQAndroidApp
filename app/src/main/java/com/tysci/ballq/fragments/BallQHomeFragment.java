@@ -52,7 +52,7 @@ public class BallQHomeFragment extends BaseFragment {
         setTitle();
         tabLayout.setTabPxWidth(CommonUtils.getScreenDisplayMetrics(this.getContext()).widthPixels/3);
         List<BaseFragment> fragments=new ArrayList<>(3);
-        fragments.add(new BallQHomeTipOffListFragment());
+        fragments.add(new BallQTipOffListFragment());
         fragments.add(new BallQHomeBallWarpListFragment());
         fragments.add(new BallQFindCircleNoteListFragment());
         BallQFragmentPagerAdapter adapter=new BallQFragmentPagerAdapter(getChildFragmentManager(),titles,fragments);

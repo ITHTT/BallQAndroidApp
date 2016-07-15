@@ -43,20 +43,20 @@
                             android:layout_width="0dp"
                             android:layout_height="80dp"
                             android:layout_weight="1"
-                            android:src="@mipmap/icon_ballq_fight_gou"/>
+                            android:src="@mipmap/icon_ballq_get_gold"/>
                         <ImageView
                             android:id="@+id/iv_get_ballq_gold"
                             android:layout_width="0dp"
                             android:layout_height="80dp"
                             android:layout_weight="1"
-                            android:src="@mipmap/icon_ballq_get_gold"/>
+                            android:src="@mipmap/icon_ballq_fight_gou"/>
                     </LinearLayout>
                     <RelativeLayout
                         android:layout_width="match_parent"
-                        android:layout_height="30dp"
+                        android:layout_height="35dp"
                         android:layout_marginLeft="7dp"
                         android:layout_marginRight="7dp"
-                        android:layout_marginTop="8dp"
+                        android:layout_marginTop="6dp"
                         android:background="@color/colorPrimary">
                         <ImageView
                             android:layout_width="5dp"
@@ -95,21 +95,21 @@
                         android:id="@+id/first_analyst"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
+                        android:layout_marginTop="6dp"
                         android:paddingLeft="8dp"
                         android:paddingRight="8dp"/>
                     <com.tysci.ballq.views.widgets.BallQUserAnalystView
                         android:id="@+id/second_analyst"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
+                        android:layout_marginTop="6dp"
                         android:paddingLeft="8dp"
                         android:paddingRight="8dp"/>
                     <com.tysci.ballq.views.widgets.BallQUserAnalystView
                         android:id="@+id/third_analyst"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
+                        android:layout_marginTop="6dp"
                         android:layout_marginBottom="8dp"
                         android:paddingLeft="8dp"
                         android:paddingRight="8dp"/>

@@ -16,7 +16,7 @@ import com.tysci.ballq.networks.HttpUrls;
 import com.tysci.ballq.utils.CommonUtils;
 import com.tysci.ballq.utils.KLog;
 import com.tysci.ballq.utils.UserInfoUtil;
-import com.tysci.ballq.views.adapters.BallQHomeTipOffAdapter;
+import com.tysci.ballq.views.adapters.BallQTipOffAdapter;
 import com.tysci.ballq.views.widgets.loadmorerecyclerview.AutoLoadMoreRecyclerView;
 
 import java.util.ArrayList;
@@ -30,7 +30,7 @@ import okhttp3.Request;
 /**
  * Created by Administrator on 2016/5/31.
  */
-public class BallQHomeTipOffListFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener,AutoLoadMoreRecyclerView.OnLoadMoreListener{
+public class BallQTipOffListFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener,AutoLoadMoreRecyclerView.OnLoadMoreListener{
     @Bind(R.id.swipe_refresh)
     protected SwipeRefreshLayout swipeRefresh;
     @Bind(R.id.recycler_view)
@@ -39,7 +39,7 @@ public class BallQHomeTipOffListFragment extends BaseFragment implements SwipeRe
     private int etype=-1;
     private int currentPages=1;
 
-    private BallQHomeTipOffAdapter adapter=null;
+    private BallQTipOffAdapter adapter=null;
     private List<BallQTipOffEntity> ballQTipOffEntityList=null;
 
     @Override
@@ -67,6 +67,7 @@ public class BallQHomeTipOffListFragment extends BaseFragment implements SwipeRe
         swipeRefresh.setOnRefreshListener(this);
         recyclerView.setLayoutManager(new LinearLayoutManager(this.getActivity()));
         recyclerView.setOnLoadMoreListener(this);
+        recyclerView.setBackgroundResource(R.color.white);
        // recyclerView.setAdapter(new BallQHomeTipOffAdapter());
         showLoading();
         requestDatas(currentPages,false);
@@ -170,7 +171,7 @@ public class BallQHomeTipOffListFragment extends BaseFragment implements SwipeRe
                     }
                     CommonUtils.getJSONListObject(objArrays,ballQTipOffEntityList,BallQTipOffEntity.class);
                     if(adapter==null){
-                        adapter=new BallQHomeTipOffAdapter(ballQTipOffEntityList);
+                        adapter=new BallQTipOffAdapter(ballQTipOffEntityList);
                         recyclerView.setAdapter(adapter);
                     }else{
                         adapter.notifyDataSetChanged();
@@ -186,8 +187,12 @@ public class BallQHomeTipOffListFragment extends BaseFragment implements SwipeRe
                             currentPages++;
                         }
                     }
+                    return;
                 }
             }
+        }
+        if(isLoadMore){
+            recyclerView.setLoadMoreDataComplete("没有更多数据了");
         }
     }
 
