@@ -3,4 +3,5 @@
 
     <string name="password_text_type" translatable="false"><![CDATA[QWERTYUIOPASDFGHJKLZXCVBNMqwertyuiopasdfghjklzxcvbnm1234567890!@#$%^&*()-=_+{}[]:;"\'|\<>,.?/]]></string>
 
+    <string name="request_error">网络错误，请检查</string>
 </resources>

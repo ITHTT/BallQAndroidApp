@@ -21,6 +21,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.FileNameMap;
 import java.net.URLConnection;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
@@ -372,7 +373,34 @@ public class HttpClientUtil {
         handlerReqeust(request, responseCallBack);
     }
 
-
+    public void uploadPortrait(String tag, String url, String[] keys, File[] files, HashMap<String, String> map, final StringResponseCallBack callBack) {
+        MultipartBody.Builder builder = new MultipartBody.Builder("AaB03x").setType(MultipartBody.FORM);
+        RequestBody fileBody;
+        File aFile;
+        String aKey;
+        String fileName;
+        for (int i = 0, length = files.length; i < length; i++) {
+            aFile = files[i];
+            aKey = keys[i];
+            fileName = aFile.getName();
+            fileBody = RequestBody.create(MediaType.parse(guessMimeType(fileName)), aFile);
+//            builder.addFormDataPart("files",
+//                    null,
+//                    new MultipartBody.Builder("BbC04y").addPart(Headers.of("Content-Disposition",
+//                            "form-data; name=\"" + aKey + "\"; filename=\"" + aFile.getName() + "\""),
+//                            RequestBody.create(MediaType.parse("image/png"), aFile)).build());
+            builder.addPart(Headers.of("Content-Disposition",
+                            "form-data; name=\"" + aKey + "\"; filename=\"" + fileName + "\""),
+                    fileBody);
+        }
+        for (String key : map.keySet()) {
+            builder.addPart(Headers.of("Content-Disposition", "form-data; name=\"" + key + "\""),
+                    RequestBody.create(null, map.get(key)));
+        }
+        MultipartBody body = builder.build();
+        Request request = new Request.Builder().url(url).post(body).build();
+        handlerReqeust(request, callBack);
+    }
     /**
      * 上传文件
      * @param tag

@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:paddingLeft="@dimen/dimen10dp"
+    android:paddingRight="@dimen/dimen10dp">
+
+    <TextView
+        android:id="@+id/tv_had_got_achievement"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dimen10dp"
+        android:text="已选择展示的成就:"
+        android:textColor="#3a3a3a"
+        android:typeface="monospace" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dimen1dp"
+        android:layout_marginTop="@dimen/dimen5dp"
+        android:background="#dedfe4" />
+
+    <RelativeLayout
+        android:id="@+id/layout_showing_achievement"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="@dimen/dimen10dp"
+        android:paddingTop="@dimen/dimen10dp">
+
+        <ImageView
+            android:id="@+id/user_showing_achievement_1"
+            android:layout_width="@dimen/dimen40dp"
+            android:layout_height="@dimen/dimen40dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/dimen10dp"
+            android:layout_marginStart="@dimen/dimen10dp"
+            android:contentDescription="@string/app_name"
+            android:src="@mipmap/icon_user_achievement_circle_mark" />
+
+        <ImageView
+            android:id="@+id/user_showing_achievement_2"
+            android:layout_width="@dimen/dimen40dp"
+            android:layout_height="@dimen/dimen40dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/dimen20dp"
+            android:layout_marginStart="@dimen/dimen20dp"
+            android:layout_toEndOf="@id/user_showing_achievement_1"
+            android:layout_toRightOf="@id/user_showing_achievement_1"
+            android:contentDescription="@string/app_name"
+            android:src="@mipmap/icon_user_achievement_circle_mark" />
+
+        <ImageView
+            android:layout_width="@dimen/dimen100dp"
+            android:layout_height="@dimen/dimen40dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:contentDescription="@string/app_name"
+            android:src="@mipmap/icon_achievement_example" />
+    </RelativeLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dimen15dp"
+        android:text="请选择需要展示的成就:"
+        android:textColor="#3a3a3a"
+        android:typeface="monospace" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dimen1dp"
+        android:layout_marginTop="@dimen/dimen5dp"
+        android:background="#dedfe4" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingBottom="@dimen/dimen10dp"
+        android:paddingLeft="@dimen/dimen10dp"
+        android:paddingRight="@dimen/dimen10dp"
+        android:paddingTop="@dimen/dimen10dp">
+
+        <TextView
+            android:id="@+id/tv_left"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/selector_button3left"
+            android:gravity="center"
+            android:paddingBottom="@dimen/dimen5dp"
+            android:paddingTop="@dimen/dimen5dp"
+            android:text="已获得"
+            android:textColor="@color/gold"
+            android:textSize="13sp" />
+
+        <TextView
+            android:id="@+id/tv_right"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/selector_button3right"
+            android:gravity="center"
+            android:paddingBottom="@dimen/dimen5dp"
+            android:paddingTop="@dimen/dimen5dp"
+            android:text="未获得"
+            android:textColor="@color/gold"
+            android:textSize="13sp" />
+    </LinearLayout>
+</LinearLayout>

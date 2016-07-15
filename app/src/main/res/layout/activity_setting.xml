@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <include layout="@layout/layout_title_bar"/>
+    <include layout="@layout/layout_title_bar" />
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="0dp"
+        android:layout_weight="1">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -20,16 +20,42 @@
             <com.tysci.ballq.views.SettingItemView
                 android:id="@+id/setting_user_icon"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="@dimen/activity_setting_item_height"
                 app:setting_show_icon="true"
-                app:setting_text_title="头像:"/>
+                app:setting_text_title="头像:" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/gold" />
 
             <com.tysci.ballq.views.SettingItemView
                 android:id="@+id/setting_user_nickname"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:setting_text_name=""
-                app:setting_text_title="昵称:"/>
+                android:layout_height="@dimen/activity_setting_item_height"
+                app:setting_text_name="@string/app_name"
+                app:setting_text_title="昵称:" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/gold" />
         </LinearLayout>
     </ScrollView>
+
+    <TextView
+        android:id="@+id/tv_exit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/dimen10dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="@dimen/dimen10dp"
+        android:background="@drawable/button_gold"
+        android:gravity="center"
+        android:paddingBottom="@dimen/dimen10dp"
+        android:paddingTop="@dimen/dimen10dp"
+        android:text="退出登录"
+        android:textColor="#ffffff"
+        android:textSize="@dimen/dimen14sp" />
 </LinearLayout>
