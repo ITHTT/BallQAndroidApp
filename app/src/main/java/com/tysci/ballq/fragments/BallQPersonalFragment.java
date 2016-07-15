@@ -15,6 +15,7 @@ import com.tysci.ballq.activitys.UserAttentionActivity;
 import com.tysci.ballq.activitys.UserBettingGuessRecordActivity;
 import com.tysci.ballq.activitys.UserCollectionRecordActivity;
 import com.tysci.ballq.activitys.UserMessageRecordActivity;
+import com.tysci.ballq.activitys.UserOldDataActivity;
 import com.tysci.ballq.activitys.UserTrendStatisticActivity;
 import com.tysci.ballq.base.BaseFragment;
 import com.tysci.ballq.dialog.EditUserPortraitDialog;
@@ -162,7 +163,7 @@ public class BallQPersonalFragment extends BaseFragment {
                 case R.id.menu_user_trend_statistics:
                     cls = UserTrendStatisticActivity.class;
                     break;
-                case R.id.menu_user_guessing_record:
+                case R.id.menu_user_guessing_record:// 竞猜记录
                     cls = UserBettingGuessRecordActivity.class;
                     break;
                 case R.id.menu_user_collection:
@@ -181,6 +182,9 @@ public class BallQPersonalFragment extends BaseFragment {
                     cls = UserAchievementActivity.class;
                     break;
                 case R.id.menu_user_tip_off_record:
+                    break;
+                case R.id.menu_user_old_guess_record:
+                    cls = UserOldDataActivity.class;
                     break;
                 case R.id.menu_setting:// 设置
                     cls = BallQSettingActivity.class;
