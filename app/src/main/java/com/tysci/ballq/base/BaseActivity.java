@@ -16,6 +16,7 @@ import com.tysci.ballq.modles.UserInfoEntity;
 import com.tysci.ballq.modles.event.EventObject;
 import com.tysci.ballq.modles.event.EventType;
 import com.tysci.ballq.networks.HttpClientUtil;
+import com.tysci.ballq.utils.KLog;
 import com.tysci.ballq.views.widgets.TitleBar;
 import com.tysci.ballq.views.widgets.loading.LoadingViewController;
 
@@ -242,5 +243,11 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
         }
         /**取消网络请求*/
         HttpClientUtil.getHttpClientUtil().cancelTag(Tag);
+    }
+
+    @Override
+    protected void finalize() throws Throwable {
+        super.finalize();
+        KLog.e("内\n存\n泄\n漏\n...");
     }
 }
