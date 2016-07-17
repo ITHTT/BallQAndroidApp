@@ -2,6 +2,7 @@ package com.tysci.ballq.views.widgets;
 
 import android.annotation.TargetApi;
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Build;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
@@ -12,7 +13,10 @@ import android.widget.TextView;
 import com.tysci.ballq.R;
 import com.tysci.ballq.modles.BallQAuthorAnalystsEntity;
 import com.tysci.ballq.networks.GlideImageLoader;
+import com.tysci.ballq.utils.CommonUtils;
 import com.tysci.ballq.utils.UserInfoUtil;
+
+import java.util.Locale;
 
 /**
  * Created by HTT on 2016/7/12.
@@ -66,8 +70,10 @@ public class BallQUserAnalystView extends LinearLayout{
 
     public void setBallQAuthorAnalystsInfo(BallQAuthorAnalystsEntity info){
         tvUserName.setText(info.getFname());
-        GlideImageLoader.loadImage(getContext(),info.getPt(),R.mipmap.icon_user_default,ivUserHeader);
-        UserInfoUtil.setUserHeaderVMark(0,iV,ivUserHeader);
-
+        GlideImageLoader.loadImage(getContext(), info.getPt(), R.mipmap.icon_user_default, ivUserHeader);
+        UserInfoUtil.setUserHeaderVMark(0, iV, ivUserHeader);
+        tvUserBreif.setText(info.getNote());
+        CommonUtils.setTextViewFormatString(tvUserRankInfo, info.getRank_type() + "第" + info.getRank() + "名", String.valueOf(info.getRank()), Color.parseColor("#ff0000"), 1f);
+        tvWins.setText("胜率: "+String.format(Locale.getDefault(),"%.0f",100*info.getWins())+"%");
     }
 }

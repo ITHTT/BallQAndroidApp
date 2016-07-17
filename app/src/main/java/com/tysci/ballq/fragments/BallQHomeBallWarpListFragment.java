@@ -6,13 +6,14 @@ import android.view.View;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.tysci.ballq.R;
 import com.tysci.ballq.base.AppSwipeRefreshLoadMoreRecyclerViewFragment;
 import com.tysci.ballq.modles.BallQBallWarpInfoEntity;
 import com.tysci.ballq.networks.HttpClientUtil;
 import com.tysci.ballq.networks.HttpUrls;
 import com.tysci.ballq.utils.CommonUtils;
 import com.tysci.ballq.utils.UserInfoUtil;
-import com.tysci.ballq.views.adapters.BallQBallWarpInfoAdapter;
+import com.tysci.ballq.views.adapters.BallQBallWarpAdapter;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -27,11 +28,12 @@ import okhttp3.Request;
  */
 public class BallQHomeBallWarpListFragment extends AppSwipeRefreshLoadMoreRecyclerViewFragment {
     private List<BallQBallWarpInfoEntity> ballQBallWarpInfoEntityList;
-    private BallQBallWarpInfoAdapter adapter;
+    private BallQBallWarpAdapter adapter;
 
     @Override
     protected void initViews(View view, Bundle savedInstanceState) {
-        requestDatas(currentPages,false);
+        recyclerView.setBackgroundResource(R.color.white);
+        requestDatas(currentPages, false);
     }
 
     @Override
@@ -93,7 +95,7 @@ public class BallQHomeBallWarpListFragment extends AppSwipeRefreshLoadMoreRecycl
                             }
                             CommonUtils.getJSONListObject(objArray,ballQBallWarpInfoEntityList,BallQBallWarpInfoEntity.class);
                             if(adapter==null){
-                                adapter=new BallQBallWarpInfoAdapter(ballQBallWarpInfoEntityList);
+                                adapter=new BallQBallWarpAdapter(ballQBallWarpInfoEntityList);
                                 recyclerView.setAdapter(adapter);
                             }else{
                                 adapter.notifyDataSetChanged();

@@ -14,6 +14,7 @@ import android.widget.TextView;
 import com.alibaba.fastjson.JSONObject;
 import com.tysci.ballq.R;
 import com.tysci.ballq.activitys.BallQMatchDetailActivity;
+import com.tysci.ballq.activitys.BallQMatchTeamTipOffHistoryActivity;
 import com.tysci.ballq.fragments.BallQMatchListFragment;
 import com.tysci.ballq.fragments.UserAttentionMatchListFragment;
 import com.tysci.ballq.modles.BallQMatchEntity;
@@ -98,11 +99,33 @@ public class BallQMatchAdapter extends RecyclerView.Adapter<BallQMatchAdapter.Ba
         holder.ivBell.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(!UserInfoUtil.checkLogin(holder.itemView.getContext())){
+                if (!UserInfoUtil.checkLogin(holder.itemView.getContext())) {
                     UserInfoUtil.userLogin(holder.itemView.getContext());
-                }else{
-                    userAttentionMatch(info,info.getIsf()==1,position,holder);
+                } else {
+                    userAttentionMatch(info, info.getIsf() == 1, position, holder);
                 }
+            }
+        });
+
+        holder.ivHtLogo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Context context=holder.itemView.getContext();
+                Intent intent=new Intent(context, BallQMatchTeamTipOffHistoryActivity.class);
+                intent.putExtra("is_home_team",true);
+                intent.putExtra("match_info",info);
+                context.startActivity(intent);
+            }
+        });
+
+        holder.ivAtLogo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Context context=holder.itemView.getContext();
+                Intent intent=new Intent(context, BallQMatchTeamTipOffHistoryActivity.class);
+                intent.putExtra("is_home_team",false);
+                intent.putExtra("match_info",info);
+                context.startActivity(intent);
             }
         });
     }
