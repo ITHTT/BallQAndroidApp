@@ -7,13 +7,12 @@ import com.tysci.ballq.R;
 import com.tysci.ballq.base.BaseFragment;
 
 /**
- * Created by Administrator on 2016/7/15.
- * 历史战绩
+ * Created by HTT on 2016/7/15.
  */
-public class BallQGreatWarGoHistoryFragment extends BaseFragment{
+public class BallQGoRankListFragment extends BaseFragment{
     @Override
     protected int getViewLayoutId() {
-        return R.layout.fragment_great_war_go_history;
+        return R.layout.fragment_ballq_go_rank_list;
     }
 
     @Override

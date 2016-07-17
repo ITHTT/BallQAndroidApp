@@ -8,6 +8,7 @@ import android.view.View;
 import com.tysci.ballq.R;
 import com.tysci.ballq.activitys.BallQTipOffSearchActivity;
 import com.tysci.ballq.base.BaseFragment;
+import com.tysci.ballq.utils.KLog;
 import com.tysci.ballq.views.adapters.BallQFragmentPagerAdapter;
 import com.tysci.ballq.views.widgets.SlidingTabLayout;
 import com.tysci.ballq.views.widgets.TitleBar;
@@ -17,6 +18,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
+import ru.noties.scrollable.CanScrollVerticallyDelegate;
+import ru.noties.scrollable.OnFlingOverListener;
+import ru.noties.scrollable.OnScrollChangedListener;
+import ru.noties.scrollable.ScrollableLayout;
 
 /**
  * Created by HTT on 2016/7/12.
@@ -30,6 +35,8 @@ public class BallQTipOffFragment extends BaseFragment implements View.OnClickLis
     protected SlidingTabLayout tabLayout;
     @Bind(R.id.view_pager)
     protected ViewPager viewPager;
+    @Bind(R.id.scrollable_layout)
+    protected ScrollableLayout mScrollableLayout;
 
     @Override
     protected int getViewLayoutId() {
@@ -41,7 +48,49 @@ public class BallQTipOffFragment extends BaseFragment implements View.OnClickLis
         titleBar.setTitleBarTitle("爆料");
         titleBar.setTitleBarLeftIcon(0, null);
         titleBar.setRightMenuIcon(R.mipmap.icon_search_mark,this);
+        mScrollableLayout.setDraggableView(tabLayout);
+        mScrollableLayout.setOnScrollChangedListener(new OnScrollChangedListener() {
+            @Override
+            public void onScrollChanged(int y, int oldY, int maxY) {
+                final float tabsTranslationY;
+                if (y < maxY) {
+                    tabsTranslationY = .0F;
+                } else {
+                    tabsTranslationY = y - maxY;
+                }
+
+                tabLayout.setTranslationY(tabsTranslationY);
+
+                banner.setTranslationY(y / 2);
+            }
+        });
+        // Note this bit, it's very important
+        mScrollableLayout.setCanScrollVerticallyDelegate(new CanScrollVerticallyDelegate() {
+            @Override
+            public boolean canScrollVertically(int direction) {
+                BaseFragment fragment= (BaseFragment) getChildFragmentManager().getFragments().get(tabLayout.getCurrentTab());
+                KLog.e("执行滑动操作。。");
+                if(fragment instanceof CanScrollVerticallyDelegate){
+                    KLog.e("执行滑动操作。。");
+                    return  ((CanScrollVerticallyDelegate) fragment).canScrollVertically(direction);
+                }
+                return false;
+            }
+        });
+        mScrollableLayout.setOnFlingOverListener(new OnFlingOverListener() {
+            @Override
+            public void onFlingOver(int y, long duration) {
+                BaseFragment fragment= (BaseFragment) getChildFragmentManager().getFragments().get(tabLayout.getCurrentTab());
+                KLog.e("执行滑动操作。。");
+                if(fragment instanceof OnFlingOverListener){
+                    KLog.e("执行滑动操作。。");
+                    ((OnFlingOverListener) fragment).onFlingOver(y,duration);
+                }
+            }
+        });
         addFragments();
+
+
     }
 
     private void addFragments(){

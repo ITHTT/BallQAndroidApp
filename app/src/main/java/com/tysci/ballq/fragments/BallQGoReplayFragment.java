@@ -3,17 +3,22 @@ package com.tysci.ballq.fragments;
 import android.os.Bundle;
 import android.view.View;
 
-import com.tysci.ballq.R;
+import com.tysci.ballq.base.AppSwipeRefreshLoadMoreRecyclerViewFragment;
 import com.tysci.ballq.base.BaseFragment;
 
 /**
- * Created by Administrator on 2016/7/15.
- * 大战综述
+ * Created by HTT on 2016/7/15.
  */
-public class BallQGreatWarReViewFragment extends BaseFragment{
+public class BallQGoReplayFragment extends AppSwipeRefreshLoadMoreRecyclerViewFragment{
+
     @Override
-    protected int getViewLayoutId() {
-        return R.layout.fragment_ballq_great_war_review;
+    protected void onLoadMoreData() {
+
+    }
+
+    @Override
+    protected void onRefreshData() {
+
     }
 
     @Override

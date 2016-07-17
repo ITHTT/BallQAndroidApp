@@ -211,7 +211,6 @@ public class LoginActivity extends BaseActivity {
                         }
                     }
                 }
-
                 loadingProgressDialog.dismiss();
             }
 

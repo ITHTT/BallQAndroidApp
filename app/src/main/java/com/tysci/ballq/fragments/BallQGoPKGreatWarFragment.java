@@ -39,7 +39,7 @@ import okhttp3.Request;
  * Created by Administrator on 2016/7/15.
  * pk大战
  */
-public class BallQPKGreatWarGoFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener{
+public class BallQGoPKGreatWarFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener{
     @Bind(R.id.swipe_refresh)
     protected SwipeRefreshLayout swipeRefresh;
     @Bind(R.id.recycler_view)
@@ -60,6 +60,7 @@ public class BallQPKGreatWarGoFragment extends BaseFragment implements SwipeRefr
 
     @Override
     protected void initViews(View view, Bundle savedInstanceState) {
+
         recyclerView.setLayoutManager(new LinearLayoutManager(this.getActivity()));
         swipeRefresh.setOnRefreshListener(this);
         btBetting.setEnabled(false);
@@ -143,6 +144,7 @@ public class BallQPKGreatWarGoFragment extends BaseFragment implements SwipeRefr
                                     } else {
                                         adapter.notifyDataSetChanged();
                                     }
+                                    return;
                                 }
                             }
                         }
