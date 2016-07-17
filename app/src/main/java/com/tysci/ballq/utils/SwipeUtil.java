@@ -32,7 +32,7 @@ public final class SwipeUtil {
         this.handler = new Handler();
     }
 
-    public void setRefreshing() {
+    public void startRefreshing() {
         handler.post(handlerRefreshing);
     }
 

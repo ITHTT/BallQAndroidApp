@@ -358,7 +358,7 @@ public class UserOldDataActivity extends BaseActivity implements SwipeRefreshLay
                 layout_guess_record_data.setVisibility(View.VISIBLE);
                 break;
         }
-        mSwipeUtil.setRefreshing();
+        mSwipeUtil.startRefreshing();
         onRefresh();
     }
 
