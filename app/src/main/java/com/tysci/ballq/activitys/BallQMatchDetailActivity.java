@@ -119,9 +119,12 @@ public class BallQMatchDetailActivity extends BaseActivity {
     protected void getIntentData(Intent intent) {
         BallQMatchEntity data=intent.getParcelableExtra(Tag);
         if(data!=null){
-            initMatchInfo(data);
-            addFragments(data);
-            getMatchDetailInfo(data.getEid(),data.getEtype());
+            if(!TextUtils.isEmpty(data.getTourname())) {
+                initMatchInfo(data);
+                addFragments(data);
+            }else {
+                getMatchDetailInfo(data.getEid(), data.getEtype());
+            }
         }
     }
 
@@ -144,9 +147,11 @@ public class BallQMatchDetailActivity extends BaseActivity {
                 if(!TextUtils.isEmpty(response)){
                     JSONObject obj=JSONObject.parseObject(response);
                     if(obj!=null&&!obj.isEmpty()&&obj.getIntValue("status")==0){
-                        BallQMatchEntity info=JSONObject.parseObject("data",BallQMatchEntity.class);
+                        BallQMatchEntity info=obj.getObject("data",BallQMatchEntity.class);
                         if(info!=null){
+                            KLog.e("显示数据。。。");
                             initMatchInfo(info);
+                            addFragments(info);
                         }
                     }
                 }

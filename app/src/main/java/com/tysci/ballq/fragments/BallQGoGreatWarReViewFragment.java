@@ -1,16 +1,26 @@
 package com.tysci.ballq.fragments;
 
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.support.v4.view.ViewPager;
 import android.text.TextPaint;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
 
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.tysci.ballq.R;
 import com.tysci.ballq.base.BaseFragment;
+import com.tysci.ballq.networks.HttpClientUtil;
+import com.tysci.ballq.networks.HttpUrls;
+import com.tysci.ballq.utils.CommonUtils;
+import com.tysci.ballq.utils.KLog;
 import com.tysci.ballq.views.adapters.BallQFragmentPagerAdapter;
 import com.tysci.ballq.views.widgets.PagerSlidingTabStrip;
 
@@ -27,6 +37,8 @@ import master.flame.danmaku.danmaku.model.android.DanmakuContext;
 import master.flame.danmaku.danmaku.model.android.Danmakus;
 import master.flame.danmaku.danmaku.model.android.SimpleTextCacheStuffer;
 import master.flame.danmaku.danmaku.parser.BaseDanmakuParser;
+import okhttp3.Call;
+import okhttp3.Request;
 
 /**
  * Created by Administrator on 2016/7/15.
@@ -41,6 +53,22 @@ public class BallQGoGreatWarReViewFragment extends BaseFragment{
     protected IDanmakuView danmakuView;
 
     private DanmakuContext danmakuContext;
+    private int currentPages=1;
+
+    private Handler danmakuHandler=new Handler(Looper.getMainLooper());
+    private List<String> dankmakus=null;
+    private int currentIndex=0;
+    private Runnable danmakuRunnable=new Runnable() {
+        @Override
+        public void run() {
+            int size=dankmakus.size();
+            for(int i=currentIndex;i<currentIndex+3;i++){
+                if(i<size){
+                    addDanmaku(dankmakus.get(i),true,false);
+                }
+            }
+        }
+    };
 
     @Override
     protected int getViewLayoutId() {
@@ -50,7 +78,8 @@ public class BallQGoGreatWarReViewFragment extends BaseFragment{
     @Override
     protected void initViews(View view, Bundle savedInstanceState) {
         addFragments();
-
+        initDanmakuView();
+        getDanmakuInfos(currentPages);
     }
 
     private void initDanmakuView(){
@@ -63,6 +92,7 @@ public class BallQGoGreatWarReViewFragment extends BaseFragment{
         overlappingEnablePair.put(BaseDanmaku.TYPE_SCROLL_LR, true);
         overlappingEnablePair.put(BaseDanmaku.TYPE_FIX_BOTTOM, true);
 
+
         danmakuContext.setDanmakuStyle(IDisplayer.DANMAKU_STYLE_STROKEN, 3) //设置描边样式
                 .setDuplicateMergingEnabled(false)
                 .setScrollSpeedFactor(1.2f) //是否启用合并重复弹幕
@@ -73,16 +103,20 @@ public class BallQGoGreatWarReViewFragment extends BaseFragment{
         danmakuView.setCallback(new master.flame.danmaku.controller.DrawHandler.Callback() {
             @Override
             public void updateTimer(DanmakuTimer timer) {
+                //KLog.e("更新弹幕。。。");
+
 
             }
 
             @Override
             public void drawingFinished() {
+                KLog.e("绘制完成");
 
             }
 
             @Override
             public void danmakuShown(BaseDanmaku danmaku) {
+                KLog.e("弹幕显示");
 
             }
 
@@ -140,6 +174,129 @@ public class BallQGoGreatWarReViewFragment extends BaseFragment{
     @Override
     protected void notifyEvent(String action, Bundle data) {
 
+    }
+
+    private void addDanmaku(String text, boolean isLive, boolean isSelf) {
+//        if(!mDanmakuView.isShown())
+//        {
+//             return;
+//        }
+        BaseDanmaku danmaku = danmakuContext.mDanmakuFactory.createDanmaku(BaseDanmaku.TYPE_SCROLL_RL);
+        if (danmaku == null || danmakuView == null || TextUtils.isEmpty(text)) {
+            return;
+        }
+//        danmaku.text = "这是一条弹幕" + System.nanoTime();
+        danmaku.text = text;
+        danmaku.padding = 5;
+        danmaku.priority = 1;  // 0可能会被各种过滤器过滤并隐藏显示
+        danmaku.isLive = isLive;
+        danmaku.time = danmakuView.getCurrentTime() + 1200;
+        danmaku.textSize = CommonUtils.sp2px(baseActivity,13);
+        if (isSelf) {
+            danmaku.textColor = Color.BLACK;
+        } else {
+            danmaku.textColor = Color.parseColor("#3a3a3a");
+        }
+//        danmaku.textShadowColor = Color.WHITE;
+        if (isSelf) {
+            danmaku.underlineColor = Color.BLACK;
+        }
+//        danmaku.borderColor = Color.GREEN;
+        danmakuView.addDanmaku(danmaku);
+    }
+
+    private void getDanmakuInfos(int pages){
+        String url= HttpUrls.HOST_URL_V5 + "go/comments/?p="+pages;
+        HttpClientUtil.getHttpClientUtil().sendGetRequest(Tag, url, 60, new HttpClientUtil.StringResponseCallBack() {
+            @Override
+            public void onBefore(Request request) {
+
+            }
+
+            @Override
+            public void onError(Call call, Exception error) {
+
+            }
+
+            @Override
+            public void onSuccess(Call call, String response){
+                KLog.json(response);
+                addDanmaku("获取弹幕信息成功",true,true);
+                if(!TextUtils.isEmpty(response)){
+                    JSONObject obj=JSONObject.parseObject(response);
+                    if(obj!=null&&!obj.isEmpty()){
+                        int status=obj.getIntValue("status");
+                        if(status==0){
+                            currentPages++;
+                            JSONArray dataArrays=obj.getJSONArray("data");
+                            if(dataArrays!=null&&!dataArrays.isEmpty()) {
+                               if(dankmakus==null){
+                                   dankmakus=new ArrayList<String>(10);
+                               }
+                               showDanmaku(dataArrays,dankmakus);
+                            }
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void onFinish(Call call) {
+
+            }
+        });
+    }
+
+    private void showDanmaku(JSONArray datas,List<String>strs){
+        int size = datas.size();
+        if(!strs.isEmpty()){
+            strs.clear();
+        }
+        for (int i = 0; i < size; i++) {
+            strs.add(datas.getString(i));
+        }
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        if (danmakuView != null && danmakuView.isPrepared()) {
+            danmakuView.pause();
+        }
+
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        try {
+            if (danmakuView != null && danmakuView.isPrepared()) {
+                danmakuView.pause();
+            }
+//            mTimer.cancel();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (danmakuView != null && danmakuView.isPrepared() && danmakuView.isPaused()) {
+            danmakuView.resume();
+        }
+    }
+
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if(danmakuView!=null) {
+            danmakuView.release();
+        }
+        if(danmakuContext!=null){
+            danmakuContext=null;
+        }
     }
 
     private static class BackgroundCacheStuffer extends SimpleTextCacheStuffer {

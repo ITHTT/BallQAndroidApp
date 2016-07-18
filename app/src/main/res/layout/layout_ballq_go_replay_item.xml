@@ -1,0 +1,226 @@
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/ballq_go_war_review_01"
+    android:gravity="center"
+    android:orientation="horizontal"
+    android:paddingBottom="10dp"
+    android:paddingTop="10dp"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="4">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tvTourName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="欧冠杯 04-28 11:30"
+                android:textColor="@color/c_3a3a3a"
+                android:textSize="9sp"
+                android:typeface="monospace" />
+
+            <TextView
+                android:id="@+id/tvHomeName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:text="皇家马德里"
+                android:textColor="@color/c_3a3a3a"
+                android:textSize="12sp"
+                android:typeface="monospace" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:text="VS"
+                android:textColor="@color/c_3a3a3a"
+                android:textSize="13sp"
+                android:typeface="monospace" />
+
+            <TextView
+                android:id="@+id/tvAwayName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:text="巴塞罗那"
+                android:textColor="@color/c_3a3a3a"
+                android:textSize="12sp"
+                android:typeface="monospace" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <ImageView
+        android:layout_width="3dp"
+        android:layout_height="match_parent"
+        android:contentDescription=""
+        android:src="@mipmap/icon_divider" />
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="5"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="球商GO:"
+                android:textColor="@color/c_3a3a3a"
+                android:textSize="10sp"
+                android:typeface="monospace" />
+
+            <TextView
+                android:id="@+id/stake_amount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:layout_marginStart="5dp"
+                android:text="球商"
+                android:textColor="@color/c_3a3a3a"
+                android:textSize="10sp"
+                android:typeface="monospace" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/odds_type"
+                android:layout_width="18dp"
+                android:layout_height="wrap_content"
+                android:text="亚盘"
+                android:textColor="@color/c_3a3a3a"
+                android:textSize="10sp" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="2dp"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/odds_info1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/ballq_go_betting_info_bg"
+                    android:paddingBottom="2dp"
+                    android:paddingLeft="3dp"
+                    android:paddingRight="3dp"
+                    android:paddingTop="2dp"
+                    android:text="主-0.5@1.83"
+                    android:textColor="#ffffff"
+                    android:textSize="9sp" />
+
+                <!--android:background="@drawable/shape_707070_black"-->
+                <TextView
+                    android:id="@+id/odds_info2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:paddingBottom="2dp"
+                    android:paddingLeft="3dp"
+                    android:paddingRight="3dp"
+                    android:paddingTop="2dp"
+                    android:text="主-0.5@1.83"
+                    android:textColor="@color/c_3a3a3a"
+                    android:textSize="9sp" />
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+    <ImageView
+        android:layout_width="3dp"
+        android:layout_height="match_parent"
+        android:contentDescription=""
+        android:src="@mipmap/icon_divider" />
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="2"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/ivStatus"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:contentDescription=""
+            android:src="@mipmap/go_determined_flag" />
+
+        <TextView
+            android:id="@+id/win_amount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:ellipsize="end"
+            android:lines="1"
+            android:text="@string/app_name"
+            android:textColor="@color/c_3a3a3a"
+            android:textSize="9sp" />
+    </LinearLayout>
+
+    <ImageView
+        android:layout_width="3dp"
+        android:layout_height="match_parent"
+        android:contentDescription=""
+        android:src="@mipmap/icon_divider" />
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="2.5"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:background="@drawable/icon_button_login_or_register_bg"
+            android:gravity="center"
+            android:paddingBottom="5dp"
+            android:paddingTop="5dp"
+            android:text="复盘"
+            android:textColor="@color/c_3a3a3a"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/tips_count"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/select_menu_item_selected"
+            android:gravity="center"
+            android:paddingBottom="5dp"
+            android:paddingTop="5dp"
+            android:text="5 爆料"
+            android:textColor="@color/c_3a3a3a"
+            android:textSize="12sp" />
+    </LinearLayout>
+</LinearLayout>

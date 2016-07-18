@@ -209,6 +209,12 @@ public class WXEntryActivity extends BaseActivity implements IWXAPIEventHandler 
                         eventObject.getData().putString("code", resp.code);
                         eventObject.addReceiver(WXPayEntryActivity.class);
                         EventObject.postEventObject(eventObject, "user_reward");
+                    }else if(REQUEST_TAG==3){
+                        /**提现的绑定*/
+                        EventObject eventObject = new EventObject();
+                        eventObject.getData().putString("code", resp.code);
+                        //eventObject.addReceiver(.class);
+                        EventObject.postEventObject(eventObject, "user_reward");
                     }
                 }
                 if(REQUEST_TAG==1){
@@ -255,7 +261,7 @@ public class WXEntryActivity extends BaseActivity implements IWXAPIEventHandler 
                     JSONObject obj = JSONObject.parseObject(response);
                     if (obj != null && !obj.isEmpty()) {
                         if(!TextUtils.isEmpty(obj.getString("access_token"))) {
-                            UserInfoUtil.setUserWechatTokenInfo(WXEntryActivity.this,obj);
+                            UserInfoUtil.setUserWechatTokenInfo(WXEntryActivity.this, obj);
                             getWeChatUserInfo(obj);
                             return;
                         }
@@ -297,7 +303,8 @@ public class WXEntryActivity extends BaseActivity implements IWXAPIEventHandler 
                     if(obj!=null&&!obj.isEmpty()){
                         if(!TextUtils.isEmpty(obj.getString("openid"))) {
                             WeChatUtil.setOpenId(WXEntryActivity.this,obj.getString("openid"));
-                            UserInfoUtil.setWechatUserInfo(WXEntryActivity.this,obj);
+                            WeChatUtil.setWechatUserInfo(WXEntryActivity.this,obj.toJSONString());
+                            //UserInfoUtil.setWechatUserInfo(WXEntryActivity.this,obj);
                             userWeChatLogin(obj);
                             return;
                         }

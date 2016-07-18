@@ -276,6 +276,7 @@ public class WXPayEntryActivity extends BaseActivity implements IWXAPIEventHandl
                     if(obj!=null&&!obj.isEmpty()){
                         if(!TextUtils.isEmpty(obj.getString("openid"))) {
                             WeChatUtil.setOpenId(WXPayEntryActivity.this,obj.getString("openid"));
+                            WeChatUtil.setWechatUserInfo(WXPayEntryActivity.this,obj.toJSONString());
                             weChatPay(moneys);
                             return;
                         }
