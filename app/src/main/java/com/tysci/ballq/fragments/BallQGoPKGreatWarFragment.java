@@ -15,13 +15,16 @@ import com.alibaba.fastjson.JSONObject;
 import com.tysci.ballq.R;
 import com.tysci.ballq.base.BaseFragment;
 import com.tysci.ballq.modles.BallQGoMatchEntity;
+import com.tysci.ballq.modles.event.EventObject;
 import com.tysci.ballq.networks.HttpClientUtil;
 import com.tysci.ballq.networks.HttpUrls;
 import com.tysci.ballq.utils.CommonUtils;
 import com.tysci.ballq.utils.KLog;
 import com.tysci.ballq.utils.ToastUtil;
+import com.tysci.ballq.utils.UserInfoUtil;
 import com.tysci.ballq.views.adapters.BallQPKGreatWarGoAdapter;
 import com.tysci.ballq.views.dialogs.BallQGoBettingRulesTipDialog;
+import com.tysci.ballq.views.dialogs.LoadingProgressDialog;
 import com.tysci.ballq.views.widgets.loadmorerecyclerview.AutoLoadMoreRecyclerView;
 
 import org.json.JSONException;
@@ -52,6 +55,7 @@ public class BallQGoPKGreatWarFragment extends BaseFragment implements SwipeRefr
     private BallQPKGreatWarGoAdapter adapter=null;
     private List<BallQGoMatchEntity> goMatchEntityList=null;
     private BallQGoBettingRulesTipDialog rulesTipDialog=null;
+    private LoadingProgressDialog loadingProgressDialog;
 
     @Override
     protected int getViewLayoutId() {
@@ -60,7 +64,7 @@ public class BallQGoPKGreatWarFragment extends BaseFragment implements SwipeRefr
 
     @Override
     protected void initViews(View view, Bundle savedInstanceState) {
-
+        btBetting.setEnabled(false);
         recyclerView.setLayoutManager(new LinearLayoutManager(this.getActivity()));
         swipeRefresh.setOnRefreshListener(this);
         btBetting.setEnabled(false);
@@ -80,6 +84,21 @@ public class BallQGoPKGreatWarFragment extends BaseFragment implements SwipeRefr
     @Override
     protected View getLoadingTargetView() {
         return swipeRefresh;
+    }
+
+    private void showProgressDialog(String msg){
+        if(loadingProgressDialog==null){
+            loadingProgressDialog=new LoadingProgressDialog(baseActivity);
+            loadingProgressDialog.setCanceledOnTouchOutside(false);
+        }
+        loadingProgressDialog.setMessage(msg);
+        loadingProgressDialog.show();
+    }
+
+    private void dimssProgressDialog(){
+        if(loadingProgressDialog!=null&&loadingProgressDialog.isShowing()){
+            loadingProgressDialog.dismiss();
+        }
     }
 
     private void onRefreshCompelete(){
@@ -102,9 +121,10 @@ public class BallQGoPKGreatWarFragment extends BaseFragment implements SwipeRefr
             public void onBefore(Request request) {
 
             }
+
             @Override
             public void onError(Call call, Exception error) {
-                if(adapter==null) {
+                if (adapter == null) {
                     showErrorInfo(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
@@ -112,7 +132,7 @@ public class BallQGoPKGreatWarFragment extends BaseFragment implements SwipeRefr
                             requestDatas();
                         }
                     });
-                }else{
+                } else {
                     ToastUtil.show(baseActivity, "请求失败");
                 }
 
@@ -128,8 +148,10 @@ public class BallQGoPKGreatWarFragment extends BaseFragment implements SwipeRefr
                         if (status == 0) {
                             JSONObject data = obj.getJSONObject("data");
                             if (data != null && !data.isEmpty()) {
+                                publishBallQGOTimeRangeInfo(data);
                                 JSONArray array = data.getJSONArray("matches");
                                 if (array != null && !array.isEmpty()) {
+                                    btBetting.setEnabled(true);
                                     hideLoad();
                                     if (goMatchEntityList == null) {
                                         goMatchEntityList = new ArrayList<BallQGoMatchEntity>(10);
@@ -160,6 +182,18 @@ public class BallQGoPKGreatWarFragment extends BaseFragment implements SwipeRefr
         });
     }
 
+    private void publishBallQGOTimeRangeInfo(JSONObject obj){
+        String start=obj.getString("go_start");
+        String end=obj.getString("go_end");
+        int stake=obj.getIntValue("go_stake_amount");
+        EventObject eventObject=new EventObject();
+        eventObject.addReceiver(BallQGoGreatWarReViewFragment.class);
+        eventObject.getData().putString("go_start", start);
+        eventObject.getData().putString("go_end", end);
+        eventObject.getData().putInt("go_stake", stake);
+        EventObject.postEventObject(eventObject, "ballq_go_info");
+    }
+
     @OnClick(R.id.bt_betting_rule)
     protected void onClickRules(View view){
         if(rulesTipDialog==null){
@@ -168,48 +202,62 @@ public class BallQGoPKGreatWarFragment extends BaseFragment implements SwipeRefr
         rulesTipDialog.show();
     }
 
+    @OnClick(R.id.bt_betting)
+    protected void onUserBetting(View view){
+        if(UserInfoUtil.checkLogin(baseActivity)){
+            postBettingInfo();
+        }else{
+            UserInfoUtil.userLogin(baseActivity);
+        }
+    }
+
     private void postBettingInfo(){
         HashMap<String,String> params=new HashMap<>(3);
-//        params.put("user", SPUtil2.read(this.getActivity(),UserProfileUtils.USER_ID, "0"));
-//        params.put("token",SPUtil2.read(this.getActivity(),UserProfileUtils.USER_TOKEN,"null"));
-//        String bettingInfo=getBettingInfos(ballQGoMatchEntityList);
-//        if(TextUtils.isEmpty(bettingInfo)){
-//            ToastUtil2.show(getActivity(),"必须投注所有比赛");
-//            return;
-//        }else{
-//            KLog.e("投注信息:"+bettingInfo);
-//            params.put("bets",bettingInfo);
-//        }
-//        if(progressDialog==null){
-//            progressDialog=new ProgressDialog(this.getActivity());
-//            progressDialog.setMessage("投注请求中...");
-//        }
-//        progressDialog.show();
-//        String url=ApiUtils.baseUrlV5()+"go/add_bet/";
-//        OkHttpUtils.postAsync(url, new OkHttpUtils.ResultCallback<String>() {
-//            @Override
-//            public void onError(Request request, Exception e) {
-//                progressDialog.dismiss();
-//                ToastUtil2.show(getActivity(), "请求失败");
-//            }
-//
-//            @Override
-//            public void onResponse(String response) throws Exception {
-//                progressDialog.dismiss();
-//                KLog.json(response);
-//                if (!TextUtils.isEmpty(response)) {
-//                    org.json.JSONObject object = new org.json.JSONObject(response);
-//                    if (object != null) {
-//                        ToastUtil2.show(getActivity(), object.getString("message"));
-//                        int status = object.getInt("status");
-//                        if (status == 1200) {
-//                            refreshBettingRecordList();
-//                        }
-//                    }
-//                }
-//            }
-//        }, params);
+        params.put("user", UserInfoUtil.getUserId(baseActivity));
+        params.put("token", UserInfoUtil.getUserToken(baseActivity));
+        final String bettingInfo=getBettingInfos(goMatchEntityList);
+        if(TextUtils.isEmpty(bettingInfo)){
+            ToastUtil.show(getActivity(), "必须投注所有比赛");
+            return;
+        }else{
+            KLog.e("投注信息:"+bettingInfo);
+            params.put("bets", bettingInfo);
+        }
+        showProgressDialog("投注请求中...");
+        String url=HttpUrls.HOST_URL_V5+"go/add_bet/";
+        HttpClientUtil.getHttpClientUtil().sendPostRequest(Tag, url, params, new HttpClientUtil.StringResponseCallBack() {
+            @Override
+            public void onBefore(Request request) {
+                btBetting.setEnabled(false);
+            }
 
+            @Override
+            public void onError(Call call, Exception error) {
+                ToastUtil.show(baseActivity, "请求失败");
+            }
+
+            @Override
+            public void onSuccess(Call call, String response) {
+                if (!TextUtils.isEmpty(response)) {
+                    JSONObject obj = JSONObject.parseObject(response);
+                    if (obj != null && !obj.isEmpty()) {
+                        ToastUtil.show(baseActivity, obj.getString("message"));
+                        int status = obj.getIntValue("status");
+                        if (status == 1200) {
+                            EventObject eventObject = new EventObject();
+                            eventObject.addReceiver(BallQGoGreatWarHistoryFragment.class);
+                            EventObject.postEventObject(eventObject, "refresh_great_war_history");
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void onFinish(Call call) {
+                btBetting.setEnabled(true);
+                dimssProgressDialog();
+            }
+        });
     }
 
     private String getBettingInfos(List<BallQGoMatchEntity> datas){

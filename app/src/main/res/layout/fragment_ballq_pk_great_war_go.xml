@@ -40,7 +40,7 @@
             android:textColor="#ffffff"
             android:textSize="13sp"
             android:text="确定投注"
-            android:background="@drawable/ballq_go_user_betting_info_selected"/>
+            android:background="@drawable/icon_button_login_or_register_bg"/>
         <Button
             android:id="@+id/bt_betting_rule"
             android:layout_width="85dp"
