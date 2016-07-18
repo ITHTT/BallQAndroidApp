@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center_horizontal"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="您的账户余额为："
+            android:textColor="@color/c_3a3a3a"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/tvUserBalance"
+            android:layout_width="90dp"
+            android:layout_height="wrap_content"
+            android:text="0元"
+            android:textColor="@color/gold"
+            android:textSize="14sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="请输入提现金额："
+            android:textColor="@color/c_3a3a3a"
+            android:textSize="14sp" />
+
+        <EditText
+            android:id="@+id/etUserWithdrawals"
+            android:layout_width="90dp"
+            android:layout_height="20dp"
+            android:background="@drawable/shape_edit_text_bg_gold"
+            android:digits="1234567890."
+            android:gravity="center"
+            android:inputType="number"
+            android:lines="1"
+            android:paddingTop="5dp"
+            android:textColor="@color/gold"
+            android:textSize="13sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="请输入提现金额："
+            android:textColor="@color/c_3a3a3a"
+            android:textSize="14sp"
+            android:visibility="invisible" />
+
+        <TextView
+            android:layout_width="90dp"
+            android:layout_height="wrap_content"
+            android:gravity="start"
+            android:text="提现收取10%手续费\n最少提现金额为2元"
+            android:textColor="@color/gold"
+            android:textSize="8sp" />
+    </LinearLayout>
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="15dp"
+        android:background="@drawable/icon_line"
+        android:contentDescription="@string/app_name" />
+
+    <TextView
+        android:id="@+id/tvWithdrawalsMsg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:text="首次提现请绑定微信"
+        android:textColor="@color/c_3a3a3a"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/tvBindToWeChat"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/button_gold"
+        android:paddingBottom="5dp"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:paddingTop="5dp"
+        android:text="立即绑定"
+        android:textColor="@color/c_3a3a3a"
+        android:textSize="13sp" />
+
+    <com.tysci.ballq.views.widgets.CircleImageView
+        android:id="@+id/ivWeChatPortrait"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="10dp"
+        android:src="@mipmap/ic_ballq_logo"
+        app:border_color="#0000"
+        app:border_width="1dp" />
+
+    <TextView
+        android:id="@+id/tvWeChatNickname"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="随便猜猜"
+        android:textColor="@color/gold"
+        android:textSize="15sp" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/tvChangeWeChat"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/button_gold"
+            android:paddingBottom="5dp"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:paddingTop="5dp"
+            android:text="更换微信帐号"
+            android:textColor="@color/c_3a3a3a"
+            android:textSize="13sp" />
+
+        <TextView
+            android:id="@+id/tvApplyToWithdrawals"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/button_gold"
+            android:paddingBottom="5dp"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:paddingTop="5dp"
+            android:text="申请提现"
+            android:textColor="@color/c_3a3a3a"
+            android:textSize="13sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/vgApplyRecord"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="15dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="2dp"
+            android:layout_weight="1"
+            android:contentDescription="@string/app_name"
+            android:src="@drawable/icon_line" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:text="提现申请记录"
+            android:textColor="@color/gold"
+            android:textSize="14sp" />
+
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="2dp"
+            android:layout_weight="1"
+            android:contentDescription="@string/app_name"
+            android:src="@drawable/icon_line" />
+    </LinearLayout>
+</LinearLayout>

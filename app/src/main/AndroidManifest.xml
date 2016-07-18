@@ -95,6 +95,9 @@
         <activity
             android:name=".activitys.PingPayActivity"
             android:launchMode="singleTop" />
+        <activity
+            android:name=".activitys.UserWithdrawsActivity"
+            android:launchMode="singleTop" />
 
         <service android:name=".services.TimeTaskPickerService" />
         <service android:name=".services.UserTaskService" />
