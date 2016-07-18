@@ -13,6 +13,7 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.tysci.ballq.R;
 import com.tysci.ballq.activitys.BallQGreatWarGoActivity;
+import com.tysci.ballq.activitys.BallQMainUserRankingListActivity;
 import com.tysci.ballq.base.BaseFragment;
 import com.tysci.ballq.modles.BallQAuthorAnalystsEntity;
 import com.tysci.ballq.modles.BallQBannerImageEntity;
@@ -268,6 +269,7 @@ public class BallQIndexPageFragment extends BaseFragment implements SwipeRefresh
                 intent=new Intent(baseActivity, BallQGreatWarGoActivity.class);
                 break;
             case R.id.iv_get_ballq_gold:
+                intent=new Intent(baseActivity, BallQMainUserRankingListActivity.class);
                 break;
         }
         if(intent!=null){
