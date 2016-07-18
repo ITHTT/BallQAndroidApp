@@ -113,7 +113,6 @@ public class TimeTaskPickerService extends BaseService implements Runnable {
         HttpClientUtil.getHttpClientUtil().sendGetRequest(TAG, sb.toString(), 0, new HttpClientUtil.StringResponseCallBack() {
             @Override
             public void onBefore(Request request) {
-                KLog.e();
             }
 
             @Override

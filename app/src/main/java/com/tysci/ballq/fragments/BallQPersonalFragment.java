@@ -175,15 +175,15 @@ public class BallQPersonalFragment extends BaseFragment {
                 case R.id.menu_user_attentions:
                     cls = UserAttentionActivity.class;
                     break;
-                case R.id.menu_user_asset:
+                case R.id.menu_user_asset:// 账户中心
                     cls = UserAccountActivity.class;
                     break;
-                case R.id.menu_user_achievement:
+                case R.id.menu_user_achievement:// 我的成就
                     cls = UserAchievementActivity.class;
                     break;
-                case R.id.menu_user_tip_off_record:
+                case R.id.menu_user_tip_off_record:// 爆料记录
                     break;
-                case R.id.menu_user_old_guess_record:
+                case R.id.menu_user_old_guess_record:// 老用户战绩
                     cls = UserOldDataActivity.class;
                     break;
                 case R.id.menu_setting:// 设置

@@ -1,26 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-    <include
-        layout="@layout/layout_title_bar"/>
+    android:layout_height="match_parent"
+    android:background="#4e4d4d"
+    android:orientation="vertical">
+
+    <include layout="@layout/layout_title_bar" />
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scrollbars="none">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:gravity="center_horizontal">
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:text="充值"
-                android:textColor="@color/c_3a3a3a"
+                android:textColor="@color/gold"
                 android:textSize="15sp" />
+
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
@@ -28,23 +33,28 @@
                 android:layout_marginRight="25dp"
                 android:layout_marginTop="5dp"
                 android:background="#c9c9c9"
-                android:contentDescription="" />
+                android:contentDescription="@string/app_name" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
                 android:text="请选择金额充值"
+                android:textColor="@color/white"
                 android:textSize="13sp" />
+
             <com.tysci.ballq.views.widgets.NoScrollGridView
                 android:id="@+id/gridView"
-                android:layout_width="270dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:numColumns="3"
-                android:layout_marginTop="15dp"/>
+                android:layout_marginLeft="25dp"
+                android:layout_marginRight="25dp"
+                android:layout_marginTop="15dp"
+                android:numColumns="3" />
 
             <EditText
-                android:id="@+id/amountEditText"
+                android:id="@+id/etOtherMoney"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
@@ -54,19 +64,40 @@
                 android:inputType="phone"
                 android:paddingBottom="5dp"
                 android:paddingTop="5dp"
+                android:textColor="@color/gold"
+                android:textColorHint="@color/gold"
                 android:textSize="14sp" />
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginLeft="25dp"
+                android:layout_marginRight="25dp"
+                android:layout_marginTop="5dp"
+                android:background="@color/gold"
+                android:contentDescription="@string/app_name" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="3dp"
+                    android:layout_marginTop="35dp"
+                    android:background="@color/gold"
+                    android:contentDescription="@string/app_name" />
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="15dp"
                     android:layout_marginStart="15dp"
                     android:layout_marginTop="10dp"
-                    android:text="选择支付方式" />
+                    android:text="选择支付方式"
+                    android:textColor="@color/gold" />
+
                 <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
@@ -74,7 +105,7 @@
                     android:layout_marginRight="5dp"
                     android:layout_marginTop="10dp"
                     android:background="#c9c9c9"
-                    android:contentDescription="" />
+                    android:contentDescription="@string/app_name" />
 
                 <LinearLayout
                     android:id="@+id/layoutPayWeChat"
@@ -84,19 +115,22 @@
                     android:orientation="horizontal"
                     android:paddingBottom="10dp"
                     android:paddingTop="10dp">
+
                     <ImageView
                         android:layout_width="35dp"
                         android:layout_height="35dp"
                         android:layout_marginLeft="25dp"
                         android:layout_marginStart="25dp"
-                        android:contentDescription=""
+                        android:contentDescription="@string/app_name"
                         android:src="@mipmap/pay_we_chat" />
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="15dp"
                         android:layout_marginStart="15dp"
                         android:text="微信支付"
+                        android:textColor="@color/white"
                         android:textSize="14sp" />
                 </LinearLayout>
 
@@ -106,7 +140,7 @@
                     android:layout_marginLeft="5dp"
                     android:layout_marginRight="5dp"
                     android:background="#c9c9c9"
-                    android:contentDescription="" />
+                    android:contentDescription="@string/app_name" />
 
                 <LinearLayout
                     android:id="@+id/layoutPayALi"
@@ -116,19 +150,22 @@
                     android:orientation="horizontal"
                     android:paddingBottom="10dp"
                     android:paddingTop="10dp">
+
                     <ImageView
                         android:layout_width="35dp"
                         android:layout_height="35dp"
                         android:layout_marginLeft="25dp"
                         android:layout_marginStart="25dp"
-                        android:contentDescription=""
+                        android:contentDescription="@string/app_name"
                         android:src="@mipmap/pay_ali" />
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="15dp"
                         android:layout_marginStart="15dp"
                         android:text="支付宝支付"
+                        android:textColor="@color/white"
                         android:textSize="14sp" />
                 </LinearLayout>
 
@@ -138,7 +175,7 @@
                     android:layout_marginLeft="5dp"
                     android:layout_marginRight="5dp"
                     android:background="#c9c9c9"
-                    android:contentDescription="" />
+                    android:contentDescription="@string/app_name" />
             </LinearLayout>
         </LinearLayout>
     </ScrollView>

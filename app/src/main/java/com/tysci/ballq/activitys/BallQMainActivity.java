@@ -3,6 +3,7 @@ package com.tysci.ballq.activitys;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
+import android.view.KeyEvent;
 import android.view.View;
 
 import com.tysci.ballq.R;
@@ -12,6 +13,7 @@ import com.tysci.ballq.fragments.BallQIndexPageFragment;
 import com.tysci.ballq.fragments.BallQMatchFragment;
 import com.tysci.ballq.fragments.BallQPersonalFragment;
 import com.tysci.ballq.fragments.BallQTipOffFragment;
+import com.tysci.ballq.utils.ToastUtil;
 import com.tysci.ballq.views.widgets.MainBottomMenuView;
 
 import butterknife.Bind;
@@ -39,6 +41,7 @@ public class BallQMainActivity extends BaseActivity {
     protected BallQPersonalFragment personalFragment;
 
     private int currentTab;
+    private long lastPressBackTimeMillis;
 
     @Override
     protected int getContentViewId() {
@@ -210,5 +213,21 @@ public class BallQMainActivity extends BaseActivity {
     @Override
     protected void notifyEvent(String action, Bundle data) {
 
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode != KeyEvent.KEYCODE_BACK)
+            return super.onKeyDown(keyCode, event);
+
+        if (System.currentTimeMillis() - lastPressBackTimeMillis > 2000) {
+            ToastUtil.show(this, "再一次点击返回键关闭球商");
+            lastPressBackTimeMillis = System.currentTimeMillis();
+            return false;
+        } else {
+            finish();
+            System.exit(0);
+        }
+        return super.onKeyDown(keyCode, event);
     }
 }

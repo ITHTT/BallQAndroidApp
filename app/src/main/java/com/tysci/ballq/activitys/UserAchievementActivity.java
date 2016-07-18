@@ -93,7 +93,7 @@ public class UserAchievementActivity extends BaseActivity implements SwipeRefres
 
     @Override
     protected View getLoadingTargetView() {
-        return null;
+        return findViewById(R.id.swipe_refresh);
     }
 
     @Override
@@ -106,6 +106,7 @@ public class UserAchievementActivity extends BaseActivity implements SwipeRefres
             setTitleText("他的成就");
         }
 
+        showLoading();
         headerView.startFirstCheck();
     }
 
@@ -234,11 +235,19 @@ public class UserAchievementActivity extends BaseActivity implements SwipeRefres
             public void onError(Call call, Exception error) {
                 ToastUtil.show(UserAchievementActivity.this, R.string.request_error);
                 mSwipeUtil.onRefreshComplete();
+                showErrorInfo(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        showLoading();
+                        headerView.startFirstCheck();
+                    }
+                });
             }
 
             @Override
             public void onSuccess(Call call, String response) {
                 KLog.json(response);
+                hideLoad();
                 mSwipeUtil.onRefreshComplete();
                 JSONObject object = JSON.parseObject(response);
                 if (JsonParams.isJsonRight(object)) {

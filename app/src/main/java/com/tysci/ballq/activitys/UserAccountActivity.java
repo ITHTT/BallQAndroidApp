@@ -48,9 +48,9 @@ public class UserAccountActivity extends BaseActivity {
     @Bind(R.id.tvUserGoldCoin)
     protected TextView tvUserGoldCoin;
 
-    private String[] titles={"交易记录","金币"};
+    private String[] titles = {"交易记录", "金币"};
 
-    private BallQGoldCoinBuyDialog goldCoinBuyDialog=null;
+    private BallQGoldCoinBuyDialog goldCoinBuyDialog = null;
 
     @Override
     protected int getContentViewId() {
@@ -103,21 +103,21 @@ public class UserAccountActivity extends BaseActivity {
 
     }
 
-    private void addFragments(){
-       if(viewPager.getAdapter()==null) {
-           List<BaseFragment> fragments = new ArrayList<>(2);
-           fragments.add(new UserAccountTradeRecordFragment());
-           fragments.add(new UserAccountGoldRecordFragment());
-           BallQFragmentPagerAdapter adapter=new BallQFragmentPagerAdapter(getSupportFragmentManager(),fragments);
-           viewPager.setAdapter(adapter);
+    private void addFragments() {
+        if (viewPager.getAdapter() == null) {
+            List<BaseFragment> fragments = new ArrayList<>(2);
+            fragments.add(new UserAccountTradeRecordFragment());
+            fragments.add(new UserAccountGoldRecordFragment());
+            BallQFragmentPagerAdapter adapter = new BallQFragmentPagerAdapter(getSupportFragmentManager(), fragments);
+            viewPager.setAdapter(adapter);
 
-       }
+        }
 
     }
 
-    private void getUserAccountInfo(){
-        String url= HttpUrls.HOST_URL_V5+"my_account/";
-        HashMap<String,String> params=new HashMap<>(2);
+    private void getUserAccountInfo() {
+        String url = HttpUrls.HOST_URL_V5 + "my_account/";
+        HashMap<String, String> params = new HashMap<>(2);
         if (UserInfoUtil.checkLogin(this)) {
             params.put("user", UserInfoUtil.getUserId(this));
             params.put("token", UserInfoUtil.getUserToken(this));
@@ -142,17 +142,17 @@ public class UserAccountActivity extends BaseActivity {
             @Override
             public void onSuccess(Call call, String response) {
                 KLog.json(response);
-                if(!TextUtils.isEmpty(response)){
-                    JSONObject obj=JSONObject.parseObject(response);
-                    if(obj!=null&&!obj.isEmpty()){
-                        if(obj.getIntValue("status")==0){
-                            JSONArray datas=obj.getJSONArray("data");
-                            if(datas!=null&&!datas.isEmpty()){
-                                JSONObject data=datas.getJSONObject(0);
-                                if(data!=null&&!data.isEmpty()){
+                if (!TextUtils.isEmpty(response)) {
+                    JSONObject obj = JSONObject.parseObject(response);
+                    if (obj != null && !obj.isEmpty()) {
+                        if (obj.getIntValue("status") == 0) {
+                            JSONArray datas = obj.getJSONArray("data");
+                            if (datas != null && !datas.isEmpty()) {
+                                JSONObject data = datas.getJSONObject(0);
+                                if (data != null && !data.isEmpty()) {
                                     hideLoad();
-                                    tvUserBalance.setText(String.format(Locale.getDefault(),"%.2f",data.getFloat("rmb")/100));
-                                    tvUserGoldCoin.setText(String.format(Locale.getDefault(),"%.2f",data.getFloat("gold")/100));
+                                    tvUserBalance.setText(String.format(Locale.getDefault(), "%.2f", data.getFloat("rmb") / 100));
+                                    tvUserGoldCoin.setText(String.format(Locale.getDefault(), "%.2f", data.getFloat("gold") / 100));
                                     tvUserScore.setText(data.getString("points"));
                                     addFragments();
                                     return;
@@ -163,6 +163,7 @@ public class UserAccountActivity extends BaseActivity {
                 }
                 showEmptyInfo();
             }
+
             @Override
             public void onFinish(Call call) {
 
@@ -201,16 +202,25 @@ public class UserAccountActivity extends BaseActivity {
     }
 
     @OnClick(R.id.tvGetScoreByCompleteTask)
-    protected void onTaskPointsRecord(View view){
-        Intent intent=new Intent(this,BallQTaskPointsRecordActivity.class);
+    protected void onTaskPointsRecord(View view) {
+        Intent intent = new Intent(this, BallQTaskPointsRecordActivity.class);
         startActivity(intent);
     }
 
     @OnClick(R.id.tvBuyGoldCoin)
-    protected void onBuyGoldCoin(View view){
-        if(goldCoinBuyDialog==null){
-            goldCoinBuyDialog=new BallQGoldCoinBuyDialog(this);
+    protected void onBuyGoldCoin(View view) {
+        if (goldCoinBuyDialog == null) {
+            goldCoinBuyDialog = new BallQGoldCoinBuyDialog(this);
         }
         goldCoinBuyDialog.show();
+    }
+
+    /**
+     * 充值
+     */
+    @OnClick(R.id.tvRecharge)
+    protected void onRechargeClick(View view) {
+        Intent intent = new Intent(this, PingPayActivity.class);
+        startActivity(intent);
     }
 }
