@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/DanmakuFlameMaster.iml" filepath="$PROJECT_DIR$/DanmakuFlameMaster.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../app/app.iml" filepath="$PROJECT_DIR$/../app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../ballq_androidv2.iml" filepath="$PROJECT_DIR$/../ballq_androidv2.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../ping/bdwallet_pay_sdk/bdwallet_pay_sdk.iml" filepath="$PROJECT_DIR$/../ping/bdwallet_pay_sdk/bdwallet_pay_sdk.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../libammsdk/libammsdk.iml" filepath="$PROJECT_DIR$/../libammsdk/libammsdk.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../library_de/library_de.iml" filepath="$PROJECT_DIR$/../library_de/library_de.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../library_pulltorefresh/library_pulltorefresh.iml" filepath="$PROJECT_DIR$/../library_pulltorefresh/library_pulltorefresh.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../ping/ping.iml" filepath="$PROJECT_DIR$/../ping/ping.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../ping/pingpp/pingpp.iml" filepath="$PROJECT_DIR$/../ping/pingpp/pingpp.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../ping/pingpp_one/pingpp_one.iml" filepath="$PROJECT_DIR$/../ping/pingpp_one/pingpp_one.iml" />
+    </modules>
+  </component>
+</project>
