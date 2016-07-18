@@ -34,6 +34,8 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
     protected TitleBar titleBar;
     protected LoadingViewController loadingViewController;
 
+    private static int resumeNumber = 0;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -231,6 +233,22 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
     protected void hideLoad() {
         if (loadingViewController != null)
             loadingViewController.restore();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        resumeNumber++;
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        resumeNumber--;
+    }
+
+    public static boolean isForeground() {
+        return resumeNumber > 0;
     }
 
     @Override

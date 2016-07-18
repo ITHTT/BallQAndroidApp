@@ -8,11 +8,15 @@ import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.tysci.ballq.R;
 import com.tysci.ballq.interfaces.ITabCheck;
+import com.tysci.ballq.utils.ImageUtil;
+
+import java.util.List;
 
 /**
  * Created by Administrator on 2016-07-15 0015.
@@ -22,6 +26,8 @@ import com.tysci.ballq.interfaces.ITabCheck;
 public final class UserAchievementHeaderView extends LinearLayout implements View.OnClickListener {
     private TextView tv_had_got_achievement;// 已选择展示的成就提示
     private ViewGroup layout_showing_achievement;// 展示的成就
+
+    private ImageView user_showing_achievement_1, user_showing_achievement_2;
 
     private TextView tv_left;
     private TextView tv_right;
@@ -53,6 +59,9 @@ public final class UserAchievementHeaderView extends LinearLayout implements Vie
         tv_had_got_achievement = (TextView) findViewById(R.id.tv_had_got_achievement);
         layout_showing_achievement = (ViewGroup) findViewById(R.id.layout_showing_achievement);
 
+        user_showing_achievement_1 = (ImageView) findViewById(R.id.user_showing_achievement_1);
+        user_showing_achievement_2 = (ImageView) findViewById(R.id.user_showing_achievement_2);
+
         tv_left = (TextView) findViewById(R.id.tv_left);
         tv_right = (TextView) findViewById(R.id.tv_right);
 
@@ -71,6 +80,42 @@ public final class UserAchievementHeaderView extends LinearLayout implements Vie
             tv_had_got_achievement.setVisibility(GONE);
             layout_showing_achievement.setVisibility(GONE);
         }
+    }
+
+    public void setShowingAchievement(List<Integer> showingList) {
+        int showing;
+
+        user_showing_achievement_1.setImageResource(R.mipmap.icon_user_achievement_circle_mark);
+        user_showing_achievement_2.setImageResource(R.mipmap.icon_user_achievement_circle_mark);
+
+        showing = 0;
+        try {
+            showing = showingList.get(0);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        setShowingAchievement(user_showing_achievement_1, showing);
+
+        showing = 0;
+        try {
+            showing = showingList.get(1);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        setShowingAchievement(user_showing_achievement_2, showing);
+    }
+
+    private void setShowingAchievement(ImageView iv, int id) {
+        if (id <= 0) {
+            return;
+        }
+        String s = "achievement/" + id + ".png";
+        ImageUtil.loadImage(iv, R.mipmap.icon_user_achievement_circle_mark, s);
+    }
+
+    public void setShowingListener(View.OnClickListener listener) {
+        user_showing_achievement_1.setOnClickListener(listener);
+        user_showing_achievement_2.setOnClickListener(listener);
     }
 
     public void setOnTabChangeListener(ITabCheck tabCheck) {

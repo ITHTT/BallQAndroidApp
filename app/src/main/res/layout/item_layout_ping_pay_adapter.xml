@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@null"
+    android:paddingBottom="@dimen/dimen7dp"
+    android:paddingTop="@dimen/dimen7dp">
+
+    <TextView
+        android:id="@+id/text_view"
+        android:layout_width="@dimen/dimen80dp"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_centerInParent="true"
+        android:background="@drawable/button_ping_pay_grid"
+        android:paddingBottom="@dimen/dimen5dp"
+        android:paddingTop="@dimen/dimen5dp"
+        android:text="@string/app_name"
+        android:textColor="@color/c_3a3a3a"
+        android:textSize="13sp" />
+</RelativeLayout>

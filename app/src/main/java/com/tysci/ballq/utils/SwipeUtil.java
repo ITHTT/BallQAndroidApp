@@ -32,8 +32,9 @@ public final class SwipeUtil {
         this.handler = new Handler();
     }
 
-    public void setRefreshing() {
-        handler.post(handlerRefreshing);
+    public void startRefreshing() {
+        if (!refreshLayout.isRefreshing())
+            handler.post(handlerRefreshing);
     }
 
     public void onRefreshComplete() {
@@ -41,6 +42,7 @@ public final class SwipeUtil {
     }
 
     public void onRefreshComplete(long delayMillis) {
-        handler.postDelayed(handlerRefreshComplete, delayMillis);
+        if (refreshLayout.isRefreshing())
+            handler.postDelayed(handlerRefreshComplete, delayMillis);
     }
 }

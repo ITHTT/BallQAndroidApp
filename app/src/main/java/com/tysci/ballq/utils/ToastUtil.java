@@ -21,27 +21,6 @@ public class ToastUtil {
     private ToastUtil() {
     }
 
-//    public static void show(Context context, @StringRes int stringResID) {
-//        show(context, stringResID, false);
-//    }
-
-//    public static void show(Context context, @StringRes int stringResID, boolean lengthLong) {
-//        show(context, context.getResources().getString(stringResID), lengthLong);
-//    }
-//
-//    public static void show(Context context, String message) {
-//        show(context, message, false);
-//    }
-
-//    public static void show(Context context, String message, boolean lengthLong) {
-//        if (mToast != null) {
-//            mToast.cancel();
-//        }
-//        mToast = Toast.makeText(context, message, lengthLong ? Toast.LENGTH_LONG : Toast.LENGTH_SHORT);
-//        mToast.setGravity(Gravity.NO_GRAVITY, 0, 0);
-//        mToast.show();
-//    }
-
     public static <T> void show(Context context, T message) {
         show(context, message, false);
     }
