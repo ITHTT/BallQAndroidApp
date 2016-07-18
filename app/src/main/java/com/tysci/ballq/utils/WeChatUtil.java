@@ -35,6 +35,7 @@ public class WeChatUtil {
     public static final String APP_MCH_ID_WECHAT = "1235168302";
 
     public static final String OPEN_ID="open_id";
+    public static final String WECHAT_USER_INFO="wechat_user_info";
 
     public static IWXAPI wxApi;
 
@@ -134,7 +135,7 @@ public class WeChatUtil {
                     JSONObject obj=JSONObject.parseObject(response);
                     if(obj!=null&&!obj.isEmpty()){
                         if(!TextUtils.isEmpty(obj.getString("openid"))) {
-                            WeChatUtil.setOpenId(context,obj.getString("openid"));
+                            WeChatUtil.setOpenId(context, obj.getString("openid"));
                             return;
                         }
                     }
@@ -151,11 +152,23 @@ public class WeChatUtil {
     }
 
     public static void setOpenId(Context context,String openId){
-        SharedPreferencesUtil.setStringValue(context,OPEN_ID,openId);
+        SharedPreferencesUtil.setStringValue(context, OPEN_ID, openId);
     }
 
     public static String getOpenId(Context context){
         return SharedPreferencesUtil.getStringValue(context,OPEN_ID);
+    }
+
+    public static void setWechatUserInfo(Context context,String userInfo){
+        SharedPreferencesUtil.setStringValue(context,WECHAT_USER_INFO,userInfo);
+    }
+
+    public static JSONObject getWechatUserInfo(Context context){
+        String userInfo=SharedPreferencesUtil.getStringValue(context,WECHAT_USER_INFO);
+        if(!TextUtils.isEmpty(userInfo)){
+            return JSONObject.parseObject(userInfo);
+        }
+        return null;
     }
 
     public static String buildTransaction(final String type) {
