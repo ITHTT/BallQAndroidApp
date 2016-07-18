@@ -8,9 +8,9 @@ import android.view.View;
 import com.tysci.ballq.R;
 import com.tysci.ballq.base.BaseActivity;
 import com.tysci.ballq.base.BaseFragment;
-import com.tysci.ballq.fragments.BallQGreatWarGoHistoryFragment;
-import com.tysci.ballq.fragments.BallQGreatWarReViewFragment;
-import com.tysci.ballq.fragments.BallQPKGreatWarGoFragment;
+import com.tysci.ballq.fragments.BallQGoGreatWarHistoryFragment;
+import com.tysci.ballq.fragments.BallQGoGreatWarReViewFragment;
+import com.tysci.ballq.fragments.BallQGoPKGreatWarFragment;
 import com.tysci.ballq.utils.CommonUtils;
 import com.tysci.ballq.views.adapters.BallQFragmentPagerAdapter;
 import com.tysci.ballq.views.widgets.SlidingTabLayout;
@@ -53,11 +53,11 @@ public class BallQGreatWarGoActivity extends BaseActivity {
     private void addFragments(){
         String titles[]={"PK大战","大战综述","历史战绩"};
         List<BaseFragment> fragments=new ArrayList<>(3);
-        BaseFragment fragment=new BallQPKGreatWarGoFragment();
+        BaseFragment fragment=new BallQGoPKGreatWarFragment();
         fragments.add(fragment);
-        fragment=new BallQGreatWarReViewFragment();
+        fragment=new BallQGoGreatWarReViewFragment();
         fragments.add(fragment);
-        fragment=new BallQGreatWarGoHistoryFragment();
+        fragment=new BallQGoGreatWarHistoryFragment();
         fragments.add(fragment);
         BallQFragmentPagerAdapter adapter=new BallQFragmentPagerAdapter(getSupportFragmentManager(),titles,fragments);
         viewPager.setAdapter(adapter);

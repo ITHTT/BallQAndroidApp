@@ -1,6 +1,7 @@
 package com.tysci.ballq.fragments;
 
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.text.TextUtils;
 import android.view.View;
 
@@ -14,6 +15,7 @@ import com.tysci.ballq.networks.HttpUrls;
 import com.tysci.ballq.utils.CommonUtils;
 import com.tysci.ballq.utils.UserInfoUtil;
 import com.tysci.ballq.views.adapters.BallQBallWarpAdapter;
+import com.tysci.ballq.views.widgets.loadmorerecyclerview.AutoLoadMoreRecyclerView;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -22,11 +24,13 @@ import java.util.Map;
 
 import okhttp3.Call;
 import okhttp3.Request;
+import ru.noties.scrollable.CanScrollVerticallyDelegate;
+import ru.noties.scrollable.OnFlingOverListener;
 
 /**
  * Created by Administrator on 2016/5/31.
  */
-public class BallQHomeBallWarpListFragment extends AppSwipeRefreshLoadMoreRecyclerViewFragment {
+public class BallQHomeBallWarpListFragment extends AppSwipeRefreshLoadMoreRecyclerViewFragment implements CanScrollVerticallyDelegate, OnFlingOverListener {
     private List<BallQBallWarpInfoEntity> ballQBallWarpInfoEntityList;
     private BallQBallWarpAdapter adapter;
 
@@ -153,5 +157,17 @@ public class BallQHomeBallWarpListFragment extends AppSwipeRefreshLoadMoreRecycl
     @Override
     protected void notifyEvent(String action, Bundle data) {
 
+    }
+
+    @Override
+    public boolean canScrollVertically(int direction) {
+        return recyclerView != null && recyclerView.canScrollVertically(direction);
+    }
+
+    @Override
+    public void onFlingOver(int y, long duration) {
+        if (recyclerView != null) {
+            recyclerView.smoothScrollBy(0, y);
+        }
     }
 }

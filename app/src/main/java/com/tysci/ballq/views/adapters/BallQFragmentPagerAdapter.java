@@ -42,4 +42,8 @@ public class BallQFragmentPagerAdapter<T extends Fragment> extends FragmentState
             return super.getPageTitle(position);
         }
     }
+
+//    boolean canScrollVertically(int position, int direction) {
+//        return getItem(position).canScrollVertically(direction);
+//    }
 }
