@@ -1,5 +1,6 @@
 package com.tysci.ballq.utils;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -34,26 +35,27 @@ public class WeChatUtil {
     public static final String APP_SECRET_WECHAT = "35758ebd06710d202acf6270ce1be146";
     public static final String APP_MCH_ID_WECHAT = "1235168302";
 
-    public static final String OPEN_ID="open_id";
-    public static final String WECHAT_USER_INFO="wechat_user_info";
+    public static final String OPEN_ID = "open_id";
+    public static final String WECHAT_USER_INFO = "wechat_user_info";
 
     public static IWXAPI wxApi;
 
-    public static void registerWXApi(Context context){
-        wxApi= WXAPIFactory.createWXAPI(context,APP_ID_WECHAT, true);
+    public static void registerWXApi(Context context) {
+        wxApi = WXAPIFactory.createWXAPI(context, APP_ID_WECHAT, true);
         wxApi.registerApp(APP_ID_WECHAT);
     }
 
     /**
      * 微信登录
+     *
      * @param context
      * @return
      */
     public static boolean weChatLogin(Context context) {
-        if(wxApi!=null) {
+        if (wxApi != null) {
             boolean isInstalled = wxApi.isWXAppInstalled() && wxApi.isWXAppSupportAPI();
             if (!isInstalled) {
-                Toast.makeText(context, "请先安装微信APP",Toast.LENGTH_SHORT);
+                Toast.makeText(context, "请先安装微信APP", Toast.LENGTH_SHORT);
                 return false;
             }
             // send oauth request
@@ -66,84 +68,95 @@ public class WeChatUtil {
         return false;
     }
 
+    public static void getWeChatUserInfo(final Activity context, final String tag, String code, final HttpClientUtil.StringResponseCallBack callback) {
+
+        getWeChatToken(tag, code, new HttpClientUtil.ProgressResponseCallBack() {
+            @Override
+            public void loadingProgress(int progress) {
+            }
+
+            @Override
+            public void onBefore(Request request) {
+            }
+
+            @Override
+            public void onError(Call call, Exception error) {
+                ToastUtil.show(context, R.string.request_error);
+            }
+
+            @Override
+            public void onSuccess(Call call, String response) {
+                if (!TextUtils.isEmpty(response)) {
+                    JSONObject obj = JSONObject.parseObject(response);
+                    if (obj != null && !obj.isEmpty()) {
+                        if (!TextUtils.isEmpty(obj.getString("access_token"))) {
+                            UserInfoUtil.setUserWechatTokenInfo(context, obj);
+
+                            String token = obj.getString("access_token");
+                            String openId = obj.getString("openid");
+                            String url = HttpUrls.GET_WECHAT_USER_IFNO_URL + "?access_token=" + token + "&openid=" + openId;
+
+                            HttpClientUtil.getHttpClientUtil().sendGetRequest(tag, url, 60, callback);
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void onFinish(Call call) {
+
+            }
+        });
+    }
+
     /**
      * 获取微信Token
-     * @param context
+     *
      * @param tag
      * @param code
-     * @param loadingProgressDialog
      */
-    public static void getWeChatToken(final Context context, final String tag, String code, final LoadingProgressDialog loadingProgressDialog){
-        String url= HttpUrls.GET_WECHAT_TOKEN_URL+"?appid="+APP_ID_WECHAT
-                +"&secret="+APP_SECRET_WECHAT
-                +"&code="+code
-                +"&grant_type=authorization_code";
+    public static void getWeChatToken(final String tag, String code, HttpClientUtil.StringResponseCallBack callBack) {
+        String url = HttpUrls.GET_WECHAT_TOKEN_URL + "?appid=" + APP_ID_WECHAT
+                + "&secret=" + APP_SECRET_WECHAT
+                + "&code=" + code
+                + "&grant_type=authorization_code";
+        HttpClientUtil.getHttpClientUtil().sendGetRequest(tag, url, 120 * 60, callBack);
+    }
+
+    public static void getWeChatUserInfo(final Context context, String tag, JSONObject userInfoObj, final LoadingProgressDialog loadingProgressDialog) {
+        String token = userInfoObj.getString("access_token");
+        String openId = userInfoObj.getString("openid");
+        String url = HttpUrls.GET_WECHAT_USER_IFNO_URL + "?access_token=" + token + "&openid=" + openId;
         HttpClientUtil.getHttpClientUtil().sendGetRequest(tag, url, 120 * 60, new HttpClientUtil.StringResponseCallBack() {
             @Override
             public void onBefore(Request request) {
 
             }
+
             @Override
             public void onError(Call call, Exception error) {
-                if(loadingProgressDialog!=null) {
+                if (loadingProgressDialog != null) {
                     loadingProgressDialog.dismiss();
                 }
             }
+
             @Override
             public void onSuccess(Call call, String response) {
                 KLog.json(response);
                 if (!TextUtils.isEmpty(response)) {
                     JSONObject obj = JSONObject.parseObject(response);
                     if (obj != null && !obj.isEmpty()) {
-                        if(!TextUtils.isEmpty(obj.getString("access_token"))) {
-                            getWeChatUserInfo(context,tag,obj,loadingProgressDialog);
-                            return;
-                        }
-                    }
-                }
-                if(loadingProgressDialog!=null) {
-                    loadingProgressDialog.dismiss();
-                }
-
-            }
-            @Override
-            public void onFinish(Call call) {
-
-            }
-        });
-    }
-
-    public static void getWeChatUserInfo(final Context context, String tag, JSONObject userInfoObj, final LoadingProgressDialog loadingProgressDialog){
-        String token= userInfoObj.getString("access_token");
-        String openId=userInfoObj.getString("openid");
-        String url= HttpUrls.GET_WECHAT_USER_IFNO_URL+"?access_token="+token+"&openid="+openId;
-        HttpClientUtil.getHttpClientUtil().sendGetRequest(tag, url, 120 * 60, new HttpClientUtil.StringResponseCallBack() {
-            @Override
-            public void onBefore(Request request) {
-
-            }
-            @Override
-            public void onError(Call call, Exception error) {
-                if(loadingProgressDialog!=null) {
-                    loadingProgressDialog.dismiss();
-                }
-            }
-            @Override
-            public void onSuccess(Call call, String response) {
-                KLog.json(response);
-                if(!TextUtils.isEmpty(response)){
-                    JSONObject obj=JSONObject.parseObject(response);
-                    if(obj!=null&&!obj.isEmpty()){
-                        if(!TextUtils.isEmpty(obj.getString("openid"))) {
+                        if (!TextUtils.isEmpty(obj.getString("openid"))) {
                             WeChatUtil.setOpenId(context, obj.getString("openid"));
                             return;
                         }
                     }
                 }
-                if(loadingProgressDialog!=null) {
+                if (loadingProgressDialog != null) {
                     loadingProgressDialog.dismiss();
                 }
             }
+
             @Override
             public void onFinish(Call call) {
 
@@ -151,21 +164,21 @@ public class WeChatUtil {
         });
     }
 
-    public static void setOpenId(Context context,String openId){
+    public static void setOpenId(Context context, String openId) {
         SharedPreferencesUtil.setStringValue(context, OPEN_ID, openId);
     }
 
-    public static String getOpenId(Context context){
-        return SharedPreferencesUtil.getStringValue(context,OPEN_ID);
+    public static String getOpenId(Context context) {
+        return SharedPreferencesUtil.getStringValue(context, OPEN_ID);
     }
 
-    public static void setWechatUserInfo(Context context,String userInfo){
-        SharedPreferencesUtil.setStringValue(context,WECHAT_USER_INFO,userInfo);
+    public static void setWechatUserInfo(Context context, String userInfo) {
+        SharedPreferencesUtil.setStringValue(context, WECHAT_USER_INFO, userInfo);
     }
 
-    public static JSONObject getWechatUserInfo(Context context){
-        String userInfo=SharedPreferencesUtil.getStringValue(context,WECHAT_USER_INFO);
-        if(!TextUtils.isEmpty(userInfo)){
+    public static JSONObject getWechatUserInfo(Context context) {
+        String userInfo = SharedPreferencesUtil.getStringValue(context, WECHAT_USER_INFO);
+        if (!TextUtils.isEmpty(userInfo)) {
             return JSONObject.parseObject(userInfo);
         }
         return null;
@@ -175,22 +188,22 @@ public class WeChatUtil {
         return (type == null) ? String.valueOf(System.currentTimeMillis()) : type + System.currentTimeMillis();
     }
 
-    public static HashMap<String,String> getWeChatPayParams(Context context,String etype,float moneys){
-        KLog.e("moneys:"+moneys);
-        KLog.e("type:"+etype);
-        HashMap<String,String>params=new HashMap<>();
+    public static HashMap<String, String> getWeChatPayParams(Context context, String etype, float moneys) {
+        KLog.e("moneys:" + moneys);
+        KLog.e("type:" + etype);
+        HashMap<String, String> params = new HashMap<>();
         params.put("appid", APP_ID_WECHAT);
         params.put("mch_id", APP_MCH_ID_WECHAT);
         params.put("nonce_str", buildTransaction(APP_MCH_ID_WECHAT));
         params.put("product_id", buildTransaction(APP_MCH_ID_WECHAT));
         params.put("body", "Wechat");
         params.put("total_fee", (int) (moneys * 100) + "");
-        params.put("openid",getOpenId(context));
+        params.put("openid", getOpenId(context));
         params.put("bounty_type", etype /*"article" : "tip"*/);
         return params;
     }
 
-    public static void weChatPay(JSONObject data){
+    public static void weChatPay(JSONObject data) {
         PayReq req = new PayReq();
 
         req.appId = data.getString("appid");
@@ -205,16 +218,16 @@ public class WeChatUtil {
 
     /**
      * 微信分享
+     *
      * @param context
      * @param title
      * @param excerpt
      * @param shareUrl
      * @param tag
-     * @param logo
      * @return
      */
-    public static boolean shareWebPage(Context context,int tag,String title, String excerpt, String shareUrl) {
-        if(wxApi!=null) {
+    public static boolean shareWebPage(Context context, int tag, String title, String excerpt, String shareUrl) {
+        if (wxApi != null) {
             boolean isInstalled = wxApi.isWXAppInstalled() && wxApi.isWXAppSupportAPI();
             if (!isInstalled) {
                 Toast.makeText(context, "请先安装微信APP", Toast.LENGTH_SHORT);

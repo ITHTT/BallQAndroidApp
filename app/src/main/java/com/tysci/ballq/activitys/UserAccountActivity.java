@@ -52,6 +52,11 @@ public class UserAccountActivity extends BaseActivity {
 
     private BallQGoldCoinBuyDialog goldCoinBuyDialog = null;
 
+    private boolean isBindWeChat;// 已经绑定微信
+    private int balance;// 余额
+    private String wx_name;// 微信昵称
+    private String wx_portrait;// 微信头像
+
     @Override
     protected int getContentViewId() {
         return R.layout.activity_user_account;
@@ -151,6 +156,12 @@ public class UserAccountActivity extends BaseActivity {
                                 JSONObject data = datas.getJSONObject(0);
                                 if (data != null && !data.isEmpty()) {
                                     hideLoad();
+
+                                    isBindWeChat = data.getInteger("bind_to_wechat") == 1;
+                                    balance = data.getInteger("rmb");
+                                    wx_name = data.getString("wx_name");
+                                    wx_portrait = data.getString("wx_portrait");
+
                                     tvUserBalance.setText(String.format(Locale.getDefault(), "%.2f", data.getFloat("rmb") / 100));
                                     tvUserGoldCoin.setText(String.format(Locale.getDefault(), "%.2f", data.getFloat("gold") / 100));
                                     tvUserScore.setText(data.getString("points"));
@@ -222,5 +233,18 @@ public class UserAccountActivity extends BaseActivity {
     protected void onRechargeClick(View view) {
         Intent intent = new Intent(this, PingPayActivity.class);
         startActivity(intent);
+    }
+
+    /**
+     * 提现
+     */
+    @OnClick(R.id.tvWithdrawals)
+    protected void onWithdrawsClick(View view) {
+        Intent i = new Intent(this, UserWithdrawsActivity.class);
+        i.putExtra("Balance", balance);
+        i.putExtra("BindToWeChat", isBindWeChat);
+        i.putExtra("wx_name", wx_name);
+        i.putExtra("wx_portrait", wx_portrait);
+        startActivity(i);
     }
 }

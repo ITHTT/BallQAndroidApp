@@ -1,5 +1,6 @@
 package com.tysci.ballq.modles;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 
 /**
@@ -24,6 +25,10 @@ public class JsonParams {
         ATTAINED = "attained";
         SHOWING = "showing";
         UNATTAINED = "unattained";
+    }
+
+    public static boolean isJsonRight(String json) throws NullPointerException {
+        return isJsonRight(JSON.parseObject(json));
     }
 
     public static boolean isJsonRight(JSONObject object) throws NullPointerException {
