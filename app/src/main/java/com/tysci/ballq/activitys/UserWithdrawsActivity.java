@@ -24,7 +24,7 @@ import com.tysci.ballq.utils.SwipeUtil;
 import com.tysci.ballq.utils.ToastUtil;
 import com.tysci.ballq.utils.UserInfoUtil;
 import com.tysci.ballq.utils.WeChatUtil;
-import com.tysci.ballq.views.UserWithdrawsHeaderView;
+import com.tysci.ballq.views.UserWithdrawalsHeaderView;
 import com.tysci.ballq.views.adapters.BallQUserAccountRecordAdapter;
 import com.tysci.ballq.views.dialogs.LoadingProgressDialog;
 import com.tysci.ballq.views.widgets.loadmorerecyclerview.AutoLoadMoreRecyclerView;
@@ -52,7 +52,7 @@ public class UserWithdrawsActivity extends BaseActivity implements SwipeRefreshL
     private SwipeUtil mSwipeUtil;
     private BallQUserAccountRecordAdapter adapter;
 
-    private UserWithdrawsHeaderView headerView;
+    private UserWithdrawalsHeaderView headerView;
 
     private int nextPage;
     private ArrayList<BallQUserAccountRecordEntity> recordEntityList;
@@ -69,7 +69,7 @@ public class UserWithdrawsActivity extends BaseActivity implements SwipeRefreshL
         refreshLayout.setOnRefreshListener(this);
         mSwipeUtil = new SwipeUtil(refreshLayout);
 
-        headerView = new UserWithdrawsHeaderView(this);
+        headerView = new UserWithdrawalsHeaderView(this);
         ViewGroup.LayoutParams lp = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         lp.width = ScreenUtil.getDisplayMetrics(this).widthPixels;
         headerView.setLayoutParams(lp);
