@@ -16,6 +16,7 @@ import com.tencent.mm.sdk.openapi.IWXAPIEventHandler;
 import com.tysci.ballq.R;
 import com.tysci.ballq.activitys.LoginActivity;
 import com.tysci.ballq.activitys.RegisterActivity;
+import com.tysci.ballq.activitys.UserWithdrawsActivity;
 import com.tysci.ballq.base.BaseActivity;
 import com.tysci.ballq.modles.UserInfoEntity;
 import com.tysci.ballq.modles.event.EventObject;
@@ -46,17 +47,19 @@ import okhttp3.Request;
  * Created by Administrator on 2016/5/31.
  */
 public class WXEntryActivity extends BaseActivity implements IWXAPIEventHandler {
-    private static final int REQUEST_CODE_LOGIN=0x0001;
-    private static final int REQUEST_CODE_REGISTER=0x0002;
+    private static final int REQUEST_CODE_LOGIN = 0x0001;
+    private static final int REQUEST_CODE_REGISTER = 0x0002;
 
-    /**请求标记，0表示登录，1表示分享，2表示打赏授权*/
-    public static  int REQUEST_TAG=0;
+    /**
+     * 请求标记，0表示登录，1表示分享，2表示打赏授权
+     */
+    public static int REQUEST_TAG = 0;
 
     @Bind(R.id.view_pager)
     protected ConvenientBanner convenientBanner;
-    private List<Integer> localImages=null;
+    private List<Integer> localImages = null;
 
-    private LoadingProgressDialog loadingProgressDialog=null;
+    private LoadingProgressDialog loadingProgressDialog = null;
 
     @Override
     protected int getContentViewId() {
@@ -80,15 +83,15 @@ public class WXEntryActivity extends BaseActivity implements IWXAPIEventHandler 
         return null;
     }
 
-    private void getLocalImages(){
-        localImages=new ArrayList<>(2);
+    private void getLocalImages() {
+        localImages = new ArrayList<>(2);
         localImages.add(R.mipmap.icon_login_or_register_bg_1);
         localImages.add(R.mipmap.icon_login_or_register_bg_2);
     }
 
     @Override
     protected void getIntentData(Intent intent) {
-        if(WeChatUtil.wxApi != null) {
+        if (WeChatUtil.wxApi != null) {
             KLog.e("注册回调方法...");
             WeChatUtil.wxApi.handleIntent(intent, this);
         }
@@ -112,9 +115,9 @@ public class WXEntryActivity extends BaseActivity implements IWXAPIEventHandler 
     @Override
     protected void onNewIntent(Intent intent) {
         //super.onNewIntent(intent);
-        if(WeChatUtil.wxApi != null) {
+        if (WeChatUtil.wxApi != null) {
             KLog.e("注册回调方法...");
-            REQUEST_TAG=0;
+            REQUEST_TAG = 0;
             WeChatUtil.wxApi.handleIntent(intent, this);
         }
     }
@@ -141,50 +144,53 @@ public class WXEntryActivity extends BaseActivity implements IWXAPIEventHandler 
         dimssProgressDialog();
     }
 
-    private void showProgressDialog(String msg){
-        if(loadingProgressDialog==null){
-            loadingProgressDialog=new LoadingProgressDialog(this);
+    private void showProgressDialog(String msg) {
+        if (loadingProgressDialog == null) {
+            loadingProgressDialog = new LoadingProgressDialog(this);
             loadingProgressDialog.setCanceledOnTouchOutside(false);
         }
         loadingProgressDialog.setMessage(msg);
         loadingProgressDialog.show();
     }
 
-    private void dimssProgressDialog(){
-        if(loadingProgressDialog!=null&&loadingProgressDialog.isShowing()){
+    private void dimssProgressDialog() {
+        if (loadingProgressDialog != null && loadingProgressDialog.isShowing()) {
             loadingProgressDialog.dismiss();
         }
     }
 
     /**
      * 微信登录
+     *
      * @param view
      */
     @OnClick(R.id.layout_login_weixin)
-    protected void weChatLogin(View view){
-        boolean isSuccess= WeChatUtil.weChatLogin(this);
-        if(isSuccess){
+    protected void weChatLogin(View view) {
+        boolean isSuccess = WeChatUtil.weChatLogin(this);
+        if (isSuccess) {
             showProgressDialog("加载中...");
         }
     }
 
     /**
      * 手机登录
+     *
      * @param view
      */
     @OnClick(R.id.layout_login_phone)
-    protected void phoneLogin(View view){
-        Intent intent=new Intent(this, LoginActivity.class);
+    protected void phoneLogin(View view) {
+        Intent intent = new Intent(this, LoginActivity.class);
         startActivityForResult(intent, REQUEST_CODE_LOGIN);
     }
 
     /**
      * 注册
+     *
      * @param view
      */
     @OnClick(R.id.tv_register)
-    protected void register(View view){
-        Intent intent=new Intent(this, RegisterActivity.class);
+    protected void register(View view) {
+        Intent intent = new Intent(this, RegisterActivity.class);
         startActivityForResult(intent, REQUEST_CODE_REGISTER);
     }
 
@@ -196,11 +202,11 @@ public class WXEntryActivity extends BaseActivity implements IWXAPIEventHandler 
     @Override
     public void onResp(BaseResp baseResp) {
         KLog.e("错误码:" + baseResp.errCode);
-        switch(baseResp.errCode){
+        switch (baseResp.errCode) {
             case BaseResp.ErrCode.ERR_OK:
                 KLog.e("授权成功");
-                KLog.e("openId:"+baseResp.openId);
-                if(baseResp instanceof SendAuth.Resp) {
+                KLog.e("openId:" + baseResp.openId);
+                if (baseResp instanceof SendAuth.Resp) {
                     SendAuth.Resp resp = (SendAuth.Resp) baseResp;
                     if (REQUEST_TAG == 0) {
                         getWeChatToken(resp.code);
@@ -209,15 +215,15 @@ public class WXEntryActivity extends BaseActivity implements IWXAPIEventHandler 
                         eventObject.getData().putString("code", resp.code);
                         eventObject.addReceiver(WXPayEntryActivity.class);
                         EventObject.postEventObject(eventObject, "user_reward");
-                    }else if(REQUEST_TAG==3){
-                        /**提现的绑定*/
+                    } else if (REQUEST_TAG == 3) {
+                        /**提现界面绑定微信*/
                         EventObject eventObject = new EventObject();
                         eventObject.getData().putString("code", resp.code);
-                        //eventObject.addReceiver(.class);
-                        EventObject.postEventObject(eventObject, "user_reward");
+                        eventObject.addReceiver(UserWithdrawsActivity.class);
+                        EventObject.postEventObject(eventObject, "user_withdrawals");
                     }
                 }
-                if(REQUEST_TAG==1){
+                if (REQUEST_TAG == 1) {
                     EventBus.getDefault().post(EventType.EVENT_WECHAT_SHARE_SUCCESS);
                 }
                 break;
@@ -228,21 +234,22 @@ public class WXEntryActivity extends BaseActivity implements IWXAPIEventHandler 
                 KLog.e("用户取消授权");
                 break;
         }
-        if(REQUEST_TAG>0){
-            REQUEST_TAG=0;
+        if (REQUEST_TAG > 0) {
+            REQUEST_TAG = 0;
             finish();
         }
     }
 
     /**
      * 获取微信Token
+     *
      * @param code
      */
-    private void getWeChatToken(String code){
-        String url= HttpUrls.GET_WECHAT_TOKEN_URL+"?appid="+ WeChatUtil.APP_ID_WECHAT
-                +"&secret="+ WeChatUtil.APP_SECRET_WECHAT
-                +"&code="+code
-                +"&grant_type=authorization_code";
+    private void getWeChatToken(String code) {
+        String url = HttpUrls.GET_WECHAT_TOKEN_URL + "?appid=" + WeChatUtil.APP_ID_WECHAT
+                + "&secret=" + WeChatUtil.APP_SECRET_WECHAT
+                + "&code=" + code
+                + "&grant_type=authorization_code";
         HttpClientUtil.getHttpClientUtil().sendGetRequest(Tag, url, 120 * 60, new HttpClientUtil.StringResponseCallBack() {
             @Override
             public void onBefore(Request request) {
@@ -260,7 +267,7 @@ public class WXEntryActivity extends BaseActivity implements IWXAPIEventHandler 
                 if (!TextUtils.isEmpty(response)) {
                     JSONObject obj = JSONObject.parseObject(response);
                     if (obj != null && !obj.isEmpty()) {
-                        if(!TextUtils.isEmpty(obj.getString("access_token"))) {
+                        if (!TextUtils.isEmpty(obj.getString("access_token"))) {
                             UserInfoUtil.setUserWechatTokenInfo(WXEntryActivity.this, obj);
                             getWeChatUserInfo(obj);
                             return;
@@ -279,17 +286,19 @@ public class WXEntryActivity extends BaseActivity implements IWXAPIEventHandler 
 
     /**
      * 获取微信用户信息
+     *
      * @param userInfoObj
      */
-    protected void getWeChatUserInfo(JSONObject userInfoObj){
-        String token= userInfoObj.getString("access_token");
-        String openId=userInfoObj.getString("openid");
-        String url= HttpUrls.GET_WECHAT_USER_IFNO_URL+"?access_token="+token+"&openid="+openId;
+    protected void getWeChatUserInfo(JSONObject userInfoObj) {
+        String token = userInfoObj.getString("access_token");
+        String openId = userInfoObj.getString("openid");
+        String url = HttpUrls.GET_WECHAT_USER_IFNO_URL + "?access_token=" + token + "&openid=" + openId;
         HttpClientUtil.getHttpClientUtil().sendGetRequest(Tag, url, 60, new HttpClientUtil.StringResponseCallBack() {
             @Override
             public void onBefore(Request request) {
 
             }
+
             @Override
             public void onError(Call call, Exception error) {
                 dimssProgressDialog();
@@ -298,12 +307,12 @@ public class WXEntryActivity extends BaseActivity implements IWXAPIEventHandler 
             @Override
             public void onSuccess(Call call, String response) {
                 KLog.json(response);
-                if(!TextUtils.isEmpty(response)){
-                    JSONObject obj=JSONObject.parseObject(response);
-                    if(obj!=null&&!obj.isEmpty()){
-                        if(!TextUtils.isEmpty(obj.getString("openid"))) {
-                            WeChatUtil.setOpenId(WXEntryActivity.this,obj.getString("openid"));
-                            WeChatUtil.setWechatUserInfo(WXEntryActivity.this,obj.toJSONString());
+                if (!TextUtils.isEmpty(response)) {
+                    JSONObject obj = JSONObject.parseObject(response);
+                    if (obj != null && !obj.isEmpty()) {
+                        if (!TextUtils.isEmpty(obj.getString("openid"))) {
+                            WeChatUtil.setOpenId(WXEntryActivity.this, obj.getString("openid"));
+                            WeChatUtil.setWechatUserInfo(WXEntryActivity.this, obj.toJSONString());
                             //UserInfoUtil.setWechatUserInfo(WXEntryActivity.this,obj);
                             userWeChatLogin(obj);
                             return;
@@ -320,16 +329,16 @@ public class WXEntryActivity extends BaseActivity implements IWXAPIEventHandler 
         });
     }
 
-    private void userWeChatLogin(JSONObject weChatUserInfo){
-        Map<String,String>params=new HashMap<>(9);
-        params.put("openid",weChatUserInfo.getString("openid"));
-        params.put("nickname",weChatUserInfo.getString("nickname"));
-        params.put("sex",String.valueOf(weChatUserInfo.getIntValue("sex")));
-        params.put("province",weChatUserInfo.getString("province"));
-        params.put("city",weChatUserInfo.getString("city"));
-        params.put("country",weChatUserInfo.getString("country"));
-        params.put("headimgurl",weChatUserInfo.getString("headimgurl"));
-        params.put("unionid",weChatUserInfo.getString("unionid"));
+    private void userWeChatLogin(JSONObject weChatUserInfo) {
+        Map<String, String> params = new HashMap<>(9);
+        params.put("openid", weChatUserInfo.getString("openid"));
+        params.put("nickname", weChatUserInfo.getString("nickname"));
+        params.put("sex", String.valueOf(weChatUserInfo.getIntValue("sex")));
+        params.put("province", weChatUserInfo.getString("province"));
+        params.put("city", weChatUserInfo.getString("city"));
+        params.put("country", weChatUserInfo.getString("country"));
+        params.put("headimgurl", weChatUserInfo.getString("headimgurl"));
+        params.put("unionid", weChatUserInfo.getString("unionid"));
         params.put("origin_type", "5");
         for (String key : params.keySet()) {
             KLog.e(key + " = " + params.get(key));
@@ -339,21 +348,23 @@ public class WXEntryActivity extends BaseActivity implements IWXAPIEventHandler 
             public void onBefore(Request request) {
 
             }
+
             @Override
             public void onError(Call call, Exception error) {
                 dimssProgressDialog();
             }
+
             @Override
             public void onSuccess(Call call, String response) {
                 KLog.json(response);
-                if(!TextUtils.isEmpty(response)){
-                    JSONObject obj=JSONObject.parseObject(response);
-                    if(obj!=null&&!obj.isEmpty()){
-                        JSONObject data=obj.getJSONObject("data");
-                        if(data!=null&&!data.isEmpty()){
+                if (!TextUtils.isEmpty(response)) {
+                    JSONObject obj = JSONObject.parseObject(response);
+                    if (obj != null && !obj.isEmpty()) {
+                        JSONObject data = obj.getJSONObject("data");
+                        if (data != null && !data.isEmpty()) {
                             UserInfoUtil.saveUserInfo(WXEntryActivity.this, data);
                             String userId = data.getString("user");
-                            UserInfoUtil.getUserInfo(WXEntryActivity.this, Tag, userId,true, loadingProgressDialog);
+                            UserInfoUtil.getUserInfo(WXEntryActivity.this, Tag, userId, true, loadingProgressDialog);
                             return;
                         }
                     }
@@ -396,10 +407,10 @@ public class WXEntryActivity extends BaseActivity implements IWXAPIEventHandler 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(resultCode==RESULT_OK){
-            if(requestCode==REQUEST_CODE_LOGIN){
+        if (resultCode == RESULT_OK) {
+            if (requestCode == REQUEST_CODE_LOGIN) {
                 this.finish();
-            }else if(requestCode==REQUEST_CODE_REGISTER){
+            } else if (requestCode == REQUEST_CODE_REGISTER) {
 
             }
         }
@@ -407,6 +418,7 @@ public class WXEntryActivity extends BaseActivity implements IWXAPIEventHandler 
 
     public static final class LocalImageHolderView implements Holder<Integer> {
         private ImageView imageView;
+
         @Override
         public View createView(Context context) {
             imageView = new ImageView(context);
@@ -414,6 +426,7 @@ public class WXEntryActivity extends BaseActivity implements IWXAPIEventHandler 
             imageView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
             return imageView;
         }
+
         @Override
         public void UpdateUI(Context context, int position, Integer data) {
             imageView.setImageResource(data);

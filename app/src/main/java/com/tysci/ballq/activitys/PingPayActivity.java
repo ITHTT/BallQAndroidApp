@@ -14,6 +14,7 @@ import com.pingplusplus.android.Pingpp;
 import com.tysci.ballq.R;
 import com.tysci.ballq.base.BaseActivity;
 import com.tysci.ballq.networks.HttpClientUtil;
+import com.tysci.ballq.networks.HttpUrls;
 import com.tysci.ballq.utils.KLog;
 import com.tysci.ballq.utils.UserInfoUtil;
 import com.tysci.ballq.views.adapters.PingPayAdapter;
@@ -52,8 +53,8 @@ public class PingPayActivity extends BaseActivity implements TextWatcher {
      * 【 http://218.244.151.190/demo/charge 】是 ping++ 为了方便开发者体验 sdk 而提供的一个临时 url 。
      * 该 url 仅能调用【模拟支付控件】，开发者需要改为自己服务端的 url 。
      */
-    private static String URL = "http://218.244.151.190/demo/charge";
-//    private static final String URL = HttpUrls.HOST_URL_V5 + "user/app_pay/";
+//    private static String final URL = "http://218.244.151.190/demo/charge";
+    private static final String URL = HttpUrls.HOST_URL_V5 + "user/app_pay/";
     /**
      * 银联支付渠道
      */
@@ -271,6 +272,8 @@ public class PingPayActivity extends BaseActivity implements TextWatcher {
                     errorMsg = "充值成功";
                 } else if ("fail".equals(result)) {
                     errorMsg = "充值失败";
+                } else if ("wx_app_not_installed".equals(errorMsg)) {
+                    errorMsg = "未安装微信";
                 }
                 showMsg("", errorMsg, extraMsg);
             }

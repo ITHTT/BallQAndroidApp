@@ -13,6 +13,7 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.tysci.ballq.R;
 import com.tysci.ballq.base.BaseService;
+import com.tysci.ballq.modles.JsonParams;
 import com.tysci.ballq.networks.HttpClientUtil;
 import com.tysci.ballq.networks.HttpUrls;
 import com.tysci.ballq.utils.CToast;
@@ -100,7 +101,8 @@ public class UserTaskService extends BaseService {
                 KLog.json(response);
                 try {
                     JSONObject object = JSON.parseObject(response);
-                    if (object.getInteger("status") == 0 && object.getString("message").equalsIgnoreCase("ok")) {
+//                    if (object.getInteger("status") == 0 && object.getString("message").equalsIgnoreCase("ok")) {
+                    if (JsonParams.isJsonRight(object)) {
                         data = object.getJSONArray("data");
                         if (data == null || data.size() == 0) {
                             notifyNextTask();
@@ -134,7 +136,9 @@ public class UserTaskService extends BaseService {
         handler.postDelayed(connectToGetTaskMsg, delay);
     }
 
-    /** 展示用户完成的任务 */
+    /**
+     * 展示用户完成的任务
+     */
     private void notifyShowUserTaskMsg() {
         JSONObject aData;
         try {

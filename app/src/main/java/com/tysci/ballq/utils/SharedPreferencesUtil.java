@@ -11,15 +11,23 @@ import java.util.Set;
  * Created by Administrator on 2015/12/14.
  */
 public class SharedPreferencesUtil {
-    /** 默认的文件名 */
+    /**
+     * 默认的文件名
+     */
     private static final String default_file = ".share_cache_data";
 
-    /** 引导页打开判断 */
+    /**
+     * 引导页打开判断
+     */
     private static final String KEY_NEED_GUIDE;
 
-    /** 上次打开版本号 */
+    /**
+     * 上次打开版本号
+     */
     private static final String KEY_APP_VERSION_NAME;
-    /** 上次打开版本号描述 */
+    /**
+     * 上次打开版本号描述
+     */
     private static final String KEY_APP_VERSION_CODE;
 
     static {
@@ -79,81 +87,14 @@ public class SharedPreferencesUtil {
         return sharedPreferences.getInt(key, -1);
     }
 
-    public static void setLongValue(Context context, String key, long value) {
-        SharedPreferences sharedPreferences = context.getSharedPreferences(default_file, Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putLong(key, value);
-        editor.commit();
-    }
-
-    public static void setLongValue(Context context, String fileName, String key, long value) {
-        SharedPreferences sharedPreferences = context.getSharedPreferences(fileName, Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putLong(key, value);
-        editor.commit();
-    }
-
-    public static long getLongValue(Context context, String key) {
-        SharedPreferences sharedPreferences = context.getSharedPreferences(default_file, Context.MODE_PRIVATE);
-        return sharedPreferences.getLong(key, 0l);
-    }
-
-    public static long getLongValue(Context context, String fileName, String key) {
-        SharedPreferences sharedPreferences = context.getSharedPreferences(fileName, Context.MODE_PRIVATE);
-        return sharedPreferences.getLong(key, 0l);
-    }
-
-    public static void setFloatValue(Context context, String key, float value) {
-        SharedPreferences sharedPreferences = context.getSharedPreferences(default_file, Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putFloat(key, value);
-        editor.commit();
-    }
-
-    public static void setFloatValue(Context context, String fileName, String key, float value) {
-        SharedPreferences sharedPreferences = context.getSharedPreferences(fileName, Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putFloat(key, value);
-        editor.commit();
-    }
-
-    public static float getFloatValue(Context context, String key) {
-        SharedPreferences sharedPreferences = context.getSharedPreferences(default_file, Context.MODE_PRIVATE);
-        return sharedPreferences.getFloat(key, 0);
-    }
-
-    public static float getFloatValue(Context context, String fileName, String key) {
-        SharedPreferences sharedPreferences = context.getSharedPreferences(fileName, Context.MODE_PRIVATE);
-        return sharedPreferences.getFloat(key, 0);
-    }
-
-    public static void setBooleanValue(Context context, String key, boolean value) {
-        SharedPreferences sharedPreferences = context.getSharedPreferences(default_file, Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putBoolean(key, value);
-        editor.commit();
-    }
-
-    public static void setBooleanValue(Context context, String fileName, String key, boolean value) {
-        SharedPreferences sharedPreferences = context.getSharedPreferences(fileName, Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putBoolean(key, value);
-        editor.commit();
-    }
-
-    public static boolean getBooleanValue(Context context, String key) {
-        SharedPreferences sharedPreferences = context.getSharedPreferences(default_file, Context.MODE_PRIVATE);
-        return sharedPreferences.getBoolean(key, false);
-    }
-
-    public static boolean getBooleanValue(Context context, String fileName, String key) {
-        SharedPreferences sharedPreferences = context.getSharedPreferences(fileName, Context.MODE_PRIVATE);
-        return sharedPreferences.getBoolean(key, false);
+    @SuppressWarnings("unchecked")
+    public static <T> T getValue(Context context, String key, T defValue) {
+        return getValue(context, default_file, key, defValue);
     }
 
     @SuppressWarnings("unchecked")
-    public static <T> T getValue(Context context, String key, T defValue) {
-        SharedPreferences sp = context.getSharedPreferences(default_file, Context.MODE_PRIVATE);
+    public static <T> T getValue(Context context, String spName, String key, T defValue) {
+        SharedPreferences sp = context.getSharedPreferences(spName, Context.MODE_PRIVATE);
         T result = null;
         if (defValue instanceof String) {
             String s = sp.getString(key, (String) defValue);
@@ -178,8 +119,12 @@ public class SharedPreferencesUtil {
     }
 
     public static <T> boolean setValue(Context context, String key, T value) {
+        return setValue(context, default_file, key, value);
+    }
 
-        SharedPreferences sp = context.getSharedPreferences(default_file, Context.MODE_PRIVATE);
+    public static <T> boolean setValue(Context context, String spName, String key, T value) {
+
+        SharedPreferences sp = context.getSharedPreferences(spName, Context.MODE_PRIVATE);
         final SharedPreferences.Editor editor = sp.edit();
 
         boolean putSuccess = true;
