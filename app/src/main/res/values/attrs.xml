@@ -133,4 +133,9 @@
         <attr name="vertical_spacing" format="dimension" />
     </declare-styleable>
 
+    <declare-styleable name="ResizeImageView">
+        <attr name="resize_width" format="integer"/>
+        <attr name="resize_height" format="integer"/>
+    </declare-styleable>
+
 </resources>

@@ -17,6 +17,7 @@ import com.tysci.ballq.utils.KLog;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.Date;
 import java.util.List;
 
 import butterknife.Bind;
@@ -51,7 +52,12 @@ public class BallQPKGreatWarGoAdapter extends RecyclerView.Adapter<BallQPKGreatW
         holder.tvMatchLeagueName.setText(info.getTourname_short());
         holder.tvHomeTeamName.setText(info.getHt_name());
         holder.tvAwayTeamName.setText(info.getAt_name());
-        holder.tvMatchTime.setText(CommonUtils.getDateAndTimeFormatString(CommonUtils.getDateAndTimeFromGMT(info.getMatch_time()).getTime()));
+        Date date=CommonUtils.getDateAndTimeFromGMT(info.getMatch_time());
+        if(date!=null){
+           holder.tvMatchTime.setText(CommonUtils.getDateAndTimeFormatString(date));
+        }else{
+            holder.tvMatchTime.setText("");
+        }
 
         parseAsianPlate(info.getUser_choice(),info.getAhc_odds_info(), holder);
         parseBigOrSmallBall(info.getUser_choice(),info.getTo_odds_info(), holder);

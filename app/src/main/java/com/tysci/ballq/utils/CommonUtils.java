@@ -120,16 +120,18 @@ public class CommonUtils {
     }
 
     public static Date getDateAndTimeFromGMT(String GMTDate) {
-        if (GMTDate.length() > 20) {
-            GMTDate = GMTDate.substring(0, 19) + "Z";
-        }
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.getDefault());
-        sdf.setTimeZone(TimeZone.getTimeZone("GMT+0"));
-        try {
-            final Date d = sdf.parse(GMTDate);
-            return d;
-        } catch (ParseException e) {
-            e.printStackTrace();
+        if(!TextUtils.isEmpty(GMTDate)) {
+            if (GMTDate.length() > 20) {
+                GMTDate = GMTDate.substring(0, 19) + "Z";
+            }
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.getDefault());
+            sdf.setTimeZone(TimeZone.getTimeZone("GMT+0"));
+            try {
+                final Date d = sdf.parse(GMTDate);
+                return d;
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
         }
         return null;
     }

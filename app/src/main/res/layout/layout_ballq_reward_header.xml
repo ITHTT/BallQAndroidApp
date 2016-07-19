@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.tysci.ballq.views.widgets.ResizeImageView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:src="@mipmap/icon_reward_top"
+    android:scaleType="fitXY"
+    android:layout_margin="8dp"
+    app:resize_width="1080"
+    app:resize_height="595"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android" />

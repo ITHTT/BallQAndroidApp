@@ -269,11 +269,17 @@ public class BallQIndexPageFragment extends BaseFragment implements SwipeRefresh
                 intent=new Intent(baseActivity, BallQGreatWarGoActivity.class);
                 break;
             case R.id.iv_get_ballq_gold:
-                intent=new Intent(baseActivity, BallQMainUserRankingListActivity.class);
+                //intent=new Intent(baseActivity, BallQMainUserRankingListActivity.class);
                 break;
         }
         if(intent!=null){
             startActivity(intent);
         }
+    }
+
+    @OnClick(R.id.tv_more_rank)
+    protected void onClickMoreUserRank(View view){
+        Intent intent=new Intent(baseActivity,BallQMainUserRankingListActivity.class);
+        startActivity(intent);
     }
 }

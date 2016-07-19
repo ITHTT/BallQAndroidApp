@@ -12,11 +12,14 @@ import com.alibaba.fastjson.JSONObject;
 import com.tysci.ballq.R;
 import com.tysci.ballq.base.BaseActivity;
 import com.tysci.ballq.modles.UserInfoEntity;
+import com.tysci.ballq.modles.event.EventObject;
 import com.tysci.ballq.networks.GlideImageLoader;
 import com.tysci.ballq.networks.HttpClientUtil;
 import com.tysci.ballq.networks.HttpUrls;
 import com.tysci.ballq.utils.KLog;
+import com.tysci.ballq.utils.ToastUtil;
 import com.tysci.ballq.utils.UserInfoUtil;
+import com.tysci.ballq.views.adapters.BallQUserRankInfoAdapter;
 import com.tysci.ballq.views.widgets.CircleImageView;
 import com.tysci.ballq.views.widgets.MainMenuItemView;
 
@@ -235,8 +238,75 @@ public class UserProfileActivity extends BaseActivity {
         if(intent!=null){
             startActivity(intent);
         }
-
     }
 
 
+    @OnClick(R.id.tvAttention)
+    protected void userAttention(View view){
+        if(UserInfoUtil.checkLogin(this)){
+            String url= HttpUrls.HOST_URL_V5+ "follow/change/";
+            HashMap<String,String> params=new HashMap<>(4);
+            params.put("user", UserInfoUtil.getUserId(this));
+            params.put("token", UserInfoUtil.getUserToken(this));
+            params.put("fid",String.valueOf(uid));
+            String str=tvAttention.getText().toString();
+            if(str.equals("加关注")){
+                params.put("change","1");
+            }else{
+                params.put("change","0");
+            }
+            HttpClientUtil.getHttpClientUtil().sendPostRequest(BallQUserRankingListDetailActivity.class.getSimpleName(), url, params, new HttpClientUtil.StringResponseCallBack() {
+                @Override
+                public void onBefore(Request request) {
+
+                }
+
+                @Override
+                public void onError(Call call, Exception error) {
+                    ToastUtil.show(UserProfileActivity.this, "请求失败");
+                }
+
+                @Override
+                public void onSuccess(Call call, String response) {
+                    KLog.json(response);
+                    if(!TextUtils.isEmpty(response)){
+                        JSONObject obj=JSONObject.parseObject(response);
+                        if(obj!=null&&!obj.isEmpty()){
+                            int status=obj.getIntValue("status");
+                            ToastUtil.show(UserProfileActivity.this, obj.getString("message"));
+                            if(status==350){
+                                tvAttention.setText("取消关注");
+                                publishUserAttention(1);
+                            }else if(status==352){
+                                tvAttention.setText("加关注");
+                                publishUserAttention(0);
+                            }
+                        }
+                    }
+                }
+                @Override
+                public void onFinish(Call call) {
+
+                }
+            });
+
+        }else{
+            UserInfoUtil.userLogin(this);
+        }
+    }
+
+    private void publishUserAttention(int mark){
+        EventObject eventObject=new EventObject();
+        eventObject.addReceiver(BallQUserRankInfoAdapter.class);
+        eventObject.getData().putInt("attention", mark);
+        eventObject.getData().putInt("uid",uid);
+        EventObject.postEventObject(eventObject,"user_attention");
+    }
+
+    @Override
+    protected void userLogin(UserInfoEntity userInfoEntity) {
+        super.userLogin(userInfoEntity);
+        showLoading();
+        getUserInfo(uid);
+    }
 }

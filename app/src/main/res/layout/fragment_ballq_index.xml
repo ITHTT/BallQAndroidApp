@@ -82,6 +82,7 @@
                             android:textSize="14sp"
                             android:typeface="monospace" />
                         <TextView
+                            android:id="@+id/tv_more_rank"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentRight="true"

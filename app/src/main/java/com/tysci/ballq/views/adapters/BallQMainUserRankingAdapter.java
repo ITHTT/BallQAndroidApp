@@ -1,5 +1,8 @@
 package com.tysci.ballq.views.adapters;
 
+import android.content.Context;
+import android.content.Intent;
+import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,11 +11,15 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.tysci.ballq.R;
+import com.tysci.ballq.activitys.BallQUserRankingListDetailActivity;
 import com.tysci.ballq.modles.BallQUserRankInfoEntity;
+import com.tysci.ballq.networks.GlideImageLoader;
+import com.tysci.ballq.utils.UserInfoUtil;
 import com.tysci.ballq.views.widgets.CircleImageView;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import butterknife.Bind;
@@ -33,15 +40,133 @@ public class BallQMainUserRankingAdapter extends RecyclerView.Adapter<BallQMainU
 
     @Override
     public BallQMainUserRankingViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view= LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_ballq_index_rank_item,parent,false);
+        View view= LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_ballq_index_rank_item, parent, false);
         return new BallQMainUserRankingViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(BallQMainUserRankingViewHolder holder, int position) {
-        String key=keys.get(position);
+    public void onBindViewHolder(final BallQMainUserRankingViewHolder holder, int position) {
+        final String key=keys.get(position);
         holder.rankType.setText(key);
         List<BallQUserRankInfoEntity> rankInfoEntityList=datas.get(key);
+        int size=rankInfoEntityList.size();
+        for(int i=0;i<size;i++){
+            setRankUserInfo(holder,key,i,rankInfoEntityList.get(i));
+        }
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Context context=holder.itemView.getContext();
+                if(UserInfoUtil.checkLogin(context)) {
+                    Intent intent = null;
+                    if (key.equals("总盈利榜")) {
+                        intent = new Intent(context, BallQUserRankingListDetailActivity.class);
+                        intent.putExtra("title", key);
+                        intent.putExtra("rank_type", "tearn");
+                    } else if (key.equals("盈利率榜")) {
+                        intent = new Intent(context, BallQUserRankingListDetailActivity.class);
+                        intent.putExtra("title", key);
+                        intent.putExtra("rank_type", "ror");
+                    } else if (key.equals("亚盘胜率榜")) {
+                        intent = new Intent(context, BallQUserRankingListDetailActivity.class);
+                        intent.putExtra("title", key);
+                        intent.putExtra("rank_type", "wins");
+                    } else if (key.equals("人气榜")) {
+                        intent = new Intent(context, BallQUserRankingListDetailActivity.class);
+                        intent.putExtra("title", key);
+                        intent.putExtra("rank_type", "follow");
+                    }
+                    if (intent != null) {
+                        context.startActivity(intent);
+                    }
+                }else{
+                    UserInfoUtil.userLogin(context);
+                }
+            }
+        });
+    }
+
+    private void setRankUserInfo(BallQMainUserRankingViewHolder holder,String key,int i, final BallQUserRankInfoEntity info){
+        final Context context=holder.itemView.getContext();
+        CircleImageView ivUserHeader = null;
+        ImageView ivUserV = null;
+        TextView tvUserName = null;
+        TextView tvRankNum = null;
+        TextView tvRounds = null;
+        if(i==0){
+            ivUserHeader=holder.imageView1;
+            ivUserV=holder.ivV1;
+            tvUserName=holder.textView1;
+            tvRankNum=holder.tvRankNum1;
+            tvRounds=holder.tvRounds1;
+        }else if (i == 1) {
+            ivUserHeader=holder.imageView2;
+            ivUserV=holder.ivV2;
+            tvUserName=holder.textView2;
+            tvRankNum=holder.tvRankNum2;
+            tvRounds=holder.tvRounds2;
+        }else if(i==2){
+            ivUserHeader=holder.imageView3;
+            ivUserV=holder.ivV3;
+            tvUserName=holder.textView3;
+            tvRankNum=holder.tvRankNum3;
+            tvRounds=holder.tvRounds3;
+        }else if(i==3){
+            ivUserHeader=holder.imageView4;
+            ivUserV=holder.ivV4;
+            tvUserName=holder.textView4;
+            tvRankNum=holder.tvRankNum4;
+            tvRounds=holder.tvRounds4;
+        }else if(i==4){
+            ivUserHeader=holder.imageView5;
+            ivUserV=holder.ivV5;
+            tvUserName=holder.textView5;
+            tvRankNum=holder.tvRankNum5;
+            tvRounds=holder.tvRounds5;
+        }
+
+        if(ivUserHeader!=null) {
+            GlideImageLoader.loadImage(context, info.getPt(), R.mipmap.icon_user_default, ivUserHeader);
+            UserInfoUtil.setUserHeaderVMark(info.getIsv(), ivUserV, ivUserHeader);
+            tvUserName.setText(info.getFname());
+            if(key.equals("总盈利榜")){
+                int color= Color.parseColor("#eb3a3a");
+                tvRankNum.setTextColor(color);
+                holder.ivLine1.setBackgroundColor(color);
+                holder.ivLine2.setBackgroundColor(color);
+                tvRankNum.setText(String.format(Locale.getDefault(),"%.2f",(float)info.getTearn()/100f));
+            }else if(key.equals("盈利率榜")){
+                int color= Color.parseColor("#cdaa44");
+                tvRankNum.setTextColor(color);
+                holder.ivLine1.setBackgroundColor(color);
+                holder.ivLine2.setBackgroundColor(color);
+                tvRankNum.setText(String.format(Locale.getDefault(),"%.2f",info.getRor())+"%");
+            }else if(key.equals("亚盘胜率榜")){
+                int color= Color.parseColor("#1bbc9b");
+                tvRankNum.setTextColor(color);
+                holder.ivLine1.setBackgroundColor(color);
+                holder.ivLine2.setBackgroundColor(color);
+                tvRankNum.setText(String.format(Locale.getDefault(),"%.2f",info.getWins())+"%");
+            }else if(key.equals("人气榜")){
+                int color= Color.parseColor("#397ebf");
+                tvRankNum.setTextColor(color);
+                holder.ivLine1.setBackgroundColor(color);
+                holder.ivLine2.setBackgroundColor(color);
+                tvRankNum.setText(String.valueOf(info.getFrc()));
+            }
+
+            tvRounds.setText("场次:" + info.getTipcount());
+            //ivUserHeader.setTag(info.getUid());
+            final CircleImageView finalIvUserHeader = ivUserHeader;
+            ivUserHeader.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    UserInfoUtil.lookUserInfo(context, info.getUid());
+                }
+            });
+        }
+
     }
 
     @Override
@@ -62,15 +187,15 @@ public class BallQMainUserRankingAdapter extends RecyclerView.Adapter<BallQMainU
         CircleImageView imageView4;
         @Bind(R.id.imageView5)
         CircleImageView imageView5;
-        @Bind(R.id.iv_1)
+        @Bind(R.id.ivV1)
         ImageView ivV1;
-        @Bind(R.id.iv_2)
+        @Bind(R.id.ivV2)
         ImageView ivV2;
-        @Bind(R.id.iv_3)
+        @Bind(R.id.ivV3)
         ImageView ivV3;
-        @Bind(R.id.iv_4)
+        @Bind(R.id.ivV4)
         ImageView ivV4;
-        @Bind(R.id.iv_5)
+        @Bind(R.id.ivV5)
         ImageView ivV5;
         @Bind(R.id.textView1)
         TextView textView1;
