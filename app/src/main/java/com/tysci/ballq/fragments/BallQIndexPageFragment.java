@@ -21,6 +21,7 @@ import com.tysci.ballq.networks.HttpClientUtil;
 import com.tysci.ballq.networks.HttpUrls;
 import com.tysci.ballq.utils.BallQBusinessControler;
 import com.tysci.ballq.utils.CommonUtils;
+import com.tysci.ballq.utils.ImageUtil;
 import com.tysci.ballq.utils.KLog;
 import com.tysci.ballq.views.widgets.BallQUserAnalystView;
 import com.tysci.ballq.views.widgets.BannerNetworkImageView;
@@ -41,7 +42,7 @@ import okhttp3.Request;
  * Created by HTT on 2016/7/12.
  */
 public class BallQIndexPageFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener,
-        OnItemClickListener{
+        OnItemClickListener {
     @Bind(R.id.title_bar)
     protected TitleBar titleBar;
     @Bind(R.id.swipe_refresh)
@@ -59,7 +60,7 @@ public class BallQIndexPageFragment extends BaseFragment implements SwipeRefresh
     @Bind(R.id.third_analyst)
     protected BallQUserAnalystView thirdAnalyst;
 
-    private List<BallQBannerImageEntity> bannerImageEntityList=null;
+    private List<BallQBannerImageEntity> bannerImageEntityList = null;
 
     @Override
     protected int getViewLayoutId() {
@@ -149,7 +150,7 @@ public class BallQIndexPageFragment extends BaseFragment implements SwipeRefresh
     }
 
     private void getHomePageInfo() {
-        String url = HttpUrls.HOST_URL_V5 + "home/";
+        String url = HttpUrls.HOST_URL + "/api/ares/homepage/";
         HttpClientUtil.getHttpClientUtil().sendGetRequest(Tag, url, 60, new HttpClientUtil.StringResponseCallBack() {
             @Override
             public void onBefore(Request request) {
@@ -158,7 +159,7 @@ public class BallQIndexPageFragment extends BaseFragment implements SwipeRefresh
 
             @Override
             public void onError(Call call, Exception error) {
-                if(bannerImageEntityList==null){
+                if (bannerImageEntityList == null) {
                     showErrorInfo(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
@@ -166,7 +167,7 @@ public class BallQIndexPageFragment extends BaseFragment implements SwipeRefresh
                             getHomePageInfo();
                         }
                     });
-                }else{
+                } else {
 
                 }
             }
@@ -174,18 +175,22 @@ public class BallQIndexPageFragment extends BaseFragment implements SwipeRefresh
             @Override
             public void onSuccess(Call call, String response) {
                 KLog.json(response);
-                if(!TextUtils.isEmpty(response)){
-                    JSONObject obj=JSONObject.parseObject(response);
-                    if(obj!=null&&!obj.isEmpty()&&obj.getIntValue("status")==0){
+                if (!TextUtils.isEmpty(response)) {
+                    JSONObject obj = JSONObject.parseObject(response);
+                    if (obj != null && !obj.isEmpty() && obj.getIntValue("status") == 0) {
                         hideLoad();
-                        JSONObject dataObj=obj.getJSONObject("data");
-                        if(dataObj!=null&&!dataObj.isEmpty()){
-                            JSONArray picArray=dataObj.getJSONArray("pics");
-                            if(picArray!=null&&!picArray.isEmpty()){
+                        JSONObject dataObj = obj.getJSONObject("data");
+                        if (dataObj != null && !dataObj.isEmpty()) {
+                            JSONArray eventsArray = dataObj.getJSONArray("events");
+                            if (eventsArray != null && !eventsArray.isEmpty()) {
+                                setEvents(eventsArray);
+                            }
+                            JSONArray picArray = dataObj.getJSONArray("pics");
+                            if (picArray != null && !picArray.isEmpty()) {
                                 setBannerPictures(picArray);
                             }
-                            JSONArray recommdArray=dataObj.getJSONArray("recomend");
-                            if(recommdArray!=null&&!recommdArray.isEmpty()){
+                            JSONArray recommdArray = dataObj.getJSONArray("recomend");
+                            if (recommdArray != null && !recommdArray.isEmpty()) {
                                 setAuthorAnalystInfo(recommdArray);
                             }
                         }
@@ -200,12 +205,24 @@ public class BallQIndexPageFragment extends BaseFragment implements SwipeRefresh
         });
     }
 
-    private void setBannerPictures(JSONArray picArray){
-        if(bannerImageEntityList==null||bannerImageEntityList.isEmpty()){
-            if(bannerImageEntityList==null){
-                bannerImageEntityList=new ArrayList<>(picArray.size());
+    private void setEvents(JSONArray eventsArray) {
+        JSONObject item;
+
+        item = eventsArray.getJSONObject(0);
+        ImageUtil.loadImage(menuFightGou, item.getString("pic_url"));
+        menuFightGou.setTag(item);
+
+        item = eventsArray.getJSONObject(1);
+        ImageUtil.loadImage(menuGetGold, item.getString("pic_url"));
+        menuGetGold.setTag(item);
+    }
+
+    private void setBannerPictures(JSONArray picArray) {
+        if (bannerImageEntityList == null || bannerImageEntityList.isEmpty()) {
+            if (bannerImageEntityList == null) {
+                bannerImageEntityList = new ArrayList<>(picArray.size());
             }
-            CommonUtils.getJSONListObject(picArray,bannerImageEntityList,BallQBannerImageEntity.class);
+            CommonUtils.getJSONListObject(picArray, bannerImageEntityList, BallQBannerImageEntity.class);
             banner.setPages(new CBViewHolderCreator() {
                 @Override
                 public Object createHolder() {
@@ -217,28 +234,28 @@ public class BallQIndexPageFragment extends BaseFragment implements SwipeRefresh
             banner.setPageIndicatorAlign(ConvenientBanner.PageIndicatorAlign.CENTER_HORIZONTAL);
             banner.setPointViewVisible(true);
             banner.setManualPageable(true);
-        }else{
+        } else {
             bannerImageEntityList.clear();
-            CommonUtils.getJSONListObject(picArray,bannerImageEntityList,BallQBannerImageEntity.class);
+            CommonUtils.getJSONListObject(picArray, bannerImageEntityList, BallQBannerImageEntity.class);
             banner.notifyDataSetChanged();
         }
     }
 
-    private void setAuthorAnalystInfo(JSONArray authorArray){
-        if(authorArray!=null&&!authorArray.isEmpty()){
-            int size=authorArray.size();
-            for(int i=0;i<size;i++){
-                BallQAuthorAnalystsEntity info=authorArray.getObject(i,BallQAuthorAnalystsEntity.class);
-                if(info!=null){
-                    if(i==0){
+    private void setAuthorAnalystInfo(JSONArray authorArray) {
+        if (authorArray != null && !authorArray.isEmpty()) {
+            int size = authorArray.size();
+            for (int i = 0; i < size; i++) {
+                BallQAuthorAnalystsEntity info = authorArray.getObject(i, BallQAuthorAnalystsEntity.class);
+                if (info != null) {
+                    if (i == 0) {
                         firstAnalyst.setBallQAuthorAnalystsInfo(info);
                         firstAnalyst.setVisibility(View.VISIBLE);
                         secondAnalyst.setVisibility(View.GONE);
                         secondAnalyst.setVisibility(View.GONE);
-                    }else if(i==1){
+                    } else if (i == 1) {
                         secondAnalyst.setBallQAuthorAnalystsInfo(info);
                         secondAnalyst.setVisibility(View.VISIBLE);
-                    }else if(i==2){
+                    } else if (i == 2) {
                         thirdAnalyst.setBallQAuthorAnalystsInfo(info);
                         thirdAnalyst.setVisibility(View.VISIBLE);
                     }
@@ -254,25 +271,25 @@ public class BallQIndexPageFragment extends BaseFragment implements SwipeRefresh
 
     @Override
     public void onItemClick(int position) {
-        if(bannerImageEntityList!=null){
-            BallQBannerImageEntity info=bannerImageEntityList.get(position);
-            BallQBusinessControler.businessControler(baseActivity,Integer.parseInt(info.getJump_type()),info.getJump_url());
+        if (bannerImageEntityList != null) {
+            BallQBannerImageEntity info = bannerImageEntityList.get(position);
+            BallQBusinessControler.businessControler(baseActivity, Integer.parseInt(info.getJump_type()), info.getJump_url());
         }
     }
 
-    @OnClick({R.id.iv_fight_ballq_gou,R.id.iv_get_ballq_gold})
-    protected void onClickBallQEvents(View view){
-        int id=view.getId();
-        Intent intent=null;
-        switch(id){
+    @OnClick({R.id.iv_fight_ballq_gou, R.id.iv_get_ballq_gold})
+    protected void onClickBallQEvents(View view) {
+        int id = view.getId();
+        Intent intent = null;
+        switch (id) {
             case R.id.iv_fight_ballq_gou:
-                intent=new Intent(baseActivity, BallQGreatWarGoActivity.class);
+                intent = new Intent(baseActivity, BallQGreatWarGoActivity.class);
                 break;
             case R.id.iv_get_ballq_gold:
-                intent=new Intent(baseActivity, BallQMainUserRankingListActivity.class);
+                intent = new Intent(baseActivity, BallQMainUserRankingListActivity.class);
                 break;
         }
-        if(intent!=null){
+        if (intent != null) {
             startActivity(intent);
         }
     }
