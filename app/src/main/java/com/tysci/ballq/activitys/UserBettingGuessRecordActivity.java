@@ -39,7 +39,7 @@ import okhttp3.Request;
 /**
  * Created by Administrator on 2016/6/20.
  */
-public class UserBettingGuessRecordActivity extends BaseActivity implements SwipeRefreshLayout.OnRefreshListener,AutoLoadMoreRecyclerView.OnLoadMoreListener{
+public class UserBettingGuessRecordActivity extends BaseActivity implements SwipeRefreshLayout.OnRefreshListener, AutoLoadMoreRecyclerView.OnLoadMoreListener {
     @Bind(R.id.tv_user_name)
     protected TextView tvUserName;
     @Bind(R.id.tv_user_profit_rate)
@@ -62,15 +62,15 @@ public class UserBettingGuessRecordActivity extends BaseActivity implements Swip
     protected AutoLoadMoreRecyclerView recyclerView;
 
     private List<BallQUserGuessBettingRecordEntity> userGuessBettingRecordEntityList;
-    private BallQUserBettingGuessRecordAdapter adapter=null;
+    private BallQUserBettingGuessRecordAdapter adapter = null;
 
     private String uid;
     private String bet;
     private String query;
     private String etype;
-    private String tip="没有更多的数据了...";
+    private String tip = "没有更多的数据了...";
 
-    private int currentPages=1;
+    private int currentPages = 1;
 
     @Override
     protected int getContentViewId() {
@@ -92,10 +92,15 @@ public class UserBettingGuessRecordActivity extends BaseActivity implements Swip
 
     @Override
     protected void getIntentData(Intent intent) {
-        uid=intent.getStringExtra(Tag);
-        if(TextUtils.isEmpty(uid)){
-            uid= UserInfoUtil.getUserId(this);
+        uid = intent.getStringExtra(Tag);
+        if (TextUtils.isEmpty(uid)) {
+            uid = UserInfoUtil.getUserId(this);
         }
+
+        bet = intent.getStringExtra("bet");
+        query = intent.getStringExtra("query");
+        etype = intent.getStringExtra("etype");
+
         showLoading();
         getUserInfo(uid);
     }
@@ -145,17 +150,18 @@ public class UserBettingGuessRecordActivity extends BaseActivity implements Swip
 
     /**
      * 获取用户信息
+     *
      * @param uid
      */
-    private void getUserInfo(final String uid){
-        String url= HttpUrls.HOST_URL_V5 + "user/" + uid + "/profile/";
-        HashMap<String,String> params=null;
-        if(UserInfoUtil.checkLogin(this)){
-            params=new HashMap<>(2);
+    private void getUserInfo(final String uid) {
+        String url = HttpUrls.HOST_URL_V5 + "user/" + uid + "/profile/";
+        HashMap<String, String> params = null;
+        if (UserInfoUtil.checkLogin(this)) {
+            params = new HashMap<>(2);
             params.put("user", UserInfoUtil.getUserId(this));
             params.put("token", UserInfoUtil.getUserToken(this));
         }
-        HttpClientUtil.getHttpClientUtil().sendPostRequest(Tag,url,params,new HttpClientUtil.StringResponseCallBack(){
+        HttpClientUtil.getHttpClientUtil().sendPostRequest(Tag, url, params, new HttpClientUtil.StringResponseCallBack() {
 
             @Override
             public void onBefore(Request request) {
@@ -165,7 +171,7 @@ public class UserBettingGuessRecordActivity extends BaseActivity implements Swip
             @Override
             public void onError(Call call, Exception error) {
                 onRefreshCompelete();
-                if(adapter==null){
+                if (adapter == null) {
                     showErrorInfo(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
@@ -173,7 +179,7 @@ public class UserBettingGuessRecordActivity extends BaseActivity implements Swip
                             getUserInfo(uid);
                         }
                     });
-                }else{
+                } else {
                     ToastUtil.show(UserBettingGuessRecordActivity.this, "请求失败");
                 }
             }
@@ -181,32 +187,34 @@ public class UserBettingGuessRecordActivity extends BaseActivity implements Swip
             @Override
             public void onSuccess(Call call, String response) {
                 KLog.json(response);
-                if(!TextUtils.isEmpty(response)){
-                    JSONObject obj=JSONObject.parseObject(response);
-                    if(obj!=null){
-                        JSONObject dataObj=obj.getJSONObject("data");
-                        if(dataObj!=null){
+                if (!TextUtils.isEmpty(response)) {
+                    JSONObject obj = JSONObject.parseObject(response);
+                    if (obj != null) {
+                        JSONObject dataObj = obj.getJSONObject("data");
+                        if (dataObj != null) {
                             requestUserBettingRecordInfos(1, uid, bet, query, etype, false);
                             GlideImageLoader.loadImage(UserBettingGuessRecordActivity.this, dataObj.getString("pt"), R.mipmap.icon_user_default, ivUserIcon);
                             UserInfoUtil.setUserHeaderVMark(dataObj.getIntValue("isv"), ivS, ivUserIcon);
                             tvUserName.setText(dataObj.getString("fname"));
-                            tvUserProfitRate.setText(String.format(Locale.getDefault(), "%.2f", dataObj.getFloat("ror")) + "% 盈利");
-                            tvAllCount.setText("场 "+dataObj.getString("bsc"));
+                            tvUserProfitRate.setText(String.format(Locale.getDefault(), "%.2f", dataObj.getFloat("ror")));
+                            tvUserProfitRate.append("% 盈利");
+                            tvAllCount.setText("场 ");
+                            tvAllCount.append(dataObj.getString("bsc"));
 
-                            String winCount=dataObj.getString("bwc");
+                            String winCount = dataObj.getString("bwc");
                             CommonUtils.setTextViewFormatString(tvWinCount, "赢 " + winCount, winCount, Color.parseColor("#e35354"), 1f);
 
-                            String loseCount=dataObj.getString("blc");
-                            CommonUtils.setTextViewFormatString(tvLoseCount, "输 "+loseCount, loseCount, Color.parseColor("#469c4a"), 1f);
+                            String loseCount = dataObj.getString("blc");
+                            CommonUtils.setTextViewFormatString(tvLoseCount, "输 " + loseCount, loseCount, Color.parseColor("#469c4a"), 1f);
 
-                            String goneCount=dataObj.getString("bgc");
-                            CommonUtils.setTextViewFormatString(tvGoCount, "走 "+goneCount, goneCount, Color.parseColor("#d4d4d4"), 1f);
+                            String goneCount = dataObj.getString("bgc");
+                            CommonUtils.setTextViewFormatString(tvGoCount, "走 " + goneCount, goneCount, Color.parseColor("#d4d4d4"), 1f);
                             return;
                         }
                     }
                 }
                 onRefreshCompelete();
-                if(adapter==null) {
+                if (adapter == null) {
                     showEmptyInfo();
                 }
             }
@@ -218,9 +226,9 @@ public class UserBettingGuessRecordActivity extends BaseActivity implements Swip
         });
     }
 
-    private void requestUserBettingRecordInfos(final int pages,final String uid,final String bet, final String query, final String etype, final boolean isLoadMore){
-        String url= HttpUrls.HOST_URL_V5 + "user/" + uid + "/bets" + (TextUtils.isEmpty(bet)?"":"/"+bet) + "/?p=" + pages + (TextUtils.isEmpty(query)?"":"&query=" + query) + (!TextUtils.isEmpty(etype)? "&etype=" + etype : "");
-        KLog.e("url:"+url);
+    private void requestUserBettingRecordInfos(final int pages, final String uid, final String bet, final String query, final String etype, final boolean isLoadMore) {
+        String url = HttpUrls.HOST_URL_V5 + "user/" + uid + "/bets" + (TextUtils.isEmpty(bet) ? "" : "/" + bet) + "/?p=" + pages + (TextUtils.isEmpty(query) ? "" : "&query=" + query) + (!TextUtils.isEmpty(etype) ? "&etype=" + etype : "");
+        KLog.e("url:" + url);
         HttpClientUtil.getHttpClientUtil().sendGetRequest(Tag, url, 30, new HttpClientUtil.StringResponseCallBack() {
             @Override
             public void onBefore(Request request) {
@@ -232,13 +240,13 @@ public class UserBettingGuessRecordActivity extends BaseActivity implements Swip
                 if (!isLoadMore) {
                     if (adapter != null) {
                         recyclerView.setStartLoadMore();
-                        ToastUtil.show(UserBettingGuessRecordActivity.this,"请求失败");
+                        ToastUtil.show(UserBettingGuessRecordActivity.this, "请求失败");
                     } else {
                         showErrorInfo(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
                                 showLoading();
-                                requestUserBettingRecordInfos(pages,uid,bet,query,etype,isLoadMore);
+                                requestUserBettingRecordInfos(pages, uid, bet, query, etype, isLoadMore);
                             }
                         });
                     }
@@ -250,47 +258,47 @@ public class UserBettingGuessRecordActivity extends BaseActivity implements Swip
             @Override
             public void onSuccess(Call call, String response) {
                 KLog.json(response);
-                if(!TextUtils.isEmpty(response)){
-                    JSONObject obj=JSONObject.parseObject(response);
-                    if(obj!=null&&!obj.isEmpty()&&obj.getIntValue("status")==0){
-                        JSONArray arrays=obj.getJSONArray("data");
-                        if(arrays!=null&&!arrays.isEmpty()){
+                if (!TextUtils.isEmpty(response)) {
+                    JSONObject obj = JSONObject.parseObject(response);
+                    if (obj != null && !obj.isEmpty() && obj.getIntValue("status") == 0) {
+                        JSONArray arrays = obj.getJSONArray("data");
+                        if (arrays != null && !arrays.isEmpty()) {
                             hideLoad();
-                            if(userGuessBettingRecordEntityList==null){
-                                userGuessBettingRecordEntityList=new ArrayList<BallQUserGuessBettingRecordEntity>(10);
+                            if (userGuessBettingRecordEntityList == null) {
+                                userGuessBettingRecordEntityList = new ArrayList<BallQUserGuessBettingRecordEntity>(10);
                             }
-                            if(!isLoadMore){
-                                if(!userGuessBettingRecordEntityList.isEmpty()){
+                            if (!isLoadMore) {
+                                if (!userGuessBettingRecordEntityList.isEmpty()) {
                                     userGuessBettingRecordEntityList.clear();
                                 }
                             }
-                            CommonUtils.getJSONListObject(arrays,userGuessBettingRecordEntityList,BallQUserGuessBettingRecordEntity.class);
-                            if(adapter==null){
-                                adapter=new BallQUserBettingGuessRecordAdapter(userGuessBettingRecordEntityList);
-                                StickyHeaderDecoration decoration=new StickyHeaderDecoration(adapter);
+                            CommonUtils.getJSONListObject(arrays, userGuessBettingRecordEntityList, BallQUserGuessBettingRecordEntity.class);
+                            if (adapter == null) {
+                                adapter = new BallQUserBettingGuessRecordAdapter(userGuessBettingRecordEntityList);
+                                StickyHeaderDecoration decoration = new StickyHeaderDecoration(adapter);
                                 recyclerView.setAdapter(adapter);
                                 recyclerView.addItemDecoration(decoration);
-                            }else{
+                            } else {
                                 adapter.notifyDataSetChanged();
                             }
-                            if(arrays.size()<10){
+                            if (arrays.size() < 10) {
                                 recyclerView.setLoadMoreDataComplete(tip);
-                            }else{
+                            } else {
                                 recyclerView.setStartLoadMore();
-                                if(isLoadMore){
+                                if (isLoadMore) {
                                     currentPages++;
-                                }else{
-                                    currentPages=2;
+                                } else {
+                                    currentPages = 2;
                                 }
                                 return;
                             }
                         }
                     }
                 }
-                if(adapter==null){
+                if (adapter == null) {
                     showEmptyInfo();
-                }else{
-                    if(!isLoadMore){
+                } else {
+                    if (!isLoadMore) {
                         recyclerView.setLoadMoreDataComplete(tip);
                     }
                 }
@@ -298,7 +306,7 @@ public class UserBettingGuessRecordActivity extends BaseActivity implements Swip
 
             @Override
             public void onFinish(Call call) {
-                if(!isLoadMore){
+                if (!isLoadMore) {
                     recyclerView.setRefreshComplete();
                     onRefreshCompelete();
                 }
@@ -317,7 +325,7 @@ public class UserBettingGuessRecordActivity extends BaseActivity implements Swip
             recyclerView.postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    requestUserBettingRecordInfos(currentPages,uid,bet,query,etype,true);
+                    requestUserBettingRecordInfos(currentPages, uid, bet, query, etype, true);
                 }
             }, 300);
         }

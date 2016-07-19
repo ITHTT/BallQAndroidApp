@@ -24,15 +24,15 @@ import java.util.List;
 /**
  * Created by HTT on 2016/6/18.
  */
-public class BallQTrendProfitStatisticLayout extends LinearLayout{
+public class BallQTrendProfitStatisticLayout extends LinearLayout {
     private TextView tvTypeName;
     private ExpandableLinearLayout layoutExpandable;
     private ListView listView;
     private ImageView ivArrow;
     private View divider;
 
-    private List<BallQTrendProfitStatisticEntity> trendProfitStatisticEntityList=null;
-    private UserTrendProfitStatisticAdapter adapter=null;
+    private List<BallQTrendProfitStatisticEntity> trendProfitStatisticEntityList = null;
+    private UserTrendProfitStatisticAdapter adapter = null;
 
     public BallQTrendProfitStatisticLayout(Context context) {
         super(context);
@@ -55,13 +55,13 @@ public class BallQTrendProfitStatisticLayout extends LinearLayout{
         initViews(context);
     }
 
-    private void initViews(Context context){
-        LayoutInflater.from(context).inflate(R.layout.layout_trend_profit_statistic_item,this,true);
-        tvTypeName=(TextView)this.findViewById(R.id.tv_type_name);
-        layoutExpandable=(ExpandableLinearLayout)this.findViewById(R.id.layout_expandable);
-        listView=(ListView)this.findViewById(R.id.lv);
-        ivArrow=(ImageView)this.findViewById(R.id.ivBtn);
-        divider=this.findViewById(R.id.divider);
+    private void initViews(Context context) {
+        LayoutInflater.from(context).inflate(R.layout.layout_trend_profit_statistic_item, this, true);
+        tvTypeName = (TextView) this.findViewById(R.id.tv_type_name);
+        layoutExpandable = (ExpandableLinearLayout) this.findViewById(R.id.layout_expandable);
+        listView = (ListView) this.findViewById(R.id.lv);
+        ivArrow = (ImageView) this.findViewById(R.id.ivBtn);
+        divider = this.findViewById(R.id.divider);
         this.findViewById(R.id.layout_type).setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -77,7 +77,7 @@ public class BallQTrendProfitStatisticLayout extends LinearLayout{
         layoutExpandable.setListener(new ExpandableLayoutListenerAdapter() {
             @Override
             public void onPreOpen() {
-               ivArrow.setImageResource(R.mipmap.btn_up);
+                ivArrow.setImageResource(R.mipmap.btn_up);
                 divider.setVisibility(View.VISIBLE);
             }
 
@@ -89,12 +89,12 @@ public class BallQTrendProfitStatisticLayout extends LinearLayout{
         });
     }
 
-    public void setTrendProfitTitle(String title){
+    public void setTrendProfitTitle(String title) {
         tvTypeName.setText(title);
     }
 
-    public void setTrendProfitStatistValue(List<BallQTrendProfitStatisticEntity>datas){
-        if(datas!=null&&!datas.isEmpty()) {
+    public void setTrendProfitStatistValue(String bet, String query, int etype, List<BallQTrendProfitStatisticEntity> datas) {
+        if (datas != null && !datas.isEmpty()) {
             if (trendProfitStatisticEntityList == null) {
                 trendProfitStatisticEntityList = new ArrayList<>();
                 trendProfitStatisticEntityList.addAll(datas);
@@ -107,6 +107,9 @@ public class BallQTrendProfitStatisticLayout extends LinearLayout{
                 trendProfitStatisticEntityList.addAll(datas);
                 adapter.notifyDataSetChanged();
             }
+            adapter.setBet(bet);
+            adapter.setQuery(query);
+            adapter.setEtype(etype);
             layoutExpandable.initLayout(true);
         }
     }

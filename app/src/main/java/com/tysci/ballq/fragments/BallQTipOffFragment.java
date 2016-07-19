@@ -5,19 +5,34 @@ import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.view.View;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.tysci.ballq.R;
 import com.tysci.ballq.activitys.BallQTipOffSearchActivity;
 import com.tysci.ballq.base.BaseFragment;
+import com.tysci.ballq.modles.BallQBannerImageEntity;
+import com.tysci.ballq.modles.JsonParams;
+import com.tysci.ballq.networks.HttpClientUtil;
+import com.tysci.ballq.networks.HttpUrls;
+import com.tysci.ballq.utils.BallQBusinessControler;
+import com.tysci.ballq.utils.CommonUtils;
 import com.tysci.ballq.utils.KLog;
+import com.tysci.ballq.utils.ToastUtil;
 import com.tysci.ballq.views.adapters.BallQFragmentPagerAdapter;
+import com.tysci.ballq.views.widgets.BannerNetworkImageView;
 import com.tysci.ballq.views.widgets.SlidingTabLayout;
 import com.tysci.ballq.views.widgets.TitleBar;
 import com.tysci.ballq.views.widgets.convenientbanner.ConvenientBanner;
+import com.tysci.ballq.views.widgets.convenientbanner.holder.CBViewHolderCreator;
+import com.tysci.ballq.views.widgets.convenientbanner.listener.OnItemClickListener;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
+import okhttp3.Call;
+import okhttp3.Request;
 import ru.noties.scrollable.CanScrollVerticallyDelegate;
 import ru.noties.scrollable.OnFlingOverListener;
 import ru.noties.scrollable.OnScrollChangedListener;
@@ -26,7 +41,7 @@ import ru.noties.scrollable.ScrollableLayout;
 /**
  * Created by HTT on 2016/7/12.
  */
-public class BallQTipOffFragment extends BaseFragment implements View.OnClickListener{
+public class BallQTipOffFragment extends BaseFragment implements View.OnClickListener, OnItemClickListener {
     @Bind(R.id.title_bar)
     protected TitleBar titleBar;
     @Bind(R.id.convenientBanner)
@@ -38,6 +53,8 @@ public class BallQTipOffFragment extends BaseFragment implements View.OnClickLis
     @Bind(R.id.scrollable_layout)
     protected ScrollableLayout mScrollableLayout;
 
+    private List<BallQBannerImageEntity> bannerList;
+
     @Override
     protected int getViewLayoutId() {
         return R.layout.fragment_ballq_tip_off;
@@ -47,7 +64,7 @@ public class BallQTipOffFragment extends BaseFragment implements View.OnClickLis
     protected void initViews(View view, Bundle savedInstanceState) {
         titleBar.setTitleBarTitle("爆料");
         titleBar.setTitleBarLeftIcon(0, null);
-        titleBar.setRightMenuIcon(R.mipmap.icon_search_mark,this);
+        titleBar.setRightMenuIcon(R.mipmap.icon_search_mark, this);
         mScrollableLayout.setDraggableView(tabLayout);
         mScrollableLayout.setOnScrollChangedListener(new OnScrollChangedListener() {
             @Override
@@ -68,11 +85,11 @@ public class BallQTipOffFragment extends BaseFragment implements View.OnClickLis
         mScrollableLayout.setCanScrollVerticallyDelegate(new CanScrollVerticallyDelegate() {
             @Override
             public boolean canScrollVertically(int direction) {
-                BaseFragment fragment= (BaseFragment) getChildFragmentManager().getFragments().get(tabLayout.getCurrentTab());
+                BaseFragment fragment = (BaseFragment) getChildFragmentManager().getFragments().get(tabLayout.getCurrentTab());
                 KLog.e("执行滑动操作。。");
-                if(fragment instanceof CanScrollVerticallyDelegate){
+                if (fragment instanceof CanScrollVerticallyDelegate) {
                     KLog.e("执行滑动操作。。");
-                    return  ((CanScrollVerticallyDelegate) fragment).canScrollVertically(direction);
+                    return ((CanScrollVerticallyDelegate) fragment).canScrollVertically(direction);
                 }
                 return false;
             }
@@ -80,31 +97,31 @@ public class BallQTipOffFragment extends BaseFragment implements View.OnClickLis
         mScrollableLayout.setOnFlingOverListener(new OnFlingOverListener() {
             @Override
             public void onFlingOver(int y, long duration) {
-                BaseFragment fragment= (BaseFragment) getChildFragmentManager().getFragments().get(tabLayout.getCurrentTab());
+                BaseFragment fragment = (BaseFragment) getChildFragmentManager().getFragments().get(tabLayout.getCurrentTab());
                 KLog.e("执行滑动操作。。");
-                if(fragment instanceof OnFlingOverListener){
+                if (fragment instanceof OnFlingOverListener) {
                     KLog.e("执行滑动操作。。");
-                    ((OnFlingOverListener) fragment).onFlingOver(y,duration);
+                    ((OnFlingOverListener) fragment).onFlingOver(y, duration);
                 }
             }
         });
         addFragments();
 
-
+        banner.setOnItemClickListener(this);
     }
 
-    private void addFragments(){
-        String[] titles={"爆料","球经","视频","我的关注"};
-        List<BaseFragment> fragments=new ArrayList<>(4);
-        BaseFragment fragment=new BallQTipOffListFragment();
+    private void addFragments() {
+        String[] titles = {"爆料", "球经", "视频", "我的关注"};
+        List<BaseFragment> fragments = new ArrayList<>(4);
+        BaseFragment fragment = new BallQTipOffListFragment();
         fragments.add(fragment);
-        fragment=new BallQHomeBallWarpListFragment();
+        fragment = new BallQHomeBallWarpListFragment();
         fragments.add(fragment);
-        fragment=new BallQFindCircleNoteListFragment();
+        fragment = new BallQFindCircleNoteListFragment();
         fragments.add(fragment);
-        fragment=new UserAttentionMatchListFragment();
+        fragment = new UserAttentionMatchListFragment();
         fragments.add(fragment);
-        BallQFragmentPagerAdapter adapter=new BallQFragmentPagerAdapter(getChildFragmentManager(),titles,fragments);
+        BallQFragmentPagerAdapter adapter = new BallQFragmentPagerAdapter(getChildFragmentManager(), titles, fragments);
         viewPager.setAdapter(adapter);
         viewPager.setOffscreenPageLimit(fragments.size());
         tabLayout.setViewPager(viewPager);
@@ -132,16 +149,84 @@ public class BallQTipOffFragment extends BaseFragment implements View.OnClickLis
 
     @Override
     public void onClick(View v) {
-        int id=v.getId();
-        switch (id){
+        int id = v.getId();
+        switch (id) {
             case R.id.iv_titlebar_next_menu01:
                 searchTipOff();
                 break;
         }
     }
 
-    private void searchTipOff(){
-        Intent intent=new Intent(baseActivity, BallQTipOffSearchActivity.class);
+    private void searchTipOff() {
+        Intent intent = new Intent(baseActivity, BallQTipOffSearchActivity.class);
         startActivity(intent);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        getBanner();
+        //开始自动翻页
+        banner.startTurning(3000);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        banner.stopTurning();
+    }
+
+    private void getBanner() {
+        HttpClientUtil.getHttpClientUtil().sendGetRequest(Tag, HttpUrls.HOST_URL + "/api/ares/banner/", 5, new HttpClientUtil.StringResponseCallBack() {
+            @Override
+            public void onBefore(Request request) {
+            }
+
+            @Override
+            public void onError(Call call, Exception error) {
+                ToastUtil.show(baseActivity, R.string.request_error);
+            }
+
+            @Override
+            public void onSuccess(Call call, String response) {
+                KLog.json(response);
+                JSONObject object = JSON.parseObject(response);
+                if (JsonParams.isJsonRight(object)) {
+                    JSONArray data = object.getJSONArray("data");
+                    if (data != null && !data.isEmpty()) {
+                        if (bannerList == null) {
+                            bannerList = new ArrayList<>();
+                        }
+                        CommonUtils.getJSONListObject(data, bannerList, BallQBannerImageEntity.class);
+                        banner.setPages(new CBViewHolderCreator() {
+                            @Override
+                            public Object createHolder() {
+                                return new BannerNetworkImageView();
+                            }
+                        }, bannerList)
+                                //设置两个点图片作为翻页指示器，不设置则没有指示器，可以根据自己需求自行配合自己的指示器,不需要圆点指示器可不设
+                                .setPageIndicator(new int[]{R.drawable.guide_gray, R.drawable.guide_red});
+                        banner.setPageIndicatorAlign(ConvenientBanner.PageIndicatorAlign.CENTER_HORIZONTAL);
+                        banner.setPointViewVisible(true);
+                        banner.setManualPageable(true);
+                    }
+                } else {
+                    bannerList.clear();
+                    banner.notifyDataSetChanged();
+                }
+            }
+
+            @Override
+            public void onFinish(Call call) {
+            }
+        });
+    }
+
+    @Override
+    public void onItemClick(int position) {
+        if (bannerList != null) {
+            BallQBannerImageEntity info = bannerList.get(position);
+            BallQBusinessControler.businessControler(baseActivity, Integer.parseInt(info.getJump_type()), info.getJump_url());
+        }
     }
 }
