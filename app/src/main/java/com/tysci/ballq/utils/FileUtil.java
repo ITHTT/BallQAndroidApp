@@ -10,7 +10,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 
 /**
- * Created by Administrator on 2016-07-13 0013.
+ * Created by LinDe on 2016-07-13 0013.
  * util for file
  */
 public final class FileUtil {

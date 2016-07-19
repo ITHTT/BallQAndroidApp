@@ -35,6 +35,8 @@ import butterknife.OnClick;
 
 /**
  * Created by HTT on 2016/7/12.
+ *
+ * @author Edit LinDe
  */
 public class BallQPersonalFragment extends BaseFragment {
     @Bind(R.id.title_bar)
@@ -78,11 +80,10 @@ public class BallQPersonalFragment extends BaseFragment {
             setUserInfo(UserInfoUtil.getUserInfo(baseActivity));
             UserInfoUtil.getUserInfo(baseActivity, Tag, UserInfoUtil.getUserId(baseActivity), false, null);
 
-            if(UserInfoUtil.isVIPUser(baseActivity))
-            {
+            if (UserInfoUtil.isVIPUser(baseActivity)) {
                 tipRecord.setVisibility(View.VISIBLE);
                 articleRecord.setVisibility(View.VISIBLE);
-            }else {
+            } else {
                 tipRecord.setVisibility(View.GONE);
                 articleRecord.setVisibility(View.GONE);
             }
@@ -146,6 +147,9 @@ public class BallQPersonalFragment extends BaseFragment {
                 tvUserBio.setVisibility(View.VISIBLE);
                 tvUserBio.setText(userInfo.getBio());
             }
+            // 老用户
+            oldUser.setVisibility(userInfo.getIs_old_user() == 1 ? View.VISIBLE : View.GONE);
+
             tvROI.setText(String.format(Locale.getDefault(), "%.2f", userInfo.getRor()) + "%");
             tvTotalROI.setText(String.format(Locale.getDefault(), "%.2f", (float) userInfo.getTearn() / 100));
             tvWins.setText(String.format(Locale.getDefault(), "%.2f", userInfo.getWins() * 100) + "%");
@@ -176,7 +180,7 @@ public class BallQPersonalFragment extends BaseFragment {
         } else {
             Class cls = null;
             switch (view.getId()) {
-                case R.id.menu_user_trend_statistics:
+                case R.id.menu_user_trend_statistics:// 走势统计
                     cls = UserTrendStatisticActivity.class;
                     break;
                 case R.id.menu_user_guessing_record:// 竞猜记录

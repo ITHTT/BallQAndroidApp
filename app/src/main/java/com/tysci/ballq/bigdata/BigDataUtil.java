@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.os.Environment;
 import android.text.TextUtils;
+import android.widget.TextView;
 
 import com.tysci.ballq.R;
 import com.tysci.ballq.networks.HttpClientUtil;

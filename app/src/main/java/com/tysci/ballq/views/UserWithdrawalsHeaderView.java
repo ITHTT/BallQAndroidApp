@@ -1,5 +1,6 @@
 package com.tysci.ballq.views;
 
+import android.app.Activity;
 import android.content.Context;
 import android.text.TextUtils;
 import android.util.AttributeSet;
@@ -20,6 +21,7 @@ import com.tysci.ballq.networks.HttpClientUtil;
 import com.tysci.ballq.networks.HttpUrls;
 import com.tysci.ballq.utils.ImageUtil;
 import com.tysci.ballq.utils.KLog;
+import com.tysci.ballq.utils.SoftInputUtil;
 import com.tysci.ballq.utils.ToastUtil;
 import com.tysci.ballq.utils.UserInfoUtil;
 import com.tysci.ballq.utils.WeChatUtil;
@@ -94,6 +96,8 @@ public final class UserWithdrawalsHeaderView extends LinearLayout implements Vie
         tvBindToWeChat.setOnClickListener(this);
         tvChangeWeChat.setOnClickListener(this);
         tvApplyToWithdrawals.setOnClickListener(this);
+
+        setOnClickListener(this);
     }
 
     public void setBindFlags(int balance, boolean is_bind_to_wx, String wx_name, String wx_portrait) {
@@ -195,6 +199,14 @@ public final class UserWithdrawalsHeaderView extends LinearLayout implements Vie
 
     @Override
     public void onClick(View v) {
+        if (v == this) {
+            try {
+                SoftInputUtil.hideSoftInput((Activity) v.getContext());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return;
+        }
         switch (v.getId()) {
             case R.id.tvBindToWeChat:
                 onBindWeChat(true);

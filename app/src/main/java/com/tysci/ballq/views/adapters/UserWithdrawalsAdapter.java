@@ -7,11 +7,14 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.tysci.ballq.R;
+import com.tysci.ballq.base.ButterKnifeRecyclerViewHolder;
 import com.tysci.ballq.modles.UserWithdrawalsEntity;
 import com.tysci.ballq.utils.CalendarUtil;
 import com.tysci.ballq.views.widgets.recyclerviewstickyheader.StickyHeaderAdapter;
 
 import java.util.List;
+
+import butterknife.Bind;
 
 /**
  * Created by LinDe on 2016-07-18 0018.
@@ -81,16 +84,19 @@ public class UserWithdrawalsAdapter extends RecyclerView.Adapter<UserWithdrawals
         }
     }
 
-    class ViewHolder extends RecyclerView.ViewHolder {
+    class ViewHolder extends ButterKnifeRecyclerViewHolder {
+        @Bind(R.id.tv_record_time)
         TextView tvRecordTime;
+        @Bind(R.id.tv_record_info)
         TextView tvRecordInfo;
+        @Bind(R.id.tv_record_moneys)
         TextView tvRecordMoneys;
 
         public ViewHolder(View itemView) {
             super(itemView);
-            tvRecordInfo = (TextView) itemView.findViewById(R.id.tv_record_info);
-            tvRecordTime = (TextView) itemView.findViewById(R.id.tv_record_time);
-            tvRecordMoneys = (TextView) itemView.findViewById(R.id.tv_record_moneys);
+//            tvRecordInfo = (TextView) itemView.findViewById(R.id.tv_record_info);
+//            tvRecordTime = (TextView) itemView.findViewById(R.id.tv_record_time);
+//            tvRecordMoneys = (TextView) itemView.findViewById(R.id.tv_record_moneys);
 
         }
     }
