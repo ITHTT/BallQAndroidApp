@@ -10,17 +10,21 @@ import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.Window;
+import android.widget.TextView;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.tysci.ballq.R;
 import com.tysci.ballq.activitys.UserAccountActivity;
 import com.tysci.ballq.modles.BallQGoldCoinBuyEntity;
+import com.tysci.ballq.modles.JsonParams;
 import com.tysci.ballq.networks.HttpClientUtil;
 import com.tysci.ballq.networks.HttpUrls;
 import com.tysci.ballq.utils.CommonUtils;
 import com.tysci.ballq.utils.KLog;
 import com.tysci.ballq.utils.RandomUtils;
+import com.tysci.ballq.utils.ToastUtil;
 import com.tysci.ballq.utils.UserInfoUtil;
 import com.tysci.ballq.views.adapters.BallQGoldCoinBuyAdapter;
 import com.tysci.ballq.views.widgets.LoadDataLayout;
@@ -36,21 +40,22 @@ import okhttp3.Request;
 /**
  * Created by HTT on 2016/7/6.
  */
-public class BallQGoldCoinBuyDialog extends Dialog implements View.OnClickListener{
+public class BallQGoldCoinBuyDialog extends Dialog implements View.OnClickListener {
     private RecyclerView recyclerView;
     private LoadDataLayout loadDataLayout;
     private View layoutContent;
 
-    private List<BallQGoldCoinBuyEntity> goldCoinBuyEntityList=null;
-    private BallQGoldCoinBuyAdapter adapter=null;
+    private List<BallQGoldCoinBuyEntity> goldCoinBuyEntityList = null;
+    private BallQGoldCoinBuyAdapter adapter = null;
 
+    private TextView tvOK;
 
     public BallQGoldCoinBuyDialog(Context context) {
         super(context, R.style.CustomDialogStyle);
         initViews(context);
     }
 
-    private void initViews(Context context){
+    private void initViews(Context context) {
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         this.getWindow().setBackgroundDrawable(
                 new ColorDrawable(Color.TRANSPARENT));
@@ -58,25 +63,27 @@ public class BallQGoldCoinBuyDialog extends Dialog implements View.OnClickListen
 
         setContentView(R.layout.dialog_gold_coin_buy);
 
-        recyclerView= (RecyclerView) this.findViewById(R.id.recyclerView);
+
+        recyclerView = (RecyclerView) this.findViewById(R.id.recyclerView);
         GridLayoutManager lm = new GridLayoutManager(getContext(), 2);
         lm.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(lm);
 
-        loadDataLayout=(LoadDataLayout)this.findViewById(R.id.layout_loading_data);
-        layoutContent=this.findViewById(R.id.layout_content);
+        loadDataLayout = (LoadDataLayout) this.findViewById(R.id.layout_loading_data);
+        layoutContent = this.findViewById(R.id.layout_content);
 
         this.findViewById(R.id.ivDismiss).setOnClickListener(this);
+        findViewById(R.id.tvOK).setOnClickListener(this);
 
         getGoldCoinBuyInfo();
     }
 
-    private void getGoldCoinBuyInfo(){
-        String url= HttpUrls.HOST_URL_V5 + "exchange_list/";
-        Map<String,String> params=new HashMap<>(3);
+    private void getGoldCoinBuyInfo() {
+        String url = HttpUrls.HOST_URL_V5 + "exchange_list/";
+        Map<String, String> params = new HashMap<>(3);
         params.put("user", UserInfoUtil.getUserId(this.getContext()));
         params.put("token", UserInfoUtil.getUserToken(this.getContext()));
-        params.put("exchange_type","1");
+        params.put("exchange_type", "1");
         HttpClientUtil.getHttpClientUtil().sendPostRequest(UserAccountActivity.class.getSimpleName(), url, params, new HttpClientUtil.StringResponseCallBack() {
             @Override
             public void onBefore(Request request) {
@@ -98,20 +105,22 @@ public class BallQGoldCoinBuyDialog extends Dialog implements View.OnClickListen
             @Override
             public void onSuccess(Call call, String response) {
                 KLog.json(response);
-                if(!TextUtils.isEmpty(response)){
-                    JSONObject obj=JSONObject.parseObject(response);
-                    if(obj!=null&&!obj.isEmpty()){
-                        JSONArray arrays=obj.getJSONArray("data");
-                        if(arrays!=null&&!arrays.isEmpty()){
+                if (!TextUtils.isEmpty(response)) {
+                    JSONObject obj = JSONObject.parseObject(response);
+                    if (obj != null && !obj.isEmpty()) {
+                        JSONArray arrays = obj.getJSONArray("data");
+                        if (arrays != null && !arrays.isEmpty()) {
                             loadDataLayout.hideLoad();
                             layoutContent.setVisibility(View.VISIBLE);
-                            if(goldCoinBuyEntityList==null){
-                                goldCoinBuyEntityList=new ArrayList<BallQGoldCoinBuyEntity>(10);
+                            if (goldCoinBuyEntityList == null) {
+                                goldCoinBuyEntityList = new ArrayList<BallQGoldCoinBuyEntity>(10);
                             }
-                            CommonUtils.getJSONListObject(arrays,goldCoinBuyEntityList,BallQGoldCoinBuyEntity.class);
-                            if(adapter==null){
-                                adapter=new BallQGoldCoinBuyAdapter(goldCoinBuyEntityList);
+                            CommonUtils.getJSONListObject(arrays, goldCoinBuyEntityList, BallQGoldCoinBuyEntity.class);
+                            if (adapter == null) {
+                                adapter = new BallQGoldCoinBuyAdapter(goldCoinBuyEntityList);
                                 recyclerView.setAdapter(adapter);
+                            } else {
+                                adapter.notifyDataSetChanged();
                             }
                             return;
                         }
@@ -127,12 +136,12 @@ public class BallQGoldCoinBuyDialog extends Dialog implements View.OnClickListen
         });
     }
 
-    private void buyGoldCoin(int id){
-        String url= HttpUrls.HOST_URL_V5+"user/cny_to_balance/";
-        Map<String,String> params=new HashMap<>(3);
+    private void buyGoldCoin(int id) {
+        String url = HttpUrls.HOST_URL_V5 + "user/cny_to_balance/";
+        Map<String, String> params = new HashMap<>(3);
         params.put("user", UserInfoUtil.getUserId(this.getContext()));
         params.put("token", UserInfoUtil.getUserToken(this.getContext()));
-        params.put("eid",String.valueOf(id));
+        params.put("eid", String.valueOf(id));
         params.put("repeat_token", RandomUtils.getOnlyOneByTimeMillis(32));
         HttpClientUtil.getHttpClientUtil().sendPostRequest(UserAccountActivity.class.getSimpleName(), url, params, new HttpClientUtil.StringResponseCallBack() {
             @Override
@@ -142,13 +151,19 @@ public class BallQGoldCoinBuyDialog extends Dialog implements View.OnClickListen
 
             @Override
             public void onError(Call call, Exception error) {
-
+                ToastUtil.show(getContext(), R.string.request_error);
             }
 
             @Override
             public void onSuccess(Call call, String response) {
                 KLog.json(response);
-
+                if (JsonParams.isJsonRight(response)) {
+                    ToastUtil.show(getContext(), "购买金币成功");
+                } else {
+                    JSONObject object = JSON.parseObject(response);
+                    ToastUtil.show(getContext(), object.getString(JsonParams.MESSAGE));
+                }
+                dismiss();
             }
 
             @Override
@@ -160,9 +175,13 @@ public class BallQGoldCoinBuyDialog extends Dialog implements View.OnClickListen
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.ivDismiss:
                 dismiss();
+                break;
+            case R.id.tvOK:
+                BallQGoldCoinBuyEntity info = adapter.getCheckInfo();
+                buyGoldCoin(info.getId());
                 break;
         }
     }

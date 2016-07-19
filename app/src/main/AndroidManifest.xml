@@ -98,6 +98,12 @@
         <activity
             android:name=".activitys.UserWithdrawsActivity"
             android:launchMode="singleTop" />
+        <activity
+            android:name=".activitys.UserTipOffListRecordActivity"
+            android:launchMode="singleTop" />
+        <activity
+            android:name=".activitys.UserArticleListRecordActivity"
+            android:launchMode="singleTop" />
 
         <service android:name=".services.TimeTaskPickerService" />
         <service android:name=".services.UserTaskService" />
@@ -201,7 +207,7 @@
 
         <activity android:name=".activitys.BallQGreatWarGoActivity" />
 
-        <activity android:name=".activitys.BallQMainUserRankingListActivity"/>
+        <activity android:name=".activitys.BallQMainUserRankingListActivity" />
 
         <activity android:name=".activitys.BallQUserRankingListDetailActivity"/>
 

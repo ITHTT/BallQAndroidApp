@@ -11,19 +11,21 @@ import com.tysci.ballq.R;
 import com.tysci.ballq.activitys.BallQSettingActivity;
 import com.tysci.ballq.activitys.UserAccountActivity;
 import com.tysci.ballq.activitys.UserAchievementActivity;
+import com.tysci.ballq.activitys.UserArticleListRecordActivity;
 import com.tysci.ballq.activitys.UserAttentionActivity;
 import com.tysci.ballq.activitys.UserBettingGuessRecordActivity;
 import com.tysci.ballq.activitys.UserCollectionRecordActivity;
 import com.tysci.ballq.activitys.UserMessageRecordActivity;
 import com.tysci.ballq.activitys.UserOldDataActivity;
+import com.tysci.ballq.activitys.UserTipOffListRecordActivity;
 import com.tysci.ballq.activitys.UserTrendStatisticActivity;
 import com.tysci.ballq.base.BaseFragment;
-import com.tysci.ballq.dialog.EditUserPortraitDialog;
 import com.tysci.ballq.modles.UserInfoEntity;
 import com.tysci.ballq.modles.event.EventType;
 import com.tysci.ballq.networks.GlideImageLoader;
 import com.tysci.ballq.utils.UserInfoUtil;
 import com.tysci.ballq.views.widgets.CircleImageView;
+import com.tysci.ballq.views.widgets.MainMenuItemView;
 import com.tysci.ballq.views.widgets.TitleBar;
 
 import java.util.Locale;
@@ -56,7 +58,12 @@ public class BallQPersonalFragment extends BaseFragment {
     @Bind(R.id.tv_winning_probability)
     protected TextView tvWins;
 
-    private EditUserPortraitDialog editUserPortraitDialog;
+    @Bind(R.id.menu_user_tip_off_record)
+    protected MainMenuItemView tipRecord;
+    @Bind(R.id.menu_user_ball_warp_record)
+    protected MainMenuItemView articleRecord;
+    @Bind(R.id.menu_user_old_guess_record)
+    protected MainMenuItemView oldUser;
 
     @Override
     protected int getViewLayoutId() {
@@ -70,6 +77,15 @@ public class BallQPersonalFragment extends BaseFragment {
         if (UserInfoUtil.checkLogin(baseActivity)) {
             setUserInfo(UserInfoUtil.getUserInfo(baseActivity));
             UserInfoUtil.getUserInfo(baseActivity, Tag, UserInfoUtil.getUserId(baseActivity), false, null);
+
+            if(UserInfoUtil.isVIPUser(baseActivity))
+            {
+                tipRecord.setVisibility(View.VISIBLE);
+                articleRecord.setVisibility(View.VISIBLE);
+            }else {
+                tipRecord.setVisibility(View.GONE);
+                articleRecord.setVisibility(View.GONE);
+            }
         }
     }
 
@@ -182,6 +198,10 @@ public class BallQPersonalFragment extends BaseFragment {
                     cls = UserAchievementActivity.class;
                     break;
                 case R.id.menu_user_tip_off_record:// 爆料记录
+                    cls = UserTipOffListRecordActivity.class;
+                    break;
+                case R.id.menu_user_ball_warp_record:// 球茎记录
+                    cls = UserArticleListRecordActivity.class;
                     break;
                 case R.id.menu_user_old_guess_record:// 老用户战绩
                     cls = UserOldDataActivity.class;

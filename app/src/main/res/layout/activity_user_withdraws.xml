@@ -9,6 +9,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
+    <com.tysci.ballq.views.UserWithdrawalsHeaderView
+        android:id="@+id/headerView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
     <include
         layout="@layout/layout_swiperefresh_recyclerview"
         android:layout_width="match_parent"

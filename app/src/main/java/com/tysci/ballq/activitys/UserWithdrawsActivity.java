@@ -7,33 +7,29 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.text.TextUtils;
 import android.view.View;
-import android.view.ViewGroup;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.tysci.ballq.R;
 import com.tysci.ballq.base.BaseActivity;
-import com.tysci.ballq.modles.BallQUserAccountRecordEntity;
+import com.tysci.ballq.modles.UserWithdrawalsEntity;
 import com.tysci.ballq.networks.HttpClientUtil;
 import com.tysci.ballq.networks.HttpUrls;
 import com.tysci.ballq.utils.CommonUtils;
 import com.tysci.ballq.utils.KLog;
-import com.tysci.ballq.utils.ScreenUtil;
 import com.tysci.ballq.utils.SwipeUtil;
 import com.tysci.ballq.utils.ToastUtil;
 import com.tysci.ballq.utils.UserInfoUtil;
 import com.tysci.ballq.utils.WeChatUtil;
 import com.tysci.ballq.views.UserWithdrawalsHeaderView;
-import com.tysci.ballq.views.adapters.BallQUserAccountRecordAdapter;
+import com.tysci.ballq.views.adapters.UserWithdrawalsAdapter;
 import com.tysci.ballq.views.dialogs.LoadingProgressDialog;
 import com.tysci.ballq.views.widgets.loadmorerecyclerview.AutoLoadMoreRecyclerView;
 import com.tysci.ballq.views.widgets.recyclerviewstickyheader.StickyHeaderDecoration;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 
 import butterknife.Bind;
 import okhttp3.Call;
@@ -48,14 +44,14 @@ public class UserWithdrawsActivity extends BaseActivity implements SwipeRefreshL
     SwipeRefreshLayout refreshLayout;
     @Bind(R.id.recycler_view)
     AutoLoadMoreRecyclerView recyclerView;
-
     private SwipeUtil mSwipeUtil;
-    private BallQUserAccountRecordAdapter adapter;
+    @Bind(R.id.headerView)
+    UserWithdrawalsHeaderView headerView;
 
-    private UserWithdrawalsHeaderView headerView;
+    private UserWithdrawalsAdapter adapter;
 
     private int nextPage;
-    private ArrayList<BallQUserAccountRecordEntity> recordEntityList;
+    private ArrayList<UserWithdrawalsEntity> recordEntityList;
 
     @Override
     protected int getContentViewId() {
@@ -69,18 +65,22 @@ public class UserWithdrawsActivity extends BaseActivity implements SwipeRefreshL
         refreshLayout.setOnRefreshListener(this);
         mSwipeUtil = new SwipeUtil(refreshLayout);
 
-        headerView = new UserWithdrawalsHeaderView(this);
-        ViewGroup.LayoutParams lp = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        lp.width = ScreenUtil.getDisplayMetrics(this).widthPixels;
-        headerView.setLayoutParams(lp);
+//        headerView = new UserWithdrawalsHeaderView(this);
+//        ViewGroup.LayoutParams lp = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+//        lp.width = ScreenUtil.getDisplayMetrics(this).widthPixels;
+//        headerView.setLayoutParams(lp);
 
         LinearLayoutManager llm = new LinearLayoutManager(this);
         llm.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(llm);
-        recyclerView.addHeaderView(headerView);
+//        recyclerView.addHeaderView(headerView);
         recyclerView.setOnLoadMoreListener(this);
-        adapter = new BallQUserAccountRecordAdapter(recordEntityList);
-        recyclerView.setAdapter(adapter);
+//        recyclerView.setAdapter(adapter);
+//        recordEntityList = new ArrayList<>(10);
+//        adapter = new UserWithdrawalsAdapter(recordEntityList);
+//        StickyHeaderDecoration decoration = new StickyHeaderDecoration(adapter);
+//        recyclerView.setAdapter(adapter);
+//        recyclerView.addItemDecoration(decoration);
     }
 
     @Override
@@ -235,10 +235,9 @@ public class UserWithdrawsActivity extends BaseActivity implements SwipeRefreshL
                                     recordEntityList.clear();
                                 }
                             }
-                            CommonUtils.getJSONListObject(datas, recordEntityList, BallQUserAccountRecordEntity.class);
-                            setTime(recordEntityList);
+                            CommonUtils.getJSONListObject(datas, recordEntityList, UserWithdrawalsEntity.class);
                             if (adapter == null) {
-                                adapter = new BallQUserAccountRecordAdapter(recordEntityList);
+                                adapter = new UserWithdrawalsAdapter(recordEntityList);
                                 StickyHeaderDecoration decoration = new StickyHeaderDecoration(adapter);
                                 recyclerView.setAdapter(adapter);
                                 recyclerView.addItemDecoration(decoration);
@@ -256,6 +255,10 @@ public class UserWithdrawsActivity extends BaseActivity implements SwipeRefreshL
                                 }
                             }
                             return;
+                        } else {
+                            if (!isLoadMore) {
+                                recyclerView.setLoadMoreDataComplete();
+                            }
                         }
                     }
                 }
@@ -271,20 +274,5 @@ public class UserWithdrawsActivity extends BaseActivity implements SwipeRefreshL
                 mSwipeUtil.onRefreshComplete();
             }
         });
-    }
-
-    private void setTime(List<BallQUserAccountRecordEntity> datas) {
-        if (datas != null && !datas.isEmpty()) {
-            for (BallQUserAccountRecordEntity info : datas) {
-                Date date = CommonUtils.getDateAndTimeFromGMT(info.getCtime());
-                if (date != null) {
-                    String dateStr = CommonUtils.getMM_ddString(date);
-                    // KLog.e("dateStr:"+dateStr);
-                    String time = CommonUtils.getTimeOfDay(date);
-                    info.setTime(time);
-                    info.setDate(dateStr);
-                }
-            }
-        }
     }
 }

@@ -17,6 +17,7 @@ import com.tysci.ballq.fragments.UserAccountTradeRecordFragment;
 import com.tysci.ballq.networks.HttpClientUtil;
 import com.tysci.ballq.networks.HttpUrls;
 import com.tysci.ballq.utils.KLog;
+import com.tysci.ballq.utils.ToastUtil;
 import com.tysci.ballq.utils.UserInfoUtil;
 import com.tysci.ballq.views.adapters.BallQFragmentPagerAdapter;
 import com.tysci.ballq.views.dialogs.BallQGoldCoinBuyDialog;
@@ -245,6 +246,31 @@ public class UserAccountActivity extends BaseActivity {
         i.putExtra("BindToWeChat", isBindWeChat);
         i.putExtra("wx_name", wx_name);
         i.putExtra("wx_portrait", wx_portrait);
+        startActivity(i);
+    }
+
+    /**
+     * 兑奖
+     */
+    @OnClick(R.id.tvCashPrize)
+    protected void onCashPrizeClick(View view) {
+        ToastUtil.show(this, "敬请期待");
+    }
+
+    @OnClick(R.id.tvLuckyDraw)
+    protected void onLuckyDrawClick(View view) {
+        Intent i = new Intent(this, BallQWebViewActivity.class);
+        i.putExtra("title", "积分抽奖");
+
+        //noinspection MismatchedQueryAndUpdateOfStringBuilder
+        StringBuilder sb = new StringBuilder();
+        sb.append(HttpUrls.HOST_URL).append("/weixin/gold_lottery/");
+        if (UserInfoUtil.checkLogin(this)) {
+            sb.append("?user=").append(UserInfoUtil.getUserId(this));
+            sb.append("&token=").append(UserInfoUtil.getUserToken(this));
+        }
+        i.putExtra("url", sb.toString());
+
         startActivity(i);
     }
 }

@@ -106,11 +106,15 @@ public final class CalendarUtil {
         return null;
     }
 
-    public String format(String format) {
-        return format(format, TimeZone.getDefault());
+    public String getStringFormat(String format) {
+        return getStringFormat(format, TimeZone.getDefault());
     }
 
-    public String format(String format, TimeZone timeZone) {
+    /**
+     * @param format   格式
+     * @param timeZone 时区
+     */
+    public String getStringFormat(String format, TimeZone timeZone) {
         Calendar cal = Calendar.getInstance();
         cal.clear();
         cal.setTimeInMillis(timeMillis);
