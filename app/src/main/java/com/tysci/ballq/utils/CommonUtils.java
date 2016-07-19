@@ -64,6 +64,10 @@ public class CommonUtils {
         return dm;
     }
 
+    public static String getChinaDateAndTimeString(Date data){
+        return new SimpleDateFormat("MM月dd日 HH:mm").format(data);
+    }
+
     public static String getDateAndTimeFormatString(long times) {
         return new SimpleDateFormat("MM-dd HH:mm").format(new Date(times));
     }

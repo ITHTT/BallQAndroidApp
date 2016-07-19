@@ -11,7 +11,6 @@ import android.widget.TextView;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.bumptech.glide.Glide;
 import com.tysci.ballq.R;
 import com.tysci.ballq.base.BaseFragment;
 import com.tysci.ballq.modles.BallQGoBettingRecordEntity;
@@ -19,7 +18,6 @@ import com.tysci.ballq.modles.UserInfoEntity;
 import com.tysci.ballq.networks.GlideImageLoader;
 import com.tysci.ballq.networks.HttpClientUtil;
 import com.tysci.ballq.networks.HttpUrls;
-import com.tysci.ballq.utils.CommonUtils;
 import com.tysci.ballq.utils.KLog;
 import com.tysci.ballq.utils.ToastUtil;
 import com.tysci.ballq.utils.UserInfoUtil;
@@ -27,7 +25,6 @@ import com.tysci.ballq.views.adapters.BallQGoBettingRecordAdapter;
 import com.tysci.ballq.views.widgets.CircleImageView;
 import com.tysci.ballq.views.widgets.loadmorerecyclerview.AutoLoadMoreRecyclerView;
 import com.tysci.ballq.views.widgets.recyclerviewstickyheader.StickyHeaderDecoration;
-
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -116,11 +113,20 @@ public class BallQGoGreatWarHistoryFragment extends BaseFragment implements Auto
         return swipeRefresh;
     }
 
+    private void setRefresh(){
+        swipeRefresh.post(new Runnable() {
+            @Override
+            public void run() {
+                swipeRefresh.setRefreshing(true);
+            }
+        });
+    }
+
     private void onRefreshCompelete(){
         swipeRefresh.postDelayed(new Runnable() {
             @Override
             public void run() {
-                if(swipeRefresh!=null)
+                if (swipeRefresh != null)
                     swipeRefresh.setRefreshing(false);
             }
         }, 1000);
@@ -138,7 +144,20 @@ public class BallQGoGreatWarHistoryFragment extends BaseFragment implements Auto
 
     @Override
     protected void notifyEvent(String action, Bundle data) {
-
+        if(!TextUtils.isEmpty(action)){
+            if(action.equals("refresh_great_war_history")){
+                HttpClientUtil.getHttpClientUtil().cancelTag(Tag);
+                hideLoad();
+                setRefresh();
+                if(adapter!=null){
+                    if(!ballQGoBettingRecordEntityList.isEmpty()){
+                        ballQGoBettingRecordEntityList.clear();
+                        adapter.notifyDataSetChanged();
+                    }
+                }
+                requestUserInfo();
+            }
+        }
     }
 
     @Override

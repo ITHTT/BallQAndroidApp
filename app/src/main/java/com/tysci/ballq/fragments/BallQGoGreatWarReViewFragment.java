@@ -21,14 +21,21 @@ import com.tysci.ballq.networks.HttpClientUtil;
 import com.tysci.ballq.networks.HttpUrls;
 import com.tysci.ballq.utils.CommonUtils;
 import com.tysci.ballq.utils.KLog;
+import com.tysci.ballq.utils.ToastUtil;
+import com.tysci.ballq.utils.UserInfoUtil;
 import com.tysci.ballq.views.adapters.BallQFragmentPagerAdapter;
+import com.tysci.ballq.views.dialogs.BallQAddBarrageDialog;
+import com.tysci.ballq.views.dialogs.LoadingProgressDialog;
 import com.tysci.ballq.views.widgets.PagerSlidingTabStrip;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.Bind;
+import butterknife.OnClick;
 import master.flame.danmaku.controller.IDanmakuView;
 import master.flame.danmaku.danmaku.model.BaseDanmaku;
 import master.flame.danmaku.danmaku.model.DanmakuTimer;
@@ -44,27 +51,51 @@ import okhttp3.Request;
  * Created by Administrator on 2016/7/15.
  * 大战综述
  */
-public class BallQGoGreatWarReViewFragment extends BaseFragment{
+public class BallQGoGreatWarReViewFragment extends BaseFragment implements BallQAddBarrageDialog.OnPostBarrageListener{
     @Bind(R.id.tab_layout)
     protected PagerSlidingTabStrip tabLayout;
     @Bind(R.id.view_pager)
     protected ViewPager viewPager;
     @Bind(R.id.sv_danmaku)
     protected IDanmakuView danmakuView;
+    @Bind(R.id.time_start_end)
+    protected TextView tvTimeRange;
+    @Bind(R.id.profit)
+    protected TextView tvProfit;
 
     private DanmakuContext danmakuContext;
     private int currentPages=1;
+    private BallQAddBarrageDialog addBarrageDialog=null;
 
     private Handler danmakuHandler=new Handler(Looper.getMainLooper());
     private List<String> dankmakus=null;
     private int currentIndex=0;
+    private LoadingProgressDialog loadingProgressDialog;
     private Runnable danmakuRunnable=new Runnable() {
         @Override
         public void run() {
-            int size=dankmakus.size();
-            for(int i=currentIndex;i<currentIndex+3;i++){
-                if(i<size){
-                    addDanmaku(dankmakus.get(i),true,false);
+            if (dankmakus != null) {
+                int size = dankmakus.size();
+                boolean isFinished = false;
+                for (int i = currentIndex; i < currentIndex + 3; i++) {
+                    if (i < size) {
+                        addDanmaku(dankmakus.get(i), true, false);
+                    } else {
+                        isFinished = true;
+                        break;
+                    }
+                }
+                currentIndex += 3;
+                if (isFinished) {
+                    getView().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            //currentPages = 1;
+                            getDanmakuInfos(currentPages);
+                        }
+                    }, 2000);
+                } else {
+                    danmakuHandler.postDelayed(danmakuRunnable, 1200);
                 }
             }
         }
@@ -80,6 +111,21 @@ public class BallQGoGreatWarReViewFragment extends BaseFragment{
         addFragments();
         initDanmakuView();
         getDanmakuInfos(currentPages);
+    }
+
+    private void showProgressDialog(String msg){
+        if(loadingProgressDialog==null){
+            loadingProgressDialog=new LoadingProgressDialog(baseActivity);
+            loadingProgressDialog.setCanceledOnTouchOutside(false);
+        }
+        loadingProgressDialog.setMessage(msg);
+        loadingProgressDialog.show();
+    }
+
+    private void dimssProgressDialog(){
+        if(loadingProgressDialog!=null&&loadingProgressDialog.isShowing()){
+            loadingProgressDialog.dismiss();
+        }
     }
 
     private void initDanmakuView(){
@@ -105,7 +151,6 @@ public class BallQGoGreatWarReViewFragment extends BaseFragment{
             public void updateTimer(DanmakuTimer timer) {
                 //KLog.e("更新弹幕。。。");
 
-
             }
 
             @Override
@@ -117,7 +162,6 @@ public class BallQGoGreatWarReViewFragment extends BaseFragment{
             @Override
             public void danmakuShown(BaseDanmaku danmaku) {
                 KLog.e("弹幕显示");
-
             }
 
             @Override
@@ -173,7 +217,19 @@ public class BallQGoGreatWarReViewFragment extends BaseFragment{
 
     @Override
     protected void notifyEvent(String action, Bundle data) {
-
+        if(!TextUtils.isEmpty(action)){
+            if(action.equals("ballq_go_info")){
+                String start=data.getString("go_start");
+                String end=data.getString("go_end");
+                int stake=data.getInt("go_stake");
+                tvProfit.setText("球商GO盈利:"+stake);
+                Date startDate=CommonUtils.getDateAndTimeFromGMT(start);
+                Date endDate=CommonUtils.getDateAndTimeFromGMT(end);
+                if(startDate!=null&&endDate!=null){
+                    tvTimeRange.setText(CommonUtils.getChinaDateAndTimeString(startDate)+"至"+CommonUtils.getChinaDateAndTimeString(endDate));
+                }
+            }
+        }
     }
 
     private void addDanmaku(String text, boolean isLive, boolean isSelf) {
@@ -187,7 +243,7 @@ public class BallQGoGreatWarReViewFragment extends BaseFragment{
         }
 //        danmaku.text = "这是一条弹幕" + System.nanoTime();
         danmaku.text = text;
-        danmaku.padding = 5;
+        danmaku.padding = CommonUtils.dip2px(baseActivity,5);
         danmaku.priority = 1;  // 0可能会被各种过滤器过滤并隐藏显示
         danmaku.isLive = isLive;
         danmaku.time = danmakuView.getCurrentTime() + 1200;
@@ -205,8 +261,9 @@ public class BallQGoGreatWarReViewFragment extends BaseFragment{
         danmakuView.addDanmaku(danmaku);
     }
 
-    private void getDanmakuInfos(int pages){
+    private void getDanmakuInfos(final int pages){
         String url= HttpUrls.HOST_URL_V5 + "go/comments/?p="+pages;
+        KLog.e("url:"+url);
         HttpClientUtil.getHttpClientUtil().sendGetRequest(Tag, url, 60, new HttpClientUtil.StringResponseCallBack() {
             @Override
             public void onBefore(Request request) {
@@ -215,29 +272,47 @@ public class BallQGoGreatWarReViewFragment extends BaseFragment{
 
             @Override
             public void onError(Call call, Exception error) {
-
+                KLog.e("加载失败");
+                getView().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        //currentPages = 1;
+                        getDanmakuInfos(pages);
+                    }
+                }, 2000);
             }
 
             @Override
-            public void onSuccess(Call call, String response){
+            public void onSuccess(Call call, String response) {
                 KLog.json(response);
-                addDanmaku("获取弹幕信息成功",true,true);
-                if(!TextUtils.isEmpty(response)){
-                    JSONObject obj=JSONObject.parseObject(response);
-                    if(obj!=null&&!obj.isEmpty()){
-                        int status=obj.getIntValue("status");
-                        if(status==0){
-                            currentPages++;
-                            JSONArray dataArrays=obj.getJSONArray("data");
-                            if(dataArrays!=null&&!dataArrays.isEmpty()) {
-                               if(dankmakus==null){
-                                   dankmakus=new ArrayList<String>(10);
-                               }
-                               showDanmaku(dataArrays,dankmakus);
+                // addDanmaku("获取弹幕信息成功",true,true);
+                if (!TextUtils.isEmpty(response)) {
+                    JSONObject obj = JSONObject.parseObject(response);
+                    if (obj != null && !obj.isEmpty()) {
+                        int status = obj.getIntValue("status");
+                        if (status == 0) {
+                            JSONArray dataArrays = obj.getJSONArray("data");
+                            if (dataArrays != null && !dataArrays.isEmpty()) {
+                                currentPages++;
+                                if (dankmakus == null) {
+                                    dankmakus = new ArrayList<String>(10);
+                                }
+                                if (dataArrays.size() < 10) {
+                                    currentPages = 1;
+                                }
+                                showDanmaku(dataArrays, dankmakus);
+                                return;
                             }
                         }
                     }
                 }
+                getView().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        currentPages = 1;
+                        getDanmakuInfos(currentPages);
+                    }
+                },2000);
             }
 
             @Override
@@ -255,6 +330,10 @@ public class BallQGoGreatWarReViewFragment extends BaseFragment{
         for (int i = 0; i < size; i++) {
             strs.add(datas.getString(i));
         }
+        currentIndex=0;
+        if(isResumed()) {
+            danmakuHandler.postDelayed(danmakuRunnable, 1200);
+        }
     }
 
     @Override
@@ -263,7 +342,7 @@ public class BallQGoGreatWarReViewFragment extends BaseFragment{
         if (danmakuView != null && danmakuView.isPrepared()) {
             danmakuView.pause();
         }
-
+        danmakuHandler.removeCallbacks(danmakuRunnable);
     }
 
     @Override
@@ -285,8 +364,8 @@ public class BallQGoGreatWarReViewFragment extends BaseFragment{
         if (danmakuView != null && danmakuView.isPrepared() && danmakuView.isPaused()) {
             danmakuView.resume();
         }
+        danmakuHandler.post(danmakuRunnable);
     }
-
 
     @Override
     public void onDestroy() {
@@ -297,12 +376,70 @@ public class BallQGoGreatWarReViewFragment extends BaseFragment{
         if(danmakuContext!=null){
             danmakuContext=null;
         }
+        if(danmakuHandler!=null){
+            danmakuHandler.removeCallbacks(danmakuRunnable);
+        }
+    }
+
+    @OnClick(R.id.iv_write)
+    protected void addBarrageDialog(View view){
+        if(addBarrageDialog==null){
+            addBarrageDialog=new BallQAddBarrageDialog(baseActivity);
+            addBarrageDialog.setOnPostBarrageListener(this);
+        }
+        addBarrageDialog.show();
+    }
+
+    @Override
+    public void onPostBarrage(final String content) {
+        if(!UserInfoUtil.checkLogin(baseActivity)){
+            UserInfoUtil.userLogin(baseActivity);
+        }else{
+            Map<String,String> params=new HashMap<String,String>(3);
+            params.put("user", UserInfoUtil.getUserId(baseActivity));
+            params.put("token", UserInfoUtil.getUserToken(baseActivity));
+            params.put("content",content);
+            String url=HttpUrls.HOST_URL_V5+"go/comment/add/";
+            HttpClientUtil.getHttpClientUtil().sendPostRequest(Tag, url, params, new HttpClientUtil.StringResponseCallBack() {
+                @Override
+                public void onBefore(Request request) {
+                    showProgressDialog("提交中...");
+
+                }
+
+                @Override
+                public void onError(Call call, Exception error) {
+                    ToastUtil.show(baseActivity,"请求失败");
+                }
+
+                @Override
+                public void onSuccess(Call call, String response) {
+                    KLog.json(response);
+                    if(!TextUtils.isEmpty(response)){
+                        JSONObject obj=JSONObject.parseObject(response);
+                        if(obj!=null&&!obj.isEmpty()){
+                            int status=obj.getIntValue("status");
+                            String message=obj.getString("message");
+                            ToastUtil.show(baseActivity, message);
+                            if(status==1206){
+                                addBarrageDialog.dismiss();
+                                addDanmaku(content, true, true);
+                            }
+                        }
+                    }
+                }
+
+                @Override
+                public void onFinish(Call call) {
+                    dimssProgressDialog();
+                }
+            });
+        }
     }
 
     private static class BackgroundCacheStuffer extends SimpleTextCacheStuffer {
         // 通过扩展SimpleTextCacheStuffer或SpannedCacheStuffer个性化你的弹幕样式
         final Paint paint = new Paint();
-
 
         @Override
         public void measure(BaseDanmaku danmaku, TextPaint paint, boolean fromWorkerThread) {
@@ -315,7 +452,6 @@ public class BallQGoGreatWarReViewFragment extends BaseFragment{
             paint.setColor(0x8125309b);  //弹幕背景颜色
             canvas.drawRect(left + 2, top + 2, left + danmaku.paintWidth - 2, top + danmaku.paintHeight - 2, paint);
         }
-
 
         @Override
         public void drawStroke(BaseDanmaku danmaku, String lineText, Canvas canvas, float left, float top, Paint paint) {
