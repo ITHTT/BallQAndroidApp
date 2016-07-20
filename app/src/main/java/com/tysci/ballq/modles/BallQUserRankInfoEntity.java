@@ -15,6 +15,8 @@ public class BallQUserRankInfoEntity {
     private float ror;
     private int tipcount;
     private int isf;
+    private int tip_count;
+    private int win_count;
 
     public String getFname() {
         return fname;
@@ -102,5 +104,21 @@ public class BallQUserRankInfoEntity {
 
     public void setWins(float wins) {
         this.wins = wins;
+    }
+
+    public int getTip_count() {
+        return tip_count;
+    }
+
+    public void setTip_count(int tip_count) {
+        this.tip_count = tip_count;
+    }
+
+    public int getWin_count() {
+        return win_count;
+    }
+
+    public void setWin_count(int win_count) {
+        this.win_count = win_count;
     }
 }

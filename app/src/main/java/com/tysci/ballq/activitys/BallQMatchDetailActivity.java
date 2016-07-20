@@ -68,7 +68,7 @@ public class BallQMatchDetailActivity extends BaseActivity {
 
     @Override
     protected void initViews() {
-
+        setTitle("比赛详情");
     }
 
     @Override

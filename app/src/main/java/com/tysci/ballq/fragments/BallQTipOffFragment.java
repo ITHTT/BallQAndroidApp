@@ -62,7 +62,7 @@ public class BallQTipOffFragment extends BaseFragment implements View.OnClickLis
 
     @Override
     protected void initViews(View view, Bundle savedInstanceState) {
-        titleBar.setTitleBarTitle("爆料");
+        titleBar.setTitleBarTitle("资讯");
         titleBar.setTitleBarLeftIcon(0, null);
         titleBar.setRightMenuIcon(R.mipmap.icon_search_mark, this);
         mScrollableLayout.setDraggableView(tabLayout);
@@ -86,9 +86,9 @@ public class BallQTipOffFragment extends BaseFragment implements View.OnClickLis
             @Override
             public boolean canScrollVertically(int direction) {
                 BaseFragment fragment = (BaseFragment) getChildFragmentManager().getFragments().get(tabLayout.getCurrentTab());
-                KLog.e("执行滑动操作。。");
+                //KLog.e("执行滑动操作。。");
                 if (fragment instanceof CanScrollVerticallyDelegate) {
-                    KLog.e("执行滑动操作。。");
+                    //KLog.e("执行滑动操作。。");
                     return ((CanScrollVerticallyDelegate) fragment).canScrollVertically(direction);
                 }
                 return false;
@@ -98,9 +98,9 @@ public class BallQTipOffFragment extends BaseFragment implements View.OnClickLis
             @Override
             public void onFlingOver(int y, long duration) {
                 BaseFragment fragment = (BaseFragment) getChildFragmentManager().getFragments().get(tabLayout.getCurrentTab());
-                KLog.e("执行滑动操作。。");
+                //KLog.e("执行滑动操作。。");
                 if (fragment instanceof OnFlingOverListener) {
-                    KLog.e("执行滑动操作。。");
+                   // KLog.e("执行滑动操作。。");
                     ((OnFlingOverListener) fragment).onFlingOver(y, duration);
                 }
             }
@@ -117,7 +117,7 @@ public class BallQTipOffFragment extends BaseFragment implements View.OnClickLis
         fragments.add(fragment);
         fragment = new BallQHomeBallWarpListFragment();
         fragments.add(fragment);
-        fragment = new BallQFindCircleNoteListFragment();
+        fragment = new BallQTipOffVideoListFragment();
         fragments.add(fragment);
         fragment = new UserAttentionMatchListFragment();
         fragments.add(fragment);

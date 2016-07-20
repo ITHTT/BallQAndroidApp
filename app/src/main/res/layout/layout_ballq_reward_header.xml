@@ -2,10 +2,10 @@
 <com.tysci.ballq.views.widgets.ResizeImageView
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:src="@mipmap/icon_reward_top"
+    android:src="@mipmap/icon_reward_tip"
     android:scaleType="fitXY"
     android:layout_margin="8dp"
-    app:resize_width="1080"
-    app:resize_height="595"
+    app:resize_width="1032"
+    app:resize_height="414"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android" />

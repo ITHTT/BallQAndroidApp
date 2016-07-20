@@ -122,6 +122,7 @@ public class BallQTipOffListFragment extends BaseFragment implements SwipeRefres
             @Override
             public void onError(Call call, Exception error) {
                 if(!isLoadMore){
+                    recyclerView.setRefreshComplete();
                     if(adapter!=null) {
                        recyclerView.setStartLoadMore();
                     }else{
@@ -141,30 +142,28 @@ public class BallQTipOffListFragment extends BaseFragment implements SwipeRefres
             @Override
             public void onSuccess(Call call, String response) {
                 KLog.json(response);
-                hideLoad();
                 onResponseSuccess(response,isLoadMore);
             }
 
             @Override
             public void onFinish(Call call) {
                 if(!isLoadMore){
-                    if(recyclerView!=null){
-                        recyclerView.setRefreshComplete();
-                    }
                     onRefreshCompelete();
-                }else{
-                    recyclerView.setLoadMoreDataFailed();
                 }
             }
         });
     }
 
     protected void onResponseSuccess(String response,boolean isLoadMore){
+        if(!isLoadMore){
+            recyclerView.setRefreshComplete();
+        }
         if(!TextUtils.isEmpty(response)){
             JSONObject obj=JSONObject.parseObject(response);
             if(obj!=null&&!obj.isEmpty()){
                 JSONArray objArrays=obj.getJSONArray("data");
                 if(objArrays!=null&&!objArrays.isEmpty()){
+                    hideLoad();
                     if(ballQTipOffEntityList==null){
                         ballQTipOffEntityList=new ArrayList<>(10);
                     }

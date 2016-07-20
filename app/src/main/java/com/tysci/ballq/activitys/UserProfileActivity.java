@@ -20,6 +20,7 @@ import com.tysci.ballq.utils.KLog;
 import com.tysci.ballq.utils.ToastUtil;
 import com.tysci.ballq.utils.UserInfoUtil;
 import com.tysci.ballq.views.adapters.BallQUserRankInfoAdapter;
+import com.tysci.ballq.views.adapters.BallQUserRewardRankInfoAdapter;
 import com.tysci.ballq.views.widgets.CircleImageView;
 import com.tysci.ballq.views.widgets.MainMenuItemView;
 
@@ -307,7 +308,7 @@ public class UserProfileActivity extends BaseActivity {
 
     private void publishUserAttention(int mark){
         EventObject eventObject=new EventObject();
-        eventObject.addReceiver(BallQUserRankInfoAdapter.class);
+        eventObject.addReceiver(BallQUserRankInfoAdapter.class, BallQUserRewardRankInfoAdapter.class);
         eventObject.getData().putInt("attention", mark);
         eventObject.getData().putInt("uid",uid);
         EventObject.postEventObject(eventObject,"user_attention");

@@ -19,6 +19,7 @@ import com.tysci.ballq.networks.HttpUrls;
 import com.tysci.ballq.utils.CommonUtils;
 import com.tysci.ballq.utils.KLog;
 import com.tysci.ballq.utils.ToastUtil;
+import com.tysci.ballq.utils.UserInfoUtil;
 import com.tysci.ballq.views.adapters.BallQMainUserRankingAdapter;
 import com.tysci.ballq.views.widgets.loadmorerecyclerview.AutoLoadMoreRecyclerView;
 
@@ -86,13 +87,16 @@ public class BallQMainUserRankingListActivity extends BaseActivity implements Sw
 
     private void addHeader(){
         ImageView imageView= (ImageView) LayoutInflater.from(this).inflate(R.layout.layout_ballq_reward_header,null);
-        imageView.setImageResource(R.mipmap.icon_reward_tip);
         recyclerView.addHeaderView(imageView);
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(BallQMainUserRankingListActivity.this,BallQRewardEventDetailActivity.class);
-                startActivity(intent);
+                if(UserInfoUtil.checkLogin(BallQMainUserRankingListActivity.this)) {
+                    Intent intent = new Intent(BallQMainUserRankingListActivity.this, BallQUserRewardRankingDetailActivity.class);
+                    startActivity(intent);
+                }else{
+                    UserInfoUtil.userLogin(BallQMainUserRankingListActivity.this);
+                }
             }
         });
     }

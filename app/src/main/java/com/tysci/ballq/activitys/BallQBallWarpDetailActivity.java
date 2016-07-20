@@ -385,11 +385,17 @@ public class BallQBallWarpDetailActivity extends BaseActivity implements SwipeRe
 
             @Override
             public void onError(Call call, Exception error) {
+                if(!isLoadMore){
+                    recyclerView.setRefreshComplete();
+                }
                 recyclerView.setLoadMoreDataFailed();
             }
 
             @Override
             public void onSuccess(Call call, String response) {
+                if(!isLoadMore){
+                    recyclerView.setRefreshComplete();
+                }
                 KLog.json(response);
                 if(!TextUtils.isEmpty(response)){
                     JSONObject obj=JSONObject.parseObject(response);
@@ -411,6 +417,7 @@ public class BallQBallWarpDetailActivity extends BaseActivity implements SwipeRe
                                 }
                                 recyclerView.setStartLoadMore();
                             }
+                            headerView.findViewById(R.id.layout_user_comments).setVisibility(View.VISIBLE);
                             return;
                         }
                     }
@@ -431,11 +438,6 @@ public class BallQBallWarpDetailActivity extends BaseActivity implements SwipeRe
             @Override
             public void onFinish(Call call) {
                 if(!isLoadMore){
-                    if(userCommentEntityList.isEmpty()) {
-                        recyclerView.setRefreshComplete();
-                    }else{
-                        recyclerView.setRefreshComplete("没有更多数据了");
-                    }
                     onRefreshCompelete();
                 }
             }
