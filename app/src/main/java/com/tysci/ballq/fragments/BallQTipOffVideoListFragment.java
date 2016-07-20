@@ -103,7 +103,8 @@ public class BallQTipOffVideoListFragment extends BaseFragment implements SwipeR
     }
 
     private void requestDatas(int pages, final boolean isLoadMore){
-        String url= HttpUrls.TIP_OFF_LIST_URL+etype+"&rtype=2&p="+pages;
+        //String url= HttpUrls.TIP_OFF_LIST_URL+etype+"&rtype=2&p="+pages;
+        String url=HttpUrls.HOST_URL_V5+"tips/?settled=-1&etype=0&rtype=2&p="+pages;
         KLog.e("url:"+url);
         HashMap<String,String> params=null;
         if(UserInfoUtil.checkLogin(baseActivity)){

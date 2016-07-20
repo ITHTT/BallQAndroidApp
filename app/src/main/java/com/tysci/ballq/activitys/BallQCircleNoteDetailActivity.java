@@ -916,7 +916,9 @@ public class BallQCircleNoteDetailActivity extends BaseActivity implements Swipe
     private void userReward(BallQCircleNoteEntity info){
         if(info!=null) {
             if (UserInfoUtil.checkLogin(this)) {
-                WXPayEntryActivity.userReward(this, "topic", String.valueOf(info.getCreater().getUserId()), info.getId(), info.getCreater().getPortrait(), info.getCreater().getIsV());
+                //WXPayEntryActivity.userReward(this, "topic", String.valueOf(info.getCreater().getUserId()), info.getId(), info.getCreater().getPortrait(), info.getCreater().getIsV());
+                Intent intent=new Intent(this,WXPayEntryActivity.class);
+                startActivity(intent);
             }else{
                 UserInfoUtil.userLogin(this);
             }

@@ -22,6 +22,7 @@ import com.tysci.ballq.views.adapters.UserRewardMoneyAdapter;
 import com.tysci.ballq.views.dialogs.LoadingProgressDialog;
 import com.tysci.ballq.views.dialogs.UserRewardPayWayDialog;
 import com.tysci.ballq.views.widgets.CircleImageView;
+import com.tysci.ballq.wxapi.WXEntryActivity;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -48,10 +49,13 @@ public class UserRewardActivity extends BaseActivity implements AdapterView.OnIt
     private int id;
     private String type;
 
+    private float moneys=0f;
+
     private List<String> rewardMoneys;
     private UserRewardMoneyAdapter adapter=null;
     private UserRewardPayWayDialog rewardPayWayDialog=null;
     private LoadingProgressDialog progressDialog=null;
+    private LoadingProgressDialog loadingProgressDialog=null;
 
     @Override
     protected int getContentViewId() {
@@ -72,6 +76,21 @@ public class UserRewardActivity extends BaseActivity implements AdapterView.OnIt
         return null;
     }
 
+    private void showProgressDialog(String msg){
+        if(loadingProgressDialog==null){
+            loadingProgressDialog=new LoadingProgressDialog(this);
+            loadingProgressDialog.setCanceledOnTouchOutside(false);
+        }
+        loadingProgressDialog.setMessage(msg);
+        loadingProgressDialog.show();
+    }
+
+    private void dimssProgressDialog(){
+        if(loadingProgressDialog!=null&&loadingProgressDialog.isShowing()){
+            loadingProgressDialog.dismiss();
+        }
+    }
+
     @Override
     protected void getIntentData(Intent intent) {
         pt=intent.getStringExtra("pt");
@@ -80,6 +99,7 @@ public class UserRewardActivity extends BaseActivity implements AdapterView.OnIt
         id=intent.getIntExtra("id",-1);
         KLog.e("id:"+id);
         type=intent.getStringExtra("type");
+        KLog.e("pt:"+pt);
         GlideImageLoader.loadImage(this,pt, R.mipmap.icon_user_default,ivUserIcon);
         UserInfoUtil.setUserHeaderVMark(isV,iV,ivUserIcon);
     }
@@ -142,9 +162,14 @@ public class UserRewardActivity extends BaseActivity implements AdapterView.OnIt
 
     @Override
     public void onWeChatPayWay(float rewardMoneys) {
-        if(UserInfoUtil.getWechatUserInfo(this)==null){
+        moneys=rewardMoneys;
+        if(TextUtils.isEmpty(WeChatUtil.getOpenId(this))){
             /**进行微信授权登录*/
-            WeChatUtil.weChatLogin(this);
+            boolean isSuccess= WeChatUtil.weChatLogin(this);
+            if(isSuccess){
+                WXEntryActivity.REQUEST_TAG=2;
+                showProgressDialog("微信授权中...");
+            }
         }else {
             weChatPay(rewardMoneys);
         }
@@ -155,9 +180,80 @@ public class UserRewardActivity extends BaseActivity implements AdapterView.OnIt
 
     }
 
+    public void getWeChatToken(String code,final float moneys){
+        String url= HttpUrls.GET_WECHAT_TOKEN_URL+"?appid="+ WeChatUtil.APP_ID_WECHAT
+                +"&secret="+ WeChatUtil.APP_SECRET_WECHAT
+                +"&code="+code
+                +"&grant_type=authorization_code";
+        HttpClientUtil.getHttpClientUtil().sendGetRequest(Tag, url, 120 * 60, new HttpClientUtil.StringResponseCallBack() {
+            @Override
+            public void onBefore(Request request) {
+
+            }
+            @Override
+            public void onError(Call call, Exception error) {
+                dimssProgressDialog();
+            }
+            @Override
+            public void onSuccess(Call call, String response) {
+                KLog.json(response);
+                if (!TextUtils.isEmpty(response)) {
+                    JSONObject obj = JSONObject.parseObject(response);
+                    if (obj != null && !obj.isEmpty()) {
+                        if(!TextUtils.isEmpty(obj.getString("access_token"))) {
+                            getWeChatUserInfo(obj,moneys);
+                            return;
+                        }
+                    }
+                }
+                dimssProgressDialog();
+            }
+            @Override
+            public void onFinish(Call call) {
+
+            }
+        });
+    }
+
+    public  void getWeChatUserInfo(JSONObject userInfoObj,final float moneys){
+        String token= userInfoObj.getString("access_token");
+        String openId=userInfoObj.getString("openid");
+        String url= HttpUrls.GET_WECHAT_USER_IFNO_URL+"?access_token="+token+"&openid="+openId;
+        HttpClientUtil.getHttpClientUtil().sendGetRequest(Tag, url, 120 * 60, new HttpClientUtil.StringResponseCallBack() {
+            @Override
+            public void onBefore(Request request) {
+
+            }
+            @Override
+            public void onError(Call call, Exception error) {
+                dimssProgressDialog();
+            }
+            @Override
+            public void onSuccess(Call call, String response) {
+                KLog.json(response);
+                if(!TextUtils.isEmpty(response)){
+                    JSONObject obj=JSONObject.parseObject(response);
+                    if(obj!=null&&!obj.isEmpty()){
+                        if(!TextUtils.isEmpty(obj.getString("openid"))) {
+                            WeChatUtil.setOpenId(UserRewardActivity.this,obj.getString("openid"));
+                            WeChatUtil.setWechatUserInfo(UserRewardActivity.this,obj.toJSONString());
+                            weChatPay(moneys);
+                            return;
+                        }
+                    }
+                }
+                dimssProgressDialog();
+            }
+            @Override
+            public void onFinish(Call call) {
+
+            }
+        });
+    }
+
     private void weChatPay(float moneys){
         String url= HttpUrls.HOST_URL_V5 + type + "/" + id + "/new_bounty/";
-        HashMap<String,String>params= WeChatUtil.getWeChatPayParams(this,type,moneys);
+        HashMap<String,String> params= WeChatUtil.getWeChatPayParams(this,type,moneys);
         if(UserInfoUtil.checkLogin(this)){
             params.put("user", UserInfoUtil.getUserId(this));
             params.put("token", UserInfoUtil.getUserToken(this));
@@ -182,6 +278,7 @@ public class UserRewardActivity extends BaseActivity implements AdapterView.OnIt
                         JSONObject dataObj=obj.getJSONObject("data");
                         if(dataObj!=null&&!dataObj.isEmpty()){
                             WeChatUtil.weChatPay(dataObj);
+                            return;
                         }
                     }
                 }
@@ -192,5 +289,11 @@ public class UserRewardActivity extends BaseActivity implements AdapterView.OnIt
 
             }
         });
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        WXEntryActivity.REQUEST_TAG=0;
     }
 }

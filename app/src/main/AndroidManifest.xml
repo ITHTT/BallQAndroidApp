@@ -107,6 +107,8 @@
         <service android:name=".services.TimeTaskPickerService" />
         <service android:name=".services.UserTaskService" />
 
+
+
         <!--added by LinDe-->
 
         <activity

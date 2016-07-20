@@ -162,6 +162,11 @@ public class BallQMatchTipOffEditActivity extends BaseActivity {
             ToastUtil.show(this, "请输入爆料内容");
             return;
         }
+
+        if(tipOff.length()<20){
+            ToastUtil.show(this,"爆料内容至少为20个字符");
+            return;
+        }
         String url= HttpUrls.HOST_URL_V5 + "match/" + matchEntity.getEid() + "/add_tip/";
         Map<String,String> params=new HashMap<String,String>(5);
         params.put("etype",String.valueOf(matchEntity.getEtype()));
@@ -191,9 +196,13 @@ public class BallQMatchTipOffEditActivity extends BaseActivity {
                     JSONObject obj=JSONObject.parseObject(response);
                     if(obj!=null&&!obj.isEmpty()){
                         int status=obj.getIntValue("status");
+                        String message=obj.getString("message");
+                        ToastUtil.show(BallQMatchTipOffEditActivity.this,message);
+                        if(status==0){
+                            finish();
+                        }
                     }
                 }
-
             }
 
             @Override

@@ -61,6 +61,10 @@ public class TitleBar extends LinearLayout{
         tvTitle.setText(title);
     }
 
+    public ImageView getLeftBack(){
+        return ivBack;
+    }
+
     public void setTitleBarTitle(int titleRes){
         tvTitle.setText(titleRes);
     }

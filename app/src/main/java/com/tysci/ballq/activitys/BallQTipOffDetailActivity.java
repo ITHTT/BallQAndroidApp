@@ -614,7 +614,7 @@ public class BallQTipOffDetailActivity extends BaseActivity implements SwipeRefr
             case R.id.bt_rewards:
                 if (tipOffInfo != null) {
                     KLog.e("打赏");
-                    WXPayEntryActivity.userReward(this, "tip", String.valueOf(tipOffInfo.getUid()), tipOffInfo.getId(), tipOffInfo.getPt(), tipOffInfo.getIsv());
+                    UserRewardActivity.userReward(this, "tip", String.valueOf(tipOffInfo.getUid()), tipOffInfo.getId(), tipOffInfo.getPt(), tipOffInfo.getIsv());
                 }
                 break;
             case R.id.iv_titlebar_next_menu01:

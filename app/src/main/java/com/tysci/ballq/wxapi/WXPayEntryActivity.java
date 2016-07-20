@@ -1,8 +1,10 @@
 package com.tysci.ballq.wxapi;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.PersistableBundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.AdapterView;
@@ -64,10 +66,10 @@ public class WXPayEntryActivity extends BaseActivity implements IWXAPIEventHandl
     protected void initViews() {
         KLog.e("启动打赏Activity...");
         setTitle("用户打赏");
-        gvRewards.setOnItemClickListener(this);
-        rewardMoneys= Arrays.asList(this.getResources().getStringArray(R.array.reward_moneys));
-        adapter=new UserRewardMoneyAdapter(rewardMoneys);
-        gvRewards.setAdapter(adapter);
+//        gvRewards.setOnItemClickListener(this);
+//        rewardMoneys= Arrays.asList(this.getResources().getStringArray(R.array.reward_moneys));
+//        adapter=new UserRewardMoneyAdapter(rewardMoneys);
+//        gvRewards.setAdapter(adapter);
     }
 
     private void showProgressDialog(String msg){
@@ -83,6 +85,11 @@ public class WXPayEntryActivity extends BaseActivity implements IWXAPIEventHandl
         if(loadingProgressDialog!=null&&loadingProgressDialog.isShowing()){
             loadingProgressDialog.dismiss();
         }
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
+        //super.onSaveInstanceState(outState, outPersistentState);
     }
 
 
@@ -103,21 +110,21 @@ public class WXPayEntryActivity extends BaseActivity implements IWXAPIEventHandl
 //        UserInfoUtil.setUserHeaderVMark(isV,iV,ivUserIcon);
     }
 
-    public static void userReward(Context context, String type, String uid, int id, String pt, int isV){
-        if(UserInfoUtil.checkLogin(context)) {
-            KLog.e("用户已登录。。。");
-            Intent intent = new Intent(context, WXPayEntryActivity.class);
-            intent.putExtra("uid", uid);
-            intent.putExtra("id", id);
-            intent.putExtra("pt", pt);
-            intent.putExtra("is_v", isV);
-            intent.putExtra("type", type);
-            context.startActivity(intent);
-            KLog.e("开始启动打赏Activity");
-        }else{
-            UserInfoUtil.userLogin(context);
-        }
-    }
+//    public static void userReward(Activity context, String type, String uid, int id, String pt, int isV){
+//        if(UserInfoUtil.checkLogin(context)) {
+//            KLog.e("用户已登录。。。");
+//            Intent intent = new Intent(context, WXPayEntryActivity.class);
+////            intent.putExtra("uid", uid);
+////            intent.putExtra("id", id);
+////            intent.putExtra("pt", pt);
+////            intent.putExtra("is_v", isV);
+////            intent.putExtra("type", type);
+//            context.startActivity(intent);
+//            KLog.e("开始启动打赏Activity");
+//        }else{
+//            UserInfoUtil.userLogin(context);
+//        }
+//    }
 
     @Override
     protected boolean isCanceledEventBus() {

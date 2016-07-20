@@ -105,7 +105,8 @@ public class BallQTipOffListFragment extends BaseFragment implements SwipeRefres
 
 
     private void requestDatas(int pages, final boolean isLoadMore){
-        String url= HttpUrls.TIP_OFF_LIST_URL+etype+"&p="+pages;
+        String url= HttpUrls.HOST_URL_V5+"tips/?settled=-1&etype=-1&p="+pages;
+        KLog.e("url:"+url);
         HashMap<String,String>params=null;
         if(UserInfoUtil.checkLogin(baseActivity)){
             params=new HashMap<>(2);
@@ -194,6 +195,8 @@ public class BallQTipOffListFragment extends BaseFragment implements SwipeRefres
         }
         if(isLoadMore){
             recyclerView.setLoadMoreDataComplete("没有更多数据了");
+        }else{
+            showEmptyInfo();
         }
     }
 

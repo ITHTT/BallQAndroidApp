@@ -307,12 +307,12 @@ public class HttpClientUtil {
                         if(TextUtils.isEmpty(finalResult)||finalError !=null) {
                             responseCallBack.onError(call, finalError);
                         }else{
-                            try {
+                            //try {
                                 responseCallBack.onSuccess(call, finalResult);
-                            }catch(Exception e){
-                                KLog.e(e.getMessage());
+                            //}catch(Exception e){
+                                //KLog.e(e.getMessage());
                                 //responseCallBack.onError(call,e);
-                            }
+                            //}
                         }
                         responseCallBack.onFinish(resultCall);
                     }

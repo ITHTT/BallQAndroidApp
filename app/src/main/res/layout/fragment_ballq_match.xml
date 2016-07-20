@@ -1,35 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.tysci.ballq.views.widgets.PopupMenuLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/popmenu"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical">
+    app:menu_item_width="45dp"
+    app:menu_item_height="45dp"
+    app:menu_item_padding="12dp"
+    app:menu_target_padding="20dp">
     <include
         layout="@layout/layout_title_bar"/>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginTop="45dp"
         android:orientation="vertical">
-        <com.tysci.ballq.views.widgets.SlidingTabLayout
-            android:id="@+id/tab_layout"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="35dp"
-            android:background="@mipmap/icon_tablayout_viewpager"
-            app:tl_indicator_color="@color/gold"
-            app:tl_indicator_height="2dp"
-            app:tl_indicator_width="65dp"
-            app:tl_textSelectColor="@color/gold"
-            app:tl_textUnselectColor="#808080"
-            app:tl_textsize="14sp"
-            app:tl_indicator_margin_bottom="0dp"/>
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/rv_dates"
-            android:layout_width="match_parent"
-            android:layout_height="45dp"
-            android:background="@mipmap/icon_select_menu_bg"/>
-        <android.support.v4.view.ViewPager
-            android:id="@+id/view_pager"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <com.tysci.ballq.views.widgets.SlidingTabLayout
+                android:id="@+id/tab_layout"
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+                android:background="@mipmap/icon_tablayout_viewpager"
+                app:tl_indicator_color="@color/gold"
+                app:tl_indicator_height="2dp"
+                app:tl_indicator_width="65dp"
+                app:tl_textSelectColor="@color/gold"
+                app:tl_textUnselectColor="#808080"
+                app:tl_textsize="14sp"
+                app:tl_indicator_margin_bottom="0dp"/>
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rv_dates"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:background="@mipmap/icon_select_menu_bg"/>
+            <android.support.v4.view.ViewPager
+                android:id="@+id/view_pager"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+        </LinearLayout>
     </LinearLayout>
-</LinearLayout>
+    <FrameLayout
+        android:id="@+id/layout_tip_show"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="45dp"
+        android:focusable="true"
+        android:visibility="gone"
+        android:background="#55505050"/>
+</com.tysci.ballq.views.widgets.PopupMenuLayout>
