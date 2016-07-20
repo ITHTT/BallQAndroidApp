@@ -237,7 +237,7 @@ public class BallQMatchTipOffListFragment extends BaseFragment implements SwipeR
             }
             if(!UserInfoUtil.isVIPUser(baseActivity)){
                 ToastUtil.show(baseActivity,"核心功能限量开放，您如有兴趣参与内测请和球商申请。\\n申请方法请加微信：ballqcn");
-                return;
+                //return;
             }
             Intent intent = new Intent(baseActivity, BallQMatchTipOffEditActivity.class);
             intent.putExtra(BallQMatchTipOffEditActivity.class.getSimpleName(), ballQMatchEntity);
