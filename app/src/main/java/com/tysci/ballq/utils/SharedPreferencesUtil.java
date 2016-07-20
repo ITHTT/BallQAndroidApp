@@ -12,6 +12,19 @@ import java.util.Set;
  */
 public class SharedPreferencesUtil {
     /**
+     * 爆料小红点
+     *
+     * @see Long
+     */
+    public static final String KEY_TIP_MSG_DOT;
+    /**
+     * 球茎小红点
+     *
+     * @see Long
+     */
+    public static final String KEY_ARTICLE_MSG_DOT;
+
+    /**
      * 默认的文件名
      */
     private static final String default_file = ".share_cache_data";
@@ -37,6 +50,9 @@ public class SharedPreferencesUtil {
         KEY_APP_VERSION_CODE = tmp + (++i);
         KEY_APP_VERSION_NAME = tmp + (++i);
         KEY_NEED_GUIDE = tmp + (++i);
+
+        KEY_TIP_MSG_DOT = tmp + (++i);
+        KEY_ARTICLE_MSG_DOT = tmp + (++i);
     }
 
     public static void setStringValue(Context context, String key, String value) {

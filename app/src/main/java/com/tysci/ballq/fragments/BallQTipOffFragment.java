@@ -3,6 +3,7 @@ package com.tysci.ballq.fragments;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
+import android.text.TextUtils;
 import android.view.View;
 
 import com.alibaba.fastjson.JSON;
@@ -69,6 +70,8 @@ public class BallQTipOffFragment extends BaseFragment implements View.OnClickLis
         mScrollableLayout.setOnScrollChangedListener(new OnScrollChangedListener() {
             @Override
             public void onScrollChanged(int y, int oldY, int maxY) {
+                KLog.e(y + "  " + oldY + " " + maxY);
+
                 final float tabsTranslationY;
                 if (y < maxY) {
                     tabsTranslationY = .0F;
@@ -86,7 +89,7 @@ public class BallQTipOffFragment extends BaseFragment implements View.OnClickLis
             @Override
             public boolean canScrollVertically(int direction) {
                 BaseFragment fragment = (BaseFragment) getChildFragmentManager().getFragments().get(tabLayout.getCurrentTab());
-                KLog.e("执行滑动操作。。");
+//                KLog.e("执行滑动操作。。");
                 if (fragment instanceof CanScrollVerticallyDelegate) {
                     KLog.e("执行滑动操作。。");
                     return ((CanScrollVerticallyDelegate) fragment).canScrollVertically(direction);
@@ -144,7 +147,27 @@ public class BallQTipOffFragment extends BaseFragment implements View.OnClickLis
 
     @Override
     protected void notifyEvent(String action, Bundle data) {
-
+        // 小红点通知
+        String json = data.getString("dot");
+        if (!TextUtils.isEmpty(json)) {
+            String status = JSON.parseObject(json).getString("status");
+            if (!TextUtils.isEmpty(status)) {
+                switch (status) {
+                    case "tip":
+                        tabLayout.showDot(0);
+                        break;
+                    case "tip_reset":
+                        tabLayout.hideMsg(0);
+                        break;
+                    case "article":
+                        tabLayout.showDot(1);
+                        break;
+                    case "article_reset":
+                        tabLayout.hideMsg(1);
+                        break;
+                }
+            }
+        }
     }
 
     @Override

@@ -11,10 +11,12 @@ import com.alibaba.fastjson.JSONObject;
 import com.tysci.ballq.R;
 import com.tysci.ballq.base.BaseFragment;
 import com.tysci.ballq.modles.BallQTipOffEntity;
+import com.tysci.ballq.modles.event.EventObject;
 import com.tysci.ballq.networks.HttpClientUtil;
 import com.tysci.ballq.networks.HttpUrls;
 import com.tysci.ballq.utils.CommonUtils;
 import com.tysci.ballq.utils.KLog;
+import com.tysci.ballq.utils.SharedPreferencesUtil;
 import com.tysci.ballq.utils.UserInfoUtil;
 import com.tysci.ballq.views.adapters.BallQTipOffAdapter;
 import com.tysci.ballq.views.widgets.loadmorerecyclerview.AutoLoadMoreRecyclerView;
@@ -32,17 +34,17 @@ import ru.noties.scrollable.OnFlingOverListener;
 /**
  * Created by Administrator on 2016/5/31.
  */
-public class BallQTipOffListFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener,AutoLoadMoreRecyclerView.OnLoadMoreListener,CanScrollVerticallyDelegate, OnFlingOverListener {
+public class BallQTipOffListFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener, AutoLoadMoreRecyclerView.OnLoadMoreListener, CanScrollVerticallyDelegate, OnFlingOverListener {
     @Bind(R.id.swipe_refresh)
     protected SwipeRefreshLayout swipeRefresh;
     @Bind(R.id.recycler_view)
     protected AutoLoadMoreRecyclerView recyclerView;
 
-    private int etype=-1;
-    private int currentPages=1;
+    private int etype = -1;
+    private int currentPages = 1;
 
-    private BallQTipOffAdapter adapter=null;
-    private List<BallQTipOffEntity> ballQTipOffEntityList=null;
+    private BallQTipOffAdapter adapter = null;
+    private List<BallQTipOffEntity> ballQTipOffEntityList = null;
 
     @Override
     protected int getViewLayoutId() {
@@ -70,9 +72,9 @@ public class BallQTipOffListFragment extends BaseFragment implements SwipeRefres
         recyclerView.setLayoutManager(new LinearLayoutManager(this.getActivity()));
         recyclerView.setOnLoadMoreListener(this);
         recyclerView.setBackgroundResource(R.color.white);
-       // recyclerView.setAdapter(new BallQHomeTipOffAdapter());
+        // recyclerView.setAdapter(new BallQHomeTipOffAdapter());
         showLoading();
-        requestDatas(currentPages,false);
+        requestDatas(currentPages, false);
     }
 
     @Override
@@ -80,7 +82,7 @@ public class BallQTipOffListFragment extends BaseFragment implements SwipeRefres
         return swipeRefresh;
     }
 
-    private void setRefreshing(){
+    private void setRefreshing() {
         swipeRefresh.post(new Runnable() {
             @Override
             public void run() {
@@ -89,14 +91,14 @@ public class BallQTipOffListFragment extends BaseFragment implements SwipeRefres
         });
     }
 
-    private void onRefreshCompelete(){
-        if(swipeRefresh!=null) {
+    private void onRefreshCompelete() {
+        if (swipeRefresh != null) {
             swipeRefresh.postDelayed(new Runnable() {
                 @Override
                 public void run() {
                     if (swipeRefresh != null) {
                         swipeRefresh.setRefreshing(false);
-                       // recyclerView.setStartLoadMore();
+                        // recyclerView.setStartLoadMore();
                     }
                 }
             }, 1000);
@@ -104,11 +106,11 @@ public class BallQTipOffListFragment extends BaseFragment implements SwipeRefres
     }
 
 
-    private void requestDatas(int pages, final boolean isLoadMore){
-        String url= HttpUrls.TIP_OFF_LIST_URL+etype+"&p="+pages;
-        HashMap<String,String>params=null;
-        if(UserInfoUtil.checkLogin(baseActivity)){
-            params=new HashMap<>(2);
+    private void requestDatas(int pages, final boolean isLoadMore) {
+        String url = HttpUrls.TIP_OFF_LIST_URL + etype + "&p=" + pages;
+        HashMap<String, String> params = null;
+        if (UserInfoUtil.checkLogin(baseActivity)) {
+            params = new HashMap<>(2);
             params.put("user", UserInfoUtil.getUserId(baseActivity));
             params.put("token", UserInfoUtil.getUserToken(baseActivity));
         }
@@ -121,19 +123,19 @@ public class BallQTipOffListFragment extends BaseFragment implements SwipeRefres
 
             @Override
             public void onError(Call call, Exception error) {
-                if(!isLoadMore){
-                    if(adapter!=null) {
-                       recyclerView.setStartLoadMore();
-                    }else{
+                if (!isLoadMore) {
+                    if (adapter != null) {
+                        recyclerView.setStartLoadMore();
+                    } else {
                         showErrorInfo(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
                                 showLoading();
-                                requestDatas(1,false);
+                                requestDatas(1, false);
                             }
                         });
                     }
-                }else{
+                } else {
                     recyclerView.setLoadMoreDataFailed();
                 }
             }
@@ -142,50 +144,64 @@ public class BallQTipOffListFragment extends BaseFragment implements SwipeRefres
             public void onSuccess(Call call, String response) {
                 KLog.json(response);
                 hideLoad();
-                onResponseSuccess(response,isLoadMore);
+                onResponseSuccess(response, isLoadMore);
             }
 
             @Override
             public void onFinish(Call call) {
-                if(!isLoadMore){
-                    if(recyclerView!=null){
+                if (!isLoadMore) {
+                    if (recyclerView != null) {
                         recyclerView.setRefreshComplete();
                     }
                     onRefreshCompelete();
-                }else{
+                } else {
                     recyclerView.setLoadMoreDataFailed();
                 }
             }
         });
     }
 
-    protected void onResponseSuccess(String response,boolean isLoadMore){
-        if(!TextUtils.isEmpty(response)){
-            JSONObject obj=JSONObject.parseObject(response);
-            if(obj!=null&&!obj.isEmpty()){
-                JSONArray objArrays=obj.getJSONArray("data");
-                if(objArrays!=null&&!objArrays.isEmpty()){
-                    if(ballQTipOffEntityList==null){
-                        ballQTipOffEntityList=new ArrayList<>(10);
+    protected void onResponseSuccess(String response, boolean isLoadMore) {
+        if (!TextUtils.isEmpty(response)) {
+            JSONObject obj = JSONObject.parseObject(response);
+            if (obj != null && !obj.isEmpty()) {
+                JSONObject data = obj.getJSONObject("data");
+
+                //noinspection StringBufferReplaceableByString
+                StringBuilder sb = new StringBuilder();
+                sb.append("{");
+                sb.append("\"status\":\"");
+                sb.append("tip_reset");
+                sb.append("\"}");
+                EventObject eventObject = new EventObject();
+                eventObject.getData().putString("dot", sb.toString());
+                eventObject.addReceiver(BallQTipOffFragment.class);
+                EventObject.postEventObject(eventObject, "dot_task");
+                SharedPreferencesUtil.setValue(baseActivity, SharedPreferencesUtil.KEY_TIP_MSG_DOT, data.getLong("tag"));
+
+                JSONArray objArrays = data.getJSONArray("tips");
+                if (objArrays != null && !objArrays.isEmpty()) {
+                    if (ballQTipOffEntityList == null) {
+                        ballQTipOffEntityList = new ArrayList<>(10);
                     }
-                    if(!isLoadMore&&ballQTipOffEntityList.size()>0){
+                    if (!isLoadMore && ballQTipOffEntityList.size() > 0) {
                         ballQTipOffEntityList.clear();
                     }
-                    CommonUtils.getJSONListObject(objArrays,ballQTipOffEntityList,BallQTipOffEntity.class);
-                    if(adapter==null){
-                        adapter=new BallQTipOffAdapter(ballQTipOffEntityList);
+                    CommonUtils.getJSONListObject(objArrays, ballQTipOffEntityList, BallQTipOffEntity.class);
+                    if (adapter == null) {
+                        adapter = new BallQTipOffAdapter(ballQTipOffEntityList);
                         recyclerView.setAdapter(adapter);
-                    }else{
+                    } else {
                         adapter.notifyDataSetChanged();
                     }
 
-                    if(objArrays.size()<10){
+                    if (objArrays.size() < 10) {
                         recyclerView.setLoadMoreDataComplete("没有更多数据了");
-                    }else{
+                    } else {
                         recyclerView.setStartLoadMore();
-                        if(!isLoadMore){
-                            currentPages=2;
-                        }else{
+                        if (!isLoadMore) {
+                            currentPages = 2;
+                        } else {
                             currentPages++;
                         }
                     }
@@ -193,33 +209,33 @@ public class BallQTipOffListFragment extends BaseFragment implements SwipeRefres
                 }
             }
         }
-        if(isLoadMore){
+        if (isLoadMore) {
             recyclerView.setLoadMoreDataComplete("没有更多数据了");
         }
     }
 
     @Override
     public void onLoadMore() {
-        if(recyclerView.isRefreshing()){
+        if (recyclerView.isRefreshing()) {
             recyclerView.setLoadMoreDataComplete("刷新数据中...");
-        }else{
+        } else {
             recyclerView.postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    requestDatas(currentPages,true);
+                    requestDatas(currentPages, true);
                 }
-            },300);
+            }, 300);
         }
 
     }
 
     @Override
     public void onRefresh() {
-        if(recyclerView.isLoadMoreing()){
+        if (recyclerView.isLoadMoreing()) {
             recyclerView.setRefreshing();
             onRefreshCompelete();
-        }else{
-            requestDatas(1,false);
+        } else {
+            requestDatas(1, false);
         }
     }
 
