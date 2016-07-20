@@ -16,7 +16,6 @@ import com.tencent.mm.sdk.modelbase.BaseResp;
 import com.tencent.mm.sdk.openapi.IWXAPIEventHandler;
 import com.tysci.ballq.R;
 import com.tysci.ballq.base.BaseActivity;
-import com.tysci.ballq.networks.GlideImageLoader;
 import com.tysci.ballq.networks.HttpClientUtil;
 import com.tysci.ballq.networks.HttpUrls;
 import com.tysci.ballq.utils.KLog;
@@ -63,6 +62,7 @@ public class WXPayEntryActivity extends BaseActivity implements IWXAPIEventHandl
 
     @Override
     protected void initViews() {
+        KLog.e("启动打赏Activity...");
         setTitle("用户打赏");
         gvRewards.setOnItemClickListener(this);
         rewardMoneys= Arrays.asList(this.getResources().getStringArray(R.array.reward_moneys));
@@ -93,18 +93,19 @@ public class WXPayEntryActivity extends BaseActivity implements IWXAPIEventHandl
 
     @Override
     protected void getIntentData(Intent intent) {
-        pt=intent.getStringExtra("pt");
-        isV=intent.getIntExtra("is_v",0);
-        uid=intent.getStringExtra("uid");
-        id=intent.getIntExtra("id",-1);
-        KLog.e("id:"+id);
-        type=intent.getStringExtra("type");
-        GlideImageLoader.loadImage(this,pt, R.mipmap.icon_user_default,ivUserIcon);
-        UserInfoUtil.setUserHeaderVMark(isV,iV,ivUserIcon);
+//        pt=intent.getStringExtra("pt");
+//        isV=intent.getIntExtra("is_v",0);
+//        uid=intent.getStringExtra("uid");
+//        id=intent.getIntExtra("id",-1);
+//        KLog.e("id:"+id);
+//        type=intent.getStringExtra("type");
+//        GlideImageLoader.loadImage(this,pt, R.mipmap.icon_user_default,ivUserIcon);
+//        UserInfoUtil.setUserHeaderVMark(isV,iV,ivUserIcon);
     }
 
     public static void userReward(Context context, String type, String uid, int id, String pt, int isV){
         if(UserInfoUtil.checkLogin(context)) {
+            KLog.e("用户已登录。。。");
             Intent intent = new Intent(context, WXPayEntryActivity.class);
             intent.putExtra("uid", uid);
             intent.putExtra("id", id);
@@ -112,6 +113,7 @@ public class WXPayEntryActivity extends BaseActivity implements IWXAPIEventHandl
             intent.putExtra("is_v", isV);
             intent.putExtra("type", type);
             context.startActivity(intent);
+            KLog.e("开始启动打赏Activity");
         }else{
             UserInfoUtil.userLogin(context);
         }

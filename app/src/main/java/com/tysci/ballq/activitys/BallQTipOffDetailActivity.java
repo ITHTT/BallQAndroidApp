@@ -38,6 +38,7 @@ import com.tysci.ballq.utils.MatchBettingInfoUtil;
 import com.tysci.ballq.utils.SoftInputUtil;
 import com.tysci.ballq.utils.ToastUtil;
 import com.tysci.ballq.utils.UserInfoUtil;
+import com.tysci.ballq.views.adapters.BallQHomeTipOffAdapter;
 import com.tysci.ballq.views.adapters.BallQUserCommentAdapter;
 import com.tysci.ballq.views.adapters.BallQUserRewardHeaderAdapter;
 import com.tysci.ballq.views.dialogs.LoadingProgressDialog;
@@ -57,6 +58,7 @@ import java.util.Map;
 
 import butterknife.Bind;
 import butterknife.OnClick;
+import fm.jiecao.jcvideoplayer_lib.JCVideoPlayerStandard;
 import okhttp3.Call;
 import okhttp3.Request;
 
@@ -271,6 +273,7 @@ public class BallQTipOffDetailActivity extends BaseActivity implements SwipeRefr
 
     private void initBallQTipOffInfo(View view, BallQTipOffEntity data) {
         CircleImageView ivUserIcon = (CircleImageView) view.findViewById(R.id.ivUserIcon);
+        ivUserIcon.setOnClickListener(this);
         ImageView isV = (ImageView) view.findViewById(R.id.isV);
         TextView tvUserName = (TextView) view.findViewById(R.id.tv_user_name);
         ImageView ivAchievement01 = (ImageView) view.findViewById(R.id.iv_user_achievement01);
@@ -299,6 +302,26 @@ public class BallQTipOffDetailActivity extends BaseActivity implements SwipeRefr
         LinearLayout layoutOtherTipInfo = (LinearLayout) view.findViewById(R.id.layout_other_tips);
         TextView tvOtherTipCount = (TextView) view.findViewById(R.id.tvOtherTipNum);
         view.findViewById(R.id.bt_rewards).setOnClickListener(this);
+        view.findViewById(R.id.layout_match_info).setOnClickListener(this);
+        view.findViewById(R.id.iv_home_team_icon).setOnClickListener(this);
+        view.findViewById(R.id.iv_away_team_icon).setOnClickListener(this);
+        view.findViewById(R.id.layout_other_tips).setOnClickListener(this);
+        ImageView ivAttention= (ImageView) view.findViewById(R.id.iv_attention);
+        ivAttention.setOnClickListener(this);
+        ivAttention.setSelected(data.getIsc()==1);
+
+        JCVideoPlayerStandard jcVideoPlayer= (JCVideoPlayerStandard) view.findViewById(R.id.videoplayer);
+        if(data.getRichtext_type()==2){
+            jcVideoPlayer.setVisibility(View.VISIBLE);
+            getVideoInfo(data.getVid(),jcVideoPlayer);
+            if(!TextUtils.isEmpty(data.getFirst_image())) {
+                GlideImageLoader.loadImage(this, data.getFirst_image(), R.mipmap.icon_ball_wrap_default_img, jcVideoPlayer.thumbImageView);
+            }else{
+                jcVideoPlayer.coverImageView.setImageResource(R.mipmap.icon_ball_wrap_default_img);
+            }
+        }else{
+            jcVideoPlayer.setVisibility(View.GONE);
+        }
 
         GlideImageLoader.loadImage(this, data.getPt(), R.mipmap.icon_user_default, ivUserIcon);
         UserInfoUtil.setUserHeaderVMark(data.getIsv(), isV, ivUserIcon);
@@ -390,6 +413,40 @@ public class BallQTipOffDetailActivity extends BaseActivity implements SwipeRefr
         }
     }
 
+    private void getVideoInfo(String vid, final JCVideoPlayerStandard videoPlayer){
+        String url=String.format("https://player.polyv.net/videojson/%s.js", new Object[]{vid});
+        HttpClientUtil.getHttpClientUtil().sendGetRequest(Tag, url, 60, new HttpClientUtil.StringResponseCallBack() {
+            @Override
+            public void onBefore(Request request) {
+
+            }
+
+            @Override
+            public void onError(Call call, Exception error) {
+
+            }
+
+            @Override
+            public void onSuccess(Call call, String response) {
+                KLog.json(response);
+                if(!TextUtils.isEmpty(response)){
+                    JSONObject obj=JSONObject.parseObject(response);
+                    if(obj!=null&&!obj.isEmpty()){
+                        JSONArray mp4Arrays=obj.getJSONArray("mp4");
+                        if(mp4Arrays!=null&&!mp4Arrays.isEmpty()){
+                            videoPlayer.setUp(mp4Arrays.getString(0),"");
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void onFinish(Call call) {
+
+            }
+        });
+    }
+
     private BallQMatchEntity getMatchEntity() {
         if (tipOffInfo != null) {
             BallQMatchEntity match = new BallQMatchEntity();
@@ -471,12 +528,18 @@ public class BallQTipOffDetailActivity extends BaseActivity implements SwipeRefr
 
             @Override
             public void onError(Call call, Exception error) {
+                if(!isLoadMore){
+                    recyclerView.setRefreshComplete();
+                }
                 recyclerView.setLoadMoreDataFailed();
             }
 
             @Override
             public void onSuccess(Call call, String response) {
                 KLog.json(response);
+                if(!isLoadMore){
+                    recyclerView.setRefreshComplete();
+                }
                 if (!TextUtils.isEmpty(response)) {
                     JSONObject obj = JSONObject.parseObject(response);
                     if (obj != null) {
@@ -523,11 +586,6 @@ public class BallQTipOffDetailActivity extends BaseActivity implements SwipeRefr
             @Override
             public void onFinish(Call call) {
                 if (!isLoadMore) {
-                    if (userCommentEntityList.isEmpty()) {
-                        recyclerView.setRefreshComplete();
-                    } else {
-                        recyclerView.setRefreshComplete("没有更多数据了");
-                    }
                     onRefreshCompelete();
                 }
             }
@@ -551,16 +609,109 @@ public class BallQTipOffDetailActivity extends BaseActivity implements SwipeRefr
 
     @Override
     protected void onViewClick(View view) {
+        Intent intent=null;
         switch (view.getId()) {
             case R.id.bt_rewards:
                 if (tipOffInfo != null) {
+                    KLog.e("打赏");
                     WXPayEntryActivity.userReward(this, "tip", String.valueOf(tipOffInfo.getUid()), tipOffInfo.getId(), tipOffInfo.getPt(), tipOffInfo.getIsv());
                 }
                 break;
             case R.id.iv_titlebar_next_menu01:
                 showShareDialog();
                 break;
+            case R.id.iv_attention:
+                if(UserInfoUtil.checkLogin(this)){
+                    userCollection(view);
+                }else{
+                    UserInfoUtil.userLogin(this);
+                }
+                break;
+            case R.id.layout_match_info:
+            case R.id.layout_other_tips:
+                intent=new Intent(this,BallQMatchDetailActivity.class);
+                intent.putExtra(BallQMatchDetailActivity.class.getSimpleName(),getMatchEntity());
+                startActivity(intent);
+                break;
+            case R.id.iv_home_team_icon:
+                intent = new Intent(this, BallQMatchTeamTipOffHistoryActivity.class);
+                intent.putExtra("match_info",getMatchEntity());
+                intent.putExtra("is_home_team", true);
+                startActivity(intent);
+                break;
+            case R.id.iv_away_team_icon:
+                intent = new Intent(this, BallQMatchTeamTipOffHistoryActivity.class);
+                intent.putExtra("match_info",getMatchEntity());
+                intent.putExtra("is_home_team", false);
+                startActivity(intent);
+                break;
+            case R.id.ivUserIcon:
+                UserInfoUtil.lookUserInfo(this,tipOffInfo.getUid());
+                break;
         }
+    }
+
+    private void userCollection(View view){
+        final ImageView ivAttention= (ImageView) view;
+        String url=null;
+        HashMap<String,String> params=new HashMap<>();
+        if(UserInfoUtil.checkLogin(this)){
+            params.put("user", UserInfoUtil.getUserId(this));
+            params.put("token",UserInfoUtil.getUserToken(this));
+        }else{
+            UserInfoUtil.userLogin(this);
+            return;
+        }
+        if(tipOffInfo.getIsc()==1){
+            /**用户已收藏,则取消收藏*/
+            url= HttpUrls.HOST_URL_V5 + "user/favorites/del/";
+            params.put("fid",String.valueOf(tipOffInfo.getFid()));
+        }else{
+            url=HttpUrls.HOST_URL_V5+"user/favorites/add/";
+            params.put("etype","0");
+            params.put("eid",String.valueOf(tipOffInfo.getId()));
+        }
+
+        HttpClientUtil.getHttpClientUtil().sendPostRequest(BallQHomeTipOffAdapter.class.getSimpleName(), url, params, new HttpClientUtil.StringResponseCallBack() {
+            @Override
+            public void onBefore(Request request) {
+
+            }
+
+            @Override
+            public void onError(Call call, Exception error) {
+                ToastUtil.show(BallQTipOffDetailActivity.this,"请求失败");
+            }
+
+            @Override
+            public void onSuccess(Call call, String response) {
+                KLog.json(response);
+                if(!TextUtils.isEmpty(response)){
+                    JSONObject obj=JSONObject.parseObject(response);
+                    if(obj!=null&&!obj.isEmpty()){
+                        int status=obj.getIntValue("status");
+                        if(status==0){
+                            if(tipOffInfo.getIsc()==1){
+                                tipOffInfo.setIsc(0);
+                                tipOffInfo.setFid(0);
+                                ivAttention.setSelected(false);
+                                ToastUtil.show(BallQTipOffDetailActivity.this,"取消收藏成功");
+                            }else{
+                                ivAttention.setSelected(true);
+                                tipOffInfo.setIsc(1);
+                                tipOffInfo.setFid(obj.getIntValue("data"));
+                                ToastUtil.show(BallQTipOffDetailActivity.this, "收藏成功");
+                            }
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void onFinish(Call call) {
+
+            }
+        });
     }
 
     private void showShareDialog() {

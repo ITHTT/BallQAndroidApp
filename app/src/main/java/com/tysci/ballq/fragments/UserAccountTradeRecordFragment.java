@@ -34,18 +34,19 @@ public class UserAccountTradeRecordFragment extends AppSwipeRefreshLoadMoreRecyc
 
     @Override
     protected void onLoadMoreData() {
+        requestUserAccountTradeRecordInfos(currentPages,true);
 
     }
 
     @Override
     protected void onRefreshData() {
-
+        requestUserAccountTradeRecordInfos(1,false);
     }
 
     @Override
     protected void initViews(View view, Bundle savedInstanceState) {
         showLoading();
-        requestUserAccountTradeRecordInfos(1,false);
+        requestUserAccountTradeRecordInfos(1, false);
     }
 
     private void requestUserAccountTradeRecordInfos(final int pages, final boolean isLoadMore){
@@ -63,6 +64,9 @@ public class UserAccountTradeRecordFragment extends AppSwipeRefreshLoadMoreRecyc
 
             @Override
             public void onError(Call call, Exception error) {
+                if(!isLoadMore){
+                    recyclerView.setRefreshComplete();
+                }
                 if(!isLoadMore){
                     if(adapter!=null) {
                         recyclerView.setStartLoadMore();
@@ -82,6 +86,9 @@ public class UserAccountTradeRecordFragment extends AppSwipeRefreshLoadMoreRecyc
 
             @Override
             public void onSuccess(Call call, String response) {
+                if(!isLoadMore){
+                    recyclerView.setRefreshComplete();
+                }
                 KLog.json(response);
                 if(!TextUtils.isEmpty(response)){
                     JSONObject obj=JSONObject.parseObject(response);
@@ -134,7 +141,6 @@ public class UserAccountTradeRecordFragment extends AppSwipeRefreshLoadMoreRecyc
             public void onFinish(Call call) {
                 if(!isLoadMore){
                     onRefreshCompelete();
-                    recyclerView.setRefreshComplete();
                 }
             }
         });

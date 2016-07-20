@@ -1,27 +1,22 @@
-package com.tysci.ballq.activitys;
+package com.tysci.ballq.fragments;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.text.TextUtils;
 import android.view.View;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.tysci.ballq.R;
-import com.tysci.ballq.base.BaseActivity;
-import com.tysci.ballq.modles.BallQMatchEntity;
+import com.tysci.ballq.base.BaseFragment;
 import com.tysci.ballq.modles.BallQTipOffEntity;
-import com.tysci.ballq.networks.GlideImageLoader;
 import com.tysci.ballq.networks.HttpClientUtil;
 import com.tysci.ballq.networks.HttpUrls;
 import com.tysci.ballq.utils.CommonUtils;
 import com.tysci.ballq.utils.KLog;
 import com.tysci.ballq.utils.UserInfoUtil;
-import com.tysci.ballq.views.adapters.BallQTipOffAdapter;
+import com.tysci.ballq.views.adapters.BallQTipOffVideoAdapter;
 import com.tysci.ballq.views.widgets.loadmorerecyclerview.AutoLoadMoreRecyclerView;
 
 import java.util.ArrayList;
@@ -33,40 +28,24 @@ import okhttp3.Call;
 import okhttp3.Request;
 
 /**
- * Created by Administrator on 2016/7/15.
+ * Created by Administrator on 2016/7/20.
  */
-public class BallQMatchTeamTipOffHistoryActivity extends BaseActivity implements SwipeRefreshLayout.OnRefreshListener,AutoLoadMoreRecyclerView.OnLoadMoreListener{
-    @Bind(R.id.iv_team_icon)
-    protected ImageView ivTeamIcon;
-    @Bind(R.id.tv_team_name)
-    protected TextView tvTeamName;
+public class BallQTipOffVideoListFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener,AutoLoadMoreRecyclerView.OnLoadMoreListener{
     @Bind(R.id.swipe_refresh)
     protected SwipeRefreshLayout swipeRefresh;
     @Bind(R.id.recycler_view)
     protected AutoLoadMoreRecyclerView recyclerView;
+    private int etype=0;
 
-    private BallQMatchEntity matchEntity=null;
-    private boolean isHomeTeam;
-    private List<BallQTipOffEntity> tipOffEntityList;
-    private BallQTipOffAdapter adapter=null;
+    private BallQTipOffVideoAdapter adapter=null;
+    private List<BallQTipOffEntity> ballQTipOffEntityList=null;
     private int currentPages=1;
 
-    @Override
-    protected int getContentViewId() {
-        return R.layout.activity_match_team_tip_off_history;
-    }
+
 
     @Override
-    protected void initViews() {
-        setTitle("球队历史爆料");
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setOnLoadMoreListener(this);
-        swipeRefresh.setOnRefreshListener(this);
-    }
-
-    @Override
-    protected View getLoadingTargetView() {
-        return swipeRefresh;
+    protected int getViewLayoutId() {
+        return R.layout.layout_swiperefresh_recyclerview;
     }
 
     private void setRefreshing(){
@@ -85,6 +64,7 @@ public class BallQMatchTeamTipOffHistoryActivity extends BaseActivity implements
                 public void run() {
                     if (swipeRefresh != null) {
                         swipeRefresh.setRefreshing(false);
+                        // recyclerView.setStartLoadMore();
                     }
                 }
             }, 1000);
@@ -92,33 +72,46 @@ public class BallQMatchTeamTipOffHistoryActivity extends BaseActivity implements
     }
 
     @Override
-    protected void getIntentData(Intent intent) {
-        isHomeTeam=intent.getBooleanExtra("is_home_team",false);
-        matchEntity=intent.getParcelableExtra("match_info");
-        if(matchEntity!=null){
-            if(isHomeTeam){
-                tvTeamName.setText(matchEntity.getHtname());
-                GlideImageLoader.loadImage(this,matchEntity.getHtlogo(),R.drawable.icon_default_team_logo,ivTeamIcon);
-            }else{
-                tvTeamName.setText(matchEntity.getAtname());
-                GlideImageLoader.loadImage(this,matchEntity.getAtlogo(),R.drawable.icon_default_team_logo,ivTeamIcon);
-            }
-            requestMatchTipOff(1,false);
-        }
+    protected void initViews(View view, Bundle savedInstanceState) {
+        swipeRefresh.setOnRefreshListener(this);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this.getActivity()));
+        recyclerView.setOnLoadMoreListener(this);
+        recyclerView.setBackgroundResource(R.color.white);
+        // recyclerView.setAdapter(new BallQHomeTipOffAdapter());
+       // showLoading();
+        requestDatas(currentPages,false);
     }
 
-    private void requestMatchTipOff(int pages, final boolean isLoadMore){
-        int id=matchEntity.getHtid();
-        if(!isHomeTeam){
-            id=matchEntity.getAtid();
-        }
-        String url= HttpUrls.HOST_URL_V5+"team/"+id+"/tips/?etype="+matchEntity.getEtype()+"&p="+pages;
+    @Override
+    protected View getLoadingTargetView() {
+        return null;
+    }
+
+    @Override
+    protected boolean isCancledEventBus() {
+        return false;
+    }
+
+    @Override
+    protected void notifyEvent(String action) {
+
+    }
+
+    @Override
+    protected void notifyEvent(String action, Bundle data) {
+
+    }
+
+    private void requestDatas(int pages, final boolean isLoadMore){
+        String url= HttpUrls.TIP_OFF_LIST_URL+etype+"&rtype=2&p="+pages;
+        KLog.e("url:"+url);
         HashMap<String,String> params=null;
-        if(UserInfoUtil.checkLogin(this)){
+        if(UserInfoUtil.checkLogin(baseActivity)){
             params=new HashMap<>(2);
-            params.put("user", UserInfoUtil.getUserId(this));
-            params.put("token", UserInfoUtil.getUserToken(this));
+            params.put("user", UserInfoUtil.getUserId(baseActivity));
+            params.put("token", UserInfoUtil.getUserToken(baseActivity));
         }
+
         HttpClientUtil.getHttpClientUtil().sendPostRequest(Tag, url, params, new HttpClientUtil.StringResponseCallBack() {
             @Override
             public void onBefore(Request request) {
@@ -128,6 +121,7 @@ public class BallQMatchTeamTipOffHistoryActivity extends BaseActivity implements
             @Override
             public void onError(Call call, Exception error) {
                 if(!isLoadMore){
+                    recyclerView.setRefreshComplete();
                     if(adapter!=null) {
                         recyclerView.setStartLoadMore();
                     }else{
@@ -135,7 +129,7 @@ public class BallQMatchTeamTipOffHistoryActivity extends BaseActivity implements
                             @Override
                             public void onClick(View v) {
                                 showLoading();
-                                requestMatchTipOff(1, false);
+                                requestDatas(1,false);
                             }
                         });
                     }
@@ -153,33 +147,31 @@ public class BallQMatchTeamTipOffHistoryActivity extends BaseActivity implements
             @Override
             public void onFinish(Call call) {
                 if(!isLoadMore){
-                    if(recyclerView!=null){
-                        recyclerView.setRefreshComplete();
-                    }
                     onRefreshCompelete();
-                }else{
-                    recyclerView.setLoadMoreDataFailed();
                 }
             }
         });
     }
 
     protected void onResponseSuccess(String response,boolean isLoadMore){
+        if(!isLoadMore){
+            recyclerView.setRefreshComplete();
+        }
         if(!TextUtils.isEmpty(response)){
             JSONObject obj=JSONObject.parseObject(response);
             if(obj!=null&&!obj.isEmpty()){
                 JSONArray objArrays=obj.getJSONArray("data");
                 if(objArrays!=null&&!objArrays.isEmpty()){
                     hideLoad();
-                    if(tipOffEntityList==null){
-                        tipOffEntityList=new ArrayList<>(10);
+                    if(ballQTipOffEntityList==null){
+                        ballQTipOffEntityList=new ArrayList<>(10);
                     }
-                    if(!isLoadMore&&tipOffEntityList.size()>0){
-                        tipOffEntityList.clear();
+                    if(!isLoadMore&&ballQTipOffEntityList.size()>0){
+                        ballQTipOffEntityList.clear();
                     }
-                    CommonUtils.getJSONListObject(objArrays, tipOffEntityList, BallQTipOffEntity.class);
+                    CommonUtils.getJSONListObject(objArrays, ballQTipOffEntityList, BallQTipOffEntity.class);
                     if(adapter==null){
-                        adapter=new BallQTipOffAdapter(tipOffEntityList);
+                        adapter=new BallQTipOffVideoAdapter(ballQTipOffEntityList);
                         recyclerView.setAdapter(adapter);
                     }else{
                         adapter.notifyDataSetChanged();
@@ -201,39 +193,7 @@ public class BallQMatchTeamTipOffHistoryActivity extends BaseActivity implements
         }
         if(isLoadMore){
             recyclerView.setLoadMoreDataComplete("没有更多数据了");
-        }else{
-            showEmptyInfo();
         }
-    }
-
-    @Override
-    protected boolean isCanceledEventBus() {
-        return false;
-    }
-
-    @Override
-    protected void saveInstanceState(Bundle outState) {
-
-    }
-
-    @Override
-    protected void handleInstanceState(Bundle outState) {
-
-    }
-
-    @Override
-    protected void onViewClick(View view) {
-
-    }
-
-    @Override
-    protected void notifyEvent(String action) {
-
-    }
-
-    @Override
-    protected void notifyEvent(String action, Bundle data) {
-
     }
 
     @Override
@@ -244,7 +204,7 @@ public class BallQMatchTeamTipOffHistoryActivity extends BaseActivity implements
             recyclerView.postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    requestMatchTipOff(currentPages,true);
+                    requestDatas(currentPages,true);
                 }
             },300);
         }
@@ -257,7 +217,8 @@ public class BallQMatchTeamTipOffHistoryActivity extends BaseActivity implements
             recyclerView.setRefreshing();
             onRefreshCompelete();
         }else{
-            requestMatchTipOff(1,false);
+            requestDatas(1,false);
         }
     }
+
 }

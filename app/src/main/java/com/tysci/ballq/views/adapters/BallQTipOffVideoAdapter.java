@@ -25,32 +25,36 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 
 /**
- * Created by Administrator on 2016/7/15.
+ * Created by Administrator on 2016/7/20.
  */
-public class BallQTipOffAdapter extends RecyclerView.Adapter<BallQTipOffAdapter.BallQTipOffViewHolder>{
+public class BallQTipOffVideoAdapter extends RecyclerView.Adapter<BallQTipOffVideoAdapter.BallQTipOffVideoViewHolder>{
     private List<BallQTipOffEntity> tipOffEntityList=null;
 
-    public BallQTipOffAdapter(List<BallQTipOffEntity> tipOffEntityList) {
+    public BallQTipOffVideoAdapter(List<BallQTipOffEntity> tipOffEntityList) {
         this.tipOffEntityList = tipOffEntityList;
     }
 
     @Override
-    public BallQTipOffViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view= LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_ballq_tip_off_item,parent,false);
-        return new BallQTipOffViewHolder(view);
+    public BallQTipOffVideoViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View view= LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_ballq_video_item,parent,false);
+        return new BallQTipOffVideoViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(final BallQTipOffViewHolder holder, int position) {
+    public void onBindViewHolder(final BallQTipOffVideoViewHolder holder, int position) {
         final BallQTipOffEntity info=tipOffEntityList.get(position);
-        GlideImageLoader.loadImage(holder.itemView.getContext(),info.getPt(),R.mipmap.icon_user_default,holder.ivUserHeader);
+        GlideImageLoader.loadImage(holder.itemView.getContext(), info.getPt(), R.mipmap.icon_user_default, holder.ivUserHeader);
         UserInfoUtil.setUserHeaderVMark(info.getIsv(), holder.ivUserV, holder.ivUserHeader);
         holder.tvUserName.setText(info.getFname());
         holder.tvLikeCounts.setText(String.valueOf(info.getTipcount()));
-        holder.tvTipOffContent.setText(info.getCont().trim());
+        if(!TextUtils.isEmpty(info.getFirst_image())) {
+            GlideImageLoader.loadImage(holder.itemView.getContext(), info.getFirst_image(), R.mipmap.icon_ball_wrap_default_img, holder.ivVideoCover);
+        }else{
+            holder.ivVideoCover.setImageResource(R.mipmap.icon_ball_wrap_default_img);
+        }
         Date tipDate= CommonUtils.getDateAndTimeFromGMT(info.getCtime());
         if(tipDate!=null){
-           String dateInfo=CommonUtils.getDateAndTimeFormatString(tipDate);
+            String dateInfo=CommonUtils.getDateAndTimeFormatString(tipDate);
             if(!TextUtils.isEmpty(dateInfo)){
                 String[] dates=dateInfo.split(" ");
                 if(dates!=null){
@@ -63,11 +67,6 @@ public class BallQTipOffAdapter extends RecyclerView.Adapter<BallQTipOffAdapter.
             holder.tvCreateDate.setText("");
         }
 
-        if(info.getRichtext_type()==2){
-            holder.ivVideoMark.setVisibility(View.VISIBLE);
-        }else{
-            holder.ivVideoMark.setVisibility(View.GONE);
-        }
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -93,9 +92,7 @@ public class BallQTipOffAdapter extends RecyclerView.Adapter<BallQTipOffAdapter.
         return tipOffEntityList.size();
     }
 
-
-
-    public static final class BallQTipOffViewHolder extends RecyclerView.ViewHolder{
+    public static final class BallQTipOffVideoViewHolder extends RecyclerView.ViewHolder{
         @Bind(R.id.ivUserIcon)
         CircleImageView ivUserHeader;
         @Bind(R.id.isV)
@@ -104,18 +101,15 @@ public class BallQTipOffAdapter extends RecyclerView.Adapter<BallQTipOffAdapter.
         TextView tvUserName;
         @Bind(R.id.iv_user_level)
         ImageView ivUserLevel;
-        @Bind(R.id.iv_video_mark)
-        ImageView ivVideoMark;
         @Bind(R.id.tv_create_date)
         TextView tvCreateDate;
         @Bind(R.id.tv_create_time)
         TextView tvCreateTime;
         @Bind(R.id.tv_like_counts)
         TextView tvLikeCounts;
-        @Bind(R.id.tv_tip_off_content)
-        TextView tvTipOffContent;
-
-        public BallQTipOffViewHolder(View itemView) {
+        @Bind(R.id.iv_video_cover)
+        ImageView ivVideoCover;
+        public BallQTipOffVideoViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this,itemView);
         }

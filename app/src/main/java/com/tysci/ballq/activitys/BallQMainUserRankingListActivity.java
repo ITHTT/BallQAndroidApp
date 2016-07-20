@@ -19,6 +19,7 @@ import com.tysci.ballq.networks.HttpUrls;
 import com.tysci.ballq.utils.CommonUtils;
 import com.tysci.ballq.utils.KLog;
 import com.tysci.ballq.utils.ToastUtil;
+import com.tysci.ballq.utils.UserInfoUtil;
 import com.tysci.ballq.views.adapters.BallQMainUserRankingAdapter;
 import com.tysci.ballq.views.widgets.loadmorerecyclerview.AutoLoadMoreRecyclerView;
 
@@ -34,14 +35,14 @@ import okhttp3.Request;
 /**
  * Created by HTT on 2016/7/18.
  */
-public class BallQMainUserRankingListActivity extends BaseActivity implements SwipeRefreshLayout.OnRefreshListener, AutoLoadMoreRecyclerView.OnLoadMoreListener {
+public class BallQMainUserRankingListActivity extends BaseActivity implements SwipeRefreshLayout.OnRefreshListener,AutoLoadMoreRecyclerView.OnLoadMoreListener{
     @Bind(R.id.swipe_refresh)
     protected SwipeRefreshLayout swipeRefresh;
     @Bind(R.id.recycler_view)
     protected AutoLoadMoreRecyclerView recyclerView;
 
-    private Map<String, List<BallQUserRankInfoEntity>> datas = null;
-    private BallQMainUserRankingAdapter adapter = null;
+    private Map<String,List<BallQUserRankInfoEntity>> datas=null;
+    private BallQMainUserRankingAdapter adapter=null;
 
     @Override
     protected int getContentViewId() {
@@ -84,15 +85,18 @@ public class BallQMainUserRankingListActivity extends BaseActivity implements Sw
         }, 1000);
     }
 
-    private void addHeader() {
-        ImageView imageView = (ImageView) LayoutInflater.from(this).inflate(R.layout.layout_ballq_reward_header, null);
-        imageView.setImageResource(R.mipmap.icon_reward_tip);
+    private void addHeader(){
+        ImageView imageView= (ImageView) LayoutInflater.from(this).inflate(R.layout.layout_ballq_reward_header,null);
         recyclerView.addHeaderView(imageView);
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(BallQMainUserRankingListActivity.this, BallQUserRewardRankingDetailActivity.class);
-                startActivity(intent);
+                if(UserInfoUtil.checkLogin(BallQMainUserRankingListActivity.this)) {
+                    Intent intent = new Intent(BallQMainUserRankingListActivity.this, BallQUserRewardRankingDetailActivity.class);
+                    startActivity(intent);
+                }else{
+                    UserInfoUtil.userLogin(BallQMainUserRankingListActivity.this);
+                }
             }
         });
     }
@@ -132,8 +136,8 @@ public class BallQMainUserRankingListActivity extends BaseActivity implements Sw
 
     }
 
-    private void requestUserRankingInfos() {
-        String url = HttpUrls.HOST_URL_V6 + "rank_summary/";
+    private void requestUserRankingInfos(){
+        String url= HttpUrls.HOST_URL_V6+ "rank_summary/";
         HttpClientUtil.getHttpClientUtil().sendGetRequest(Tag, url, 60, new HttpClientUtil.StringResponseCallBack() {
             @Override
             public void onBefore(Request request) {
@@ -142,7 +146,7 @@ public class BallQMainUserRankingListActivity extends BaseActivity implements Sw
 
             @Override
             public void onError(Call call, Exception error) {
-                if (adapter == null) {
+                if(adapter==null){
                     showErrorInfo(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
@@ -150,8 +154,8 @@ public class BallQMainUserRankingListActivity extends BaseActivity implements Sw
                             requestUserRankingInfos();
                         }
                     });
-                } else {
-                    ToastUtil.show(BallQMainUserRankingListActivity.this, "请求失败");
+                }else{
+                    ToastUtil.show(BallQMainUserRankingListActivity.this,"请求失败");
                 }
 
             }
@@ -159,49 +163,49 @@ public class BallQMainUserRankingListActivity extends BaseActivity implements Sw
             @Override
             public void onSuccess(Call call, String response) {
                 KLog.json(response);
-                if (!TextUtils.isEmpty(response)) {
-                    JSONObject obj = JSONObject.parseObject(response);
-                    if (obj != null && !obj.isEmpty()) {
-                        int status = obj.getIntValue("status");
-                        if (status == 0) {
-                            JSONObject dataObj = obj.getJSONObject("data");
-                            if (dataObj != null && !dataObj.isEmpty()) {
+                if(!TextUtils.isEmpty(response)){
+                    JSONObject obj=JSONObject.parseObject(response);
+                    if(obj!=null&&!obj.isEmpty()){
+                        int status=obj.getIntValue("status");
+                        if(status==0){
+                            JSONObject dataObj=obj.getJSONObject("data");
+                            if(dataObj!=null&&!dataObj.isEmpty()){
                                 hideLoad();
-                                if (datas == null) {
-                                    datas = new HashMap<String, List<BallQUserRankInfoEntity>>(4);
+                                if(datas==null){
+                                    datas=new HashMap<String, List<BallQUserRankInfoEntity>>(4);
                                 }
-                                JSONArray winsArray = dataObj.getJSONArray("wins");
-                                if (winsArray != null && !winsArray.isEmpty()) {
-                                    List<BallQUserRankInfoEntity> wins = new ArrayList<BallQUserRankInfoEntity>(winsArray.size());
-                                    CommonUtils.getJSONListObject(winsArray, wins, BallQUserRankInfoEntity.class);
-                                    datas.put("亚盘胜率榜", wins);
-                                }
-
-                                JSONArray rorArray = dataObj.getJSONArray("ror");
-                                if (rorArray != null && !rorArray.isEmpty()) {
-                                    List<BallQUserRankInfoEntity> rors = new ArrayList<BallQUserRankInfoEntity>(rorArray.size());
-                                    CommonUtils.getJSONListObject(rorArray, rors, BallQUserRankInfoEntity.class);
-                                    datas.put("盈利率榜", rors);
+                                JSONArray winsArray=dataObj.getJSONArray("wins");
+                                if(winsArray!=null&&!winsArray.isEmpty()){
+                                    List<BallQUserRankInfoEntity> wins=new ArrayList<BallQUserRankInfoEntity>(winsArray.size());
+                                    CommonUtils.getJSONListObject(winsArray,wins,BallQUserRankInfoEntity.class);
+                                    datas.put("亚盘胜率榜",wins);
                                 }
 
-                                JSONArray followerArray = dataObj.getJSONArray("follower");
-                                if (followerArray != null && !followerArray.isEmpty()) {
-                                    List<BallQUserRankInfoEntity> followers = new ArrayList<BallQUserRankInfoEntity>(followerArray.size());
-                                    CommonUtils.getJSONListObject(followerArray, followers, BallQUserRankInfoEntity.class);
-                                    datas.put("人气榜", followers);
+                                JSONArray rorArray=dataObj.getJSONArray("ror");
+                                if(rorArray!=null&&!rorArray.isEmpty()){
+                                    List<BallQUserRankInfoEntity> rors=new ArrayList<BallQUserRankInfoEntity>(rorArray.size());
+                                    CommonUtils.getJSONListObject(rorArray,rors,BallQUserRankInfoEntity.class);
+                                    datas.put("盈利率榜",rors);
                                 }
 
-                                JSONArray tearnArray = dataObj.getJSONArray("tearn");
-                                if (tearnArray != null && !tearnArray.isEmpty()) {
-                                    List<BallQUserRankInfoEntity> tearns = new ArrayList<BallQUserRankInfoEntity>(tearnArray.size());
-                                    CommonUtils.getJSONListObject(tearnArray, tearns, BallQUserRankInfoEntity.class);
-                                    datas.put("总盈利榜", tearns);
+                                JSONArray followerArray=dataObj.getJSONArray("follower");
+                                if(followerArray!=null&&!followerArray.isEmpty()){
+                                    List<BallQUserRankInfoEntity> followers=new ArrayList<BallQUserRankInfoEntity>(followerArray.size());
+                                    CommonUtils.getJSONListObject(followerArray,followers,BallQUserRankInfoEntity.class);
+                                    datas.put("人气榜",followers);
                                 }
 
-                                if (adapter == null) {
-                                    adapter = new BallQMainUserRankingAdapter(datas);
+                                JSONArray tearnArray=dataObj.getJSONArray("tearn");
+                                if(tearnArray!=null&&!tearnArray.isEmpty()){
+                                    List<BallQUserRankInfoEntity> tearns=new ArrayList<BallQUserRankInfoEntity>(tearnArray.size());
+                                    CommonUtils.getJSONListObject(tearnArray,tearns,BallQUserRankInfoEntity.class);
+                                    datas.put("总盈利榜",tearns);
+                                }
+
+                                if(adapter==null){
+                                    adapter=new BallQMainUserRankingAdapter(datas);
                                     recyclerView.setAdapter(adapter);
-                                } else {
+                                }else{
                                     adapter.notifyDataSetChanged();
                                 }
                                 recyclerView.setLoadMoreDataComplete("没有更多数据");

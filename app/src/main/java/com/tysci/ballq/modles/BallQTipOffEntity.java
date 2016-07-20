@@ -53,6 +53,9 @@ public class BallQTipOffEntity implements Parcelable {
     private int settled;
     private int boncount;
     private String url;
+    private int richtext_type;
+    private String first_image;
+    private String vid;
 
     public int getFid() {
         return fid;
@@ -422,6 +425,29 @@ public class BallQTipOffEntity implements Parcelable {
         this.url = url;
     }
 
+    public int getRichtext_type() {
+        return richtext_type;
+    }
+
+    public void setRichtext_type(int richtext_type) {
+        this.richtext_type = richtext_type;
+    }
+
+    public String getFirst_image() {
+        return first_image;
+    }
+
+    public void setFirst_image(String first_image) {
+        this.first_image = first_image;
+    }
+
+    public String getVid() {
+        return vid;
+    }
+
+    public void setVid(String vid) {
+        this.vid = vid;
+    }
 
     @Override
     public int describeContents() {
@@ -476,6 +502,9 @@ public class BallQTipOffEntity implements Parcelable {
         dest.writeInt(this.settled);
         dest.writeInt(this.boncount);
         dest.writeString(this.url);
+        dest.writeInt(this.richtext_type);
+        dest.writeString(this.first_image);
+        dest.writeString(this.vid);
     }
 
     public BallQTipOffEntity() {
@@ -528,6 +557,9 @@ public class BallQTipOffEntity implements Parcelable {
         this.settled = in.readInt();
         this.boncount = in.readInt();
         this.url = in.readString();
+        this.richtext_type=in.readInt();
+        this.first_image=in.readString();
+        this.vid=in.readString();
     }
 
     public static final Creator<BallQTipOffEntity> CREATOR = new Creator<BallQTipOffEntity>() {

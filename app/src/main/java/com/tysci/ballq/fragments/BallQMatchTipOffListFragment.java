@@ -11,6 +11,7 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.tysci.ballq.R;
 import com.tysci.ballq.activitys.BallQMatchGuessBettingActivity;
+import com.tysci.ballq.activitys.BallQMatchTipOffEditActivity;
 import com.tysci.ballq.base.BaseFragment;
 import com.tysci.ballq.modles.BallQMatchEntity;
 import com.tysci.ballq.modles.BallQTipOffEntity;
@@ -226,6 +227,25 @@ public class BallQMatchTipOffListFragment extends BaseFragment implements SwipeR
         }
     }
 
+    @OnClick(R.id.vgToTip)
+    protected void onClickTipOff(View view){
+        if (UserInfoUtil.checkLogin(baseActivity)) {
+            Date date = CommonUtils.getDateAndTimeFromGMT(ballQMatchEntity.getMtime());
+            if (date != null && date.getTime() <= System.currentTimeMillis()) {
+                ToastUtil.show(baseActivity, "比赛进行中/已结束,无法爆料");
+                return;
+            }
+            if(!UserInfoUtil.isVIPUser(baseActivity)){
+                ToastUtil.show(baseActivity,"核心功能限量开放，您如有兴趣参与内测请和球商申请。\\n申请方法请加微信：ballqcn");
+                return;
+            }
+            Intent intent = new Intent(baseActivity, BallQMatchTipOffEditActivity.class);
+            intent.putExtra(BallQMatchTipOffEditActivity.class.getSimpleName(), ballQMatchEntity);
+            startActivity(intent);
+        } else {
+            UserInfoUtil.userLogin(baseActivity);
+        }
+    }
 
     @Override
     protected void notifyEvent(String action) {

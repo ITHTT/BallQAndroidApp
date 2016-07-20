@@ -8,6 +8,8 @@ import com.tysci.ballq.activitys.BallQBallWarpDetailActivity;
 import com.tysci.ballq.activitys.BallQCircleNoteDetailActivity;
 import com.tysci.ballq.activitys.BallQEventsPlazaActivity;
 import com.tysci.ballq.activitys.BallQFindCircleNoteActivity;
+import com.tysci.ballq.activitys.BallQGreatWarGoActivity;
+import com.tysci.ballq.activitys.BallQMainUserRankingListActivity;
 import com.tysci.ballq.activitys.BallQMatchDetailActivity;
 import com.tysci.ballq.activitys.BallQTipOffDetailActivity;
 import com.tysci.ballq.activitys.BallQWebViewActivity;
@@ -110,6 +112,8 @@ public class BallQBusinessControler {
                     //mainP.gotoBallQMatchList(1);
                 } else if (jumpUrl.equals("ballqinapp://go")) {
                     //mainP.gotoBallQGo();
+                    Intent intent=new Intent(context, BallQGreatWarGoActivity.class);
+                    context.startActivity(intent);
                 } else if (jumpUrl.contains("ballqinapp://userinfo/")) {
                     String[] datas = jumpUrl.split("=");
                     if (datas != null) {
@@ -127,6 +131,8 @@ public class BallQBusinessControler {
                     }
                 } else if (jumpUrl.equals("ballqinapp://ranks")) {
                     //mainP.gotoBallQUserRank();
+                    Intent intent=new Intent(context, BallQMainUserRankingListActivity.class);
+                    context.startActivity(intent);
                 } else if (jumpUrl.contains("ballqinapp://rank/")) {
                     String[] datas = jumpUrl.split("=");
                     if (datas != null) {
