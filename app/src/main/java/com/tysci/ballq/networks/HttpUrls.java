@@ -53,7 +53,7 @@ public class HttpUrls {
     /**用户微信登录方式*/
     public static final String USER_WECHAT_LOGIN_URL=HOST_URL_V1+"user/wechat_login/";
     /**爆料列表*/
-    public static final String TIP_OFF_LIST_URL=HOST_URL_V5+"tips/?settled=-1&etype=";
+    public static final String TIP_OFF_LIST_URL=HOST_URL+"/api/ares/tips/?settled=-1&etype=";
 
     /**获取用户信息*/
     public static final String getUserInfoUrl(String userId){

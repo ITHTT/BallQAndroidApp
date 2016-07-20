@@ -6,7 +6,6 @@ import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.text.method.PasswordTransformationMethod;
-import android.view.Gravity;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
@@ -119,7 +118,7 @@ public class LoginActivity extends BaseActivity {
     private void checkLogin(){
         String phone=etPhoneNum.getText().toString();
         String password=etPassword.getText().toString();
-        boolean isCanLogin=!TextUtils.isEmpty(phone)&&phone.length()>=11&&!TextUtils.isEmpty(password)&&password.length()>=6;
+        boolean isCanLogin=!TextUtils.isEmpty(phone)&&phone.length()>=11&&!TextUtils.isEmpty(password)&&password.length()>=1;
         tvLogin.setEnabled(isCanLogin);
     }
 

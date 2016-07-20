@@ -32,7 +32,9 @@ public class JPushReceiver extends BroadcastReceiver {
 
         } else if (JPushInterface.ACTION_MESSAGE_RECEIVED.equals(intent.getAction())) {
             Log.d(TAG, "[MyReceiver] 接收到推送下来的自定义消息: " + bundle.getString(JPushInterface.EXTRA_MESSAGE));
+            // TODO: 2016-07-20 0020 极光推送  type url jump_type
             processCustomMessage(context, bundle);
+//            BallQBusinessControler.businessControler(context, Integer.parseInt(info.getJump_type()), info.getJump_url());
 
         } else if (JPushInterface.ACTION_NOTIFICATION_RECEIVED.equals(intent.getAction())) {
             Log.d(TAG, "[MyReceiver] 接收到推送下来的通知");
