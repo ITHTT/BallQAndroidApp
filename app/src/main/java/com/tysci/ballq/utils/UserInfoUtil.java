@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import com.alibaba.fastjson.JSONObject;
 import com.tysci.ballq.R;
 import com.tysci.ballq.activitys.UserProfileActivity;
+import com.tysci.ballq.fragments.BallQPersonalFragment;
 import com.tysci.ballq.modles.UserInfoEntity;
 import com.tysci.ballq.modles.event.EventObject;
 import com.tysci.ballq.modles.event.EventType;
@@ -183,6 +184,11 @@ public class UserInfoUtil {
         setUserRank(context, -1);
         setUserPortrait(context, null);
         setUserInfo(context, "");
+
+        EventObject eventObject = new EventObject();
+        eventObject.getData().putString("user", "exit_login");
+        eventObject.addReceiver(BallQPersonalFragment.class);
+        EventObject.postEventObject(eventObject, EventType.EVENT_USER_EXIT);
     }
 
     public static void setUserHeaderVMark(int isV, ImageView iV, CircleImageView userHeader) {
