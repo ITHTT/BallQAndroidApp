@@ -9,69 +9,98 @@ import android.widget.TextView;
 
 import com.tysci.ballq.R;
 import com.tysci.ballq.activitys.UserAchievementActivity;
+import com.tysci.ballq.base.ButterKnifeRecyclerViewHolder;
 import com.tysci.ballq.modles.UserAchievementEntity;
 import com.tysci.ballq.utils.ImageUtil;
+import com.tysci.ballq.utils.ToastUtil;
 
 import java.util.List;
+
+import butterknife.Bind;
 
 /**
  * Created by LinDe on 2016-07-15 0015.
  * 我的成就适配器
  */
-public class UserAchievementAdapter extends RecyclerView.Adapter<UserAchievementAdapter.ViewHolder> {
+public class UserAchievementAdapter extends RecyclerView.Adapter<UserAchievementAdapter.ViewHolder>
+{
     private final UserAchievementActivity activity;
+    private final boolean isSelf;
+
     private List<UserAchievementEntity> dataList;
 
     private boolean showAttained;
 
-    public UserAchievementAdapter(UserAchievementActivity activity, List<UserAchievementEntity> dataList) {
+    public UserAchievementAdapter(UserAchievementActivity activity, boolean isSelf, List<UserAchievementEntity> dataList)
+    {
         this.activity = activity;
+        this.isSelf = isSelf;
         this.dataList = dataList;
     }
 
-    public void setShowAttained(boolean showAttained) {
+    public void setShowAttained(boolean showAttained)
+    {
         this.showAttained = showAttained;
     }
 
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType)
+    {
         View rootView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_user_achievement_adapter, parent, false);
         return new ViewHolder(rootView);
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(final ViewHolder holder, int position)
+    {
         final UserAchievementEntity info = dataList.get(position);
 
         ImageUtil.loadImage(holder.iv_achievement_logo, R.mipmap.icon_user_achievement_circle_mark, info.getLogo());
         holder.tv_achievement_content.setText(info.getContent());
 
-        if (showAttained) {
-            holder.itemView.setOnClickListener(new View.OnClickListener() {
+        if (showAttained && isSelf)
+        {
+            holder.itemView.setOnClickListener(new View.OnClickListener()
+            {
                 @Override
-                public void onClick(View v) {
+                public void onClick(View v)
+                {
                     activity.addShowing(info.getId());
                 }
             });
-        } else {
-            holder.itemView.setOnClickListener(null);
+        }
+        else
+        {
+            holder.itemView.setOnClickListener(new View.OnClickListener()
+            {
+                @Override
+                public void onClick(View v)
+                {
+                    ToastUtil.show(holder.itemView.getContext(), info.getContent());
+                }
+            });
         }
     }
 
     @Override
-    public int getItemCount() {
+    public int getItemCount()
+    {
         return dataList.size();
     }
 
-    class ViewHolder extends RecyclerView.ViewHolder {
+    class ViewHolder extends ButterKnifeRecyclerViewHolder
+    {
+        @Bind(R.id.achievement_logo)
         ImageView iv_achievement_logo;
+        @Bind(R.id.achievement_content)
         TextView tv_achievement_content;
 
-        public ViewHolder(View itemView) {
+        public ViewHolder(View itemView)
+        {
             super(itemView);
             itemView.setId(R.id.layout_parent);
-            iv_achievement_logo = (ImageView) itemView.findViewById(R.id.achievement_logo);
-            tv_achievement_content = (TextView) itemView.findViewById(R.id.achievement_content);
+//            iv_achievement_logo = (ImageView) itemView.findViewById(R.id.achievement_logo);
+//            tv_achievement_content = (TextView) itemView.findViewById(R.id.achievement_content);
         }
     }
 }

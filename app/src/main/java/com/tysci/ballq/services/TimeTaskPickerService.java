@@ -199,7 +199,7 @@ public class TimeTaskPickerService extends BaseService implements Runnable {
 
             @Override
             public void onError(Call call, Exception error) {
-                KLog.e();
+                error.printStackTrace();
             }
 
             @Override

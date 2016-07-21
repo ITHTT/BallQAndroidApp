@@ -6,20 +6,26 @@
     android:paddingLeft="@dimen/dimen10dp"
     android:paddingRight="@dimen/dimen10dp">
 
-    <TextView
-        android:id="@+id/tv_had_got_achievement"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/dimen10dp"
-        android:text="已选择展示的成就:"
-        android:textColor="#3a3a3a"
-        android:typeface="monospace" />
-
-    <View
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dimen1dp"
-        android:layout_marginTop="@dimen/dimen5dp"
-        android:background="#dedfe4" />
+        android:id="@+id/layout_had_got_achievement"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dimen10dp"
+            android:text="已选择展示的成就:"
+            android:textColor="#3a3a3a"
+            android:typeface="monospace" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dimen1dp"
+            android:layout_marginTop="@dimen/dimen5dp"
+            android:background="#dedfe4" />
+    </LinearLayout>
 
     <RelativeLayout
         android:id="@+id/layout_showing_achievement"

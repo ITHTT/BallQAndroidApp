@@ -20,7 +20,7 @@
         android:layout_height="@dimen/dimen45dp"
         android:layout_marginTop="@dimen/dimen10dp"
         android:contentDescription="@string/app_name"
-        android:src="@mipmap/ic_launcher" />
+        android:src="@mipmap/icon_user_achievement_circle_mark" />
 
     <TextView
         android:id="@+id/achievement_content"

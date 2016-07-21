@@ -24,7 +24,7 @@ import java.util.List;
  * @author LinDe
  */
 public final class UserAchievementHeaderView extends LinearLayout implements View.OnClickListener {
-    private TextView tv_had_got_achievement;// 已选择展示的成就提示
+    private ViewGroup layout_had_got_achievement;// 已选择展示的成就提示
     private ViewGroup layout_showing_achievement;// 展示的成就
 
     private ImageView user_showing_achievement_1, user_showing_achievement_2;
@@ -56,7 +56,7 @@ public final class UserAchievementHeaderView extends LinearLayout implements Vie
     private void initializing(Context context) {
         LayoutInflater.from(context).inflate(R.layout.layout_user_showing_achievement_header, this, true);
 
-        tv_had_got_achievement = (TextView) findViewById(R.id.tv_had_got_achievement);
+        layout_had_got_achievement = (ViewGroup) findViewById(R.id.layout_had_got_achievement);
         layout_showing_achievement = (ViewGroup) findViewById(R.id.layout_showing_achievement);
 
         user_showing_achievement_1 = (ImageView) findViewById(R.id.user_showing_achievement_1);
@@ -74,10 +74,10 @@ public final class UserAchievementHeaderView extends LinearLayout implements Vie
      */
     public void setShowingLayoutVisibile(boolean isShow) {
         if (isShow) {
-            tv_had_got_achievement.setVisibility(VISIBLE);
+            layout_had_got_achievement.setVisibility(VISIBLE);
             layout_showing_achievement.setVisibility(VISIBLE);
         } else {
-            tv_had_got_achievement.setVisibility(GONE);
+            layout_had_got_achievement.setVisibility(GONE);
             layout_showing_achievement.setVisibility(GONE);
         }
     }
