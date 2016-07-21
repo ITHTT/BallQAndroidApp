@@ -15,8 +15,6 @@ import java.util.List;
 public abstract class WrapRecyclerAdapter<Bean, VH extends ButterKnifeRecyclerViewHolder> extends RecyclerView.Adapter<VH> {
     private List<Bean> dataList;
 
-    protected Bean beanData;
-
     public WrapRecyclerAdapter() {
         this(null);
     }

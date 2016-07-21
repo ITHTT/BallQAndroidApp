@@ -120,9 +120,9 @@ public class BallQTipOffFragment extends BaseFragment implements View.OnClickLis
         fragments.add(fragment);
         fragment = new BallQHomeBallWarpListFragment();
         fragments.add(fragment);
-        fragment = new BallQFindCircleNoteListFragment();
+        fragment = new BallQTipOffVideoListFragment();
         fragments.add(fragment);
-        fragment = new UserAttentionMatchListFragment();
+        fragment = new UserAttentionAllFragment();
         fragments.add(fragment);
         BallQFragmentPagerAdapter adapter = new BallQFragmentPagerAdapter(getChildFragmentManager(), titles, fragments);
         viewPager.setAdapter(adapter);

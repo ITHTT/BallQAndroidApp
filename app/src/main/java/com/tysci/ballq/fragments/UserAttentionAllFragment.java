@@ -4,22 +4,21 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.tysci.ballq.base.AppSwipeRefreshLoadMoreRecyclerViewFragment;
-import com.tysci.ballq.modles.BallQMatchEntity;
+import com.tysci.ballq.modles.JsonParams;
+import com.tysci.ballq.modles.UserAttentionListEntity;
 import com.tysci.ballq.modles.UserInfoEntity;
 import com.tysci.ballq.networks.HttpClientUtil;
 import com.tysci.ballq.networks.HttpUrls;
-import com.tysci.ballq.utils.CommonUtils;
 import com.tysci.ballq.utils.KLog;
 import com.tysci.ballq.utils.ToastUtil;
 import com.tysci.ballq.utils.UserInfoUtil;
-import com.tysci.ballq.views.adapters.BallQMatchAdapter;
+import com.tysci.ballq.views.adapters.UserAttentionListAdapter;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 import okhttp3.Call;
 import okhttp3.Request;
@@ -29,9 +28,8 @@ import okhttp3.Request;
  *
  * @author LinDe edit
  */
-public class UserAttentionMatchListFragment extends AppSwipeRefreshLoadMoreRecyclerViewFragment {
-    private List<BallQMatchEntity> matchEntityList;
-    private BallQMatchAdapter adapter = null;
+public class UserAttentionAllFragment extends AppSwipeRefreshLoadMoreRecyclerViewFragment {
+    private UserAttentionListAdapter adapter = null;
 
     @Override
     protected void onLoadMoreData() {
@@ -67,8 +65,8 @@ public class UserAttentionMatchListFragment extends AppSwipeRefreshLoadMoreRecyc
     private void requestDatas(final int pages, final boolean isLoadMore) {
         //noinspection StringBufferReplaceableByString
         StringBuilder sb = new StringBuilder();
-        sb.append(HttpUrls.HOST_URL_V6);
-        sb.append("matches/following/");
+        sb.append(HttpUrls.HOST_URL);
+        sb.append("/api/ares/user/subscribe/");
         sb.append("?p=").append(pages);
 
         HashMap<String, String> params = null;
@@ -108,48 +106,72 @@ public class UserAttentionMatchListFragment extends AppSwipeRefreshLoadMoreRecyc
             public void onSuccess(Call call, String response) {
                 KLog.json(response);
                 hideLoad();
-                if (!TextUtils.isEmpty(response)) {
-                    JSONObject obj = JSONObject.parseObject(response);
-                    if (obj != null && !obj.isEmpty() && obj.getIntValue("status") == 0) {
-                        JSONArray arrays = obj.getJSONArray("data");
-                        if (arrays != null && !arrays.isEmpty()) {
-                            hideLoad();
-                            if (matchEntityList == null) {
-                                matchEntityList = new ArrayList<BallQMatchEntity>(10);
-                            }
-                            if (!isLoadMore) {
-                                if (!matchEntityList.isEmpty()) {
-                                    matchEntityList.clear();
-                                }
-                            }
-                            CommonUtils.getJSONListObject(arrays, matchEntityList, BallQMatchEntity.class);
-                            if (adapter == null) {
-                                adapter = new BallQMatchAdapter(matchEntityList);
-                                adapter.setTag(Tag);
-                                adapter.setMatchType(1);
-                                recyclerView.setAdapter(adapter);
-                            } else {
-                                adapter.notifyDataSetChanged();
-                            }
-                            if (arrays.size() < 10) {
-                                recyclerView.setLoadMoreDataComplete();
-                            } else {
-                                recyclerView.setStartLoadMore();
-                                if (isLoadMore) {
-                                    currentPages++;
-                                } else {
-                                    currentPages = 2;
-                                }
-                            }
-                            return;
-                        }
+//                mtype 1 比赛 2爆料 3球茎
+                JSONObject object = JSON.parseObject(response);
+                if (!JsonParams.isJsonRight(object)) {
+                    if (!isLoadMore) {
+                        showEmptyInfo();
                     }
+                    return;
                 }
-                if (isLoadMore) {
-                    recyclerView.setLoadMoreDataFailed();
-                } else if (adapter == null) {
-                    showEmptyInfo();
+
+                if (adapter == null) {
+                    adapter = new UserAttentionListAdapter();
+                    recyclerView.setAdapter(adapter);
                 }
+
+                JSONArray data = object.getJSONArray("data");
+
+                if (data == null || data.isEmpty()) {
+                    if (isLoadMore) {
+                        recyclerView.setLoadMoreDataComplete();
+                    } else {
+                        showEmptyInfo();
+                    }
+                } else if (data.size() < 10) {
+                    adapter.addDataList(data, isLoadMore, UserAttentionListEntity.class);
+                    recyclerView.setLoadMoreDataComplete();
+                } else {
+                    adapter.addDataList(data, isLoadMore, UserAttentionListEntity.class);
+                    recyclerView.setStartLoadMore();
+                }
+//                if (!TextUtils.isEmpty(response)) {
+//                    JSONObject obj = JSONObject.parseObject(response);
+//                    if (obj != null && !obj.isEmpty() && obj.getIntValue("status") == 0) {
+//                        JSONArray arrays = obj.getJSONArray("data");
+//                        if (arrays != null && !arrays.isEmpty()) {
+//                            hideLoad();
+//                            if (matchEntityList == null) {
+//                                matchEntityList = new ArrayList<BallQMatchEntity>(10);
+//                            }
+//                            if (!isLoadMore) {
+//                                if (!matchEntityList.isEmpty()) {
+//                                    matchEntityList.clear();
+//                                }
+//                            }
+//                            CommonUtils.getJSONListObject(arrays, matchEntityList, BallQMatchEntity.class);
+//                            if (adapter == null) {
+//                                adapter = new BallQMatchAdapter(matchEntityList);
+//                                adapter.setTag(Tag);
+//                                adapter.setMatchType(1);
+//                                recyclerView.setAdapter(adapter);
+//                            } else {
+//                                adapter.notifyDataSetChanged();
+//                            }
+//                            if (arrays.size() < 10) {
+//                                recyclerView.setLoadMoreDataComplete();
+//                            } else {
+//                                recyclerView.setStartLoadMore();
+//                                if (isLoadMore) {
+//                                    currentPages++;
+//                                } else {
+//                                    currentPages = 2;
+//                                }
+//                            }
+//                            return;
+//                        }
+//                    }
+//                }
             }
 
             @Override
@@ -178,7 +200,7 @@ public class UserAttentionMatchListFragment extends AppSwipeRefreshLoadMoreRecyc
             if (action.equals("attention_refresh")) {
                 if (adapter != null) {
                     if (adapter.getItemCount() > 0) {
-                        matchEntityList.clear();
+                        adapter.clear();
                         adapter.notifyDataSetChanged();
                     }
                 }
@@ -202,8 +224,8 @@ public class UserAttentionMatchListFragment extends AppSwipeRefreshLoadMoreRecyc
     protected void userExit() {
         super.userExit();
         HttpClientUtil.getHttpClientUtil().cancelTag(Tag);
-        if (matchEntityList != null && !matchEntityList.isEmpty()) {
-            matchEntityList.clear();
+        if (!adapter.isEmpty()) {
+            adapter.clear();
             adapter.notifyDataSetChanged();
         }
         showEmptyInfo("您尚未登录,登录后才可查看", "点击登录", new View.OnClickListener() {

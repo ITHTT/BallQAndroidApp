@@ -28,8 +28,8 @@ public class MatchBettingInfoUtil {
     }
 
     public static String getNoTypeBettingResultInfo(String choice, String otype, String odata) {
-        if(!TextUtils.isEmpty(choice)&&!TextUtils.isEmpty(otype)&&!TextUtils.isEmpty(odata)){
-            JSONObject oddsInfo =JSONObject.parseObject(odata);
+        if (!TextUtils.isEmpty(choice) && !TextUtils.isEmpty(otype) && !TextUtils.isEmpty(odata)) {
+            JSONObject oddsInfo = JSONObject.parseObject(odata);
 
             String team = "";
 //        String oddsType;
@@ -98,8 +98,10 @@ public class MatchBettingInfoUtil {
         return null;
     }
 
-    public static String getBettingResultInfo(String choice, String otype, String odata) {
-        if(!TextUtils.isEmpty(choice)&&!TextUtils.isEmpty(otype)&&!TextUtils.isEmpty(odata)){
+    public static <T> String getBettingResultInfo(T _choice, T _otype, String odata) {
+        String choice = _choice.toString();
+        String otype = _otype.toString();
+        if (!TextUtils.isEmpty(choice) && !TextUtils.isEmpty(otype) && !TextUtils.isEmpty(odata)) {
             JSONObject oddsInfo = JSONObject.parseObject(odata);
             String team = "";
             String oddsType;
@@ -167,7 +169,6 @@ public class MatchBettingInfoUtil {
         }
         return null;
     }
-
 
 
 }
