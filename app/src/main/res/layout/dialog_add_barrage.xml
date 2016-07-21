@@ -45,20 +45,41 @@
             android:textSize="13sp" />
     </LinearLayout>
 
-    <TextView
-        android:id="@+id/tvCommit"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="20dp"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
-        android:layout_marginTop="20dp"
-        android:background="@drawable/icon_button_login_or_register_bg"
-        android:enabled="true"
-        android:textSize="13sp"
-        android:gravity="center"
-        android:paddingBottom="10dp"
-        android:paddingTop="10dp"
-        android:text="发送弹幕"
-        android:textColor="#ffffff" />
+        android:layout_marginTop="20dp">
+        <TextView
+            android:id="@+id/tvCancel"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/icon_button_login_or_register_bg"
+            android:enabled="true"
+            android:textSize="13sp"
+            android:gravity="center"
+            android:paddingBottom="10dp"
+            android:paddingTop="10dp"
+            android:text="取消"
+            android:textColor="#ffffff" />
+        <TextView
+            android:id="@+id/tvCommit"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginLeft="10dp"
+            android:background="@drawable/icon_button_login_or_register_bg"
+            android:enabled="true"
+            android:textSize="13sp"
+            android:gravity="center"
+            android:paddingBottom="10dp"
+            android:paddingTop="10dp"
+            android:text="发送弹幕"
+            android:textColor="#ffffff" />
+    </LinearLayout>
+
+
 </LinearLayout>

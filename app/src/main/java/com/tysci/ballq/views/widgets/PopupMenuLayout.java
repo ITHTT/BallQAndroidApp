@@ -8,11 +8,11 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.FrameLayout;
-import android.widget.ImageView;
 
 import com.nineoldandroids.animation.Animator;
 import com.nineoldandroids.animation.ObjectAnimator;
 import com.tysci.ballq.R;
+import com.tysci.ballq.utils.CommonUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,9 +37,9 @@ public class PopupMenuLayout extends FrameLayout {
     /**菜单项与目标视图间的间距*/
     private int itemToTargetPadding=20;
     /**动画时间*/
-    private int duration = 500;
+    private int duration = 300;
     /**延迟单位时间*/
-    private int delay=100;
+    private int delay=80;
     /**目标视图*/
     private View targetView;
     /**目标视图相对于该视图的位置*/
@@ -79,10 +79,10 @@ public class PopupMenuLayout extends FrameLayout {
         menuItems=new ArrayList<>(5);
         if(attrs!=null){
             TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.CircleImageView);
-            menuItemWidth=a.getDimensionPixelSize(R.styleable.PopupMenuLayout_menu_item_width,45);
-            menuItemHeight=a.getDimensionPixelSize(R.styleable.PopupMenuLayout_menu_item_height,45);
-            itemPadding=a.getDimensionPixelSize(R.styleable.PopupMenuLayout_menu_item_padding,10);
-            itemToTargetPadding=a.getDimensionPixelSize(R.styleable.PopupMenuLayout_menu_target_padding,20);
+            menuItemWidth=a.getDimensionPixelSize(R.styleable.PopupMenuLayout_menu_item_width, CommonUtils.dip2px(context,45));
+            menuItemHeight=a.getDimensionPixelSize(R.styleable.PopupMenuLayout_menu_item_height,CommonUtils.dip2px(context,45));
+            itemPadding=a.getDimensionPixelSize(R.styleable.PopupMenuLayout_menu_item_padding,CommonUtils.dip2px(context,10));
+            itemToTargetPadding=a.getDimensionPixelSize(R.styleable.PopupMenuLayout_menu_target_padding,CommonUtils.dip2px(context,20));
             a.recycle();
         }
     }
@@ -103,7 +103,7 @@ public class PopupMenuLayout extends FrameLayout {
                     LayoutParams layoutParams = new LayoutParams(menuItemWidth, menuItemWidth);
                     layoutParams.leftMargin=targetX+targetView.getWidth()/2-menuItemWidth/2;
                     addView(view,layoutParams);
-                    view.setVisibility(View.INVISIBLE);
+                    view.setVisibility(View.GONE);
                     menuItems.add(view);
                 }
             }
@@ -112,15 +112,15 @@ public class PopupMenuLayout extends FrameLayout {
         view.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(!isShowingAnimationPlaying&&!isHideAnimationPlaying) {
-                    if(!isShowing) {
+                if (!isShowingAnimationPlaying && !isHideAnimationPlaying) {
+                    if (!isShowing) {
                         showAnimation();
-                        if(onPopupMenuShowListener!=null){
+                        if (onPopupMenuShowListener != null) {
                             onPopupMenuShowListener.onMenuShow();
                         }
-                    }else{
+                    } else {
                         hideAnimation();
-                        if(onPopupMenuShowListener!=null){
+                        if (onPopupMenuShowListener != null) {
                             onPopupMenuShowListener.onMenuDimiss();
                         }
                     }
@@ -142,6 +142,21 @@ public class PopupMenuLayout extends FrameLayout {
         }
     }
 
+    public void toggle(){
+        if(!isShowingAnimationPlaying&&!isHideAnimationPlaying) {
+            if(!isShowing) {
+                showAnimation();
+                if(onPopupMenuShowListener!=null){
+                    onPopupMenuShowListener.onMenuShow();
+                }
+            }else{
+                hideAnimation();
+                if(onPopupMenuShowListener!=null){
+                    onPopupMenuShowListener.onMenuDimiss();
+                }
+            }
+        }
+    }
 
     /**
      * 显示动画
@@ -152,7 +167,7 @@ public class PopupMenuLayout extends FrameLayout {
         int size=menuItems.size();
        for(int i=0;i<size;i++){
            final int position=i;
-                    View imageView=menuItems.get(i);
+                    final View imageView=menuItems.get(i);
                     imageView.setVisibility(View.VISIBLE);
                     imageView.bringToFront();
                     ObjectAnimator yAnimator = ObjectAnimator.ofFloat(imageView, "y", targetY+targetView.getHeight() / 2-20, targetY+targetView.getHeight()+itemToTargetPadding + (size-i-1) * (menuItemHeight + itemPadding));
@@ -170,6 +185,7 @@ public class PopupMenuLayout extends FrameLayout {
                             if(position==4){
                                 isShowingAnimationPlaying=false;
                             }
+                            imageView.setClickable(true);
                         }
 
                         @Override
@@ -209,7 +225,7 @@ public class PopupMenuLayout extends FrameLayout {
         int size=menuItems.size();
         for(int i=0;i<size;i++){
             final int position=i;
-            View imageView=menuItems.get(i);
+            final View imageView=menuItems.get(i);
             imageView.bringToFront();
             ObjectAnimator yAnimator = ObjectAnimator.ofFloat(imageView, "y",targetY+targetView.getHeight() +itemToTargetPadding+ (size-i-1) * (menuItemHeight + itemPadding),targetY+targetView.getHeight() / 2-20);
             yAnimator.setDuration(duration);
@@ -226,6 +242,7 @@ public class PopupMenuLayout extends FrameLayout {
                     if(position==4){
                         isHideAnimationPlaying=false;
                     }
+                    imageView.setClickable(false);
                 }
 
                 @Override
@@ -256,6 +273,14 @@ public class PopupMenuLayout extends FrameLayout {
             scaleYAnimator.setStartDelay((size-i-1)*delay);
             scaleYAnimator.start();
         }
+    }
+
+    public List<View> getMenuItems() {
+        return menuItems;
+    }
+
+    public boolean isShowing(){
+        return this.isShowing;
     }
 
     public interface OnPopupMenuShowListener{

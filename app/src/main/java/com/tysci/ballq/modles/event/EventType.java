@@ -12,4 +12,6 @@ public class EventType {
     public static final String EVENT_REFRESH_USER_INFO="event_user_info";
 
     public static final String EVENT_WECHAT_SHARE_SUCCESS="event_wechat_share_success";
+
+    public static final String EVENT_WECHAT_PAY_SUCCESS="event_wechat_pay_success";
 }

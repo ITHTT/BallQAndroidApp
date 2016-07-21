@@ -33,7 +33,7 @@ public class BallQMatchListFragment extends AppSwipeRefreshLoadMoreRecyclerViewF
     private int type;
     private String selectDate;
     /**过滤参数*/
-    private String filter;
+    private String filter="";
     /**联赛ID*/
     private String leagueIds=null;
 

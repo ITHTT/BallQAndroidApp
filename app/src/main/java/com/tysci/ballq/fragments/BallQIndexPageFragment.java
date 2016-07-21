@@ -209,12 +209,13 @@ public class BallQIndexPageFragment extends BaseFragment implements SwipeRefresh
         JSONObject item;
 
         item = eventsArray.getJSONObject(0);
+        //menuFightGou.setTag(item);
         ImageUtil.loadImage(menuFightGou, item.getString("pic_url"));
-        menuFightGou.setTag(item);
 
         item = eventsArray.getJSONObject(1);
+        //menuGetGold.setTag(item);
         ImageUtil.loadImage(menuGetGold, item.getString("pic_url"));
-        menuGetGold.setTag(item);
+
     }
 
     private void setBannerPictures(JSONArray picArray) {
@@ -283,10 +284,10 @@ public class BallQIndexPageFragment extends BaseFragment implements SwipeRefresh
         Intent intent = null;
         switch (id) {
             case R.id.iv_fight_ballq_gou:
-                intent = new Intent(baseActivity, BallQGreatWarGoActivity.class);
+                //intent = new Intent(baseActivity, BallQGreatWarGoActivity.class);
                 break;
             case R.id.iv_get_ballq_gold:
-                intent=new Intent(baseActivity, BallQMainUserRankingListActivity.class);
+                intent=new Intent(baseActivity, BallQGreatWarGoActivity.class);
                 break;
         }
         if (intent != null) {

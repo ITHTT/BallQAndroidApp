@@ -38,7 +38,6 @@ import com.tysci.ballq.utils.MatchBettingInfoUtil;
 import com.tysci.ballq.utils.SoftInputUtil;
 import com.tysci.ballq.utils.ToastUtil;
 import com.tysci.ballq.utils.UserInfoUtil;
-import com.tysci.ballq.views.adapters.BallQHomeTipOffAdapter;
 import com.tysci.ballq.views.adapters.BallQUserCommentAdapter;
 import com.tysci.ballq.views.adapters.BallQUserRewardHeaderAdapter;
 import com.tysci.ballq.views.dialogs.LoadingProgressDialog;
@@ -47,7 +46,6 @@ import com.tysci.ballq.views.interfaces.OnLongClickUserHeaderListener;
 import com.tysci.ballq.views.widgets.CircleImageView;
 import com.tysci.ballq.views.widgets.CustomRattingBar;
 import com.tysci.ballq.views.widgets.loadmorerecyclerview.AutoLoadMoreRecyclerView;
-import com.tysci.ballq.wxapi.WXPayEntryActivity;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -79,6 +77,7 @@ public class BallQTipOffDetailActivity extends BaseActivity implements SwipeRefr
     protected TextView tvGuess;
     @Bind(R.id.btnPublish)
     protected Button btPublish;
+    private ImageView ivAttention;
 
     private View headerView;
     private BallQTipOffEntity tipOffInfo = null;
@@ -306,9 +305,9 @@ public class BallQTipOffDetailActivity extends BaseActivity implements SwipeRefr
         view.findViewById(R.id.iv_home_team_icon).setOnClickListener(this);
         view.findViewById(R.id.iv_away_team_icon).setOnClickListener(this);
         view.findViewById(R.id.layout_other_tips).setOnClickListener(this);
-        ImageView ivAttention= (ImageView) view.findViewById(R.id.iv_attention);
+        ivAttention= (ImageView) view.findViewById(R.id.iv_attention);
         ivAttention.setOnClickListener(this);
-        ivAttention.setSelected(data.getIsc()==1);
+        ivAttention.setSelected(data.getIsf()==1);
 
         JCVideoPlayerStandard jcVideoPlayer= (JCVideoPlayerStandard) view.findViewById(R.id.videoplayer);
         if(data.getRichtext_type()==2){
@@ -621,11 +620,7 @@ public class BallQTipOffDetailActivity extends BaseActivity implements SwipeRefr
                 showShareDialog();
                 break;
             case R.id.iv_attention:
-                if(UserInfoUtil.checkLogin(this)){
-                    userCollection(view);
-                }else{
-                    UserInfoUtil.userLogin(this);
-                }
+                userAttention();
                 break;
             case R.id.layout_match_info:
             case R.id.layout_other_tips:
@@ -651,67 +646,55 @@ public class BallQTipOffDetailActivity extends BaseActivity implements SwipeRefr
         }
     }
 
-    private void userCollection(View view){
-        final ImageView ivAttention= (ImageView) view;
-        String url=null;
-        HashMap<String,String> params=new HashMap<>();
+    private void userAttention(){
         if(UserInfoUtil.checkLogin(this)){
+            String url= HttpUrls.HOST_URL_V5+ "follow/change/";
+            HashMap<String,String> params=new HashMap<>(4);
             params.put("user", UserInfoUtil.getUserId(this));
-            params.put("token",UserInfoUtil.getUserToken(this));
-        }else{
-            UserInfoUtil.userLogin(this);
-            return;
-        }
-        if(tipOffInfo.getIsc()==1){
-            /**用户已收藏,则取消收藏*/
-            url= HttpUrls.HOST_URL_V5 + "user/favorites/del/";
-            params.put("fid",String.valueOf(tipOffInfo.getFid()));
-        }else{
-            url=HttpUrls.HOST_URL_V5+"user/favorites/add/";
-            params.put("etype","0");
-            params.put("eid",String.valueOf(tipOffInfo.getId()));
-        }
-
-        HttpClientUtil.getHttpClientUtil().sendPostRequest(BallQHomeTipOffAdapter.class.getSimpleName(), url, params, new HttpClientUtil.StringResponseCallBack() {
-            @Override
-            public void onBefore(Request request) {
-
+            params.put("token", UserInfoUtil.getUserToken(this));
+            params.put("fid",String.valueOf(tipOffInfo.getUid()));
+            if(ivAttention.isSelected()){
+                params.put("change","0");
+            }else{
+                params.put("change","1");
             }
+            HttpClientUtil.getHttpClientUtil().sendPostRequest(BallQUserRankingListDetailActivity.class.getSimpleName(), url, params, new HttpClientUtil.StringResponseCallBack() {
+                @Override
+                public void onBefore(Request request) {
 
-            @Override
-            public void onError(Call call, Exception error) {
-                ToastUtil.show(BallQTipOffDetailActivity.this,"请求失败");
-            }
+                }
 
-            @Override
-            public void onSuccess(Call call, String response) {
-                KLog.json(response);
-                if(!TextUtils.isEmpty(response)){
-                    JSONObject obj=JSONObject.parseObject(response);
-                    if(obj!=null&&!obj.isEmpty()){
-                        int status=obj.getIntValue("status");
-                        if(status==0){
-                            if(tipOffInfo.getIsc()==1){
-                                tipOffInfo.setIsc(0);
-                                tipOffInfo.setFid(0);
-                                ivAttention.setSelected(false);
-                                ToastUtil.show(BallQTipOffDetailActivity.this,"取消收藏成功");
-                            }else{
+                @Override
+                public void onError(Call call, Exception error) {
+                    ToastUtil.show(BallQTipOffDetailActivity.this, "请求失败");
+                }
+
+                @Override
+                public void onSuccess(Call call, String response) {
+                    KLog.json(response);
+                    if (!TextUtils.isEmpty(response)) {
+                        JSONObject obj = JSONObject.parseObject(response);
+                        if (obj != null && !obj.isEmpty()) {
+                            int status = obj.getIntValue("status");
+                            ToastUtil.show(BallQTipOffDetailActivity.this, obj.getString("message"));
+                            if (status == 350) {
                                 ivAttention.setSelected(true);
-                                tipOffInfo.setIsc(1);
-                                tipOffInfo.setFid(obj.getIntValue("data"));
-                                ToastUtil.show(BallQTipOffDetailActivity.this, "收藏成功");
+                            } else if (status == 352) {
+                                ivAttention.setSelected(false);
                             }
                         }
                     }
                 }
-            }
 
-            @Override
-            public void onFinish(Call call) {
+                @Override
+                public void onFinish(Call call) {
 
-            }
-        });
+                }
+            });
+
+        }else{
+            UserInfoUtil.userLogin(this);
+        }
     }
 
     private void showShareDialog() {

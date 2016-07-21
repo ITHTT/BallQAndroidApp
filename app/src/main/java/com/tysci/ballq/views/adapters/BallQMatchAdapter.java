@@ -137,7 +137,7 @@ public class BallQMatchAdapter extends RecyclerView.Adapter<BallQMatchAdapter.Ba
 
 
     private void setMatchStateInfo(BallQMatchViewHolder holder, BallQMatchEntity data) {
-        KLog.e("group_id:" + data.getGroup_id());
+        //KLog.e("group_id:" + data.getGroup_id());
         int groupId=data.getGroup_id();
         switch (groupId) {
             case 0:

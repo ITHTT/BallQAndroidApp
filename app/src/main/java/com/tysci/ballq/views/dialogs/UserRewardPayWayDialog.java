@@ -20,6 +20,7 @@ import com.tysci.ballq.R;
 import com.tysci.ballq.networks.HttpClientUtil;
 import com.tysci.ballq.networks.HttpUrls;
 import com.tysci.ballq.utils.KLog;
+import com.tysci.ballq.utils.ToastUtil;
 import com.tysci.ballq.utils.UserInfoUtil;
 import com.tysci.ballq.views.widgets.LoadDataLayout;
 
@@ -57,7 +58,8 @@ public class UserRewardPayWayDialog extends Dialog implements View.OnClickListen
         tvUserMoneys=(TextView)this.findViewById(R.id.tvBalance);
         loadDataLayout.setLoadingTextColor(Color.parseColor("#ffffff"));
         this.findViewById(R.id.layoutPayWeChat).setOnClickListener(this);
-        this.findViewById(R.id.layoutPayWeChat).setOnClickListener(this);
+        this.findViewById(R.id.layoutPayBalance).setOnClickListener(this);
+        this.findViewById(R.id.tvCancel).setOnClickListener(this);
     }
 
     public void setTag(String tag){
@@ -156,11 +158,15 @@ public class UserRewardPayWayDialog extends Dialog implements View.OnClickListen
                 break;
             case R.id.layoutPayBalance:
                 if(rewardMoneys>userMoneys){
+                    ToastUtil.show(getContext(),"抱歉，您余额不足");
                     return;
                 }
                 if(onUserRewardListener!=null){
                     onUserRewardListener.onUserBalancePayWay(rewardMoneys);
                 }
+                break;
+            case R.id.tvCancel:
+                dismiss();
                 break;
         }
     }

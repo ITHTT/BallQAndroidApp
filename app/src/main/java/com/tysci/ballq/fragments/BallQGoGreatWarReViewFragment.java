@@ -273,13 +273,15 @@ public class BallQGoGreatWarReViewFragment extends BaseFragment implements BallQ
             @Override
             public void onError(Call call, Exception error) {
                 KLog.e("加载失败");
-                getView().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        //currentPages = 1;
-                        getDanmakuInfos(pages);
-                    }
-                }, 2000);
+                if(contentView!=null) {
+                    contentView.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            //currentPages = 1;
+                            getDanmakuInfos(pages);
+                        }
+                    }, 2000);
+                }
             }
 
             @Override

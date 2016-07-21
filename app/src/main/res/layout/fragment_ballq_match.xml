@@ -4,8 +4,8 @@
     android:id="@+id/popmenu"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    app:menu_item_width="45dp"
-    app:menu_item_height="45dp"
+    app:menu_item_width="50dp"
+    app:menu_item_height="50dp"
     app:menu_item_padding="12dp"
     app:menu_target_padding="20dp">
     <include

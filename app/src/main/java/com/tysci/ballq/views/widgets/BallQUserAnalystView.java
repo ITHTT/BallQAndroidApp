@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.os.Build;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -32,6 +33,7 @@ public class BallQUserAnalystView extends LinearLayout{
     private TextView tvWins;
     private TextView tvPopularity;
     private TextView tvUserBreif;
+    private BallQAuthorAnalystsEntity authorAnalystsEntity=null;
 
     public BallQUserAnalystView(Context context) {
         super(context);
@@ -68,12 +70,21 @@ public class BallQUserAnalystView extends LinearLayout{
         tvUserBreif=(TextView)this.findViewById(R.id.tv_user_brief);
     }
 
-    public void setBallQAuthorAnalystsInfo(BallQAuthorAnalystsEntity info){
+    public void setBallQAuthorAnalystsInfo(final BallQAuthorAnalystsEntity info){
+        this.authorAnalystsEntity=info;
         tvUserName.setText(info.getFname());
         GlideImageLoader.loadImage(getContext(), info.getPt(), R.mipmap.icon_user_default, ivUserHeader);
         UserInfoUtil.setUserHeaderVMark(0, iV, ivUserHeader);
         tvUserBreif.setText(info.getNote());
         CommonUtils.setTextViewFormatString(tvUserRankInfo, info.getRank_type() + "第" + info.getRank() + "名", String.valueOf(info.getRank()), Color.parseColor("#ff0000"), 1f);
-        tvWins.setText("胜率: "+String.format(Locale.getDefault(),"%.0f",100*info.getWins())+"%");
+        tvWins.setText("胜率: " + String.format(Locale.getDefault(), "%.0f", 100 * info.getWins()) + "%");
+        tvPopularity.setText("人气: "+String.valueOf(info.getFcount()));
+        tvTipCount.setText("爆料数: "+info.getTips_count());
+        ivUserHeader.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                UserInfoUtil.lookUserInfo(getContext(),info.getUid());
+            }
+        });
     }
 }

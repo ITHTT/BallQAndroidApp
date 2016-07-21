@@ -128,6 +128,7 @@ public class BallQMatchTeamTipOffHistoryActivity extends BaseActivity implements
             @Override
             public void onError(Call call, Exception error) {
                 if(!isLoadMore){
+                    recyclerView.setRefreshComplete();
                     if(adapter!=null) {
                         recyclerView.setStartLoadMore();
                     }else{
@@ -153,12 +154,7 @@ public class BallQMatchTeamTipOffHistoryActivity extends BaseActivity implements
             @Override
             public void onFinish(Call call) {
                 if(!isLoadMore){
-                    if(recyclerView!=null){
-                        recyclerView.setRefreshComplete();
-                    }
                     onRefreshCompelete();
-                }else{
-                    recyclerView.setLoadMoreDataFailed();
                 }
             }
         });

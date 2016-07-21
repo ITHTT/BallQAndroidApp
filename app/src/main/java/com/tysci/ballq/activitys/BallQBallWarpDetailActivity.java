@@ -9,6 +9,7 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.EditText;
@@ -70,6 +71,7 @@ public class BallQBallWarpDetailActivity extends BaseActivity implements SwipeRe
     protected ImageView ivLike;
     @Bind(R.id.btnPublish)
     protected Button btPublish;
+    private ImageView ivAttention;
 
     private View headerView=null;
     private BallQBallWarpInfoEntity ballWarpInfo=null;
@@ -101,11 +103,13 @@ public class BallQBallWarpDetailActivity extends BaseActivity implements SwipeRe
     @Override
     protected void initViews() {
         setTitle("球经详情");
-        titleBar.setRightMenuIcon(R.mipmap.icon_share_gold,this);
+        titleBar.setRightMenuIcon(R.mipmap.icon_share_gold, this);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setOnLoadMoreListener(this);
+        recyclerView.setBackgroundResource(R.color.white);
         swipeRefresh.setOnRefreshListener(this);
         headerView= LayoutInflater.from(this).inflate(R.layout.layout_ballq_ball_warp_header,null);
+        headerView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
         recyclerView.addHeaderView(headerView);
         ivLike.setOnClickListener(this);
 
@@ -282,6 +286,10 @@ public class BallQBallWarpDetailActivity extends BaseActivity implements SwipeRe
         ivUserCollect.setOnClickListener(this);
         TextView tvTitle=(TextView)view.findViewById(R.id.tvTitle);
         FrameLayout webLayout=(FrameLayout)view.findViewById(R.id.webLayout);
+        view.findViewById(R.id.bt_rewards).setOnClickListener(this);
+        ivAttention= (ImageView) view.findViewById(R.id.iv_attention);
+        ivAttention.setSelected(data.getIsf()==1);
+        ivAttention.setOnClickListener(this);
 
         GlideImageLoader.loadImage(this, data.getPt(), R.mipmap.icon_user_default, ivUserHeader);
         UserInfoUtil.setUserHeaderVMark(data.getIsv(), isV, ivUserHeader);
@@ -304,7 +312,8 @@ public class BallQBallWarpDetailActivity extends BaseActivity implements SwipeRe
         WebView webView= WebViewUtil.getHtmlWebView(this, data.getCont());
         if(webView!=null){
             if(webLayout.getChildCount()==0){
-                webLayout.addView(webView);
+                FrameLayout.LayoutParams layoutParams=new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                webLayout.addView(webView,layoutParams);
             }
         }
         if(data.getIs_like()==1){
@@ -588,6 +597,18 @@ public class BallQBallWarpDetailActivity extends BaseActivity implements SwipeRe
             case R.id.iv_titlebar_next_menu01:
                 showShareDialog();
                 break;
+            case R.id.iv_attention:
+                userAttention();
+                break;
+            case R.id.bt_rewards:
+                if(ballWarpInfo!=null){
+                    if (UserInfoUtil.checkLogin(this)) {
+                        UserRewardActivity.userReward(this, "article", String.valueOf(ballWarpInfo.getUid()), ballWarpInfo.getId(), ballWarpInfo.getPt(), ballWarpInfo.getIsv());
+                    } else {
+                        UserInfoUtil.userLogin(this);
+                    }
+                }
+                break;
         }
     }
 
@@ -667,7 +688,7 @@ public class BallQBallWarpDetailActivity extends BaseActivity implements SwipeRe
             recyclerView.postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    requestBallWarpComments(ballWarpInfo.getId(),currentPages,true);
+                    requestBallWarpComments(ballWarpInfo.getId(), currentPages, true);
                 }
             }, 300);
         }
@@ -763,5 +784,55 @@ public class BallQBallWarpDetailActivity extends BaseActivity implements SwipeRe
                 dimssProgressDialog();
             }
         });
+    }
+
+    private void userAttention(){
+        if(UserInfoUtil.checkLogin(this)){
+            String url= HttpUrls.HOST_URL_V5+ "follow/change/";
+            HashMap<String,String> params=new HashMap<>(4);
+            params.put("user", UserInfoUtil.getUserId(this));
+            params.put("token", UserInfoUtil.getUserToken(this));
+            params.put("fid",String.valueOf(ballWarpInfo.getUid()));
+            if(ivAttention.isSelected()){
+                params.put("change","0");
+            }else{
+                params.put("change","1");
+            }
+            HttpClientUtil.getHttpClientUtil().sendPostRequest(BallQUserRankingListDetailActivity.class.getSimpleName(), url, params, new HttpClientUtil.StringResponseCallBack() {
+                @Override
+                public void onBefore(Request request) {
+
+                }
+
+                @Override
+                public void onError(Call call, Exception error) {
+                    ToastUtil.show(BallQBallWarpDetailActivity.this, "请求失败");
+                }
+
+                @Override
+                public void onSuccess(Call call, String response) {
+                    KLog.json(response);
+                    if(!TextUtils.isEmpty(response)){
+                        JSONObject obj=JSONObject.parseObject(response);
+                        if(obj!=null&&!obj.isEmpty()){
+                            int status=obj.getIntValue("status");
+                            ToastUtil.show(BallQBallWarpDetailActivity.this, obj.getString("message"));
+                            if(status==350){
+                                ivAttention.setSelected(true);
+                            }else if(status==352){
+                                ivAttention.setSelected(false);
+                            }
+                        }
+                    }
+                }
+                @Override
+                public void onFinish(Call call) {
+
+                }
+            });
+
+        }else{
+            UserInfoUtil.userLogin(this);
+        }
     }
 }

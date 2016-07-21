@@ -16,15 +16,15 @@ import android.widget.TextView;
 import com.tysci.ballq.R;
 
 /**
- * Created by Administrator on 2016/7/18.
+ * Created by Administrator on 2016/7/21.
  */
-public class BallQAddBarrageDialog extends Dialog {
+public class BallQInputMoneysDialog extends Dialog {
     private EditText etComment;
     private TextView tvPost;
     private TextView tvTitle;
-    private OnPostBarrageListener onPostBarrageListener=null;
+    private OnSubmitListener onSubmitListener;
 
-    public BallQAddBarrageDialog(Context context) {
+    public BallQInputMoneysDialog(Context context) {
         super(context, R.style.CustomDialogStyle);
         initViews(context);
     }
@@ -35,13 +35,13 @@ public class BallQAddBarrageDialog extends Dialog {
                 new ColorDrawable(Color.TRANSPARENT));
         setContentView(R.layout.dialog_add_barrage);
         etComment=(EditText)this.findViewById(R.id.editText1);
-        etComment.setInputType(InputType.TYPE_CLASS_TEXT);
-        etComment.setHint("输入弹幕内容");
-        tvTitle=(TextView)this.findViewById(R.id.tvTitle);
-        tvTitle.setText("添加弹幕");
         tvPost=(TextView)this.findViewById(R.id.tvCommit);
+        tvPost.setText("确定");
+        tvTitle=(TextView)this.findViewById(R.id.tvTitle);
+        tvTitle.setText("其他金额");
+        etComment.setHint("请输入金额(元)");
+        etComment.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
         tvPost.setEnabled(false);
-        tvPost.setText("发送弹幕");
         etComment.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -59,9 +59,11 @@ public class BallQAddBarrageDialog extends Dialog {
         tvPost.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (onPostBarrageListener != null) {
-                    onPostBarrageListener.onPostBarrage(etComment.getText().toString());
+                String text=etComment.getText().toString();
+                if(onSubmitListener!=null){
+                    onSubmitListener.onSubmit(text);
                 }
+                //dismiss();
             }
         });
 
@@ -73,11 +75,12 @@ public class BallQAddBarrageDialog extends Dialog {
         });
     }
 
-    public void setOnPostBarrageListener(OnPostBarrageListener onPostBarrageListener) {
-        this.onPostBarrageListener = onPostBarrageListener;
+    public void setOnSubmitListener(OnSubmitListener onSubmitListener) {
+        this.onSubmitListener = onSubmitListener;
     }
 
-    public interface OnPostBarrageListener{
-       void onPostBarrage(String content);
+    public interface OnSubmitListener{
+        void onSubmit(String text);
     }
+
 }

@@ -6,8 +6,10 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 
+import com.nineoldandroids.animation.ObjectAnimator;
 import com.tysci.ballq.R;
 import com.tysci.ballq.activitys.BallQMatchLeagueSelectActivity;
 import com.tysci.ballq.base.BaseFragment;
@@ -29,7 +31,7 @@ import butterknife.Bind;
  * Created by HTT on 2016/5/28.
  */
 public class BallQMatchFragment extends BaseFragment implements BallQMatchFilterDateAdapter.OnSelectDateListener,
-ViewPager.OnPageChangeListener,View.OnClickListener{
+ViewPager.OnPageChangeListener,View.OnClickListener,PopupMenuLayout.OnPopupMenuShowListener{
     @Bind(R.id.popmenu)
     protected PopupMenuLayout popupMenuLayout;
     @Bind(R.id.title_bar)
@@ -40,6 +42,8 @@ ViewPager.OnPageChangeListener,View.OnClickListener{
     protected RecyclerView rvDates;
     @Bind(R.id.view_pager)
     protected ViewPager viewPager;
+    @Bind(R.id.layout_tip_show)
+    protected FrameLayout layoutTipShow;
 
     private String[] titles={"足球","篮球","关注"};
 
@@ -52,7 +56,7 @@ ViewPager.OnPageChangeListener,View.OnClickListener{
     private UserAttentionMatchListFragment userAttentionMatchListFragment;
 
     private int currentPosition=0;
-    private String filter;
+    private String filter="";
 
     @Override
     protected int getViewLayoutId() {
@@ -77,10 +81,13 @@ ViewPager.OnPageChangeListener,View.OnClickListener{
     @Override
     protected void initViews(View view, Bundle savedInstanceState) {
         titleBar.setTitleBarTitle("竞技场");
-        titleBar.setTitleBarLeftIcon(R.mipmap.icon_match_filter,this);
-        titleBar.setRightMenuIcon(R.mipmap.icon_match_filter,this);
+        titleBar.setOnClickListener(this);
+        layoutTipShow.setOnClickListener(this);
+        titleBar.setTitleBarLeftIcon(R.mipmap.icon_match_filter_left, null);
+        titleBar.setRightMenuIcon(R.mipmap.icon_match_filter, this);
         addPopMenuItems();
         popupMenuLayout.setTargetView(titleBar.getLeftBack());
+        popupMenuLayout.setOnPopupMenuShowListener(this);
 
         LinearLayoutManager linearLayoutManager=new LinearLayoutManager(this.getActivity());
         linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
@@ -89,14 +96,20 @@ ViewPager.OnPageChangeListener,View.OnClickListener{
         viewPager.addOnPageChangeListener(this);
         getMatchFilterDateInfo();
         addContentFragments();
+
     }
 
     private void addPopMenuItems(){
-        int[] res={R.drawable.ballq_circle_first_selector,R.drawable.ballq_circle_share_selector,R.drawable.ballq_circle_collection_selector,
-                   R.drawable.ballq_circle_reward_selector};
-        for(int i=0;i<res.length;i++){
+        int[] res={R.drawable.match_filter_all_selector,R.drawable.match_filter_finished_selector,R.drawable.match_filter_doing_selector,
+                   R.drawable.match_filter_no_start_selector};
+        for(int i=res.length-1;i>=0;i--){
             ImageView imageView=new ImageView(baseActivity);
+            imageView.setId(res[i]);
+            imageView.setScaleType(ImageView.ScaleType.FIT_XY);
             imageView.setImageResource(res[i]);
+            if(i==0){
+                imageView.setSelected(true);
+            }
             imageView.setOnClickListener(this);
             popupMenuLayout.addMenu(imageView);
         }
@@ -219,17 +232,77 @@ ViewPager.OnPageChangeListener,View.OnClickListener{
         int id=v.getId();
         switch(id){
             case R.id.iv_titlebar_next_menu01:
-                matchLeagueFilter();
+                if(popupMenuLayout.isShowing()){
+                    popupMenuLayout.toggle();
+                }else {
+                    matchLeagueFilter();
+                }
                 break;
+            case R.id.title_bar:
+            case R.id.layout_tip_show:
+                if(popupMenuLayout.isShowing()){
+                    popupMenuLayout.toggle();
+                }
+        }
+        selecteMatch(v);
+    }
+
+    private void selecteMatch(View view){
+        int id=view.getId();
+        String filter="全部";
+        switch(id){
+            case R.drawable.match_filter_all_selector:
+                filter="";
+                popupMenuLayout.toggle();
+                break;
+            case R.drawable.match_filter_finished_selector:
+                filter="finished";
+                popupMenuLayout.toggle();
+                break;
+            case R.drawable.match_filter_doing_selector:
+                filter="ongoing";
+                popupMenuLayout.toggle();
+                break;
+            case R.drawable.match_filter_no_start_selector:
+                filter="not_started";
+                popupMenuLayout.toggle();
+                break;
+        }
+
+        if(!filter.equals("全部")){
+            if(!filter.equals(this.filter)){
+                setSelectedMenu(id);
+                this.filter=filter;
+                BallQMatchListFragment fragment=getCurrentMatchListFragment();
+                if(fragment!=null){
+                    fragment.filterUpdateData(filter,currentSelectedDate);
+                }
+            }
+        }
+    }
+
+    private void setSelectedMenu(int id){
+       List<View> views= popupMenuLayout.getMenuItems();
+        int size=views.size();
+        for(int i=0;i<size;i++){
+           ImageView imageView= (ImageView) views.get(i);
+            if(imageView.getId()==id){
+                imageView.setSelected(true);
+            }else{
+                imageView.setSelected(false);
+            }
         }
     }
 
     private void setMatchLeagueMenuVisibility(boolean isVi){
         View right=titleBar.getRightMenuImageView();
+        View left=titleBar.getLeftBack();
         if(isVi){
             right.setVisibility(View.VISIBLE);
+            left.setVisibility(View.VISIBLE);
         }else{
             right.setVisibility(View.GONE);
+            left.setVisibility(View.GONE);
         }
     }
 
@@ -238,5 +311,23 @@ ViewPager.OnPageChangeListener,View.OnClickListener{
         intent.putExtra("date",currentSelectedDate);
         intent.putExtra("etype",currentPosition);
         startActivity(intent);
+    }
+
+    @Override
+    public void onMenuShow() {
+        layoutTipShow.setVisibility(View.VISIBLE);
+        layoutTipShow.requestFocus();
+        ObjectAnimator objectAnimator=ObjectAnimator.ofFloat(layoutTipShow,"alpha",0f,1f);
+        objectAnimator.setDuration(300);
+        objectAnimator.start();
+    }
+
+    @Override
+    public void onMenuDimiss() {
+        layoutTipShow.clearFocus();
+        ObjectAnimator objectAnimator=ObjectAnimator.ofFloat(layoutTipShow,"alpha",1f,0f);
+        objectAnimator.setDuration(300);
+        objectAnimator.start();
+        layoutTipShow.setVisibility(View.GONE);
     }
 }

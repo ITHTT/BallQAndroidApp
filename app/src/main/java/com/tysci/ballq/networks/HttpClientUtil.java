@@ -291,6 +291,16 @@ public class HttpClientUtil {
                 if(call.isCanceled()){
                     return;
                 }
+                if(!response.isSuccessful()||response.code()!=200){
+                    devidlerHandler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            responseCallBack.onError(call, new Exception("请求响应失败，响应码:"+response.code()));
+                            responseCallBack.onFinish(call);
+                        }
+                    });
+                    return;
+                }
                 final Call resultCall = call;
                 String result = null;
                 Exception error=null;
@@ -307,12 +317,12 @@ public class HttpClientUtil {
                         if(TextUtils.isEmpty(finalResult)||finalError !=null) {
                             responseCallBack.onError(call, finalError);
                         }else{
-                            //try {
+                           // try {
                                 responseCallBack.onSuccess(call, finalResult);
                             //}catch(Exception e){
-                                //KLog.e(e.getMessage());
-                                //responseCallBack.onError(call,e);
-                            //}
+                               // KLog.e(e.getMessage());
+                               // responseCallBack.onError(call,e);
+                           // }
                         }
                         responseCallBack.onFinish(resultCall);
                     }

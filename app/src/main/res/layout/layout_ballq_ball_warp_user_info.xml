@@ -6,8 +6,7 @@
     android:paddingTop="5dp"
     android:paddingBottom="5dp"
     android:paddingLeft="12dp"
-    android:paddingRight="12dp"
-    android:background="@mipmap/icon_ballq_info_header_01">
+    android:paddingRight="12dp">
     <include
         android:id="@+id/layout_user_header"
         android:layout_width="50dp"
@@ -18,8 +17,8 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
         android:layout_toRightOf="@+id/layout_user_header"
-        android:layout_centerVertical="true"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:layout_marginTop="5dp">
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
@@ -28,7 +27,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="14sp"
-                android:textColor="#ffffff"
+                android:textColor="@color/gold"
                 android:typeface="monospace"
                 android:text=""/>
             <ImageView
@@ -45,7 +44,8 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp">
+            android:layout_marginTop="10dp"
+            android:visibility="gone">
             <ImageView
                 android:layout_width="15dp"
                 android:layout_height="15dp"
@@ -80,11 +80,11 @@
         </LinearLayout>
     </LinearLayout>
     <ImageView
-        android:id="@+id/iv_user_collection"
-        android:layout_width="22dp"
-        android:layout_height="22dp"
-        android:layout_marginRight="30dp"
+        android:id="@+id/iv_attention"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginRight="20dp"
         android:layout_alignParentRight="true"
-        android:layout_centerVertical="true"
-        android:src="@drawable/icon_user_collect_selector"/>
+        android:layout_marginTop="5dp"
+        android:src="@drawable/icon_user_push_attention_selector"/>
 </RelativeLayout>

@@ -14,6 +14,9 @@ public class BallQAuthorAnalystsEntity {
     private int earnings;
     private String fname;
     private float ror;
+    private int fcount;
+    private int isf;
+    private int tips_count;
 
     public String getRank_type() {
         return rank_type;
@@ -93,5 +96,29 @@ public class BallQAuthorAnalystsEntity {
 
     public void setRor(float ror) {
         this.ror = ror;
+    }
+
+    public int getFcount() {
+        return fcount;
+    }
+
+    public void setFcount(int fcount) {
+        this.fcount = fcount;
+    }
+
+    public int getIsf() {
+        return isf;
+    }
+
+    public void setIsf(int isf) {
+        this.isf = isf;
+    }
+
+    public int getTips_count() {
+        return tips_count;
+    }
+
+    public void setTips_count(int tips_count) {
+        this.tips_count = tips_count;
     }
 }

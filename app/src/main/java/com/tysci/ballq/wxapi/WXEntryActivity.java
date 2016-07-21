@@ -16,6 +16,7 @@ import com.tencent.mm.sdk.openapi.IWXAPIEventHandler;
 import com.tysci.ballq.R;
 import com.tysci.ballq.activitys.LoginActivity;
 import com.tysci.ballq.activitys.RegisterActivity;
+import com.tysci.ballq.activitys.UserRewardActivity;
 import com.tysci.ballq.activitys.UserWithdrawsActivity;
 import com.tysci.ballq.base.BaseActivity;
 import com.tysci.ballq.modles.UserInfoEntity;
@@ -213,7 +214,7 @@ public class WXEntryActivity extends BaseActivity implements IWXAPIEventHandler 
                     } else if (REQUEST_TAG == 2) {
                         EventObject eventObject = new EventObject();
                         eventObject.getData().putString("code", resp.code);
-                        eventObject.addReceiver(WXPayEntryActivity.class);
+                        eventObject.addReceiver(UserRewardActivity.class);
                         EventObject.postEventObject(eventObject, "user_reward");
                     } else if (REQUEST_TAG == 3) {
                         /**提现界面绑定微信*/

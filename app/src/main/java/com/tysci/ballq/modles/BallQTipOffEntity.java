@@ -56,6 +56,7 @@ public class BallQTipOffEntity implements Parcelable {
     private int richtext_type;
     private String first_image;
     private String vid;
+    private int isf;
 
     public int getFid() {
         return fid;
@@ -454,6 +455,14 @@ public class BallQTipOffEntity implements Parcelable {
         return 0;
     }
 
+    public int getIsf() {
+        return isf;
+    }
+
+    public void setIsf(int isf) {
+        this.isf = isf;
+    }
+
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeInt(this.fid);
@@ -505,6 +514,7 @@ public class BallQTipOffEntity implements Parcelable {
         dest.writeInt(this.richtext_type);
         dest.writeString(this.first_image);
         dest.writeString(this.vid);
+        dest.writeInt(this.isf);
     }
 
     public BallQTipOffEntity() {
@@ -560,6 +570,7 @@ public class BallQTipOffEntity implements Parcelable {
         this.richtext_type=in.readInt();
         this.first_image=in.readString();
         this.vid=in.readString();
+        this.isf=in.readInt();
     }
 
     public static final Creator<BallQTipOffEntity> CREATOR = new Creator<BallQTipOffEntity>() {

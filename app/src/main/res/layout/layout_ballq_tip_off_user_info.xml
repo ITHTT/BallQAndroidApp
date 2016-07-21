@@ -110,7 +110,8 @@
                 android:layout_height="15dp"
                 android:scaleType="fitXY"
                 android:layout_marginLeft="8dp"
-                android:src="@mipmap/icon_reward_normal"/>
+                android:src="@mipmap/icon_reward_normal"
+                android:visibility="gone"/>
             <TextView
                 android:id="@+id/tv_user_tip_reward"
                 android:layout_width="wrap_content"
@@ -118,7 +119,8 @@
                 android:gravity="center_vertical"
                 android:textSize="11.5sp"
                 android:textColor="@color/white"
-                android:text="114"/>
+                android:text="114"
+                android:visibility="gone"/>
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>

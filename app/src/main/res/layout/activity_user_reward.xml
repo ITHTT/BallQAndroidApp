@@ -27,9 +27,12 @@
             android:id="@+id/tv_other_count"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
             android:layout_marginTop="50dp"
             android:text="其他金额"
             android:textColor="@color/c_3a3a3a"
+            android:autoLink="all"
             android:textSize="13sp"
             />
     </LinearLayout>

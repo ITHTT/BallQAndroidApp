@@ -43,7 +43,6 @@ import com.tysci.ballq.views.dialogs.ShareDialog;
 import com.tysci.ballq.views.interfaces.OnLongClickUserHeaderListener;
 import com.tysci.ballq.views.widgets.CircleImageView;
 import com.tysci.ballq.views.widgets.loadmorerecyclerview.AutoLoadMoreRecyclerView;
-import com.tysci.ballq.wxapi.WXPayEntryActivity;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -916,9 +915,7 @@ public class BallQCircleNoteDetailActivity extends BaseActivity implements Swipe
     private void userReward(BallQCircleNoteEntity info){
         if(info!=null) {
             if (UserInfoUtil.checkLogin(this)) {
-                //WXPayEntryActivity.userReward(this, "topic", String.valueOf(info.getCreater().getUserId()), info.getId(), info.getCreater().getPortrait(), info.getCreater().getIsV());
-                Intent intent=new Intent(this,WXPayEntryActivity.class);
-                startActivity(intent);
+                UserRewardActivity.userReward(this, "topic", String.valueOf(info.getCreater().getUserId()), info.getId(), info.getCreater().getPortrait(), info.getCreater().getIsV());
             }else{
                 UserInfoUtil.userLogin(this);
             }
