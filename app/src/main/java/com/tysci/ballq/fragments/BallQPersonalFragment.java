@@ -107,8 +107,10 @@ public class BallQPersonalFragment extends BaseFragment {
 
     @Override
     protected void notifyEvent(String action, Bundle data) {
-        if (action.equals(EventType.EVENT_REFRESH_USER_INFO)) {
-
+        if (action.equals(EventType.EVENT_USER_EXIT)) {
+            ivUserHeader.setImageResource(R.mipmap.icon_camera);
+            ivUserV.setVisibility(View.GONE);
+            tvUserName.setText("登录后即可参与竞猜");
         }
     }
 

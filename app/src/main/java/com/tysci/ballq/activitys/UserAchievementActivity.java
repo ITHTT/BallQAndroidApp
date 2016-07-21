@@ -42,7 +42,8 @@ import okhttp3.Request;
  *
  * @author Edit by Linde
  */
-public class UserAchievementActivity extends BaseActivity implements SwipeRefreshLayout.OnRefreshListener, ITabCheck {
+public class UserAchievementActivity extends BaseActivity implements SwipeRefreshLayout.OnRefreshListener, ITabCheck
+{
     @Bind(R.id.swipe_refresh)
     SwipeRefreshLayout refreshLayout;
     @Bind(R.id.recycler_view)
@@ -61,12 +62,14 @@ public class UserAchievementActivity extends BaseActivity implements SwipeRefres
     private ArrayList<Integer> showingList;
 
     @Override
-    protected int getContentViewId() {
+    protected int getContentViewId()
+    {
         return R.layout.activity_ballq_user_achievement;
     }
 
     @Override
-    protected void initViews() {
+    protected void initViews()
+    {
 
         refreshLayout.setOnRefreshListener(this);
         mSwipeUtil = new SwipeUtil(refreshLayout);
@@ -83,77 +86,97 @@ public class UserAchievementActivity extends BaseActivity implements SwipeRefres
         lp.width = ScreenUtil.getDisplayMetrics(this).widthPixels;
         headerView.setLayoutParams(lp);
         recycler_view.addHeaderView(headerView);
-
-        dataList = new ArrayList<>();
-        adapter = new UserAchievementAdapter(this, dataList);
-        recycler_view.setAdapter(adapter);
-
-        showingList = new ArrayList<>();
     }
 
     @Override
-    protected View getLoadingTargetView() {
+    protected View getLoadingTargetView()
+    {
         return findViewById(R.id.swipe_refresh);
     }
 
     @Override
-    protected void getIntentData(Intent intent) {
+    protected void getIntentData(Intent intent)
+    {
         userId = intent.getStringExtra("uid");
-        if (TextUtils.isEmpty(userId)) {
+        if (TextUtils.isEmpty(userId))
+        {
             userId = UserInfoUtil.getUserId(this);
             setTitleText("我的成就");
-        } else {
+        }
+        else
+        {
             setTitleText("他的成就");
         }
+        final boolean isSelf = userId.equals(UserInfoUtil.getUserId(this));
+
+        dataList = new ArrayList<>();
+        adapter = new UserAchievementAdapter(this, isSelf, dataList);
+        recycler_view.setAdapter(adapter);
+
+        showingList = new ArrayList<>();
+
+        headerView.setShowingLayoutVisibile(isSelf);
 
         showLoading();
         headerView.startFirstCheck();
     }
 
     @Override
-    protected boolean isCanceledEventBus() {
+    protected boolean isCanceledEventBus()
+    {
         return false;
     }
 
     @Override
-    protected void saveInstanceState(Bundle outState) {
+    protected void saveInstanceState(Bundle outState)
+    {
 
     }
 
     @Override
-    protected void handleInstanceState(Bundle outState) {
+    protected void handleInstanceState(Bundle outState)
+    {
 
     }
 
-    public void addShowing(int id) {
+    public void addShowing(int id)
+    {
         int showingNumber = 0;
-        for (Integer showing : showingList) {
-            if (showing > 0) {
-                if (showing == id) {
+        for (Integer showing : showingList)
+        {
+            if (showing > 0)
+            {
+                if (showing == id)
+                {
                     ToastUtil.show(this, "该成就已经展示");
                     return;
                 }
                 showingNumber++;
             }
         }
-        if (showingNumber >= 2) {
+        if (showingNumber >= 2)
+        {
             ToastUtil.show(this, "最多只能展示两个成就");
             return;
         }
-        if (id > 0) {
+        if (id > 0)
+        {
             showingList.add(id);
         }
 
         StringBuilder sb = new StringBuilder();
-        for (Integer showing : showingList) {
-            if (showing > 0) {
+        for (Integer showing : showingList)
+        {
+            if (showing > 0)
+            {
                 sb.append(showing);
                 sb.append(",");
             }
         }
 
         HashMap<String, String> map = new HashMap<>();
-        if (UserInfoUtil.checkLogin(this)) {
+        if (UserInfoUtil.checkLogin(this))
+        {
             map.put("user", UserInfoUtil.getUserId(this));
             map.put("token", UserInfoUtil.getUserToken(this));
         }
@@ -162,50 +185,66 @@ public class UserAchievementActivity extends BaseActivity implements SwipeRefres
         else
             map.put("ids", sb.toString());
 
-        HttpClientUtil.getHttpClientUtil().sendPostRequest(Tag, HttpUrls.HOST_URL_V5 + "user/achievement/select_show/", map, new HttpClientUtil.StringResponseCallBack() {
+        HttpClientUtil.getHttpClientUtil().sendPostRequest(Tag, HttpUrls.HOST_URL_V5 + "user/achievement/select_show/", map, new HttpClientUtil.StringResponseCallBack()
+        {
             @Override
-            public void onBefore(Request request) {
+            public void onBefore(Request request)
+            {
             }
 
             @Override
-            public void onError(Call call, Exception error) {
+            public void onError(Call call, Exception error)
+            {
                 ToastUtil.show(UserAchievementActivity.this, R.string.request_error);
             }
 
             @Override
-            public void onSuccess(Call call, String response) {
+            public void onSuccess(Call call, String response)
+            {
                 KLog.json(response);
                 JSONObject object = JSON.parseObject(response);
-                if (JsonParams.isJsonRight(object)) {
+                if (JsonParams.isJsonRight(object))
+                {
                     ToastUtil.show(UserAchievementActivity.this, "修改展示成就成功");
                     mSwipeUtil.startRefreshing();
                     onRefresh();
-                } else {
+                }
+                else
+                {
                     ToastUtil.show(UserAchievementActivity.this, object.getString(JsonParams.MESSAGE));
                 }
             }
 
             @Override
-            public void onFinish(Call call) {
+            public void onFinish(Call call)
+            {
             }
         });
     }
 
     @Override
-    protected void onViewClick(View view) {
-        switch (view.getId()) {
+    protected void onViewClick(View view)
+    {
+        switch (view.getId())
+        {
             case R.id.user_showing_achievement_1:
-                try {
+                try
+                {
                     showingList.remove(0);
-                } catch (Exception e) {
+                }
+                catch (Exception e)
+                {
                     e.printStackTrace();
                 }
                 addShowing(0);
                 break;
             case R.id.user_showing_achievement_2:
-                try {
+                try
+                {
                     showingList.remove(1);
-                } catch (Exception e) {
+                }
+                catch (Exception e)
+                {
                     e.printStackTrace();
                 }
                 addShowing(0);
@@ -214,30 +253,38 @@ public class UserAchievementActivity extends BaseActivity implements SwipeRefres
     }
 
     @Override
-    protected void notifyEvent(String action) {
+    protected void notifyEvent(String action)
+    {
 
     }
 
     @Override
-    protected void notifyEvent(String action, Bundle data) {
+    protected void notifyEvent(String action, Bundle data)
+    {
 
     }
 
     @Override
-    public void onRefresh() {
+    public void onRefresh()
+    {
         adapter.setShowAttained(isShowAttained);
-        HttpClientUtil.getHttpClientUtil().sendGetRequest(Tag, HttpUrls.HOST_URL_V5 + "user/" + userId + "/achievement/", 0, new HttpClientUtil.StringResponseCallBack() {
+        HttpClientUtil.getHttpClientUtil().sendGetRequest(Tag, HttpUrls.HOST_URL_V5 + "user/" + userId + "/achievement/", 0, new HttpClientUtil.StringResponseCallBack()
+        {
             @Override
-            public void onBefore(Request request) {
+            public void onBefore(Request request)
+            {
             }
 
             @Override
-            public void onError(Call call, Exception error) {
+            public void onError(Call call, Exception error)
+            {
                 ToastUtil.show(UserAchievementActivity.this, R.string.request_error);
                 mSwipeUtil.onRefreshComplete();
-                showErrorInfo(new View.OnClickListener() {
+                showErrorInfo(new View.OnClickListener()
+                {
                     @Override
-                    public void onClick(View v) {
+                    public void onClick(View v)
+                    {
                         showLoading();
                         headerView.startFirstCheck();
                     }
@@ -245,20 +292,24 @@ public class UserAchievementActivity extends BaseActivity implements SwipeRefres
             }
 
             @Override
-            public void onSuccess(Call call, String response) {
+            public void onSuccess(Call call, String response)
+            {
                 KLog.json(response);
                 hideLoad();
                 mSwipeUtil.onRefreshComplete();
                 JSONObject object = JSON.parseObject(response);
-                if (JsonParams.isJsonRight(object)) {
+                if (JsonParams.isJsonRight(object))
+                {
 
                     // 显示成就
                     JSONObject data = object.getJSONObject("data");
-                    if (data != null) {
+                    if (data != null)
+                    {
 
                         // 已展示的成就
                         JSONArray showing = data.getJSONArray(JsonParams.SHOWING);
-                        if (showing != null) {
+                        if (showing != null)
+                        {
                             showingList.clear();
                             CommonUtils.getJSONListObject(showing, showingList, Integer.class);
                             headerView.setShowingAchievement(showingList);
@@ -266,41 +317,51 @@ public class UserAchievementActivity extends BaseActivity implements SwipeRefres
 
                         dataList.clear();
                         JSONArray array;
-                        if (isShowAttained) {
+                        if (isShowAttained)
+                        {
                             array = data.getJSONArray(JsonParams.ATTAINED);
-                        } else {
+                        }
+                        else
+                        {
                             array = data.getJSONArray(JsonParams.UNATTAINED);
                         }
-                        if (array != null && array.size() > 0) {
+                        if (array != null && array.size() > 0)
+                        {
                             CommonUtils.getJSONListObject(array, dataList, UserAchievementEntity.class);
                         }
                         adapter.notifyDataSetChanged();
                         recycler_view.setLoadMoreDataComplete();
                     }
-                } else {
+                }
+                else
+                {
                     ToastUtil.show(UserAchievementActivity.this, object.getString(JsonParams.MESSAGE));
                 }
             }
 
             @Override
-            public void onFinish(Call call) {
+            public void onFinish(Call call)
+            {
             }
         });
     }
 
     @Override
-    public void onLeftCheck() {
+    public void onLeftCheck()
+    {
         isShowAttained = true;
         mSwipeUtil.startRefreshing();
         onRefresh();
     }
 
     @Override
-    public void onCenterCheck() {
+    public void onCenterCheck()
+    {
     }
 
     @Override
-    public void onRightCheck() {
+    public void onRightCheck()
+    {
         isShowAttained = false;
         mSwipeUtil.startRefreshing();
         onRefresh();

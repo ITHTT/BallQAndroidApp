@@ -19,7 +19,6 @@ import com.tysci.ballq.networks.HttpUrls;
 import com.tysci.ballq.utils.BallQBusinessControler;
 import com.tysci.ballq.utils.CommonUtils;
 import com.tysci.ballq.utils.KLog;
-import com.tysci.ballq.utils.ToastUtil;
 import com.tysci.ballq.views.adapters.BallQFragmentPagerAdapter;
 import com.tysci.ballq.views.widgets.BannerNetworkImageView;
 import com.tysci.ballq.views.widgets.SlidingTabLayout;
@@ -42,7 +41,8 @@ import ru.noties.scrollable.ScrollableLayout;
 /**
  * Created by HTT on 2016/7/12.
  */
-public class BallQTipOffFragment extends BaseFragment implements View.OnClickListener, OnItemClickListener {
+public class BallQTipOffFragment extends BaseFragment implements View.OnClickListener, OnItemClickListener
+{
     @Bind(R.id.title_bar)
     protected TitleBar titleBar;
     @Bind(R.id.convenientBanner)
@@ -57,25 +57,32 @@ public class BallQTipOffFragment extends BaseFragment implements View.OnClickLis
     private List<BallQBannerImageEntity> bannerList;
 
     @Override
-    protected int getViewLayoutId() {
+    protected int getViewLayoutId()
+    {
         return R.layout.fragment_ballq_tip_off;
     }
 
     @Override
-    protected void initViews(View view, Bundle savedInstanceState) {
+    protected void initViews(View view, Bundle savedInstanceState)
+    {
         titleBar.setTitleBarTitle("爆料");
         titleBar.setTitleBarLeftIcon(0, null);
         titleBar.setRightMenuIcon(R.mipmap.icon_search_mark, this);
         mScrollableLayout.setDraggableView(tabLayout);
-        mScrollableLayout.setOnScrollChangedListener(new OnScrollChangedListener() {
+        mScrollableLayout.setOnScrollChangedListener(new OnScrollChangedListener()
+        {
             @Override
-            public void onScrollChanged(int y, int oldY, int maxY) {
+            public void onScrollChanged(int y, int oldY, int maxY)
+            {
                 KLog.e(y + "  " + oldY + " " + maxY);
 
                 final float tabsTranslationY;
-                if (y < maxY) {
+                if (y < maxY)
+                {
                     tabsTranslationY = .0F;
-                } else {
+                }
+                else
+                {
                     tabsTranslationY = y - maxY;
                 }
 
@@ -85,24 +92,30 @@ public class BallQTipOffFragment extends BaseFragment implements View.OnClickLis
             }
         });
         // Note this bit, it's very important
-        mScrollableLayout.setCanScrollVerticallyDelegate(new CanScrollVerticallyDelegate() {
+        mScrollableLayout.setCanScrollVerticallyDelegate(new CanScrollVerticallyDelegate()
+        {
             @Override
-            public boolean canScrollVertically(int direction) {
+            public boolean canScrollVertically(int direction)
+            {
                 BaseFragment fragment = (BaseFragment) getChildFragmentManager().getFragments().get(tabLayout.getCurrentTab());
 //                KLog.e("执行滑动操作。。");
-                if (fragment instanceof CanScrollVerticallyDelegate) {
+                if (fragment instanceof CanScrollVerticallyDelegate)
+                {
                     KLog.e("执行滑动操作。。");
                     return ((CanScrollVerticallyDelegate) fragment).canScrollVertically(direction);
                 }
                 return false;
             }
         });
-        mScrollableLayout.setOnFlingOverListener(new OnFlingOverListener() {
+        mScrollableLayout.setOnFlingOverListener(new OnFlingOverListener()
+        {
             @Override
-            public void onFlingOver(int y, long duration) {
+            public void onFlingOver(int y, long duration)
+            {
                 BaseFragment fragment = (BaseFragment) getChildFragmentManager().getFragments().get(tabLayout.getCurrentTab());
                 //KLog.e("执行滑动操作。。");
-                if (fragment instanceof OnFlingOverListener) {
+                if (fragment instanceof OnFlingOverListener)
+                {
                     KLog.e("执行滑动操作。。");
                     ((OnFlingOverListener) fragment).onFlingOver(y, duration);
                 }
@@ -113,7 +126,8 @@ public class BallQTipOffFragment extends BaseFragment implements View.OnClickLis
         banner.setOnItemClickListener(this);
     }
 
-    private void addFragments() {
+    private void addFragments()
+    {
         String[] titles = {"爆料", "球经", "视频", "我的关注"};
         List<BaseFragment> fragments = new ArrayList<>(4);
         BaseFragment fragment = new BallQTipOffListFragment();
@@ -122,7 +136,7 @@ public class BallQTipOffFragment extends BaseFragment implements View.OnClickLis
         fragments.add(fragment);
         fragment = new BallQTipOffVideoListFragment();
         fragments.add(fragment);
-        fragment = new UserAttentionMatchListFragment();
+        fragment = new UserAttentionAllFragment();
         fragments.add(fragment);
         BallQFragmentPagerAdapter adapter = new BallQFragmentPagerAdapter(getChildFragmentManager(), titles, fragments);
         viewPager.setAdapter(adapter);
@@ -131,28 +145,35 @@ public class BallQTipOffFragment extends BaseFragment implements View.OnClickLis
     }
 
     @Override
-    protected View getLoadingTargetView() {
-        return null;
+    protected View getLoadingTargetView()
+    {
+        return contentView.findViewById(R.id.convenientBanner);
     }
 
     @Override
-    protected boolean isCancledEventBus() {
+    protected boolean isCancledEventBus()
+    {
         return false;
     }
 
     @Override
-    protected void notifyEvent(String action) {
+    protected void notifyEvent(String action)
+    {
 
     }
 
     @Override
-    protected void notifyEvent(String action, Bundle data) {
+    protected void notifyEvent(String action, Bundle data)
+    {
         // 小红点通知
         String json = data.getString("dot");
-        if (!TextUtils.isEmpty(json)) {
+        if (!TextUtils.isEmpty(json))
+        {
             String status = JSON.parseObject(json).getString("status");
-            if (!TextUtils.isEmpty(status)) {
-                switch (status) {
+            if (!TextUtils.isEmpty(status))
+            {
+                switch (status)
+                {
                     case "tip":
                         tabLayout.showDot(0);
                         break;
@@ -171,22 +192,35 @@ public class BallQTipOffFragment extends BaseFragment implements View.OnClickLis
     }
 
     @Override
-    public void onClick(View v) {
+    public void onClick(View v)
+    {
         int id = v.getId();
-        switch (id) {
+        switch (id)
+        {
             case R.id.iv_titlebar_next_menu01:
                 searchTipOff();
                 break;
         }
     }
 
-    private void searchTipOff() {
+    public void setCurrentTab(int tab)
+    {
+        if (tab < 0 || tab >= tabLayout.getCurrentTab())
+        {
+            return;
+        }
+        tabLayout.setCurrentTab(tab);
+    }
+
+    private void searchTipOff()
+    {
         Intent intent = new Intent(baseActivity, BallQTipOffSearchActivity.class);
         startActivity(intent);
     }
 
     @Override
-    public void onResume() {
+    public void onResume()
+    {
         super.onResume();
         getBanner();
         //开始自动翻页
@@ -194,36 +228,54 @@ public class BallQTipOffFragment extends BaseFragment implements View.OnClickLis
     }
 
     @Override
-    public void onPause() {
+    public void onPause()
+    {
         super.onPause();
         banner.stopTurning();
     }
 
-    private void getBanner() {
-        HttpClientUtil.getHttpClientUtil().sendGetRequest(Tag, HttpUrls.HOST_URL + "/api/ares/banner/", 5, new HttpClientUtil.StringResponseCallBack() {
+    private void getBanner()
+    {
+        showLoading();
+        HttpClientUtil.getHttpClientUtil().sendGetRequest(Tag, HttpUrls.HOST_URL + "/api/ares/banner/", 5, new HttpClientUtil.StringResponseCallBack()
+        {
             @Override
-            public void onBefore(Request request) {
+            public void onBefore(Request request) {}
+
+            @Override
+            public void onError(Call call, Exception error)
+            {
+                showErrorInfo(new View.OnClickListener()
+                {
+                    @Override
+                    public void onClick(View v)
+                    {
+                        getBanner();
+                    }
+                });
             }
 
             @Override
-            public void onError(Call call, Exception error) {
-                ToastUtil.show(baseActivity, R.string.request_error);
-            }
-
-            @Override
-            public void onSuccess(Call call, String response) {
+            public void onSuccess(Call call, String response)
+            {
                 KLog.json(response);
+                hideLoad();
                 JSONObject object = JSON.parseObject(response);
-                if (JsonParams.isJsonRight(object)) {
+                if (JsonParams.isJsonRight(object))
+                {
                     JSONArray data = object.getJSONArray("data");
-                    if (data != null && !data.isEmpty()) {
-                        if (bannerList == null) {
+                    if (data != null && !data.isEmpty())
+                    {
+                        if (bannerList == null)
+                        {
                             bannerList = new ArrayList<>();
                         }
                         CommonUtils.getJSONListObject(data, bannerList, BallQBannerImageEntity.class);
-                        banner.setPages(new CBViewHolderCreator() {
+                        banner.setPages(new CBViewHolderCreator()
+                        {
                             @Override
-                            public Object createHolder() {
+                            public Object createHolder()
+                            {
                                 return new BannerNetworkImageView();
                             }
                         }, bannerList)
@@ -233,21 +285,26 @@ public class BallQTipOffFragment extends BaseFragment implements View.OnClickLis
                         banner.setPointViewVisible(true);
                         banner.setManualPageable(true);
                     }
-                } else {
+                }
+                else
+                {
                     bannerList.clear();
                     banner.notifyDataSetChanged();
                 }
             }
 
             @Override
-            public void onFinish(Call call) {
+            public void onFinish(Call call)
+            {
             }
         });
     }
 
     @Override
-    public void onItemClick(int position) {
-        if (bannerList != null) {
+    public void onItemClick(int position)
+    {
+        if (bannerList != null)
+        {
             BallQBannerImageEntity info = bannerList.get(position);
             BallQBusinessControler.businessControler(baseActivity, Integer.parseInt(info.getJump_type()), info.getJump_url());
         }

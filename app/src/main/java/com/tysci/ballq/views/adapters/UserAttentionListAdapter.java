@@ -19,8 +19,10 @@ import com.tysci.ballq.modles.BallQBallWarpInfoEntity;
 import com.tysci.ballq.modles.BallQTipOffEntity;
 import com.tysci.ballq.modles.UserAttentionListEntity;
 import com.tysci.ballq.networks.GlideImageLoader;
+import com.tysci.ballq.utils.CalendarUtil;
 import com.tysci.ballq.utils.CommonUtils;
 import com.tysci.ballq.utils.ImageUtil;
+import com.tysci.ballq.utils.MatchBettingInfoUtil;
 import com.tysci.ballq.utils.UserInfoUtil;
 import com.tysci.ballq.views.widgets.CircleImageView;
 
@@ -40,7 +42,7 @@ public class UserAttentionListAdapter extends WrapRecyclerAdapter<UserAttentionL
         View itemView = null;
         switch (viewType) {
             case 1:// 比赛
-                itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_ballq_tip_off_attention_item, parent, false);
+                itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_user_attention_list_match_item, parent, false);
                 break;
             case 2:// 爆料
                 itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_ballq_tip_off_attention_item, parent, false);
@@ -59,6 +61,11 @@ public class UserAttentionListAdapter extends WrapRecyclerAdapter<UserAttentionL
     protected void onBindViewHolder(ViewHolder holder, UserAttentionListEntity info, int position) {
         switch (holder.viewType) {
             case 1:
+                try {
+                    onBindMatchDataViewHolder(holder, info);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
                 break;
             case 2:
                 try {
@@ -75,6 +82,51 @@ public class UserAttentionListAdapter extends WrapRecyclerAdapter<UserAttentionL
                 }
                 break;
         }
+    }
+
+    /**
+     * 比赛
+     */
+    @SuppressWarnings("ConstantConditions")
+    private void onBindMatchDataViewHolder(ViewHolder holder, UserAttentionListEntity userAttentionListEntity) {
+        final UserAttentionListEntity.Data info = userAttentionListEntity.getData();
+
+        ImageUtil.loadImage(holder.ivUserPortrait, R.mipmap.icon_user_default, info.getPt());
+        UserInfoUtil.setUserHeaderVMark(info.getIsv(), holder.ivUserV, holder.ivUserPortrait);
+        holder.tvUserName.setText(info.getFname());
+
+        Date tipDate = CommonUtils.getDateAndTimeFromGMT(info.getCtime());
+        if (tipDate != null) {
+            String dateInfo = CommonUtils.getDateAndTimeFormatString(tipDate);
+            if (!TextUtils.isEmpty(dateInfo)) {
+                String[] dates = dateInfo.split(" ");
+                holder.tvCreateDate.setText(dates[0]);
+                holder.tvCreateTime.setText(dates[dates.length - 1]);
+            }
+        } else {
+            holder.tvCreateTime.setText("");
+            holder.tvCreateDate.setText("");
+        }
+        CalendarUtil matchCal = CalendarUtil.parseStringTZ(info.getMtime());
+        if (matchCal != null) {
+            holder.tv_match_date.setText(matchCal.getStringFormat("MM-dd"));
+            holder.tv_match_time.setText(matchCal.getStringFormat("HH:mm"));
+        } else {
+            holder.tv_match_date.setText("");
+            holder.tv_match_time.setText("");
+        }
+
+        holder.tv_tour_name.setText(info.getTourname());
+        holder.tv_home_team_name.setText(info.getHtname());
+        holder.tv_away_team_name.setText(info.getAtname());
+
+        holder.tv_match_betting_info.setText(MatchBettingInfoUtil.getBettingResultInfo(info.getChoice(), info.getOtype(), info.getOdata()));
+        final int sam = info.getSam();
+        holder.iv_money_icon.setVisibility(sam == 0 ? View.GONE : View.VISIBLE);
+        holder.tv_match_betting_moneys.setVisibility(sam == 0 ? View.GONE : View.VISIBLE);
+        holder.tv_match_betting_moneys.setText(String.valueOf(sam));
+
+        // TODO: 2016-07-21 0021
     }
 
     /**
@@ -176,8 +228,7 @@ public class UserAttentionListAdapter extends WrapRecyclerAdapter<UserAttentionL
         if (position < 0 || position >= getItemCount()) {
             return super.getItemViewType(position);
         }
-        beanData = getItem(position);
-        return beanData.getMtype();
+        return getItem(position).getMtype();
     }
 
     class ViewHolder extends ButterKnifeRecyclerViewHolder {
@@ -229,6 +280,24 @@ public class UserAttentionListAdapter extends WrapRecyclerAdapter<UserAttentionL
         @Nullable
         @Bind(R.id.tv_away_team_name)
         TextView tv_away_team_name;
+        @Nullable
+        @Bind(R.id.tv_match_date)
+        TextView tv_match_date;
+        @Nullable
+        @Bind(R.id.tv_match_time)
+        TextView tv_match_time;
+        @Nullable
+        @Bind(R.id.tv_tour_name)
+        TextView tv_tour_name;
+        @Nullable
+        @Bind(R.id.tv_match_betting_info)
+        TextView tv_match_betting_info;
+        @Nullable
+        @Bind(R.id.iv_money_icon)
+        ImageView iv_money_icon;
+        @Nullable
+        @Bind(R.id.tv_match_betting_moneys)
+        TextView tv_match_betting_moneys;
 
         public ViewHolder(View itemView, int viewType) {
             super(itemView, viewType);

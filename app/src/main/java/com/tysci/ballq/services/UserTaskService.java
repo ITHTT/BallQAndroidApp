@@ -93,7 +93,7 @@ public class UserTaskService extends BaseService {
 
             @Override
             public void onError(Call call, Exception error) {
-                KLog.e("UserTaskService获取用户任务错误...");
+                error.printStackTrace();
             }
 
             @Override

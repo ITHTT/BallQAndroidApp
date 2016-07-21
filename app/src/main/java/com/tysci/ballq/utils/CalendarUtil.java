@@ -81,15 +81,13 @@ public final class CalendarUtil {
         this.second = cal.get(Calendar.SECOND);
     }
 
-    public static
     @Nullable
-    CalendarUtil parseStringTZ(String tz) {
+    public static CalendarUtil parseStringTZ(String tz) {
         return parseStringTZ(tz, TimeZone.getTimeZone("+GMT"));
     }
 
-    public static
     @Nullable
-    CalendarUtil parseStringTZ(String tz, TimeZone timeZone) {
+    public static CalendarUtil parseStringTZ(String tz, TimeZone timeZone) {
         if (!TextUtils.isEmpty(tz)) {
             if (tz.length() > 20) {
                 tz = tz.substring(0, 19) + "Z";
@@ -111,7 +109,7 @@ public final class CalendarUtil {
     }
 
     /**
-     * @param format   格式
+     * @param format   格式 example: yyyy-MM-dd HH:mm:ss
      * @param timeZone 时区
      */
     public String getStringFormat(String format, TimeZone timeZone) {

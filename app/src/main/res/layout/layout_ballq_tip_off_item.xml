@@ -1,99 +1,165 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingTop="6dp"
-    android:paddingLeft="12dp"
-    android:paddingBottom="6dp"
-    android:layout_marginTop="2dp"
     android:layout_marginBottom="6dp"
     android:layout_marginLeft="6dp"
     android:layout_marginRight="6dp"
-    android:background="@color/gray">
+    android:layout_marginTop="2dp"
+    android:background="@color/gray"
+    android:orientation="horizontal"
+    android:paddingBottom="6dp"
+    android:paddingLeft="12dp"
+    android:paddingTop="6dp">
+
     <include
+        layout="@layout/layout_user_header"
         android:layout_width="50dp"
-        android:layout_height="50dp"
-        layout="@layout/layout_user_header"/>
+        android:layout_height="50dp" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="12dp"
-        android:orientation="vertical"
-        android:gravity="center_vertical">
+        android:gravity="center_vertical"
+        android:orientation="vertical">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="20dp"
             android:layout_marginTop="5dp">
+
             <TextView
                 android:id="@+id/tv_user_name"
                 android:layout_width="wrap_content"
                 android:layout_height="20dp"
-                android:textSize="15sp"
-                android:textColor="@color/gold"
                 android:maxWidth="80dp"
-                android:text="金麦子"/>
+                android:text="金麦子"
+                android:textColor="@color/gold"
+                android:textSize="15sp" />
+
             <ImageView
                 android:id="@+id/iv_user_level"
                 android:layout_width="25dp"
                 android:layout_height="15dp"
-                android:layout_marginTop="4dp"
                 android:layout_marginLeft="2dp"
-                android:src="@mipmap/icon_user_level_experts"/>
+                android:layout_marginTop="4dp"
+                android:src="@mipmap/icon_user_level_experts" />
+
             <ImageView
                 android:id="@+id/iv_video_mark"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:layout_marginLeft="5dp"
-                android:src="@mipmap/icon_player_mark"/>
+                android:src="@mipmap/icon_player_mark" />
 
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center">
+
                 <TextView
                     android:id="@+id/tv_create_date"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="13sp"
-                    android:text="07-12"/>
+                    android:text="07-12"
+                    android:textSize="13sp" />
+
                 <TextView
                     android:id="@+id/tv_create_time"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="20dp"
-                    android:textSize="13sp"
-                    android:text="16:30"/>
+                    android:text="16:30"
+                    android:textSize="13sp" />
             </LinearLayout>
+
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="center"
-                android:layout_marginRight="16dp">
+                android:layout_marginRight="16dp"
+                android:gravity="center">
+
                 <ImageView
                     android:layout_width="20dp"
                     android:layout_height="20dp"
                     android:scaleType="fitXY"
                     android:src="@mipmap/icon_like_count" />
+
                 <TextView
                     android:id="@+id/tv_like_counts"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_marginLeft="5dp"
-                    android:textColor="#1b1b1b"
                     android:text="25"
+                    android:textColor="#1b1b1b"
                     android:textSize="12sp" />
             </LinearLayout>
         </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:scaleType="fitXY"
+                android:src="@mipmap/icon_tip_gold" />
+
+            <TextView
+                android:id="@+id/tv_user_tip_count"
+                android:layout_width="wrap_content"
+                android:layout_height="15dp"
+                android:gravity="center_vertical"
+                android:text="114"
+                android:textColor="@color/c_3a3a3a"
+                android:textSize="11.5sp" />
+
+            <ImageView
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:layout_marginLeft="8dp"
+                android:scaleType="fitXY"
+                android:src="@mipmap/icon_tip_win_rate" />
+
+            <TextView
+                android:id="@+id/tv_user_tip_win_rate"
+                android:layout_width="wrap_content"
+                android:layout_height="15dp"
+                android:gravity="center_vertical"
+                android:text="114"
+                android:textColor="@color/c_3a3a3a"
+                android:textSize="11.5sp" />
+
+            <ImageView
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:layout_marginLeft="8dp"
+                android:scaleType="fitXY"
+                android:src="@mipmap/icon_tip_trend" />
+
+            <TextView
+                android:id="@+id/tv_user_tip_trend"
+                android:layout_width="wrap_content"
+                android:layout_height="15dp"
+                android:gravity="center_vertical"
+                android:text="114"
+                android:textColor="@color/c_3a3a3a"
+                android:textSize="11.5sp" />
+        </LinearLayout>
+
         <TextView
             android:id="@+id/tv_tip_off_content"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:lines="3"
-            android:layout_marginTop="6dp"
             android:layout_marginRight="16dp"
+            android:layout_marginTop="6dp"
+            android:lines="3"
             android:textColor="#676767"
             android:textSize="13.5sp" />
     </LinearLayout>
