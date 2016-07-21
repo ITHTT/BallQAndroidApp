@@ -6,6 +6,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.ImageView;
 
 import com.tysci.ballq.R;
 import com.tysci.ballq.activitys.BallQMatchLeagueSelectActivity;
@@ -14,6 +15,7 @@ import com.tysci.ballq.utils.CommonUtils;
 import com.tysci.ballq.utils.KLog;
 import com.tysci.ballq.views.adapters.BallQFragmentPagerAdapter;
 import com.tysci.ballq.views.adapters.BallQMatchFilterDateAdapter;
+import com.tysci.ballq.views.widgets.PopupMenuLayout;
 import com.tysci.ballq.views.widgets.SlidingTabLayout;
 import com.tysci.ballq.views.widgets.TitleBar;
 
@@ -28,6 +30,8 @@ import butterknife.Bind;
  */
 public class BallQMatchFragment extends BaseFragment implements BallQMatchFilterDateAdapter.OnSelectDateListener,
 ViewPager.OnPageChangeListener,View.OnClickListener{
+    @Bind(R.id.popmenu)
+    protected PopupMenuLayout popupMenuLayout;
     @Bind(R.id.title_bar)
     protected TitleBar titleBar;
     @Bind(R.id.tab_layout)
@@ -73,8 +77,11 @@ ViewPager.OnPageChangeListener,View.OnClickListener{
     @Override
     protected void initViews(View view, Bundle savedInstanceState) {
         titleBar.setTitleBarTitle("竞技场");
-        titleBar.setTitleBarLeftIcon(0, null);
+        titleBar.setTitleBarLeftIcon(R.mipmap.icon_match_filter,this);
         titleBar.setRightMenuIcon(R.mipmap.icon_match_filter,this);
+        addPopMenuItems();
+        popupMenuLayout.setTargetView(titleBar.getLeftBack());
+
         LinearLayoutManager linearLayoutManager=new LinearLayoutManager(this.getActivity());
         linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
         linearLayoutManager.setSmoothScrollbarEnabled(true);
@@ -82,6 +89,17 @@ ViewPager.OnPageChangeListener,View.OnClickListener{
         viewPager.addOnPageChangeListener(this);
         getMatchFilterDateInfo();
         addContentFragments();
+    }
+
+    private void addPopMenuItems(){
+        int[] res={R.drawable.ballq_circle_first_selector,R.drawable.ballq_circle_share_selector,R.drawable.ballq_circle_collection_selector,
+                   R.drawable.ballq_circle_reward_selector};
+        for(int i=0;i<res.length;i++){
+            ImageView imageView=new ImageView(baseActivity);
+            imageView.setImageResource(res[i]);
+            imageView.setOnClickListener(this);
+            popupMenuLayout.addMenu(imageView);
+        }
     }
 
     @Override

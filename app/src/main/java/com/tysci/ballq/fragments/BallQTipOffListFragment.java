@@ -106,11 +106,11 @@ public class BallQTipOffListFragment extends BaseFragment implements SwipeRefres
     }
 
 
-    private void requestDatas(int pages, final boolean isLoadMore) {
-        String url = HttpUrls.TIP_OFF_LIST_URL + etype + "&p=" + pages;
-        HashMap<String, String> params = null;
-        if (UserInfoUtil.checkLogin(baseActivity)) {
-            params = new HashMap<>(2);
+    private void requestDatas(int pages, final boolean isLoadMore){
+        String url= HttpUrls.TIP_OFF_LIST_URL+etype+"&p="+pages;
+        HashMap<String,String>params=null;
+        if(UserInfoUtil.checkLogin(baseActivity)){
+            params=new HashMap<>(2);
             params.put("user", UserInfoUtil.getUserId(baseActivity));
             params.put("token", UserInfoUtil.getUserToken(baseActivity));
         }
@@ -208,6 +208,8 @@ public class BallQTipOffListFragment extends BaseFragment implements SwipeRefres
         }
         if (isLoadMore) {
             recyclerView.setLoadMoreDataComplete("没有更多数据了");
+        }else{
+            showEmptyInfo();
         }
     }
 

@@ -5,19 +5,31 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.alibaba.fastjson.JSONObject;
 import com.tysci.ballq.R;
 import com.tysci.ballq.base.BaseActivity;
 import com.tysci.ballq.modles.BallQMatchEntity;
 import com.tysci.ballq.networks.GlideImageLoader;
+import com.tysci.ballq.networks.HttpClientUtil;
+import com.tysci.ballq.networks.HttpUrls;
 import com.tysci.ballq.utils.BallQMatchStateUtil;
 import com.tysci.ballq.utils.CommonUtils;
+import com.tysci.ballq.utils.KLog;
+import com.tysci.ballq.utils.ToastUtil;
+import com.tysci.ballq.utils.UserInfoUtil;
+import com.tysci.ballq.views.dialogs.LoadingProgressDialog;
 
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 import butterknife.Bind;
+import okhttp3.Call;
+import okhttp3.Request;
 
 /**
  * Created by Administrator on 2016/6/16.
@@ -37,8 +49,11 @@ public class BallQMatchTipOffEditActivity extends BaseActivity {
     protected TextView tvAwayTeamName;
     @Bind(R.id.tv_game_league_name)
     protected TextView tvGameLeagueName;
+    @Bind(R.id.et_tip_off)
+    protected EditText etTipOff;
 
     private BallQMatchEntity matchEntity;
+    private LoadingProgressDialog loadingProgressDialog;
 
     @Override
     protected int getContentViewId() {
@@ -57,6 +72,21 @@ public class BallQMatchTipOffEditActivity extends BaseActivity {
         return null;
     }
 
+    private void showProgressDialog(String msg){
+        if(loadingProgressDialog==null){
+            loadingProgressDialog=new LoadingProgressDialog(this);
+            loadingProgressDialog.setCanceledOnTouchOutside(false);
+        }
+        loadingProgressDialog.setMessage(msg);
+        loadingProgressDialog.show();
+    }
+
+    private void dimssProgressDialog(){
+        if(loadingProgressDialog!=null&&loadingProgressDialog.isShowing()){
+            loadingProgressDialog.dismiss();
+        }
+    }
+
     public void setTitleRightAttributes(){
         TextView btnRight=titleBar.getRightMenuTextView();
         btnRight.setVisibility(View.VISIBLE);
@@ -70,7 +100,7 @@ public class BallQMatchTipOffEditActivity extends BaseActivity {
         btnRight.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                publishTipOff();
             }
         });
     }
@@ -119,11 +149,69 @@ public class BallQMatchTipOffEditActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(BallQMatchTipOffEditActivity.this, BallQMatchTeamTipOffHistoryActivity.class);
-                intent.putExtra("match_info",data);
+                intent.putExtra("match_info", data);
                 intent.putExtra("is_home_team", true);
                 startActivity(intent);
             }
         });
+    }
+
+    private void publishTipOff(){
+        String tipOff=etTipOff.getText().toString();
+        if(TextUtils.isEmpty(tipOff)){
+            ToastUtil.show(this, "请输入爆料内容");
+            return;
+        }
+
+        if(tipOff.length()<20){
+            ToastUtil.show(this,"爆料内容至少为20个字符");
+            return;
+        }
+        String url= HttpUrls.HOST_URL_V5 + "match/" + matchEntity.getEid() + "/add_tip/";
+        Map<String,String> params=new HashMap<String,String>(5);
+        params.put("etype",String.valueOf(matchEntity.getEtype()));
+        params.put("eid",String.valueOf(matchEntity.getEid()));
+        params.put("cont",tipOff);
+        params.put("user", UserInfoUtil.getUserId(this));
+        params.put("token", UserInfoUtil.getUserToken(this));
+        showProgressDialog("提交中...");
+        HttpClientUtil.getHttpClientUtil().sendPostRequest(Tag, url, params, new HttpClientUtil.StringResponseCallBack() {
+            @Override
+            public void onBefore(Request request) {
+
+            }
+
+            @Override
+            public void onError(Call call, Exception error) {
+                dimssProgressDialog();
+                ToastUtil.show(BallQMatchTipOffEditActivity.this,"请求失败");
+
+            }
+
+            @Override
+            public void onSuccess(Call call, String response) {
+                dimssProgressDialog();
+                KLog.json(response);
+                if(!TextUtils.isEmpty(response)){
+                    JSONObject obj=JSONObject.parseObject(response);
+                    if(obj!=null&&!obj.isEmpty()){
+                        int status=obj.getIntValue("status");
+                        String message=obj.getString("message");
+                        ToastUtil.show(BallQMatchTipOffEditActivity.this,message);
+                        if(status==0){
+                            finish();
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void onFinish(Call call) {
+
+            }
+        });
+
+
     }
 
     @Override

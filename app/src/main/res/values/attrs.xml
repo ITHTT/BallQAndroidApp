@@ -152,4 +152,11 @@
         <attr name="resize_height" format="integer" />
     </declare-styleable>
 
+    <declare-styleable name="PopupMenuLayout">
+        <attr name="menu_item_width" format="dimension"/>
+        <attr name="menu_item_height" format="dimension"/>
+        <attr name="menu_target_padding" format="dimension"/>
+        <attr name="menu_item_padding" format="dimension"/>
+    </declare-styleable>
+
 </resources>

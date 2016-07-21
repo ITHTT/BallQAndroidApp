@@ -101,7 +101,7 @@ public class BallQTipOffFragment extends BaseFragment implements View.OnClickLis
             @Override
             public void onFlingOver(int y, long duration) {
                 BaseFragment fragment = (BaseFragment) getChildFragmentManager().getFragments().get(tabLayout.getCurrentTab());
-                KLog.e("执行滑动操作。。");
+                //KLog.e("执行滑动操作。。");
                 if (fragment instanceof OnFlingOverListener) {
                     KLog.e("执行滑动操作。。");
                     ((OnFlingOverListener) fragment).onFlingOver(y, duration);
