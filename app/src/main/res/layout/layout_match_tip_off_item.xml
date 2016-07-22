@@ -1,19 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="horizontal"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:orientation="horizontal">
+
     <RelativeLayout
         android:layout_width="0dp"
         android:layout_height="fill_parent"
         android:layout_weight="1">
+
         <ImageView
             android:layout_width="1dp"
             android:layout_height="match_parent"
             android:layout_marginLeft="15dp"
             android:background="#3a3a3a"
-            android:contentDescription="@string/app_name" />
+            android:contentDescription="@string/app_name"/>
+
         <ImageView
             android:id="@+id/ivTimeDayOrNight"
             android:layout_width="11dp"
@@ -21,13 +24,15 @@
             android:layout_alignParentTop="true"
             android:layout_marginLeft="10dp"
             android:layout_marginTop="30dp"
-            android:src="@mipmap/icon_match_tip_off_day_tag" />
+            android:src="@mipmap/icon_match_tip_off_day_tag"/>
+
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:layout_marginLeft="21dp"
             android:layout_marginTop="35dp"
-            android:background="#3a3a3a" />
+            android:background="#3a3a3a"/>
+
         <TextView
             android:id="@+id/tvTipCreateTime"
             android:layout_width="match_parent"
@@ -38,7 +43,8 @@
             android:text="19:30"
             android:textColor="#f26c64"
             android:textSize="11.5sp"
-            android:typeface="monospace" />
+            android:typeface="monospace"/>
+
         <TextView
             android:id="@+id/tvTipCreateDate"
             android:layout_width="match_parent"
@@ -49,34 +55,39 @@
             android:text="16日"
             android:textColor="#3a3a3a"
             android:textSize="11.5sp"
-            android:typeface="monospace" />
+            android:typeface="monospace"/>
     </RelativeLayout>
 
     <LinearLayout
         android:layout_width="0dp"
         android:layout_height="match_parent"
+        android:layout_marginTop="10dp"
         android:layout_weight="5"
-        android:orientation="vertical"
-        android:layout_marginTop="10dp">
+        android:orientation="vertical">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="50dp">
+
             <ImageView
                 android:id="@+id/ivUserIcon"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
-                android:scaleType="centerCrop"
                 android:contentDescription="@string/app_name"
+                android:scaleType="centerCrop"
                 android:src="@mipmap/icon_user_default"/>
+
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="50dp">
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
                     android:paddingLeft="10dp"
-                    android:paddingRight="15dp"
-                    android:gravity="center_vertical">
+                    android:paddingRight="15dp">
+
                     <TextView
                         android:id="@+id/tvUserNickName"
                         android:layout_width="0dp"
@@ -84,12 +95,14 @@
                         android:layout_weight="1"
                         android:text="@string/app_name"
                         android:textColor="#3a3a3a"
-                        android:typeface="monospace" />
+                        android:typeface="monospace"/>
+
                     <ImageView
                         android:layout_width="15dp"
                         android:layout_height="15dp"
                         android:contentDescription="@string/app_name"
-                        android:src="@mipmap/icon_comment" />
+                        android:src="@mipmap/icon_comment"/>
+
                     <TextView
                         android:id="@+id/tvCommentNum"
                         android:layout_width="wrap_content"
@@ -97,20 +110,30 @@
                         android:layout_marginLeft="5dp"
                         android:text="0"
                         android:textColor="#3a3a3a"
-                        android:typeface="monospace" />
+                        android:typeface="monospace"/>
                 </LinearLayout>
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
                     android:layout_alignParentBottom="true"
+                    android:layout_marginLeft="10dp"
                     android:gravity="center_vertical">
+
                     <ImageView
                         android:id="@+id/imageView1"
                         android:layout_width="15dp"
                         android:layout_height="15dp"
                         android:contentDescription="@string/app_name"
-                        android:src="@mipmap/icon_tip_gold" />
+                        android:src="@mipmap/icon_tip_gold"
+                        android:visibility="gone"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="爆料:"
+                        android:textColor="@color/gold"/>
+
                     <TextView
                         android:id="@+id/tvTipCount"
                         android:layout_width="wrap_content"
@@ -123,7 +146,8 @@
                         android:text="0"
                         android:textColor="#3a3a3a"
                         android:textSize="12sp"
-                        android:typeface="monospace" />
+                        android:typeface="monospace"/>
+
                     <ImageView
                         android:id="@+id/imageView2"
                         android:layout_width="15dp"
@@ -133,7 +157,16 @@
                         android:layout_toEndOf="@id/tvTipCount"
                         android:layout_toRightOf="@id/tvTipCount"
                         android:contentDescription="@string/app_name"
-                        android:src="@mipmap/icon_tip_win_rate_gold" />
+                        android:src="@mipmap/icon_tip_win_rate_gold"
+                        android:visibility="gone"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/dimen10dp"
+                        android:text="胜率:"
+                        android:textColor="@color/gold"/>
+
                     <TextView
                         android:id="@+id/tvWinPercent"
                         android:layout_width="wrap_content"
@@ -146,7 +179,8 @@
                         android:text="0"
                         android:textColor="#3a3a3a"
                         android:textSize="12sp"
-                        android:typeface="monospace" />
+                        android:typeface="monospace"/>
+
                     <ImageView
                         android:id="@+id/imageView3"
                         android:layout_width="15dp"
@@ -156,7 +190,16 @@
                         android:layout_toEndOf="@id/tvWinPercent"
                         android:layout_toRightOf="@id/tvWinPercent"
                         android:contentDescription="@string/app_name"
-                        android:src="@mipmap/icon_tip_trend_gold" />
+                        android:src="@mipmap/icon_tip_trend_gold"
+                        android:visibility="gone"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/dimen10dp"
+                        android:text="盈利率:"
+                        android:textColor="@color/gold"/>
+
                     <TextView
                         android:id="@+id/tvRor"
                         android:layout_width="wrap_content"
@@ -169,7 +212,8 @@
                         android:text="0"
                         android:textColor="#3a3a3a"
                         android:textSize="12sp"
-                        android:typeface="monospace" />
+                        android:typeface="monospace"/>
+
                     <ImageView
                         android:id="@+id/imageView4"
                         android:layout_width="15dp"
@@ -179,7 +223,9 @@
                         android:layout_toEndOf="@id/tvRor"
                         android:layout_toRightOf="@id/tvRor"
                         android:contentDescription="@string/app_name"
-                        android:src="@mipmap/icon_reward_count" />
+                        android:src="@mipmap/icon_reward_count"
+                        android:visibility="gone"/>
+
                     <TextView
                         android:id="@+id/tvBonCount"
                         android:layout_width="wrap_content"
@@ -192,15 +238,18 @@
                         android:text="0"
                         android:textColor="#3a3a3a"
                         android:textSize="12sp"
-                        android:typeface="monospace" />
+                        android:typeface="monospace"
+                        android:visibility="gone"/>
                 </LinearLayout>
             </RelativeLayout>
         </LinearLayout>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:gravity="center_vertical">
+
             <TextView
                 android:id="@+id/tvChoice"
                 android:layout_width="wrap_content"
@@ -208,13 +257,15 @@
                 android:text="@string/app_name"
                 android:textColor="#3a3a3a"
                 android:textSize="14sp"
-                android:typeface="monospace" />
+                android:typeface="monospace"/>
+
             <ImageView
                 android:layout_width="18dp"
                 android:layout_height="18dp"
                 android:layout_marginLeft="15dp"
                 android:contentDescription="@string/app_name"
-                android:src="@mipmap/icon_gold" />
+                android:src="@mipmap/icon_gold"/>
+
             <TextView
                 android:id="@+id/tvBettingNum"
                 android:layout_width="wrap_content"
@@ -223,8 +274,9 @@
                 android:text="0"
                 android:textColor="#3a3a3a"
                 android:textSize="14sp"
-                android:typeface="monospace" />
+                android:typeface="monospace"/>
         </LinearLayout>
+
         <LinearLayout
             android:id="@+id/layoutConfidence"
             android:layout_width="match_parent"
@@ -232,35 +284,38 @@
             android:layout_marginTop="5dp"
             android:gravity="center_vertical"
             android:orientation="horizontal">
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="信心指数："
                 android:textColor="#cdaa44"
                 android:textSize="13sp"
-                android:typeface="monospace" />
+                android:typeface="monospace"/>
+
             <com.tysci.ballq.views.widgets.CustomRattingBar
                 android:id="@+id/rating_bar"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
                 android:layout_marginLeft="5dp"
                 android:gravity="center_vertical"
-                android:layout_gravity="center_vertical"
-                app:rattingBar_width="20dp"
                 app:rattingBar_height="20dp"
                 app:rattingBar_num="5"
-                app:rattingBar_padding="5dp"/>
+                app:rattingBar_padding="5dp"
+                app:rattingBar_width="20dp"/>
         </LinearLayout>
+
         <TextView
             android:id="@+id/tvContent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="15dp"
             android:layout_marginRight="15dp"
             android:layout_marginTop="10dp"
-            android:layout_marginBottom="15dp"
             android:text="@string/app_name"
             android:textColor="#3a3a3a"
             android:textSize="15sp"
-            android:typeface="monospace" />
+            android:typeface="monospace"/>
     </LinearLayout>
 </LinearLayout>

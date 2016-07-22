@@ -78,7 +78,6 @@ public class UserAchievementActivity extends BaseActivity implements SwipeRefres
         llm.setOrientation(LinearLayoutManager.VERTICAL);
         recycler_view.setLayoutManager(llm);
 
-
         headerView = new UserAchievementHeaderView(this);
         headerView.setOnTabChangeListener(this);
         headerView.setShowingListener(this);
@@ -128,10 +127,7 @@ public class UserAchievementActivity extends BaseActivity implements SwipeRefres
     }
 
     @Override
-    protected void saveInstanceState(Bundle outState)
-    {
-
-    }
+    protected void saveInstanceState(Bundle outState) {}
 
     @Override
     protected void handleInstanceState(Bundle outState)

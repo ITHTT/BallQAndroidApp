@@ -25,14 +25,27 @@ import com.tysci.ballq.networks.HttpUrls;
  */
 public class BallQBusinessControler
 {
+    private static Intent getJPushIntent(Intent intent, boolean jpush)
+    {
+        if (jpush)
+        {
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        }
+        return intent;
+    }
 
     public static void businessControler(Context context, int jumpType, String jumpUrl)
+    {
+        businessControler(context, jumpType, jumpUrl, false);
+    }
+
+    public static void businessControler(Context context, int jumpType, String jumpUrl, boolean jpush)
     {
         if (jumpType == 1)
         {
             try
             {
-                jumpApp(context, jumpUrl);
+                jumpApp(context, jumpUrl,jpush);
             }
             catch (Exception e)
             {
@@ -44,6 +57,7 @@ public class BallQBusinessControler
             if (!TextUtils.isEmpty(jumpUrl))
             {
                 Intent intent = new Intent(context, BallQWebViewActivity.class);
+                intent = getJPushIntent(intent, jpush);
                 intent.putExtra("url", jumpUrl);
                 intent.putExtra("title", "球商");
                 context.startActivity(intent);
@@ -58,6 +72,7 @@ public class BallQBusinessControler
                 String urlStr = jumpUrl + "?user=" + userId + "&token=" + token;
                 String title = "活动竞猜";
                 Intent intent = new Intent(context, BallQWebViewActivity.class);
+                intent = getJPushIntent(intent, jpush);
                 intent.putExtra("url", urlStr);
                 intent.putExtra("title", title);
                 context.startActivity(intent);
@@ -72,17 +87,17 @@ public class BallQBusinessControler
     /**
      * 跳转→应用内
      */
-    private static void jumpApp(Context context, String jumpUrl)
+    private static void jumpApp(Context context, String jumpUrl,boolean jpush)
     {
         KLog.e("jump_url:" + jumpUrl);
         if (TextUtils.isEmpty(jumpUrl))
             return;
-        String temp;
 
         if (jumpUrl.contains("ballqinapp://event/square"))
         {
             // 跳转→活动广场
             Intent intent = new Intent(context, BallQEventsPlazaActivity.class);
+            intent = getJPushIntent(intent, jpush);
             context.startActivity(intent);
         }
         else if (jumpUrl.contains("ballqinapp://event/signing"))
@@ -95,6 +110,7 @@ public class BallQBusinessControler
                 KLog.e("urlStr:" + urlStr);
                 String title = "活动签到";
                 Intent intent = new Intent(context, BallQWebViewActivity.class);
+                intent = getJPushIntent(intent, jpush);
                 intent.putExtra("url", urlStr);
                 intent.putExtra("title", title);
                 context.startActivity(intent);
@@ -118,6 +134,7 @@ public class BallQBusinessControler
             tipOffEntity.setId(Integer.parseInt(id));
             tipOffEntity.setEid(0);
             Intent intent = new Intent(context, BallQTipOffDetailActivity.class);
+            intent = getJPushIntent(intent, jpush);
             intent.putExtra(BallQTipOffDetailActivity.class.getSimpleName(), tipOffEntity);
             context.startActivity(intent);
         }
@@ -133,6 +150,7 @@ public class BallQBusinessControler
             String id = datas[datas.length - 1];
             info.setId(Integer.parseInt(id));
             Intent intent = new Intent(context, BallQBallWarpDetailActivity.class);
+            intent = getJPushIntent(intent, jpush);
             intent.putExtra(BallQBallWarpDetailActivity.class.getSimpleName(), info);
             context.startActivity(intent);
         }
@@ -156,6 +174,7 @@ public class BallQBusinessControler
             info.setEid(Integer.getInteger("id"));
             info.setEtype(0);
             Intent i = new Intent(context, BallQMatchDetailActivity.class);
+            i = getJPushIntent(i, jpush);
             i.putExtra(BallQMatchDetailActivity.class.getSimpleName(), info);
             context.startActivity(i);
         }
@@ -174,6 +193,7 @@ public class BallQBusinessControler
             info.setEid(Integer.getInteger("id"));
             info.setEtype(1);
             Intent i = new Intent(context, BallQMatchDetailActivity.class);
+            i = getJPushIntent(i, jpush);
             i.putExtra(BallQMatchDetailActivity.class.getSimpleName(), info);
             context.startActivity(i);
         }
@@ -228,18 +248,19 @@ public class BallQBusinessControler
         {
             // TODO 跳转→千场亚盘榜
         }
-        else if(jumpUrl.contains("ballqinapp://userbetting/?uid"))
+        else if (jumpUrl.contains("ballqinapp://userbetting/?uid"))
         {
             // TODO 跳转→用户投注记录
             String[] datas = jumpUrl.split("=");
             String id = datas[datas.length - 1];
             KLog.e(id);
-        }else if(jumpUrl.contains("ballqinapp://homepage"))
+        }
+        else if (jumpUrl.contains("ballqinapp://homepage"))
         {
             // 跳转→首页
             jumpMainActivity("ballqinapp://homepage");
         }
-        else if(jumpUrl.contains("ballqinapp://tips_focus"))
+        else if (jumpUrl.contains("ballqinapp://tips_focus"))
         {
             // 跳转→爆料我的关注
             jumpMainActivity("ballqinapp://tips_focus");

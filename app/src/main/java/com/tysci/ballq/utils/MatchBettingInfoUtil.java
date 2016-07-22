@@ -8,10 +8,13 @@ import com.alibaba.fastjson.JSONObject;
 /**
  * Created by Administrator on 2016/6/7.
  */
-public class MatchBettingInfoUtil {
+public class MatchBettingInfoUtil
+{
 
-    public static String getBettingOddsTypeInfo(String oType) {
-        switch (oType) {
+    public static String getBettingOddsTypeInfo(String oType)
+    {
+        switch (oType)
+        {
             case "1":
                 return "胜平负 ";
             case "2":
@@ -27,8 +30,10 @@ public class MatchBettingInfoUtil {
         }
     }
 
-    public static String getNoTypeBettingResultInfo(String choice, String otype, String odata) {
-        if (!TextUtils.isEmpty(choice) && !TextUtils.isEmpty(otype) && !TextUtils.isEmpty(odata)) {
+    public static String getNoTypeBettingResultInfo(String choice, String otype, String odata)
+    {
+        if (!TextUtils.isEmpty(choice) && !TextUtils.isEmpty(otype) && !TextUtils.isEmpty(odata))
+        {
             JSONObject oddsInfo = JSONObject.parseObject(odata);
 
             String team = "";
@@ -62,7 +67,8 @@ public class MatchBettingInfoUtil {
 //                oddsType = "大小球 ";
 //            }
 
-            switch (choice) {
+            switch (choice)
+            {
                 case "DO":
                     team = "平@";
                     break;
@@ -79,16 +85,22 @@ public class MatchBettingInfoUtil {
                     team = "低于" + oddsInfo.getString("T") + "@";
                     break;
                 case "MLH":
-                    if (Float.parseFloat(oddsInfo.getString("HCH")) > 0) {
+                    if (Float.parseFloat(oddsInfo.getString("HCH")) > 0)
+                    {
                         team = "主队+" + oddsInfo.getString("HCH") + "@";
-                    } else {
+                    }
+                    else
+                    {
                         team = "主队" + oddsInfo.getString("HCH") + "@";
                     }
                     break;
                 case "MLA":
-                    if (Float.parseFloat(oddsInfo.getString("HCA")) > 0) {
+                    if (Float.parseFloat(oddsInfo.getString("HCA")) > 0)
+                    {
                         team = "客队+" + oddsInfo.getString("HCA") + "@";
-                    } else {
+                    }
+                    else
+                    {
                         team = "客队" + oddsInfo.getString("HCA") + "@";
                     }
                     break;
@@ -98,14 +110,17 @@ public class MatchBettingInfoUtil {
         return null;
     }
 
-    public static <T> String getBettingResultInfo(T _choice, T _otype, String odata) {
-        String choice = _choice.toString();
-        String otype = _otype.toString();
-        if (!TextUtils.isEmpty(choice) && !TextUtils.isEmpty(otype) && !TextUtils.isEmpty(odata)) {
+    public static <CHOICE, OTYPE> String getBettingResultInfo(CHOICE _choice, OTYPE _otype, String odata)
+    {
+        String choice = _choice == null ? "" : _choice.toString();
+        String otype = _otype == null ? "" : _otype.toString();
+        if (!TextUtils.isEmpty(choice) && !TextUtils.isEmpty(otype) && !TextUtils.isEmpty(odata))
+        {
             JSONObject oddsInfo = JSONObject.parseObject(odata);
             String team = "";
             String oddsType;
-            switch (otype) {
+            switch (otype)
+            {
                 case "1":
                     oddsType = "胜平负 ";
                     break;
@@ -134,7 +149,8 @@ public class MatchBettingInfoUtil {
 //                oddsType = "大小球 ";
 //            }
 
-            switch (choice) {
+            switch (choice)
+            {
                 case "DO":
                     team = "平@";
                     break;
@@ -151,16 +167,22 @@ public class MatchBettingInfoUtil {
                     team = "低于" + oddsInfo.getString("T") + "@";
                     break;
                 case "MLH":
-                    if (Float.parseFloat(oddsInfo.getString("HCH")) > 0) {
+                    if (Float.parseFloat(oddsInfo.getString("HCH")) > 0)
+                    {
                         team = "主队+" + oddsInfo.getString("HCH") + "@";
-                    } else {
+                    }
+                    else
+                    {
                         team = "主队" + oddsInfo.getString("HCH") + "@";
                     }
                     break;
                 case "MLA":
-                    if (Float.parseFloat(oddsInfo.getString("HCA")) > 0) {
+                    if (Float.parseFloat(oddsInfo.getString("HCA")) > 0)
+                    {
                         team = "客队+" + oddsInfo.getString("HCA") + "@";
-                    } else {
+                    }
+                    else
+                    {
                         team = "客队" + oddsInfo.getString("HCA") + "@";
                     }
                     break;

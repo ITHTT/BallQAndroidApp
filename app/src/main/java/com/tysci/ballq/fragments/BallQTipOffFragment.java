@@ -270,6 +270,10 @@ public class BallQTipOffFragment extends BaseFragment implements View.OnClickLis
                         {
                             bannerList = new ArrayList<>();
                         }
+                        else
+                        {
+                            bannerList.clear();
+                        }
                         CommonUtils.getJSONListObject(data, bannerList, BallQBannerImageEntity.class);
                         banner.setPages(new CBViewHolderCreator()
                         {

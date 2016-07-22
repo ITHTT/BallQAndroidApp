@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_marginBottom="6dp"
-    android:layout_marginLeft="6dp"
-    android:layout_marginRight="6dp"
-    android:layout_marginTop="2dp"
-    android:background="@color/gray"
-    android:orientation="horizontal"
-    android:paddingBottom="6dp"
-    android:paddingLeft="12dp"
-    android:paddingTop="6dp">
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:layout_marginBottom="6dp"
+              android:layout_marginLeft="6dp"
+              android:layout_marginRight="6dp"
+              android:layout_marginTop="2dp"
+              android:background="@color/gray"
+              android:orientation="horizontal"
+              android:paddingBottom="6dp"
+              android:paddingLeft="12dp"
+              android:paddingTop="6dp">
 
     <include
         layout="@layout/layout_user_header"
         android:layout_width="50dp"
-        android:layout_height="50dp" />
+        android:layout_height="50dp"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -36,7 +36,7 @@
                 android:maxWidth="80dp"
                 android:text="金麦子"
                 android:textColor="@color/gold"
-                android:textSize="15sp" />
+                android:textSize="15sp"/>
 
             <ImageView
                 android:id="@+id/iv_user_level"
@@ -44,14 +44,14 @@
                 android:layout_height="15dp"
                 android:layout_marginLeft="2dp"
                 android:layout_marginTop="4dp"
-                android:src="@mipmap/icon_user_level_experts" />
+                android:src="@mipmap/icon_user_level_experts"/>
 
             <ImageView
                 android:id="@+id/iv_video_mark"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:layout_marginLeft="5dp"
-                android:src="@mipmap/icon_player_mark" />
+                android:src="@mipmap/icon_player_mark"/>
 
             <LinearLayout
                 android:layout_width="0dp"
@@ -64,7 +64,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="07-12"
-                    android:textSize="13sp" />
+                    android:textSize="13sp"/>
 
                 <TextView
                     android:id="@+id/tv_create_time"
@@ -72,7 +72,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="20dp"
                     android:text="16:30"
-                    android:textSize="13sp" />
+                    android:textSize="13sp"/>
             </LinearLayout>
 
             <LinearLayout
@@ -85,7 +85,7 @@
                     android:layout_width="20dp"
                     android:layout_height="20dp"
                     android:scaleType="fitXY"
-                    android:src="@mipmap/icon_like_count" />
+                    android:src="@mipmap/icon_like_count"/>
 
                 <TextView
                     android:id="@+id/tv_like_counts"
@@ -95,7 +95,7 @@
                     android:layout_marginLeft="5dp"
                     android:text="25"
                     android:textColor="#1b1b1b"
-                    android:textSize="12sp" />
+                    android:textSize="12sp"/>
             </LinearLayout>
         </LinearLayout>
 
@@ -109,7 +109,14 @@
                 android:layout_width="15dp"
                 android:layout_height="15dp"
                 android:scaleType="fitXY"
-                android:src="@mipmap/icon_tip_gold" />
+                android:src="@mipmap/icon_tip_gold"
+                android:visibility="gone"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="爆料:"
+                android:textColor="@color/gold"/>
 
             <TextView
                 android:id="@+id/tv_user_tip_count"
@@ -118,14 +125,22 @@
                 android:gravity="center_vertical"
                 android:text="114"
                 android:textColor="@color/c_3a3a3a"
-                android:textSize="11.5sp" />
+                android:textSize="11.5sp"/>
 
             <ImageView
                 android:layout_width="15dp"
                 android:layout_height="15dp"
                 android:layout_marginLeft="8dp"
                 android:scaleType="fitXY"
-                android:src="@mipmap/icon_tip_win_rate" />
+                android:src="@mipmap/icon_tip_win_rate"
+                android:visibility="gone"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/dimen10dp"
+                android:text="胜率:"
+                android:textColor="@color/gold"/>
 
             <TextView
                 android:id="@+id/tv_user_tip_win_rate"
@@ -134,14 +149,22 @@
                 android:gravity="center_vertical"
                 android:text="114"
                 android:textColor="@color/c_3a3a3a"
-                android:textSize="11.5sp" />
+                android:textSize="11.5sp"/>
 
             <ImageView
                 android:layout_width="15dp"
                 android:layout_height="15dp"
                 android:layout_marginLeft="8dp"
                 android:scaleType="fitXY"
-                android:src="@mipmap/icon_tip_trend" />
+                android:src="@mipmap/icon_tip_trend"
+                android:visibility="gone"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/dimen10dp"
+                android:text="盈利率:"
+                android:textColor="@color/gold"/>
 
             <TextView
                 android:id="@+id/tv_user_tip_trend"
@@ -150,7 +173,7 @@
                 android:gravity="center_vertical"
                 android:text="114"
                 android:textColor="@color/c_3a3a3a"
-                android:textSize="11.5sp" />
+                android:textSize="11.5sp"/>
         </LinearLayout>
 
         <TextView
@@ -161,7 +184,7 @@
             android:layout_marginTop="6dp"
             android:lines="3"
             android:textColor="#676767"
-            android:textSize="13.5sp" />
+            android:textSize="13.5sp"/>
     </LinearLayout>
 
 </LinearLayout>
