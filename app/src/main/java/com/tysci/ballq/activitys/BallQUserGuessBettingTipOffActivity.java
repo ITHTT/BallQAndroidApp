@@ -55,6 +55,7 @@ public class BallQUserGuessBettingTipOffActivity extends BaseActivity {
 
     private BallQMatchEntity matchEntity;
     private BallQMatchGuessBettingEntity bettingEntity;
+    private boolean isTip=false;
 
     private LoadingProgressDialog loadingProgressDialog;
 
@@ -65,6 +66,7 @@ public class BallQUserGuessBettingTipOffActivity extends BaseActivity {
 
     @Override
     protected void initViews() {
+        setTitle("爆料竞猜");
         setTitleRightAttributes();
         toggleButton.setOnToggleChanged(new ToggleButton.OnToggleChanged() {
             @Override
@@ -94,6 +96,8 @@ public class BallQUserGuessBettingTipOffActivity extends BaseActivity {
     protected void getIntentData(Intent intent) {
         bettingEntity=intent.getParcelableExtra("betting_data");
         matchEntity=intent.getParcelableExtra("match_data");
+        isTip=intent.getBooleanExtra("is_tip", false);
+        toggleButton.setEnabled(!isTip);
         if(bettingEntity!=null){
             tvMatchBettingInfo.setText(bettingEntity.getBettingInfo());
             tvBettingMoneys.setText(String.valueOf(bettingEntity.getBettingMoney()));
@@ -167,23 +171,13 @@ public class BallQUserGuessBettingTipOffActivity extends BaseActivity {
     private void requestBetting(){
         String cont=etBettingTip.getText().toString();
         String ratingValue=String.valueOf((int) (ratingBar.getRating() * 10));
-//        if(isChecked){
-//            if(!slideSwitch.isOpen()|| TextUtils.isEmpty(cont)||cont.length()<20){
-//                ToastUtil2.show(this,"您必须要输入至少20个字符的投注理由");
-//                return;
-//            }
-//            if(data.getBettingMoney()==0&&ratingValue.equals("0")){
-//                ToastUtil2.show(this,"请输入信心指数");
-//                return;
-//            }
-//        }
-//
-//        if(mark.isChecked()){
-//            if(ratingValue.equals("0")){
-//                ToastUtil2.show(this,"请输入信心指数");
-//                return;
-//            }
-//        }
+        if(isTip){
+            if(TextUtils.isEmpty(cont)||cont.length()<20){
+                ToastUtil.show(this,"您必须要输入至少20个字符的投注理由");
+                return;
+            }
+        }
+
 
         String url= HttpUrls.HOST_URL_V5 + "match/" + matchEntity.getEid() + "/add_tip/";
         final HashMap<String,String> params=new HashMap<>();
@@ -244,7 +238,8 @@ public class BallQUserGuessBettingTipOffActivity extends BaseActivity {
     private void publishBettingSuccessEvent(){
         EventObject eventObject=new EventObject();
         eventObject.addReceiver(BallQMatchListFragment.class, BallQMatchTipOffListFragment.class,BallQMatchGuessBettingActivity.class);
-        eventObject.getData().putInt("match_id",matchEntity.getEtype());
+        eventObject.getData().putInt("eid",matchEntity.getEid());
+        eventObject.getData().putInt("etype",matchEntity.getEtype());
         EventObject.postEventObject(eventObject, "betting_success");
     }
 

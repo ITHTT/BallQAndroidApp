@@ -17,12 +17,14 @@ import com.tysci.ballq.activitys.BallQMainUserRankingListActivity;
 import com.tysci.ballq.base.BaseFragment;
 import com.tysci.ballq.modles.BallQAuthorAnalystsEntity;
 import com.tysci.ballq.modles.BallQBannerImageEntity;
+import com.tysci.ballq.modles.UserInfoEntity;
 import com.tysci.ballq.networks.HttpClientUtil;
 import com.tysci.ballq.networks.HttpUrls;
 import com.tysci.ballq.utils.BallQBusinessControler;
 import com.tysci.ballq.utils.CommonUtils;
 import com.tysci.ballq.utils.ImageUtil;
 import com.tysci.ballq.utils.KLog;
+import com.tysci.ballq.utils.UserInfoUtil;
 import com.tysci.ballq.views.widgets.BallQUserAnalystView;
 import com.tysci.ballq.views.widgets.BannerNetworkImageView;
 import com.tysci.ballq.views.widgets.TitleBar;
@@ -31,7 +33,9 @@ import com.tysci.ballq.views.widgets.convenientbanner.holder.CBViewHolderCreator
 import com.tysci.ballq.views.widgets.convenientbanner.listener.OnItemClickListener;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.Bind;
 import butterknife.OnClick;
@@ -151,7 +155,13 @@ public class BallQIndexPageFragment extends BaseFragment implements SwipeRefresh
 
     private void getHomePageInfo() {
         String url = HttpUrls.HOST_URL + "/api/ares/homepage/";
-        HttpClientUtil.getHttpClientUtil().sendGetRequest(Tag, url, 60, new HttpClientUtil.StringResponseCallBack() {
+        Map<String,String>params=null;
+        if(UserInfoUtil.checkLogin(baseActivity)){
+            params=new HashMap<>(2);
+            params.put("user", UserInfoUtil.getUserId(baseActivity));
+            params.put("token", UserInfoUtil.getUserToken(baseActivity));
+        }
+        HttpClientUtil.getHttpClientUtil().sendPostRequest(Tag, url, params, new HttpClientUtil.StringResponseCallBack() {
             @Override
             public void onBefore(Request request) {
 
@@ -299,5 +309,12 @@ public class BallQIndexPageFragment extends BaseFragment implements SwipeRefresh
     protected void onClickMoreUserRank(View view){
         Intent intent=new Intent(baseActivity,BallQMainUserRankingListActivity.class);
         startActivity(intent);
+    }
+
+    @Override
+    protected void userLogin(UserInfoEntity userInfoEntity) {
+        super.userLogin(userInfoEntity);
+        setRefreshing();
+        getHomePageInfo();
     }
 }

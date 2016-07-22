@@ -43,8 +43,16 @@ public class BallQUserMessageRecordAdapter extends RecyclerView.Adapter<BallQUse
     public void onBindViewHolder(final BallQUserMessageRecordViewHolder holder, int position) {
         final BallQUserMessageRecordEntity info=userMessageRecordEntityList.get(position);
 
-        GlideImageLoader.loadImage(holder.itemView.getContext(),info.getPt(),R.mipmap.icon_user_default,holder.ivUserIcon);
-        UserInfoUtil.setUserHeaderVMark(info.getIsv(),holder.isV,holder.ivUserIcon);
+        GlideImageLoader.loadImage(holder.itemView.getContext(), info.getPt(), R.mipmap.icon_user_default, holder.ivUserIcon);
+        if (TextUtils.isEmpty(info.getIsv())) {
+            UserInfoUtil.setUserHeaderVMark(0, holder.isV, holder.ivUserIcon);
+        }else {
+            try {
+                UserInfoUtil.setUserHeaderVMark(Integer.parseInt(info.getIsv()), holder.isV, holder.ivUserIcon);
+            }catch(Exception e){
+                UserInfoUtil.setUserHeaderVMark(0, holder.isV, holder.ivUserIcon);
+            }
+        }
         holder.tvUserName.setText(info.getFname());
 
         Date date= CommonUtils.getDateAndTimeFromGMT(info.getCtime());
@@ -82,7 +90,9 @@ public class BallQUserMessageRecordAdapter extends RecyclerView.Adapter<BallQUse
         holder.ivUserIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                UserInfoUtil.lookUserInfo(holder.itemView.getContext(),info.getUid());
+                if(!TextUtils.isEmpty(info.getUid())) {
+                    UserInfoUtil.lookUserInfo(holder.itemView.getContext(), Integer.parseInt(info.getUid()));
+                }
             }
         });
     }

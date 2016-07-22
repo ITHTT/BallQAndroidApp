@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="horizontal"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:background="@color/white">
     <RelativeLayout
         android:layout_width="0dp"
         android:layout_height="fill_parent"
@@ -89,7 +90,7 @@
                         android:layout_width="15dp"
                         android:layout_height="15dp"
                         android:contentDescription="@string/app_name"
-                        android:src="@mipmap/icon_comment" />
+                        android:src="@mipmap/icon_comment_count" />
                     <TextView
                         android:id="@+id/tvCommentNum"
                         android:layout_width="wrap_content"
@@ -179,6 +180,7 @@
                         android:layout_toEndOf="@id/tvRor"
                         android:layout_toRightOf="@id/tvRor"
                         android:contentDescription="@string/app_name"
+                        android:visibility="gone"
                         android:src="@mipmap/icon_reward_count" />
                     <TextView
                         android:id="@+id/tvBonCount"
@@ -192,11 +194,13 @@
                         android:text="0"
                         android:textColor="#3a3a3a"
                         android:textSize="12sp"
-                        android:typeface="monospace" />
+                        android:typeface="monospace"
+                        android:visibility="gone"/>
                 </LinearLayout>
             </RelativeLayout>
         </LinearLayout>
         <LinearLayout
+            android:id="@+id/layout_tip_off_betting_info"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"

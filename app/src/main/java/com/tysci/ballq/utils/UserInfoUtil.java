@@ -149,6 +149,20 @@ public class UserInfoUtil {
         context.startActivity(intent);
     }
 
+    public static void setUserLevel(ImageView ivLeve,int level){
+        if(level==110){
+            ivLeve.setImageResource(R.mipmap.icon_user_level_experts);
+        }else if(level==120){
+            ivLeve.setImageResource(R.mipmap.icon_user_level_specail);
+
+        }else if(level==130) {
+            ivLeve.setImageResource(R.mipmap.icon_user_level_author);
+        }else{
+            ivLeve.setImageResource(0);
+        }
+    }
+
+
     public static void saveUserInfo(Context context, JSONObject data) {
         UserInfoUtil.setUserRank(context, data.getIntValue("rank"));
         UserInfoUtil.setUserId(context, data.getString("user"));

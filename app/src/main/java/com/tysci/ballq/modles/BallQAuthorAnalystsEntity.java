@@ -17,6 +17,7 @@ public class BallQAuthorAnalystsEntity {
     private int fcount;
     private int isf;
     private int tips_count;
+    private int v_status;
 
     public String getRank_type() {
         return rank_type;
@@ -120,5 +121,13 @@ public class BallQAuthorAnalystsEntity {
 
     public void setTips_count(int tips_count) {
         this.tips_count = tips_count;
+    }
+
+    public int getV_status() {
+        return v_status;
+    }
+
+    public void setV_status(int v_status) {
+        this.v_status = v_status;
     }
 }

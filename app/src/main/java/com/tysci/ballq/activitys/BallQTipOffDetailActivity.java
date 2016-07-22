@@ -296,6 +296,8 @@ public class BallQTipOffDetailActivity extends BaseActivity implements SwipeRefr
         ViewGroup layoutConfidence = (ViewGroup) view.findViewById(R.id.layout_confidence_data);
         CustomRattingBar rattingBar = (CustomRattingBar) view.findViewById(R.id.rating_bar);
 
+        View layoutBettingInfo=view.findViewById(R.id.layout_betting_result);
+
         ImageView ivBettingResult = (ImageView) view.findViewById(R.id.ivBetResult);
         TextView tvTipContent = (TextView) view.findViewById(R.id.tv_tip_content);
         LinearLayout layoutOtherTipInfo = (LinearLayout) view.findViewById(R.id.layout_other_tips);
@@ -359,11 +361,17 @@ public class BallQTipOffDetailActivity extends BaseActivity implements SwipeRefr
             }
         }
 
-        String choice = MatchBettingInfoUtil.getBettingResultInfo(data.getChoice(), data.getOtype(), data.getOdata());
-        if (!TextUtils.isEmpty(choice)) {
-            tvChoice.setText(choice);
-        } else {
-            tvChoice.setText("");
+        if(!TextUtils.isEmpty(data.getChoice())&&!TextUtils.isEmpty(data.getOtype())&&!TextUtils.isEmpty(data.getOdata())) {
+            String choice = MatchBettingInfoUtil.getBettingResultInfo(data.getChoice(), data.getOtype(), data.getOdata());
+            if (!TextUtils.isEmpty(choice)) {
+                layoutBettingInfo.setVisibility(View.VISIBLE);
+                tvChoice.setText(choice);
+            } else {
+                layoutBettingInfo.setVisibility(View.GONE);
+                tvChoice.setText("");
+            }
+        }else{
+            layoutBettingInfo.setVisibility(View.GONE);
         }
         setGuessBettingResult(ivBettingResult, data.getStatus());
         if (data.getConfidence() == 0) {

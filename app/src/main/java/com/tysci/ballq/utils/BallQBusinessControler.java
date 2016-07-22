@@ -13,6 +13,7 @@ import com.tysci.ballq.activitys.BallQMainActivity;
 import com.tysci.ballq.activitys.BallQMainUserRankingListActivity;
 import com.tysci.ballq.activitys.BallQMatchDetailActivity;
 import com.tysci.ballq.activitys.BallQTipOffDetailActivity;
+import com.tysci.ballq.activitys.BallQUserRankingListDetailActivity;
 import com.tysci.ballq.activitys.BallQWebViewActivity;
 import com.tysci.ballq.modles.BallQBallWarpInfoEntity;
 import com.tysci.ballq.modles.BallQMatchEntity;
@@ -209,8 +210,7 @@ public class BallQBusinessControler
             KLog.e("id:" + id);
             int rankType = Integer.parseInt(id);
             KLog.d(rankType);
-
-            //gotoUserRank(rankType);
+            gotoUserRank(context, rankType);
             // TODO: 2016-07-21 0021
         }
         else if (jumpUrl.contains("ballqinapp://section/"))
@@ -468,4 +468,69 @@ public class BallQBusinessControler
         eventObject.addReceiver(BallQMainActivity.class);
         EventObject.postEventObject(eventObject, "user_withdrawals");
     }
+
+    public static void gotoUserRank(Context context,int rtype) {
+        if(UserInfoUtil.checkLogin(context)) {
+            String rankType = "tearn";
+            int dateType = 7;
+            String title = "总盈利榜";
+            if (rtype == 11) {
+                /**总盈利周榜*/
+                rankType = "tearn";
+                dateType = 7;
+                title = "总盈利榜";
+            } else if (rtype == 21) {
+                /**总盈利月榜*/
+                rankType = "tearn";
+                dateType = 30;
+                title = "总盈利榜";
+            } else if (rtype == 31) {
+                /**总盈利总榜*/
+                rankType = "tearn";
+                dateType = 1;
+                title = "总盈利榜";
+            } else if (rtype == 12) {
+                /**盈利率周榜*/
+                rankType = "ror";
+                dateType = 7;
+                title = "盈利率榜";
+            } else if (rtype == 22) {
+                /**盈利率月榜*/
+                rankType = "ror";
+                dateType = 30;
+                title = "盈利率榜";
+            } else if (rtype == 32) {
+                /**盈利率总榜*/
+                rankType = "ror";
+                dateType = 1;
+                title = "盈利率榜";
+            } else if (rtype == 13) {
+                /**亚盘率周榜*/
+                rankType = "wins";
+                dateType = 7;
+                title = "亚盘胜率榜";
+            } else if (rtype == 23) {
+                rankType = "wins";
+                dateType = 30;
+                title = "亚盘胜率榜";
+            } else if (rtype == 33) {
+                rankType = "wins";
+                dateType = 1;
+                title = "亚盘胜率榜";
+            } else if (rtype == 99) {
+                rankType = "follow";
+                dateType = -99;
+                title = "人气榜";
+            }
+
+            Intent intent = new Intent(context, BallQUserRankingListDetailActivity.class);
+            intent.putExtra("rank_type", rankType);
+            intent.putExtra("date_type", dateType);
+            intent.putExtra("title", title);
+            context.startActivity(intent);
+        }else{
+            UserInfoUtil.userLogin(context);
+        }
+    }
+
 }

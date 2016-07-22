@@ -44,7 +44,7 @@ public class BallQMatchListFragment extends AppSwipeRefreshLoadMoreRecyclerViewF
     @Override
     protected void initViews(View view, Bundle savedInstanceState) {
         showLoading();
-        requestDatas();
+        requestDatas(0);
     }
 
     @Override
@@ -75,10 +75,10 @@ public class BallQMatchListFragment extends AppSwipeRefreshLoadMoreRecyclerViewF
 
     @Override
     protected void onRefreshData() {
-        requestDatas();
+        requestDatas(0);
     }
 
-    private void requestDatas(){
+    private void requestDatas(final int position){
         String url= HttpUrls.HOST_URL_V5 + "matches/?etype="+type+"&dt="+selectDate;
         if(!TextUtils.isEmpty(filter)){
             url=url+"&filter="+filter;
@@ -106,7 +106,7 @@ public class BallQMatchListFragment extends AppSwipeRefreshLoadMoreRecyclerViewF
                         @Override
                         public void onClick(View v) {
                             showLoading();
-                            requestDatas();
+                            requestDatas(position);
                         }
                     });
                 } else {
@@ -120,7 +120,7 @@ public class BallQMatchListFragment extends AppSwipeRefreshLoadMoreRecyclerViewF
                 KLog.json(response);
                 if (!TextUtils.isEmpty(response)) {
                     JSONObject obj = JSONObject.parseObject(response);
-                    if (obj != null) {
+                    if (obj != null&&!obj.isEmpty()) {
                         JSONObject data = obj.getJSONObject("data");
                         if (data != null) {
                             JSONArray array = data.getJSONArray("matches");
@@ -140,6 +140,9 @@ public class BallQMatchListFragment extends AppSwipeRefreshLoadMoreRecyclerViewF
                                     matchAdapter.notifyDataSetChanged();
                                 }
                                 recyclerView.setLoadMoreDataComplete(loadFinishedTip);
+                                if(position>0){
+                                    recyclerView.scrollToPosition(position);
+                                }
                                 return;
                             }
                         }
@@ -191,7 +194,7 @@ public class BallQMatchListFragment extends AppSwipeRefreshLoadMoreRecyclerViewF
             }
             hideLoad();
             setRefreshing();
-            requestDatas();
+            requestDatas(0);
         }
     }
 
@@ -238,8 +241,25 @@ public class BallQMatchListFragment extends AppSwipeRefreshLoadMoreRecyclerViewF
                             }
                             hideLoad();
                             setRefreshing();
-                            requestDatas();
+                            requestDatas(0);
                         }
+                    }
+                }
+            }else if(action.equals("betting_success")||action.equals("publish_tip_off")){
+                int eid=data.getInt("eid",-1);
+                int etype=data.getInt("etype",-1);
+                if(etype==type){
+                    if(matchEntityList!=null){
+                        int position=0;
+                        int size=matchEntityList.size();
+                        for(int i=0;i<size;i++){
+                            if(matchEntityList.get(i).getEid()==eid){
+                                position=i;
+                                break;
+                            }
+                        }
+                        setRefreshing();
+                        requestDatas(position);
                     }
                 }
             }

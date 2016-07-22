@@ -118,6 +118,7 @@ public class BallQUserRankingListDetailActivity extends BaseActivity implements 
     protected void getIntentData(Intent intent) {
         rankType=intent.getStringExtra("rank_type");
         String title=intent.getStringExtra("title");
+        timeType=intent.getIntExtra("date_type",7);
         if(!TextUtils.isEmpty(title)){
             setTitle(title);
         }
@@ -129,9 +130,20 @@ public class BallQUserRankingListDetailActivity extends BaseActivity implements 
                 tvProfitably.setText("粉丝数");
             }else{
                 tvProfitably.setText(title.substring(0,title.length()-1));
+                setSelectedTab(timeType);
             }
             showLoading();
             requestUserRankingDatas(1, false);
+        }
+    }
+
+    private void setSelectedTab(int timeType){
+        if(timeType==7){
+            radioGroup.check(R.id.rb_week_ranking);
+        }else if(timeType==30){
+            radioGroup.check(R.id.rb_month_ranking);
+        }else if(timeType==1){
+            radioGroup.check(R.id.rb_all_ranking);
         }
     }
 

@@ -52,6 +52,7 @@ public class BallQMatchLeagueSelectActivity extends BaseActivity {
 
     @Override
     protected void initViews() {
+        setTitle("赛事筛选");
         setTitleRightAttributes();
     }
 
@@ -65,6 +66,7 @@ public class BallQMatchLeagueSelectActivity extends BaseActivity {
         date=intent.getStringExtra("date");
         type=intent.getIntExtra("etype",0);
         if(!TextUtils.isEmpty(date)){
+            showLoading();
             requestDatas(type,date);
         }
     }

@@ -69,6 +69,8 @@ public class BallQTipOffAdapter extends RecyclerView.Adapter<BallQTipOffAdapter.
         } else {
             holder.ivVideoMark.setVisibility(View.GONE);
         }
+
+        UserInfoUtil.setUserLevel(holder.ivUserLevel,info.getIsv());
         holder.tv_user_tip_count.setText(String.valueOf(info.getTipcount()));
         holder.tv_user_tip_win_rate.setText(String.format(Locale.getDefault(), "%.2f", info.getWins() * 100));
         holder.tv_user_tip_win_rate.append("%");

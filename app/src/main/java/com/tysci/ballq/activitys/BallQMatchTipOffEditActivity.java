@@ -12,7 +12,11 @@ import android.widget.TextView;
 import com.alibaba.fastjson.JSONObject;
 import com.tysci.ballq.R;
 import com.tysci.ballq.base.BaseActivity;
+import com.tysci.ballq.fragments.BallQMatchListFragment;
+import com.tysci.ballq.fragments.BallQMatchTipOffListFragment;
+import com.tysci.ballq.fragments.BallQTipOffListFragment;
 import com.tysci.ballq.modles.BallQMatchEntity;
+import com.tysci.ballq.modles.event.EventObject;
 import com.tysci.ballq.networks.GlideImageLoader;
 import com.tysci.ballq.networks.HttpClientUtil;
 import com.tysci.ballq.networks.HttpUrls;
@@ -169,9 +173,9 @@ public class BallQMatchTipOffEditActivity extends BaseActivity {
         }
         String url= HttpUrls.HOST_URL_V5 + "match/" + matchEntity.getEid() + "/add_tip/";
         Map<String,String> params=new HashMap<String,String>(5);
-        params.put("etype",String.valueOf(matchEntity.getEtype()));
-        params.put("eid",String.valueOf(matchEntity.getEid()));
-        params.put("cont",tipOff);
+        params.put("etype", String.valueOf(matchEntity.getEtype()));
+        params.put("eid", String.valueOf(matchEntity.getEid()));
+        params.put("cont", tipOff);
         params.put("user", UserInfoUtil.getUserId(this));
         params.put("token", UserInfoUtil.getUserToken(this));
         showProgressDialog("提交中...");
@@ -184,7 +188,7 @@ public class BallQMatchTipOffEditActivity extends BaseActivity {
             @Override
             public void onError(Call call, Exception error) {
                 dimssProgressDialog();
-                ToastUtil.show(BallQMatchTipOffEditActivity.this,"请求失败");
+                ToastUtil.show(BallQMatchTipOffEditActivity.this, "请求失败");
 
             }
 
@@ -192,13 +196,14 @@ public class BallQMatchTipOffEditActivity extends BaseActivity {
             public void onSuccess(Call call, String response) {
                 dimssProgressDialog();
                 KLog.json(response);
-                if(!TextUtils.isEmpty(response)){
-                    JSONObject obj=JSONObject.parseObject(response);
-                    if(obj!=null&&!obj.isEmpty()){
-                        int status=obj.getIntValue("status");
-                        String message=obj.getString("message");
-                        ToastUtil.show(BallQMatchTipOffEditActivity.this,message);
-                        if(status==0){
+                if (!TextUtils.isEmpty(response)) {
+                    JSONObject obj = JSONObject.parseObject(response);
+                    if (obj != null && !obj.isEmpty()) {
+                        int status = obj.getIntValue("status");
+                        String message = obj.getString("message");
+                        ToastUtil.show(BallQMatchTipOffEditActivity.this, message);
+                        if (status == 317) {
+                            publishTipOffEvent();
                             finish();
                         }
                     }
@@ -210,8 +215,16 @@ public class BallQMatchTipOffEditActivity extends BaseActivity {
 
             }
         });
+    }
 
-
+    private void publishTipOffEvent(){
+        EventObject eventObject=new EventObject();
+        eventObject.addReceiver(BallQMatchTipOffListFragment.class,
+                BallQMatchListFragment.class,
+                BallQTipOffListFragment.class);
+        eventObject.getData().putInt("eid", matchEntity.getEid());
+        eventObject.getData().putInt("etype", matchEntity.getEtype());
+        EventObject.postEventObject(eventObject,"publish_tip_off");
     }
 
     @Override

@@ -81,6 +81,7 @@ public class BallQMatchGuessBettingActivity extends BaseActivity implements Ball
 
     @Override
     protected void initViews() {
+        setTitle("竞猜");
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
     }
@@ -98,7 +99,6 @@ public class BallQMatchGuessBettingActivity extends BaseActivity implements Ball
             showLoading();
             getMatchGuessInfo(matchEntity.getEid(),matchEntity.getEtype());
         }
-
     }
 
     private void showProgressDialog(String msg){
@@ -214,7 +214,10 @@ public class BallQMatchGuessBettingActivity extends BaseActivity implements Ball
                             if (matchGuessBettingEntityList == null) {
                                 matchGuessBettingEntityList = new ArrayList<BallQMatchGuessBettingEntity>(3);
                             }
-                            CommonUtils.getJSONListObject(objArrays, matchGuessBettingEntityList, BallQMatchGuessBettingEntity.class);
+                            getGuessBettingInfos(objArrays, matchGuessBettingEntityList);
+                            KLog.e("MLA_cnt:"+matchGuessBettingEntityList.get(0).getMLA_cnt());
+                            KLog.e("MLH_cnt:"+matchGuessBettingEntityList.get(0).getMLH_cnt());
+
                             if (adapter == null) {
                                 adapter = new BallQMatchGuessBettingInfoAdapter(matchGuessBettingEntityList);
                                 adapter.setOnBettingItemListener(BallQMatchGuessBettingActivity.this);
@@ -236,6 +239,32 @@ public class BallQMatchGuessBettingActivity extends BaseActivity implements Ball
 
             }
         });
+    }
+
+    private void getGuessBettingInfos(JSONArray datas,List<BallQMatchGuessBettingEntity> list){
+        int size=datas.size();
+        for(int i=0;i<size;i++){
+            BallQMatchGuessBettingEntity entity=new BallQMatchGuessBettingEntity();
+            JSONObject obj=datas.getJSONObject(i);
+            entity.setMLA_cnt(obj.getIntValue("MLA_cnt"));
+            entity.setMLH_cnt(obj.getIntValue("MLH_cnt"));
+            entity.setAO_cnt(obj.getIntValue("AO_cnt"));
+            entity.setHO_cnt(obj.getIntValue("HO_cnt"));
+            entity.setOO_cnt(obj.getIntValue("OO_cnt"));
+            entity.setUO_cnt(obj.getIntValue("UO_cnt"));
+            entity.setDO_cnt(obj.getIntValue("DO_cnt"));
+            entity.setOdata(obj.getString("odata"));
+            entity.setOtype(obj.getString("otype"));
+            entity.setEid(obj.getIntValue("eid"));
+            entity.setEtype(obj.getIntValue("etype"));
+            entity.setId(obj.getIntValue("id"));
+
+            KLog.e("MLA_cnt:"+obj.getIntValue("MLA_cnt"));
+            KLog.e("MLH_cnt:"+obj.getIntValue("MLH_cnt"));
+            KLog.e("MLA_cnt:"+entity.getMLA_cnt());
+            KLog.e("MLH_cnt:"+entity.getMLH_cnt());
+            list.add(entity);
+        }
     }
 
     private boolean checkBettingInfo(String bettingInfo){
@@ -275,8 +304,9 @@ public class BallQMatchGuessBettingActivity extends BaseActivity implements Ball
     }
 
     @Override
-    public void onDeleteBettingRecord(int position, int moneys) {
+    public void onDeleteBettingRecord(int position,int id,String type, int moneys) {
         bettingDialog.addAllBettingMoneys(moneys);
+        adapter.setGuessBettingState(id,type,0);
         int dividerPosition=adapter.getDividerPosition();
         if(dividerPosition==matchGuessBettingEntityList.size()){
             if(btBetting.getVisibility()!=View.GONE){
@@ -291,6 +321,7 @@ public class BallQMatchGuessBettingActivity extends BaseActivity implements Ball
             btBetting.setVisibility(View.VISIBLE);
         }
         matchGuessBettingEntityList.add(info);
+        adapter.setGuessBettingState(info.getId(),info.getBettingType(),1);
         adapter.notifyDataSetChanged();
     }
 
@@ -370,7 +401,8 @@ public class BallQMatchGuessBettingActivity extends BaseActivity implements Ball
     private void refreshMatchList(){
         EventObject eventObject=new EventObject();
         eventObject.addReceiver(BallQMatchListFragment.class);
-        eventObject.getData().putInt("match_id", matchEntity.getEtype());
+        eventObject.getData().putInt("eid", matchEntity.getEid());
+        eventObject.getData().putInt("etype",matchEntity.getEtype());
         EventObject.postEventObject(eventObject, "betting_success");
     }
 }

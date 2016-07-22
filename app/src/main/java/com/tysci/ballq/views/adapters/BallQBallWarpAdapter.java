@@ -48,6 +48,7 @@ public class BallQBallWarpAdapter extends RecyclerView.Adapter<BallQBallWarpAdap
         holder.tvUserName.setText(info.getFname());
         holder.tvReadCounts.setText(String.valueOf(info.getReading_count()));
         holder.tvTitle.setText(info.getTitle());
+        UserInfoUtil.setUserLevel(holder.ivUserLevel,info.getIsv());
         GlideImageLoader.loadImage(holder.itemView.getContext(),info.getCover(),R.mipmap.icon_ball_wrap_default_img,holder.ivImg);
         Date tipDate= CommonUtils.getDateAndTimeFromGMT(info.getCtime());
         if(tipDate!=null){
@@ -71,6 +72,13 @@ public class BallQBallWarpAdapter extends RecyclerView.Adapter<BallQBallWarpAdap
                 Intent intent=new Intent(context, BallQBallWarpDetailActivity.class);
                 intent.putExtra(BallQBallWarpDetailActivity.class.getSimpleName(),info);
                 context.startActivity(intent);
+            }
+        });
+
+        holder.ivUserHeader.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                UserInfoUtil.lookUserInfo(holder.itemView.getContext(),info.getUid());
             }
         });
     }
