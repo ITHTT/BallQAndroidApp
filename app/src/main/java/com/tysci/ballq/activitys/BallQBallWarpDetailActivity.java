@@ -276,6 +276,7 @@ public class BallQBallWarpDetailActivity extends BaseActivity implements SwipeRe
     private void initBallWarpInfo(View view,BallQBallWarpInfoEntity data){
         RelativeLayout layoutUserInfo=(RelativeLayout)view.findViewById(R.id.layout_user_info);
         CircleImageView ivUserHeader= (CircleImageView) view.findViewById(R.id.ivUserIcon);
+        ivUserHeader.setOnClickListener(this);
         ImageView isV=(ImageView)view.findViewById(R.id.isV);
         TextView tvUserName=(TextView)view.findViewById(R.id.tv_user_name);
         ImageView ivAchievement01=(ImageView)view.findViewById(R.id.iv_user_achievement_01);
@@ -607,6 +608,11 @@ public class BallQBallWarpDetailActivity extends BaseActivity implements SwipeRe
                     } else {
                         UserInfoUtil.userLogin(this);
                     }
+                }
+                break;
+            case R.id.ivUserIcon:
+                if(ballWarpInfo!=null) {
+                    UserInfoUtil.lookUserInfo(this, ballWarpInfo.getUid());
                 }
                 break;
         }

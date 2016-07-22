@@ -83,7 +83,7 @@
         android:id="@+id/iv_attention"
         android:layout_width="20dp"
         android:layout_height="20dp"
-        android:layout_marginRight="20dp"
+        android:layout_marginRight="16dp"
         android:layout_alignParentRight="true"
         android:layout_marginTop="5dp"
         android:src="@drawable/icon_user_push_attention_selector"/>

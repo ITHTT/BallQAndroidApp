@@ -98,7 +98,7 @@
                 android:textSize="13sp"/>
             <LinearLayout
                 android:layout_width="70dp"
-                android:layout_height="15dp"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
                 android:background="@mipmap/match_state_backgroud_img"
                 android:gravity="center"

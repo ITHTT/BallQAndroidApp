@@ -59,6 +59,7 @@ public class BallQMatchTipOffListFragment extends BaseFragment implements SwipeR
         swipeRefresh.setOnRefreshListener(this);
         recyclerView.setLayoutManager(new LinearLayoutManager(baseActivity));
         recyclerView.setOnLoadMoreListener(this);
+        recyclerView.setBackgroundResource(R.color.white);
         Bundle data = getArguments();
         if (data != null) {
             ballQMatchEntity = data.getParcelable("match_data");
@@ -112,6 +113,7 @@ public class BallQMatchTipOffListFragment extends BaseFragment implements SwipeR
             @Override
             public void onError(Call call, Exception error) {
                 if (!isLoadMore) {
+                    recyclerView.setRefreshComplete();
                     if (adapter != null) {
                         recyclerView.setStartLoadMore();
                     } else {
@@ -130,6 +132,9 @@ public class BallQMatchTipOffListFragment extends BaseFragment implements SwipeR
 
             @Override
             public void onSuccess(Call call, String response) {
+                if(!isLoadMore){
+                    recyclerView.setRefreshComplete();
+                }
                 KLog.json(response);
                 if (!TextUtils.isEmpty(response)) {
                     JSONObject obj = JSONObject.parseObject(response);
@@ -176,9 +181,6 @@ public class BallQMatchTipOffListFragment extends BaseFragment implements SwipeR
             @Override
             public void onFinish(Call call) {
                 if (!isLoadMore) {
-                    if (recyclerView != null) {
-                        recyclerView.setRefreshComplete();
-                    }
                     onRefreshCompelete();
                 }
             }
@@ -255,7 +257,7 @@ public class BallQMatchTipOffListFragment extends BaseFragment implements SwipeR
     @Override
     protected void notifyEvent(String action, Bundle data) {
         if(!TextUtils.isEmpty(action)){
-            if(action.equals("betting_success")){
+            if(action.equals("betting_success")||action.equals("publish_tip_off")){
                 HttpClientUtil.getHttpClientUtil().cancelTag(Tag);
                 hideLoad();
                 setRefreshing();

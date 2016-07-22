@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white">
               xmlns:app="http://schemas.android.com/apk/res-auto"
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
@@ -101,8 +106,7 @@
                         android:layout_width="15dp"
                         android:layout_height="15dp"
                         android:contentDescription="@string/app_name"
-                        android:src="@mipmap/icon_comment"/>
-
+                        android:src="@mipmap/icon_comment" />
                     <TextView
                         android:id="@+id/tvCommentNum"
                         android:layout_width="wrap_content"
@@ -223,9 +227,7 @@
                         android:layout_toEndOf="@id/tvRor"
                         android:layout_toRightOf="@id/tvRor"
                         android:contentDescription="@string/app_name"
-                        android:src="@mipmap/icon_reward_count"
-                        android:visibility="gone"/>
-
+                        android:src="@mipmap/icon_reward_count" />
                     <TextView
                         android:id="@+id/tvBonCount"
                         android:layout_width="wrap_content"
@@ -245,6 +247,7 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/layout_tip_off_betting_info"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"

@@ -1,6 +1,7 @@
 package com.tysci.ballq.views.adapters;
 
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -95,10 +96,12 @@ public class BallQMatchGuessBettingInfoAdapter extends RecyclerView.Adapter<Ball
                 @Override
                 public void onClick(View v) {
                     int moneys=info.getBettingMoney();
+                    String type=info.getBettingType();
+                    int id=info.getId();
                     matchGuessBettingEntityList.remove(holder.getAdapterPosition());
                     notifyDataSetChanged();
                     if(onDeleteBettingRecordListener!=null){
-                        onDeleteBettingRecordListener.onDeleteBettingRecord(position,-moneys);
+                        onDeleteBettingRecordListener.onDeleteBettingRecord(position,id,type,-moneys);
                     }
                 }
             });
@@ -123,24 +126,26 @@ public class BallQMatchGuessBettingInfoAdapter extends RecyclerView.Adapter<Ball
     private void setMatchGuessInfo(BallQMatchGuessBettingEntity info, MatchGuessBettingInfoViewHolder holder){
         String type=info.getOtype();
         if(type.equals("SP")){
-            parseSP(info.getOdata(),holder);
+            parseSP(info,holder);
         }else if(type.equals("AHC")){
-            parseAsianPlate(info.getOdata(), holder);
+            parseAsianPlate(info, holder);
         }else if(type.equals("2W")||type.equals("3W")){
-            parseWinDrawLose(info.getOdata(), holder, info.getOtype().equalsIgnoreCase("3W"));
+            parseWinDrawLose(info, holder, info.getOtype().equalsIgnoreCase("3W"));
         } else if (type.equals("TO")){
-            parseBigOrSmallBall(info.getOdata(), holder);
+            parseBigOrSmallBall(info, holder);
         }else if(type.equals("HC")){
-            parseLetBall(info.getOdata(), holder);
+            parseLetBall(info, holder);
         }
     }
 
-    private void parseSP(String data,MatchGuessBettingInfoViewHolder holder) {
+    private void parseSP(BallQMatchGuessBettingEntity data,MatchGuessBettingInfoViewHolder holder) {
         try {
-            final JSONObject j = new JSONObject(data);
+            final JSONObject j = new JSONObject(data.getOdata());
             holder.tvMatchGuessName.setText("亚盘");
             holder.tvMatchGuessLeft.setText(String.valueOf("主队 " + j.getString("HS") + "@" + j.getString("HO")));
+            holder.tvMatchGuessLeft.setEnabled(data.getHO_cnt()==0);
             holder.tvMatchGuessRight.setText(String.valueOf("客队 " + j.getString("AS") + "@" + j.getString("AO")));
+            holder.tvMatchGuessRight.setEnabled(data.getAO_cnt()==0);
             holder.tvMatchGuessCenter.setVisibility(View.GONE);
             holder.itemView.setVisibility(View.VISIBLE);
         } catch (Exception e) {
@@ -149,9 +154,9 @@ public class BallQMatchGuessBettingInfoAdapter extends RecyclerView.Adapter<Ball
         }
     }
 
-    private void parseLetBall(String data, MatchGuessBettingInfoViewHolder holder) {
+    private void parseLetBall(BallQMatchGuessBettingEntity data, MatchGuessBettingInfoViewHolder holder) {
         try {
-            JSONObject object=new JSONObject(data);
+            JSONObject object=new JSONObject(data.getOdata());
             if(object!=null) {
                 final String title = "竞彩让球(" + object.getString("HC") + ")";
                 holder.tvMatchGuessName.setText(title);
@@ -159,36 +164,42 @@ public class BallQMatchGuessBettingInfoAdapter extends RecyclerView.Adapter<Ball
                 final String center = "平 " + object.getString("DO");
                 final String right = "客胜 " + object.getString("AO");
                 holder.tvMatchGuessLeft.setText(left);
+                holder.tvMatchGuessLeft.setEnabled(data.getHO_cnt()==0);
                 holder.tvMatchGuessCenter.setText(center);
+                holder.tvMatchGuessCenter.setEnabled(data.getDO_cnt()==0);
                 holder.tvMatchGuessRight.setText(right);
+                holder.tvMatchGuessRight.setEnabled(data.getAO_cnt()==0);
             }
         } catch (JSONException e) {
             e.printStackTrace();
         }
     }
 
-    private void parseBigOrSmallBall(String data, MatchGuessBettingInfoViewHolder holder) {
+    private void parseBigOrSmallBall(BallQMatchGuessBettingEntity data, MatchGuessBettingInfoViewHolder holder) {
         try {
-            JSONObject object=new JSONObject(data);
+            JSONObject object=new JSONObject(data.getOdata());
             final String left = "高于 " + object.getString("T") + "@" + object.getString("OO");
             final String right = "低于 " + object.getString("T") + "@" + object.getString("UO");
             holder.tvMatchGuessName.setText("大小球");
             holder.tvMatchGuessLeft.setText(left);
+            holder.tvMatchGuessLeft.setEnabled(data.getOO_cnt()==0);
             holder.tvMatchGuessRight.setText(right);
+            holder.tvMatchGuessRight.setEnabled(data.getUO_cnt()==0);
             holder.tvMatchGuessCenter.setVisibility(View.GONE);
         } catch (JSONException e) {
             e.printStackTrace();
         }
     }
 
-    private void parseWinDrawLose(String data, MatchGuessBettingInfoViewHolder holder, boolean showCenter) {
+    private void parseWinDrawLose(BallQMatchGuessBettingEntity data, MatchGuessBettingInfoViewHolder holder, boolean showCenter) {
         try {
-            JSONObject object=new JSONObject(data);
+            JSONObject object=new JSONObject(data.getOdata());
             if (showCenter) {
                 holder.tvMatchGuessName.setText("胜平负");
                 holder.tvMatchGuessCenter.setVisibility(View.VISIBLE);
                 final String center = "平 " + object.getString("DO");
                 holder.tvMatchGuessCenter.setText(center);
+                holder.tvMatchGuessCenter.setEnabled(data.getDO_cnt()==0);
             } else {
                 holder.tvMatchGuessName.setText("胜负");
                 holder.tvMatchGuessCenter.setVisibility(View.GONE);
@@ -196,15 +207,17 @@ public class BallQMatchGuessBettingInfoAdapter extends RecyclerView.Adapter<Ball
             final String left = "主胜 " + object.getString("HO");
             final String right = "客胜 " + object.getString("AO");
             holder.tvMatchGuessLeft.setText(left);
+            holder.tvMatchGuessLeft.setEnabled(data.getHO_cnt() == 0);
             holder.tvMatchGuessRight.setText(right);
+            holder.tvMatchGuessRight.setEnabled(data.getAO_cnt() == 0);
         } catch (JSONException e) {
             e.printStackTrace();
         }
     }
 
-    private void parseAsianPlate(String data, MatchGuessBettingInfoViewHolder holder) {
+    private void parseAsianPlate(BallQMatchGuessBettingEntity data, MatchGuessBettingInfoViewHolder holder) {
         try {
-            JSONObject object=new JSONObject(data);
+            JSONObject object=new JSONObject(data.getOdata());
             holder.tvMatchGuessName.setText("亚盘");
             String HCH=object.getString("HCH");
             if(object.getDouble("HCH")>0){
@@ -217,8 +230,14 @@ public class BallQMatchGuessBettingInfoAdapter extends RecyclerView.Adapter<Ball
             }
             final String right = "客队 " + HCA + "@" + object.getString("MLA");
             holder.tvMatchGuessLeft.setText(left);
+//            KLog.e("MLH_cnt:"+data.getMLH_cnt());
+//            KLog.e("MLA_cnt:"+data.getMLA_cnt());
+//            KLog.e("Odata:"+data.getOdata());
+//            KLog.e("dataType:"+data.getDataType());
+            holder.tvMatchGuessLeft.setEnabled(data.getMLH_cnt() == 0);
             holder.tvMatchGuessCenter.setVisibility(View.GONE);
             holder.tvMatchGuessRight.setText(right);
+            holder.tvMatchGuessRight.setEnabled(data.getMLA_cnt()==0);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -272,12 +291,52 @@ public class BallQMatchGuessBettingInfoAdapter extends RecyclerView.Adapter<Ball
         return "";
     }
 
+    public void setGuessBettingState(int id,String type,int value){
+        int size=matchGuessBettingEntityList.size();
+        for(int i=0;i<size;i++){
+            if(id==matchGuessBettingEntityList.get(i).getId()){
+                setBettingState(i,type,matchGuessBettingEntityList.get(i),value);
+                break;
+            }
+        }
+    }
+
+    private void setBettingState(int position,String type,BallQMatchGuessBettingEntity info,int value){
+        if(!TextUtils.isEmpty(type)){
+            switch(type){
+                case "HO":
+                    info.setHO_cnt(value);
+                    break;
+                case "AO":
+                    info.setAO_cnt(value);
+                    break;
+                case "MLH":
+                    info.setMLH_cnt(value);
+                    break;
+                case "MLA":
+                    info.setMLA_cnt(value);
+                    break;
+                case "DO":
+                    info.setDO_cnt(value);
+                    break;
+                case "OO":
+                    info.setOO_cnt(value);
+                    break;
+                case "UO":
+                    info.setUO_cnt(value);
+                    break;
+            }
+            notifyItemChanged(position);
+        }
+
+    }
+
     public interface OnBettingItemListener{
         void onBettingItem(int position, String bettingInfo, BallQMatchGuessBettingEntity info, String bettingType);
     }
 
     public interface OnDeleteBettingRecordListener{
-        void onDeleteBettingRecord(int position, int moneys);
+        void onDeleteBettingRecord(int position,int id,String type, int moneys);
     }
 
     public static final class MatchGuessBettingInfoViewHolder extends RecyclerView.ViewHolder{

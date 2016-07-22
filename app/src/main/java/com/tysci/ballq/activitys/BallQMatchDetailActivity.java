@@ -7,6 +7,7 @@ import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.JSONObject;
@@ -33,6 +34,7 @@ import java.util.Date;
 import java.util.List;
 
 import butterknife.Bind;
+import butterknife.OnClick;
 import okhttp3.Call;
 import okhttp3.Request;
 
@@ -54,6 +56,10 @@ public class BallQMatchDetailActivity extends BaseActivity {
     protected TextView tvAwayTeamName;
     @Bind(R.id.tv_game_league_name)
     protected TextView tvGameLeagueName;
+    @Bind(R.id.layout_text_live)
+    LinearLayout layoutTextLive;
+
+    private BallQMatchEntity matchEntity=null;
 
     @Bind(R.id.tab_layout)
     protected TabLayout tabLayout;
@@ -112,16 +118,17 @@ public class BallQMatchDetailActivity extends BaseActivity {
         viewPager.setAdapter(adapter);
         viewPager.setOffscreenPageLimit(fragments.size());
         tabLayout.setupWithViewPager(viewPager);
-
     }
 
     @Override
     protected void getIntentData(Intent intent) {
         BallQMatchEntity data=intent.getParcelableExtra(Tag);
+        matchEntity=data;
         if(data!=null){
             if(!TextUtils.isEmpty(data.getTourname())) {
                 initMatchInfo(data);
                 addFragments(data);
+                getMatchDetailInfo(data.getEid(),data.getEtype());
             }else {
                 getMatchDetailInfo(data.getEid(), data.getEtype());
             }
@@ -149,9 +156,12 @@ public class BallQMatchDetailActivity extends BaseActivity {
                     if(obj!=null&&!obj.isEmpty()&&obj.getIntValue("status")==0){
                         BallQMatchEntity info=obj.getObject("data",BallQMatchEntity.class);
                         if(info!=null){
+                            matchEntity=info;
                             KLog.e("显示数据。。。");
                             initMatchInfo(info);
-                            addFragments(info);
+                            if(viewPager.getAdapter()==null) {
+                                addFragments(info);
+                            }
                         }
                     }
                 }
@@ -170,6 +180,11 @@ public class BallQMatchDetailActivity extends BaseActivity {
         GlideImageLoader.loadImage(this, data.getAtlogo(), R.drawable.icon_default_team_logo, ivAwayTeamIcon);
         tvAwayTeamName.setText(data.getAtname());
         tvGameLeagueName.setText(data.getTourname());
+        if(data.getIs_live()==1){
+            layoutTextLive.setVisibility(View.VISIBLE);
+        }else{
+            layoutTextLive.setVisibility(View.GONE);
+        }
         Date date= CommonUtils.getDateAndTimeFromGMT(data.getMtime());
         if(date!=null) {
             if (date.getTime() <= System.currentTimeMillis()) {
@@ -202,7 +217,7 @@ public class BallQMatchDetailActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(BallQMatchDetailActivity.this, BallQMatchTeamTipOffHistoryActivity.class);
-                intent.putExtra("match_info",data);
+                intent.putExtra("match_info", data);
                 intent.putExtra("is_home_team", true);
                 startActivity(intent);
             }
@@ -237,5 +252,12 @@ public class BallQMatchDetailActivity extends BaseActivity {
     @Override
     protected void notifyEvent(String action, Bundle data) {
 
+    }
+
+    @OnClick(R.id.layout_text_live)
+    protected void onClickTextLive(View view){
+        Intent intent=new Intent(this,BallQMatchTextLiveActivity.class);
+        intent.putExtra(BallQMatchTextLiveActivity.class.getSimpleName(),matchEntity);
+        startActivity(intent);
     }
 }

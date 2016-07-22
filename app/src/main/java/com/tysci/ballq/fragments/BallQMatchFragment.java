@@ -8,6 +8,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 
 import com.nineoldandroids.animation.ObjectAnimator;
 import com.tysci.ballq.R;
@@ -83,8 +85,8 @@ ViewPager.OnPageChangeListener,View.OnClickListener,PopupMenuLayout.OnPopupMenuS
         titleBar.setTitleBarTitle("竞技场");
         titleBar.setOnClickListener(this);
         layoutTipShow.setOnClickListener(this);
-        titleBar.setTitleBarLeftIcon(R.mipmap.icon_match_filter_left, null);
-        titleBar.setRightMenuIcon(R.mipmap.icon_match_filter, this);
+        setLeftMenuAttrs();
+        setRightMenuAttrs();
         addPopMenuItems();
         popupMenuLayout.setTargetView(titleBar.getLeftBack());
         popupMenuLayout.setOnPopupMenuShowListener(this);
@@ -97,6 +99,22 @@ ViewPager.OnPageChangeListener,View.OnClickListener,PopupMenuLayout.OnPopupMenuS
         getMatchFilterDateInfo();
         addContentFragments();
 
+    }
+
+    private void setRightMenuAttrs(){
+        ImageView ivRightMenu=titleBar.getRightMenuImageView();
+        ivRightMenu.getLayoutParams().height= LinearLayout.LayoutParams.WRAP_CONTENT;
+        ivRightMenu.getLayoutParams().width= LinearLayout.LayoutParams.WRAP_CONTENT;
+        ivRightMenu.setImageResource(R.mipmap.icon_match_filter);
+        ivRightMenu.setOnClickListener(this);
+    }
+
+    private void setLeftMenuAttrs(){
+        ImageView ivLeftMenu=titleBar.getLeftBack();
+        ivLeftMenu.setImageResource(R.mipmap.icon_match_filter_left);
+        RelativeLayout.LayoutParams layoutParams= (RelativeLayout.LayoutParams) ivLeftMenu.getLayoutParams();
+        layoutParams.leftMargin=CommonUtils.dip2px(baseActivity,12);
+        ivLeftMenu.setLayoutParams(layoutParams);
     }
 
     private void addPopMenuItems(){

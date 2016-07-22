@@ -15,6 +15,7 @@
         layout="@layout/layout_ballq_match_header"
         android:background="@color/white"/>
     <LinearLayout
+        android:id="@+id/layout_betting_result"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"

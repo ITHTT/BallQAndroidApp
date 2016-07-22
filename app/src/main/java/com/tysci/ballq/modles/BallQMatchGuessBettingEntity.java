@@ -25,8 +25,6 @@ public class BallQMatchGuessBettingEntity implements Parcelable {
     private int bettingMoney;
     private String bettingType;
 
-
-
     public int getAO_cnt() {
         return AO_cnt;
     }

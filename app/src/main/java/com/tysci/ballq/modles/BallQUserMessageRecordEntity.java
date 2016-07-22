@@ -7,11 +7,11 @@ public class BallQUserMessageRecordEntity {
     private String cont;
     private String ctime;
     private String pt;
-    private int isv;
+    private String isv;
     private int eid;
     private String fname;
     private int etype;
-    private int uid;
+    private String uid;
 
     public String getCont() {
         return cont;
@@ -53,11 +53,11 @@ public class BallQUserMessageRecordEntity {
         this.fname = fname;
     }
 
-    public int getIsv() {
+    public String getIsv() {
         return isv;
     }
 
-    public void setIsv(int isv) {
+    public void setIsv(String isv) {
         this.isv = isv;
     }
 
@@ -69,11 +69,11 @@ public class BallQUserMessageRecordEntity {
         this.pt = pt;
     }
 
-    public int getUid() {
+    public String getUid() {
         return uid;
     }
 
-    public void setUid(int uid) {
+    public void setUid(String uid) {
         this.uid = uid;
     }
 }

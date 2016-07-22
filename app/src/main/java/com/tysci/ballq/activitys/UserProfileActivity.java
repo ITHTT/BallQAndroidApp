@@ -289,7 +289,7 @@ public class UserProfileActivity extends BaseActivity
                 break;
             case R.id.menu_user_attentions:// 关注的人
                 intent = new Intent(this, UserAttentionActivity.class);
-                intent.putExtra("uid", String.valueOf(uid));
+                intent.putExtra(UserAttentionActivity.class.getSimpleName(), String.valueOf(uid));
                 break;
             case R.id.menu_user_achievement:// 他的成就
                 intent = new Intent(this, UserAchievementActivity.class);

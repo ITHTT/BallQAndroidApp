@@ -47,6 +47,7 @@ public class BallQTipOffVideoAdapter extends RecyclerView.Adapter<BallQTipOffVid
         UserInfoUtil.setUserHeaderVMark(info.getIsv(), holder.ivUserV, holder.ivUserHeader);
         holder.tvUserName.setText(info.getFname());
         holder.tvLikeCounts.setText(String.valueOf(info.getTipcount()));
+        UserInfoUtil.setUserLevel(holder.ivUserLevel,info.getIsv());
         if(!TextUtils.isEmpty(info.getFirst_image())) {
             GlideImageLoader.loadImage(holder.itemView.getContext(), info.getFirst_image(), R.mipmap.icon_ball_wrap_default_img, holder.ivVideoCover);
         }else{

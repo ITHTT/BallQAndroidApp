@@ -132,6 +132,7 @@ public class UserAttentionFragment extends BaseFragment implements SwipeRefreshL
             @Override
             public void onError(Call call, Exception error) {
                 if (!isLoadMore) {
+                    recyclerView.setRefreshComplete();
                     if (adapter != null) {
                         ToastUtil.show(baseActivity,"请求失败");
                         recyclerView.setStartLoadMore();
@@ -151,6 +152,9 @@ public class UserAttentionFragment extends BaseFragment implements SwipeRefreshL
 
             @Override
             public void onSuccess(Call call, String response) {
+                if(!isLoadMore){
+                    recyclerView.setRefreshComplete();
+                }
                 KLog.json(response);
                 if(!TextUtils.isEmpty(response)){
                     JSONObject obj=JSONObject.parseObject(response);
@@ -158,7 +162,6 @@ public class UserAttentionFragment extends BaseFragment implements SwipeRefreshL
                         JSONArray arrays=obj.getJSONArray("data");
                         if(arrays!=null&&!arrays.isEmpty()){
                             hideLoad();
-                            publishLoadDataEvent(arrays.size());
                             if(userAttentionOrFansEntityList==null){
                                 userAttentionOrFansEntityList=new ArrayList<BallQUserAttentionOrFansEntity>(10);
                             }
@@ -168,6 +171,7 @@ public class UserAttentionFragment extends BaseFragment implements SwipeRefreshL
                                 }
                             }
                             CommonUtils.getJSONListObject(arrays,userAttentionOrFansEntityList,BallQUserAttentionOrFansEntity.class);
+                            publishLoadDataEvent(userAttentionOrFansEntityList.size());
                             if(adapter==null){
                                 adapter=new UserAttentionOrFansAdapter(userAttentionOrFansEntityList);
                                 if(etype==1){
@@ -183,7 +187,7 @@ public class UserAttentionFragment extends BaseFragment implements SwipeRefreshL
                                 adapter.notifyDataSetChanged();
                             }
                             if(arrays.size()<10){
-                                recyclerView.setLoadMoreDataComplete();
+                                recyclerView.setLoadMoreDataComplete("没有更多数据了...");
                             }else{
                                 recyclerView.setStartLoadMore();
                                 if(isLoadMore){
@@ -207,9 +211,6 @@ public class UserAttentionFragment extends BaseFragment implements SwipeRefreshL
             @Override
             public void onFinish(Call call) {
                 if (!isLoadMore) {
-                    if (recyclerView != null) {
-                        recyclerView.setRefreshComplete();
-                    }
                     onRefreshCompelete();
                 }
             }

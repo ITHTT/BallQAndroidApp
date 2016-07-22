@@ -120,6 +120,12 @@ public class BallQMatchBettingGuessDialog extends Dialog implements MatchGuessBe
         loadDataLayout= (LoadDataLayout) view.findViewById(R.id.layout_loading_data);
         layoutBettingInfo=(LinearLayout)view.findViewById(R.id.layout_betting_guess_info);
 
+        if (UserInfoUtil.isVIPUser(this.getContext())) {
+            view.findViewById(R.id.layout_vip).setVisibility(View.VISIBLE);
+        } else {
+            view.findViewById(R.id.layout_vip).setVisibility(View.GONE);
+        }
+
         loadDataLayout.showLoading();
         getUserAccountInfo();
 
@@ -247,7 +253,7 @@ public class BallQMatchBettingGuessDialog extends Dialog implements MatchGuessBe
         window.setGravity(Gravity.CENTER);
         WindowManager.LayoutParams p = window.getAttributes();
         //p.height = (int) (d.getHeight() * 0.5); // 高度设置为屏幕的0.4
-        p.width = (int) (d.getWidth() * 0.9);
+        p.width = (int) (d.getWidth() * 0.95);
         window.setAttributes(p);
     }
 
@@ -316,6 +322,7 @@ public class BallQMatchBettingGuessDialog extends Dialog implements MatchGuessBe
             Intent intent = new Intent(context, BallQUserGuessBettingTipOffActivity.class);
             intent.putExtra("betting_data", data);
             intent.putExtra("match_data", ballQData);
+            intent.putExtra("is_tip",checkBox.isChecked());
             Activity activity = (Activity) context;
             activity.startActivityForResult(intent, 0x0001);
         } else {

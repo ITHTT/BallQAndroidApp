@@ -72,7 +72,7 @@ public class MatchBettingScaleLineView extends View{
     private void initViews(Context context){
         this.context=context;
         bettingInfoTextHeight= CommonUtils.dip2px(context, 20);
-        bettingPercentTextHeight= CommonUtils.dip2px(context, 20);
+        bettingPercentTextHeight= CommonUtils.dip2px(context, 25);
         LEFT_RIGHT_MARGIN= CommonUtils.dip2px(context, 15);
         paint=new Paint();
         paint.setAntiAlias(true);
@@ -123,45 +123,8 @@ public class MatchBettingScaleLineView extends View{
 
         float textInfoY= CommonUtils.dip2px(context, 20);
         float percentTextPadding=60;
-        if(winPercent<=0f){
-            paint.setColor(lineColor);
-            paint.setStrokeWidth(LINE_WIDTH);
-            /**画线条*/
-            canvas.drawLine(equalX, equalY, loseX, loseY, paint);
-            /**画外圆*/
-            canvas.drawCircle(equalX,equalY,OUTER_CIRCLE_WIDTH,paint);
-            canvas.drawCircle(loseX, loseY, OUTER_CIRCLE_WIDTH, paint);
-            /**画内圆*/
-            paint.setColor(innerCircleColor);
-            canvas.drawCircle(equalX, equalY, INNER_CIRCLE_WIDTH, paint);
-            canvas.drawCircle(loseX, loseY, INNER_CIRCLE_WIDTH, paint);
+        if(equalPercent<=0f){
 
-
-            paint.setTextSize(CommonUtils.sp2px(context, 13));
-            paint.setStrokeWidth(0.5f);
-            /**绘制信息*/
-            paint.setColor(equalColor);
-            String bettingEqualInfo="平 "+String.format(Locale.getDefault(), "%.0f", equalValue);
-            float equalTextWidth=paint.measureText(bettingEqualInfo, 0, bettingEqualInfo.length());
-            canvas.drawText(bettingEqualInfo, equalX - equalTextWidth / 2, textInfoY, paint);
-            paint.setColor(loseColor);
-            String bettingLoseInfo=(isBigSmall?"小球 ":"负 ")+String.format(Locale.getDefault(), "%.0f", loseValue);
-            float loseTextWidth=paint.measureText(bettingLoseInfo,0,bettingLoseInfo.length());
-            if(loseX+loseTextWidth/2>width){
-                canvas.drawText(bettingLoseInfo,width-loseTextWidth,textInfoY,paint);
-            }else{
-                canvas.drawText(bettingLoseInfo,loseX-loseTextWidth/2,textInfoY,paint);
-            }
-
-            /**绘制百分比信息*/
-            paint.setColor(percentTextColor);
-            String equalPercentStr=String.format(Locale.getDefault(),"%.0f",equalPercent*100)+"%";
-            float equalPercentTextWidth=paint.measureText(equalPercentStr,0,equalPercentStr.length());
-            canvas.drawText(equalPercentStr,equalX-equalPercentTextWidth/2,equalY+OUTER_CIRCLE_WIDTH/2+percentTextPadding,paint);
-            String losePercentStr=String.format(Locale.getDefault(),"%.0f",losePercent*100)+"%";
-            float losePercentTextWidth=paint.measureText(losePercentStr,0,losePercentStr.length());
-            canvas.drawText(losePercentStr,loseX-losePercentTextWidth/2,equalY+OUTER_CIRCLE_WIDTH/2+percentTextPadding,paint);
-        }else if(equalPercent<=0f){
             paint.setColor(lineColor);
             paint.setStrokeWidth(LINE_WIDTH);
             /**画线条*/
@@ -212,6 +175,45 @@ public class MatchBettingScaleLineView extends View{
             }else{
                 canvas.drawText(losePercentStr,loseX-losePercentTextWidth/2,loseY+percentTextPadding,paint);
             }
+        }else if(winPercent<=0f){
+            paint.setColor(lineColor);
+            paint.setStrokeWidth(LINE_WIDTH);
+            /**画线条*/
+            canvas.drawLine(equalX, equalY, loseX, loseY, paint);
+            /**画外圆*/
+            canvas.drawCircle(equalX,equalY,OUTER_CIRCLE_WIDTH,paint);
+            canvas.drawCircle(loseX, loseY, OUTER_CIRCLE_WIDTH, paint);
+            /**画内圆*/
+            paint.setColor(innerCircleColor);
+            canvas.drawCircle(equalX, equalY, INNER_CIRCLE_WIDTH, paint);
+            canvas.drawCircle(loseX, loseY, INNER_CIRCLE_WIDTH, paint);
+
+
+            paint.setTextSize(CommonUtils.sp2px(context, 13));
+            paint.setStrokeWidth(0.5f);
+            /**绘制信息*/
+            paint.setColor(equalColor);
+            String bettingEqualInfo="平 "+String.format(Locale.getDefault(), "%.0f", equalValue);
+            float equalTextWidth=paint.measureText(bettingEqualInfo, 0, bettingEqualInfo.length());
+            canvas.drawText(bettingEqualInfo, equalX - equalTextWidth / 2, textInfoY, paint);
+            paint.setColor(loseColor);
+            String bettingLoseInfo=(isBigSmall?"小球 ":"负 ")+String.format(Locale.getDefault(), "%.0f", loseValue);
+            float loseTextWidth=paint.measureText(bettingLoseInfo,0,bettingLoseInfo.length());
+            if(loseX+loseTextWidth/2>width){
+                canvas.drawText(bettingLoseInfo,width-loseTextWidth,textInfoY,paint);
+            }else{
+                canvas.drawText(bettingLoseInfo,loseX-loseTextWidth/2,textInfoY,paint);
+            }
+
+            /**绘制百分比信息*/
+            paint.setColor(percentTextColor);
+            String equalPercentStr=String.format(Locale.getDefault(),"%.0f",equalPercent*100)+"%";
+            float equalPercentTextWidth=paint.measureText(equalPercentStr,0,equalPercentStr.length());
+            canvas.drawText(equalPercentStr,equalX-equalPercentTextWidth/2,equalY+OUTER_CIRCLE_WIDTH/2+percentTextPadding,paint);
+            String losePercentStr=String.format(Locale.getDefault(),"%.0f",losePercent*100)+"%";
+            float losePercentTextWidth=paint.measureText(losePercentStr,0,losePercentStr.length());
+            canvas.drawText(losePercentStr,loseX-losePercentTextWidth/2,equalY+OUTER_CIRCLE_WIDTH/2+percentTextPadding,paint);
+
         }else if(losePercent<=0f){
 
         }else{

@@ -54,6 +54,30 @@
                 android:layout_marginTop="15dp"
                 android:textSize="13sp"
                 android:text="06-30"/>
+            <LinearLayout
+                android:id="@+id/layout_text_live"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_marginTop="8dp"
+                android:visibility="gone"
+                android:padding="2dp"
+                android:clickable="true"
+                android:background="@drawable/icon_text_live_bg">
+                <ImageView
+                    android:layout_width="10dp"
+                    android:layout_height="10dp"
+                    android:src="@mipmap/icon_footerball"
+                    android:clickable="false"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="11sp"
+                    android:textColor="@color/gold"
+                    android:text="文字直播"
+                    android:clickable="false"/>
+            </LinearLayout>
         </LinearLayout>
 
         <LinearLayout

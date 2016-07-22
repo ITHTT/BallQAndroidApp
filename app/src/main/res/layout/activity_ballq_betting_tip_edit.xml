@@ -54,10 +54,12 @@
         android:paddingLeft="12dp"
         android:paddingRight="12dp"
         android:gravity="center_vertical">
-        <com.tysci.ballq.views.widgets.switchbutton.SwitchButton
+        <com.tysci.ballq.views.widgets.togglebutton.ToggleButton
             android:id="@+id/slide_switch"
             android:layout_width="50dp"
-            android:layout_height="20dp" />
+            android:layout_height="20dp"
+            app:isDefaultOn="true"
+            app:onColor="@color/gold"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
