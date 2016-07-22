@@ -247,6 +247,13 @@ ViewPager.OnPageChangeListener,View.OnClickListener,PopupMenuLayout.OnPopupMenuS
         selecteMatch(v);
     }
 
+    public void setCurrentTab(int tab)
+    {
+        if(tab<0||tab>=tabLayout.getCurrentTab())
+            return;
+        tabLayout.setCurrentTab(tab);
+    }
+
     private void selecteMatch(View view){
         int id=view.getId();
         String filter="全部";
