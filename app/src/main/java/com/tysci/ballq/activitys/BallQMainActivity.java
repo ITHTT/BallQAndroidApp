@@ -157,7 +157,7 @@ public class BallQMainActivity extends BaseActivity
 
     private void setTabPager(int tab)
     {
-        FragmentTransaction transaction = null;
+        FragmentTransaction transaction;
         if (tab != currentTab)
         {
             //setSelectedTab(tab);

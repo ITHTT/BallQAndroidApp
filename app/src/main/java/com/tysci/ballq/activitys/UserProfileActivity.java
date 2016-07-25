@@ -217,34 +217,34 @@ public class UserProfileActivity extends BaseActivity
         View userTipOffRecord = this.findViewById(R.id.menu_user_tip_off_record);
         View userBallWrapRecord = this.findViewById(R.id.menu_user_ball_wrap_record);
         View oldUserBettingRecord = this.findViewById(R.id.menu_user_old_guess_record);
-
-        View divider01 = this.findViewById(R.id.divider01);
-        View divider02 = this.findViewById(R.id.divider02);
-        View divider03 = this.findViewById(R.id.divider03);
+//
+//        View divider01 = this.findViewById(R.id.divider01);
+//        View divider02 = this.findViewById(R.id.divider02);
+//        View divider03 = this.findViewById(R.id.divider03);
 
         if (userInfo.getRank() >= 10)
         {
             userTipOffRecord.setVisibility(View.VISIBLE);
             userBallWrapRecord.setVisibility(View.VISIBLE);
-            divider01.setVisibility(View.VISIBLE);
-            divider02.setVisibility(View.VISIBLE);
+//            divider01.setVisibility(View.VISIBLE);
+//            divider02.setVisibility(View.VISIBLE);
         }
         else
         {
             userTipOffRecord.setVisibility(View.GONE);
             userBallWrapRecord.setVisibility(View.GONE);
-            divider01.setVisibility(View.GONE);
-            divider02.setVisibility(View.GONE);
+//            divider01.setVisibility(View.GONE);
+//            divider02.setVisibility(View.GONE);
         }
         if (userInfo.getIs_old_user() == 1)
         {
             oldUserBettingRecord.setVisibility(View.VISIBLE);
-            divider03.setVisibility(View.VISIBLE);
+//            divider03.setVisibility(View.VISIBLE);
         }
         else
         {
             oldUserBettingRecord.setVisibility(View.GONE);
-            divider03.setVisibility(View.GONE);
+//            divider03.setVisibility(View.GONE);
         }
     }
 

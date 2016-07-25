@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical">
 
-    <include layout="@layout/layout_title_bar" />
+    <include layout="@layout/layout_title_bar"/>
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -19,7 +19,7 @@
             android:layout_centerHorizontal="true"
             android:layout_marginTop="16dp"
             android:contentDescription="@string/app_name"
-            android:src="@mipmap/icon_camera" />
+            android:src="@mipmap/icon_camera"/>
 
         <ImageView
             android:id="@+id/iv_user_v"
@@ -29,7 +29,7 @@
             android:layout_alignTop="@id/iv_user_header"
             android:contentDescription="@string/app_name"
             android:src="@mipmap/icon_user_v_mark"
-            android:visibility="gone" />
+            android:visibility="gone"/>
 
         <ImageView
             android:id="@+id/iv_user_achievement_01"
@@ -39,7 +39,7 @@
             android:layout_marginLeft="5dp"
             android:layout_marginStart="5dp"
             android:layout_toEndOf="@id/iv_user_header"
-            android:layout_toRightOf="@id/iv_user_header" />
+            android:layout_toRightOf="@id/iv_user_header"/>
 
         <ImageView
             android:id="@+id/iv_user_achievement_02"
@@ -48,7 +48,7 @@
             android:layout_alignBottom="@id/iv_user_header"
             android:layout_marginLeft="5dp"
             android:layout_marginStart="5dp"
-            android:layout_toRightOf="@id/iv_user_achievement_01" />
+            android:layout_toRightOf="@id/iv_user_achievement_01"/>
 
         <ImageView
             android:id="@+id/iv_setting"
@@ -61,7 +61,7 @@
             android:layout_marginTop="10dp"
             android:contentDescription="@string/app_name"
             android:src="@mipmap/icon_setting"
-            android:visibility="gone" />
+            android:visibility="gone"/>
 
         <TextView
             android:id="@+id/tv_user_name"
@@ -73,7 +73,7 @@
             android:singleLine="true"
             android:text="登录后即可参与竞猜"
             android:textColor="@color/white"
-            android:textSize="16sp" />
+            android:textSize="16sp"/>
 
         <TextView
             android:id="@+id/tv_user_bio"
@@ -84,13 +84,15 @@
             android:layout_marginTop="5dp"
             android:text=""
             android:textColor="@color/white"
-            android:textSize="16sp" />
+            android:textSize="16sp"/>
     </RelativeLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/gold"
+        android:layout_height="70dp"
+        android:layout_marginBottom="-7dp"
+        android:layout_marginTop="-7dp"
+        android:background="@mipmap/bg_user_profile_data"
         android:orientation="horizontal"
         android:paddingBottom="8dp"
         android:paddingTop="8dp">
@@ -109,7 +111,7 @@
                 android:layout_height="wrap_content"
                 android:text="%+0"
                 android:textColor="@color/black"
-                android:textSize="15sp" />
+                android:textSize="15sp"/>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -118,13 +120,15 @@
                 android:singleLine="true"
                 android:text="投资回报"
                 android:textColor="@color/black"
-                android:textSize="13sp" />
+                android:textSize="13sp"/>
         </LinearLayout>
 
         <ImageView
             android:layout_width="1dp"
             android:layout_height="match_parent"
-            android:background="@color/white" />
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp"
+            android:background="@color/white"/>
 
         <LinearLayout
             android:layout_width="0dp"
@@ -140,7 +144,7 @@
                 android:layout_height="wrap_content"
                 android:text="+0"
                 android:textColor="@color/black"
-                android:textSize="15sp" />
+                android:textSize="15sp"/>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -149,13 +153,15 @@
                 android:singleLine="true"
                 android:text="总盈亏"
                 android:textColor="@color/black"
-                android:textSize="13sp" />
+                android:textSize="13sp"/>
         </LinearLayout>
 
         <ImageView
             android:layout_width="1dp"
             android:layout_height="match_parent"
-            android:background="@color/white" />
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp"
+            android:background="@color/white"/>
 
         <LinearLayout
             android:layout_width="0dp"
@@ -171,7 +177,7 @@
                 android:layout_height="wrap_content"
                 android:text="+0%"
                 android:textColor="@color/black"
-                android:textSize="15sp" />
+                android:textSize="15sp"/>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -180,7 +186,7 @@
                 android:singleLine="true"
                 android:text="胜率"
                 android:textColor="@color/black"
-                android:textSize="13sp" />
+                android:textSize="13sp"/>
         </LinearLayout>
     </LinearLayout>
 
@@ -199,132 +205,132 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:menu_icon="@mipmap/icon_main_menu_trend_statistics"
-                app:menu_name="走势统计" />
+                app:menu_name="走势统计"/>
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/gold" />
+            <!--<View-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="1dp"-->
+            <!--android:background="@color/gold" />-->
 
             <com.tysci.ballq.views.widgets.MainMenuItemView
                 android:id="@+id/menu_user_guessing_record"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:menu_icon="@mipmap/icon_main_menu_guess"
-                app:menu_name="竞猜记录" />
+                app:menu_name="竞猜记录"/>
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/gold" />
+            <!--<View-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="1dp"-->
+            <!--android:background="@color/gold" />-->
 
             <com.tysci.ballq.views.widgets.MainMenuItemView
                 android:id="@+id/menu_user_message"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:menu_icon="@mipmap/icon_main_menu_message"
-                app:menu_name="我的消息" />
+                app:menu_name="我的消息"/>
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/gold" />
+            <!--<View-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="1dp"-->
+            <!--android:background="@color/gold" />-->
 
             <com.tysci.ballq.views.widgets.MainMenuItemView
                 android:id="@+id/menu_user_collection"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:menu_icon="@mipmap/icon_main_menu_collection"
-                app:menu_name="我的收藏" />
+                app:menu_name="我的收藏"/>
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/gold" />
+            <!--<View-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="1dp"-->
+            <!--android:background="@color/gold" />-->
 
             <com.tysci.ballq.views.widgets.MainMenuItemView
                 android:id="@+id/menu_user_asset"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:menu_icon="@mipmap/icon_main_menu_asset"
-                app:menu_name="我的资产" />
+                app:menu_name="我的资产"/>
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/gold" />
+            <!--<View-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="1dp"-->
+            <!--android:background="@color/gold" />-->
 
             <com.tysci.ballq.views.widgets.MainMenuItemView
                 android:id="@+id/menu_user_attentions"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:menu_icon="@mipmap/icon_main_menu_attentions"
-                app:menu_name="我的关注" />
+                app:menu_name="我的关注"/>
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/gold" />
+            <!--<View-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="1dp"-->
+            <!--android:background="@color/gold" />-->
 
             <com.tysci.ballq.views.widgets.MainMenuItemView
                 android:id="@+id/menu_user_achievement"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:menu_icon="@mipmap/icon_main_menu_achievement"
-                app:menu_name="我的成就" />
+                app:menu_name="我的成就"/>
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/gold" />
+            <!--<View-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="1dp"-->
+            <!--android:background="@color/gold" />-->
 
             <com.tysci.ballq.views.widgets.MainMenuItemView
                 android:id="@+id/menu_user_tip_off_record"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:menu_icon="@mipmap/icon_main_menu_tip_record"
-                app:menu_name="爆料记录" />
+                app:menu_name="爆料记录"/>
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/gold" />
+            <!--<View-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="1dp"-->
+            <!--android:background="@color/gold" />-->
 
             <com.tysci.ballq.views.widgets.MainMenuItemView
                 android:id="@+id/menu_user_ball_warp_record"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:menu_icon="@mipmap/icon_main_menu_ball_wrap"
-                app:menu_name="球经记录" />
+                app:menu_name="球经记录"/>
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/gold" />
+            <!--<View-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="1dp"-->
+            <!--android:background="@color/gold" />-->
 
             <com.tysci.ballq.views.widgets.MainMenuItemView
                 android:id="@+id/menu_user_old_guess_record"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:menu_icon="@mipmap/icon_main_menu_old_guess_record"
-                app:menu_name="老用户战绩" />
+                app:menu_name="老用户战绩"/>
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/gold" />
+            <!--<View-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="1dp"-->
+            <!--android:background="@color/gold" />-->
 
             <com.tysci.ballq.views.widgets.MainMenuItemView
                 android:id="@+id/menu_setting"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:menu_icon="@mipmap/icon_main_menu_setting"
-                app:menu_name="设置" />
+                app:menu_name="设置"/>
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/gold" />
+            <!--<View-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="1dp"-->
+            <!--android:background="@color/gold" />-->
         </LinearLayout>
     </ScrollView>
 </LinearLayout>
