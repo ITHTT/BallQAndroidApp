@@ -12,6 +12,7 @@ import android.view.WindowManager;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.JSONArray;
+import com.tysci.ballq.R;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -19,6 +20,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.Random;
 import java.util.TimeZone;
 
 /**
@@ -213,6 +215,45 @@ public class CommonUtils {
             start = text.indexOf(item, end);
         }
         textView.setText(style);
+    }
+
+    public static int getRandomImageBackgournd(){
+        Random random=new Random();
+        int randomNumber=random.nextInt(9)+1;
+        int res=0;
+        switch (randomNumber){
+            case 1:
+                res= R.mipmap.icon_ballq_info_header_01;
+                break;
+            case 2:
+                res=R.mipmap.icon_ballq_info_header_02;
+                break;
+            case 3:
+                res=R.mipmap.icon_ballq_info_header_03;
+                break;
+            case 4:
+                res=R.mipmap.icon_ballq_info_header_04;
+                break;
+            case 5:
+                res=R.mipmap.icon_ballq_info_header_05;
+                break;
+            case 6:
+                res=R.mipmap.icon_ballq_info_header_06;
+                break;
+            case 7:
+                res=R.mipmap.icon_ballq_info_header_07;
+                break;
+            case 8:
+                res=R.mipmap.icon_ballq_info_header_08;
+                break;
+            case 9:
+                res=R.mipmap.icon_ballq_info_header_09;
+                break;
+            case 10:
+                res=R.mipmap.icon_ballq_info_header_10;
+                break;
+        }
+        return res;
     }
 
 

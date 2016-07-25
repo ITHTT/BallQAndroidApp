@@ -12,6 +12,7 @@ import com.tysci.ballq.networks.HttpClientUtil;
 import com.tysci.ballq.networks.HttpUrls;
 import com.tysci.ballq.utils.CommonUtils;
 import com.tysci.ballq.utils.KLog;
+import com.tysci.ballq.utils.ToastUtil;
 import com.tysci.ballq.views.adapters.BallQFindCircleNoteAdapter;
 
 import java.util.ArrayList;
@@ -50,7 +51,9 @@ public class BallQFindCircleNoteListFragment extends AppSwipeRefreshLoadMoreRecy
             @Override
             public void onError(Call call, Exception error) {
                 if (!isLoadMore) {
-                    if (adapter == null) {
+                    recyclerView.setRefreshComplete();
+                    if (adapter != null) {
+                        ToastUtil.show(baseActivity,"请求失败");
                         recyclerView.setStartLoadMore();
                     } else {
                         showErrorInfo(new View.OnClickListener() {
@@ -68,6 +71,9 @@ public class BallQFindCircleNoteListFragment extends AppSwipeRefreshLoadMoreRecy
 
             @Override
             public void onSuccess(Call call, String response) {
+                if(!isLoadMore){
+                    recyclerView.setRefreshComplete();
+                }
                 KLog.json(response);
                 if (!TextUtils.isEmpty(response)) {
                     JSONObject obj = JSONObject.parseObject(response);
@@ -115,7 +121,6 @@ public class BallQFindCircleNoteListFragment extends AppSwipeRefreshLoadMoreRecy
             @Override
             public void onFinish(Call call) {
                 if (!isLoadMore) {
-                    recyclerView.setRefreshComplete();
                     onRefreshCompelete();
                 }
             }

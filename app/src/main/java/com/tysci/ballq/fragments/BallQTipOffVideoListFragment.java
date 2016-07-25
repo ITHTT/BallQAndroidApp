@@ -26,11 +26,13 @@ import java.util.List;
 import butterknife.Bind;
 import okhttp3.Call;
 import okhttp3.Request;
+import ru.noties.scrollable.CanScrollVerticallyDelegate;
+import ru.noties.scrollable.OnFlingOverListener;
 
 /**
  * Created by Administrator on 2016/7/20.
  */
-public class BallQTipOffVideoListFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener, AutoLoadMoreRecyclerView.OnLoadMoreListener {
+public class BallQTipOffVideoListFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener, AutoLoadMoreRecyclerView.OnLoadMoreListener,CanScrollVerticallyDelegate, OnFlingOverListener {
     @Bind(R.id.swipe_refresh)
     protected SwipeRefreshLayout swipeRefresh;
     @Bind(R.id.recycler_view)
@@ -220,4 +222,15 @@ public class BallQTipOffVideoListFragment extends BaseFragment implements SwipeR
         }
     }
 
+    @Override
+    public boolean canScrollVertically(int direction) {
+        return recyclerView != null && recyclerView.canScrollVertically(direction);
+    }
+
+    @Override
+    public void onFlingOver(int y, long duration) {
+        if (recyclerView != null) {
+            recyclerView.smoothScrollBy(0, y);
+        }
+    }
 }

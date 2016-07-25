@@ -52,9 +52,9 @@ public class HttpClientUtil {
     private static HttpClientUtil httpClientUtil;
 
     /**连接超时时间*/
-    private static final long CONNECTED_TIEM_OUT=60;
-    private static final long READ_TIME_OUT=60;
-    private static final long WRITE_TIME_OUT=60;
+    private static final long CONNECTED_TIEM_OUT=30;
+    private static final long READ_TIME_OUT=30;
+    private static final long WRITE_TIME_OUT=30;
 
     private Handler devidlerHandler=new Handler(Looper.getMainLooper());
 
@@ -64,8 +64,9 @@ public class HttpClientUtil {
         okHttpClientBuilder.connectTimeout(CONNECTED_TIEM_OUT, TimeUnit.SECONDS);
         okHttpClientBuilder.readTimeout(READ_TIME_OUT, TimeUnit.SECONDS);
         okHttpClientBuilder.writeTimeout(WRITE_TIME_OUT, TimeUnit.SECONDS);
+
         /**取消重试*/
-        okHttpClientBuilder.retryOnConnectionFailure(false);
+        okHttpClientBuilder.retryOnConnectionFailure(true);
         /**添加cookie存储*/
         okHttpClientBuilder.cookieJar(new CookieJarImpl(new PersistentCookieStore(context)));
 
@@ -272,6 +273,7 @@ public class HttpClientUtil {
         okHttpClient.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
+                KLog.e("message:"+e.getMessage());
                 if(call.isCanceled()){
                     return;
                 }
@@ -288,6 +290,7 @@ public class HttpClientUtil {
 
             @Override
             public void onResponse(final Call call, final Response response) throws IOException {
+                KLog.e("responseCode:"+response.code());
                 if(call.isCanceled()){
                     return;
                 }

@@ -271,6 +271,8 @@ public class BallQTipOffDetailActivity extends BaseActivity implements SwipeRefr
     }
 
     private void initBallQTipOffInfo(View view, BallQTipOffEntity data) {
+        View headerView=view.findViewById(R.id.layout_ballq_tip_user_header);
+        headerView.setBackgroundResource(CommonUtils.getRandomImageBackgournd());
         CircleImageView ivUserIcon = (CircleImageView) view.findViewById(R.id.ivUserIcon);
         ivUserIcon.setOnClickListener(this);
         ImageView isV = (ImageView) view.findViewById(R.id.isV);

@@ -135,6 +135,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:textSize="12.5sp"
                         android:text="爆料:"
                         android:textColor="@color/gold"/>
 
@@ -167,7 +168,8 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="@dimen/dimen10dp"
+                        android:layout_marginLeft="8dp"
+                        android:textSize="12.5sp"
                         android:text="胜率:"
                         android:textColor="@color/gold"/>
 
@@ -200,7 +202,8 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="@dimen/dimen10dp"
+                        android:layout_marginLeft="8dp"
+                        android:textSize="12.5sp"
                         android:text="盈利率:"
                         android:textColor="@color/gold"/>
 

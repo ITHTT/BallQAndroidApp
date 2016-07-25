@@ -22,13 +22,15 @@ import java.util.HashMap;
 
 import okhttp3.Call;
 import okhttp3.Request;
+import ru.noties.scrollable.CanScrollVerticallyDelegate;
+import ru.noties.scrollable.OnFlingOverListener;
 
 /**
  * Created by HTT on 2016/5/31.
  *
  * @author LinDe edit
  */
-public class UserAttentionAllFragment extends AppSwipeRefreshLoadMoreRecyclerViewFragment {
+public class UserAttentionAllFragment extends AppSwipeRefreshLoadMoreRecyclerViewFragment implements CanScrollVerticallyDelegate, OnFlingOverListener {
     private UserAttentionListAdapter adapter = null;
 
     @Override
@@ -234,5 +236,17 @@ public class UserAttentionAllFragment extends AppSwipeRefreshLoadMoreRecyclerVie
                 UserInfoUtil.userLogin(baseActivity);
             }
         });
+    }
+
+    @Override
+    public boolean canScrollVertically(int direction) {
+        return recyclerView != null && recyclerView.canScrollVertically(direction);
+    }
+
+    @Override
+    public void onFlingOver(int y, long duration) {
+        if (recyclerView != null) {
+            recyclerView.smoothScrollBy(0, y);
+        }
     }
 }

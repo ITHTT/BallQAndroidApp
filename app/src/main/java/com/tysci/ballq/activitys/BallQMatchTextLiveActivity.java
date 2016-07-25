@@ -59,9 +59,9 @@ public class BallQMatchTextLiveActivity extends BaseActivity implements SwipeRef
     @Bind(R.id.lv_text_live)
     protected ListView lvTextLive;
     @Bind(R.id.tv_game_left_name)
-    protected TextView tvGameLeftName;
+    protected TextView tvMatchLeftName;
     @Bind(R.id.tv_game_right_name)
-    protected TextView tvRightName;
+    protected TextView tvMatchRightName;
     @Bind(R.id.lv_game_statistics)
     protected ListView lvMatchStatistics;
 
@@ -273,6 +273,8 @@ public class BallQMatchTextLiveActivity extends BaseActivity implements SwipeRef
                         JSONArray statisticsArray = dataObj.getJSONArray("statistics");
                         if ((eventArray != null && !eventArray.isEmpty()) || (statisticsArray != null && !statisticsArray.isEmpty())) {
                             hideLoad();
+                            tvMatchLeftName.setText(matchEntity.getHtname());
+                            tvMatchRightName.setText(matchEntity.getAtname());
                             if (eventArray != null && !eventArray.isEmpty()) {
                                 if (ballQMatchTextLiveEntityList == null) {
                                     ballQMatchTextLiveEntityList = new ArrayList<>();

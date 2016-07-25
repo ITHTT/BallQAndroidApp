@@ -55,6 +55,7 @@ public class BallQTipOffFragment extends BaseFragment implements View.OnClickLis
     protected ScrollableLayout mScrollableLayout;
 
     private List<BallQBannerImageEntity> bannerList;
+    private List<BaseFragment> fragments=null;
 
     @Override
     protected int getViewLayoutId()
@@ -65,7 +66,7 @@ public class BallQTipOffFragment extends BaseFragment implements View.OnClickLis
     @Override
     protected void initViews(View view, Bundle savedInstanceState)
     {
-        titleBar.setTitleBarTitle("爆料");
+        titleBar.setTitleBarTitle("资讯");
         titleBar.setTitleBarLeftIcon(0, null);
         titleBar.setRightMenuIcon(R.mipmap.icon_search_mark, this);
         mScrollableLayout.setDraggableView(tabLayout);
@@ -75,7 +76,6 @@ public class BallQTipOffFragment extends BaseFragment implements View.OnClickLis
             public void onScrollChanged(int y, int oldY, int maxY)
             {
                 KLog.e(y + "  " + oldY + " " + maxY);
-
                 final float tabsTranslationY;
                 if (y < maxY)
                 {
@@ -85,9 +85,7 @@ public class BallQTipOffFragment extends BaseFragment implements View.OnClickLis
                 {
                     tabsTranslationY = y - maxY;
                 }
-
                 tabLayout.setTranslationY(tabsTranslationY);
-
                 banner.setTranslationY(y / 2);
             }
         });
@@ -97,8 +95,10 @@ public class BallQTipOffFragment extends BaseFragment implements View.OnClickLis
             @Override
             public boolean canScrollVertically(int direction)
             {
-                BaseFragment fragment = (BaseFragment) getChildFragmentManager().getFragments().get(tabLayout.getCurrentTab());
+                KLog.e("currentTab:" + viewPager.getCurrentItem());
+                BaseFragment fragment = fragments.get(viewPager.getCurrentItem());
 //                KLog.e("执行滑动操作。。");
+                KLog.e("fragment:"+fragment.getClass().getSimpleName());
                 if (fragment instanceof CanScrollVerticallyDelegate)
                 {
                     KLog.e("执行滑动操作。。");
@@ -112,24 +112,23 @@ public class BallQTipOffFragment extends BaseFragment implements View.OnClickLis
             @Override
             public void onFlingOver(int y, long duration)
             {
-                BaseFragment fragment = (BaseFragment) getChildFragmentManager().getFragments().get(tabLayout.getCurrentTab());
+                BaseFragment fragment = fragments.get(viewPager.getCurrentItem());
                 //KLog.e("执行滑动操作。。");
-                if (fragment instanceof OnFlingOverListener)
+                if (fragment instanceof  OnFlingOverListener)
                 {
                     KLog.e("执行滑动操作。。");
-                    ((OnFlingOverListener) fragment).onFlingOver(y, duration);
+                    (( OnFlingOverListener) fragment).onFlingOver(y, duration);
                 }
             }
         });
         addFragments();
-
         banner.setOnItemClickListener(this);
     }
 
     private void addFragments()
     {
         String[] titles = {"爆料", "球经", "视频", "我的关注"};
-        List<BaseFragment> fragments = new ArrayList<>(4);
+        fragments = new ArrayList<>(4);
         BaseFragment fragment = new BallQTipOffListFragment();
         fragments.add(fragment);
         fragment = new BallQHomeBallWarpListFragment();

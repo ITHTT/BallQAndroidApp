@@ -211,6 +211,7 @@ public class BallQWebViewActivity extends BaseActivity{
         public void onPageFinished(WebView view, String url) {
 
         }
+
     }
 
     private class CustomWebChromeClient extends WebChromeClient {
@@ -227,6 +228,12 @@ public class BallQWebViewActivity extends BaseActivity{
                 }
             }
             super.onProgressChanged(view, newProgress);
+        }
+
+        @Override
+        public void onReceivedTitle(WebView view, String title) {
+            super.onReceivedTitle(view, title);
+            titleBar.setTitleBarTitle(title);
         }
     }
 }

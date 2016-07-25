@@ -53,7 +53,7 @@ public class BallQUserRewardRankingRulesTipDialog extends Dialog implements View
         WindowManager.LayoutParams p = window.getAttributes();
         //p.height = (int) (d.getHeight() * 0.5); // 高度设置为屏幕的0.4
         p.width = (int) (d.getWidth() * 0.85);
-        p.height= (int) (d.getHeight()*0.7);
+        p.height= (int) (d.getHeight()*0.85);
         window.setAttributes(p);
     }
 
