@@ -7,8 +7,8 @@
     <string name="cid">0000</string>
     <string name="ccid">0</string>
 
-    <!--<string name="pgy_id" translatable="false">87e76dbcf1b58f2cf269ffdd2e924f7d</string>-->
+    <string name="pgy_id" translatable="false">87e76dbcf1b58f2cf269ffdd2e924f7d</string>
     <!--林德-->
-    <string name="pgy_id" translatable="false">a16a5882bcabf26638e704135e1fe393</string>
+    <!--<string name="pgy_id" translatable="false">a16a5882bcabf26638e704135e1fe393</string>-->
     <!--王林-->
 </resources>

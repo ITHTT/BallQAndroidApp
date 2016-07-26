@@ -201,9 +201,9 @@
         </LinearLayout>
 
         <!--<View-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="1dp"-->
-            <!--android:background="#bfbfbf"/>-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="1dp"-->
+        <!--android:background="#bfbfbf"/>-->
 
         <ScrollView
             android:layout_width="match_parent"
@@ -215,6 +215,11 @@
                 android:layout_height="match_parent"
                 android:orientation="vertical">
 
+                <com.tysci.ballq.views.UserProfileCountsView
+                    android:layout_width="match_parent"
+                    android:id="@+id/user_counts_view"
+                    android:layout_height="@dimen/dimen50dp"/>
+
                 <com.tysci.ballq.views.widgets.MainMenuItemView
                     android:id="@+id/menu_user_trend_statistics"
                     android:layout_width="match_parent"
@@ -225,9 +230,9 @@
                     app:text_color="#4d4d4d"/>
 
                 <!--<View-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="1dp"-->
-                    <!--android:background="#bfbfbf"/>-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="1dp"-->
+                <!--android:background="#bfbfbf"/>-->
 
                 <com.tysci.ballq.views.widgets.MainMenuItemView
                     android:id="@+id/menu_user_guessing_record"
@@ -239,9 +244,9 @@
                     app:text_color="#4d4d4d"/>
 
                 <!--<View-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="1dp"-->
-                    <!--android:background="#bfbfbf"/>-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="1dp"-->
+                <!--android:background="#bfbfbf"/>-->
 
                 <com.tysci.ballq.views.widgets.MainMenuItemView
                     android:id="@+id/menu_user_attentions"
@@ -253,10 +258,10 @@
                     app:text_color="#4d4d4d"/>
 
                 <!--<View-->
-                    <!--android:id="@+id/divider01"-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="1dp"-->
-                    <!--android:background="#bfbfbf"/>-->
+                <!--android:id="@+id/divider01"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="1dp"-->
+                <!--android:background="#bfbfbf"/>-->
 
                 <com.tysci.ballq.views.widgets.MainMenuItemView
                     android:id="@+id/menu_user_tip_off_record"
@@ -268,10 +273,10 @@
                     app:text_color="#4d4d4d"/>
 
                 <!--<View-->
-                    <!--android:id="@+id/divider02"-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="1dp"-->
-                    <!--android:background="#bfbfbf"/>-->
+                <!--android:id="@+id/divider02"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="1dp"-->
+                <!--android:background="#bfbfbf"/>-->
 
                 <com.tysci.ballq.views.widgets.MainMenuItemView
                     android:id="@+id/menu_user_ball_wrap_record"
@@ -283,9 +288,9 @@
                     app:text_color="#4d4d4d"/>
 
                 <!--<View-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="1dp"-->
-                    <!--android:background="#bfbfbf"/>-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="1dp"-->
+                <!--android:background="#bfbfbf"/>-->
 
                 <com.tysci.ballq.views.widgets.MainMenuItemView
                     android:id="@+id/menu_user_achievement"
@@ -297,10 +302,10 @@
                     app:text_color="#4d4d4d"/>
 
                 <!--<View-->
-                    <!--android:id="@+id/divider03"-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="1dp"-->
-                    <!--android:background="#bfbfbf"/>-->
+                <!--android:id="@+id/divider03"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="1dp"-->
+                <!--android:background="#bfbfbf"/>-->
 
                 <com.tysci.ballq.views.widgets.MainMenuItemView
                     android:id="@+id/menu_user_old_guess_record"
@@ -312,9 +317,9 @@
                     app:text_color="#4d4d4d"/>
 
                 <!--<View-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="1dp"-->
-                    <!--android:background="#bfbfbf"/>-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="1dp"-->
+                <!--android:background="#bfbfbf"/>-->
             </LinearLayout>
         </ScrollView>
     </LinearLayout>

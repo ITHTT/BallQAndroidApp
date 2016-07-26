@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingBottom="10dp"
+        android:paddingTop="10dp">
+
+        <TextView
+            android:id="@+id/tv_all_count"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="250场"
+            android:textColor="#1d1d1d"
+            android:textSize="@dimen/dimen13sp"/>
+
+        <ImageView
+            android:layout_width="@dimen/dimen1dp"
+            android:layout_height="match_parent"
+            android:background="@color/gold"
+            android:contentDescription="@string/app_name"/>
+
+        <TextView
+            android:id="@+id/tv_win_count"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="250场"
+            android:textColor="#ff202b"
+            android:textSize="@dimen/dimen13sp"/>
+
+        <ImageView
+            android:layout_width="@dimen/dimen1dp"
+            android:layout_height="match_parent"
+            android:background="@color/gold"
+            android:contentDescription="@string/app_name"/>
+
+        <TextView
+            android:id="@+id/tv_lose_count"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="250场"
+            android:textColor="#2a611d"
+            android:textSize="@dimen/dimen13sp"/>
+
+        <ImageView
+            android:layout_width="@dimen/dimen1dp"
+            android:layout_height="match_parent"
+            android:background="@color/gold"
+            android:contentDescription="@string/app_name"/>
+
+        <TextView
+            android:id="@+id/tv_go_count"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="250场"
+            android:textColor="#505050"
+            android:textSize="@dimen/dimen13sp"/>
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/gold"/>
+</LinearLayout>

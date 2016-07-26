@@ -1,6 +1,7 @@
 package com.tysci.ballq.base;
 
 import android.support.v7.widget.RecyclerView;
+import android.view.ViewGroup;
 
 import com.alibaba.fastjson.JSONArray;
 
@@ -12,32 +13,40 @@ import java.util.List;
  *
  * @see android.support.v7.widget.RecyclerView.Adapter
  */
-public abstract class WrapRecyclerAdapter<Bean, VH extends ButterKnifeRecyclerViewHolder> extends RecyclerView.Adapter<VH> {
+public abstract class WrapRecyclerAdapter<Bean, VH extends ButterKnifeRecyclerViewHolder> extends RecyclerView.Adapter<VH>
+{
     private List<Bean> dataList;
 
-    public WrapRecyclerAdapter() {
+    public WrapRecyclerAdapter()
+    {
         this(null);
     }
 
-    public WrapRecyclerAdapter(List<Bean> dataList) {
+    public WrapRecyclerAdapter(List<Bean> dataList)
+    {
         this.dataList = dataList;
     }
 
-    public final Bean getItem(int position) {
+    public final Bean getItem(int position)
+    {
         return dataList == null ? null : dataList.get(position);
     }
 
     @Override
-    public int getItemCount() {
+    public int getItemCount()
+    {
         return dataList == null ? 0 : dataList.size();
     }
 
-    public final boolean isEmpty() {
+    public final boolean isEmpty()
+    {
         return dataList == null || dataList.isEmpty();
     }
 
-    public final void clear() {
-        if (dataList != null) {
+    public final void clear()
+    {
+        if (dataList != null)
+        {
             dataList.clear();
             dataList = null;
         }
@@ -45,27 +54,36 @@ public abstract class WrapRecyclerAdapter<Bean, VH extends ButterKnifeRecyclerVi
     }
 
     @Override
-    public final void onBindViewHolder(VH holder, int position) {
+    public final void onBindViewHolder(VH holder, int position)
+    {
         onBindViewHolder(holder, getItem(position), position);
     }
 
-    public final void addDataList(JSONArray array, boolean append, Class<Bean> cls) {
-        if (dataList == null) {
+    public final void addDataList(JSONArray array, boolean append, Class<Bean> cls)
+    {
+        if (dataList == null)
+        {
             dataList = new ArrayList<>();
         }
-        if (!append) {
+        if (!append)
+        {
             dataList.clear();
         }
-        if (array == null || array.isEmpty()) {
+        if (array == null || array.isEmpty())
+        {
             notifyDataSetChanged();
             return;
         }
-        for (int i = 0, size = array.size(); i < size; i++) {
+        for (int i = 0, size = array.size(); i < size; i++)
+        {
             Bean bean = array.getObject(i, cls);
             dataList.add(bean);
         }
         notifyDataSetChanged();
     }
+
+    @Override
+    public abstract VH onCreateViewHolder(ViewGroup parent, int viewType);
 
     protected abstract void onBindViewHolder(VH holder, Bean bean, int position);
 }

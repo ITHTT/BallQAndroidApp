@@ -40,44 +40,55 @@ import okhttp3.Request;
  * Created by LinDe on 2016-07-13 0013.
  * 定时任务
  */
-public class TimeTaskPickerService extends BaseService implements Runnable {
+public class TimeTaskPickerService extends BaseService implements Runnable
+{
 
     private static final String TAG = TimeTaskPickerService.class.getName();
 
     private Timer mTimer;
     private Handler handler;
-    private final TimerTask mTimerTask = new TimerTask() {
+    private final TimerTask mTimerTask = new TimerTask()
+    {
         @Override
-        public void run() {
-            if (handler != null) {
-                try {
+        public void run()
+        {
+            if (handler != null)
+            {
+                try
+                {
                     handler.post(TimeTaskPickerService.this);
-                } catch (Exception e) {
+                }
+                catch (Exception e)
+                {
                     e.printStackTrace();
                 }
             }
         }
     };
 
+    private static long minute1Flag;
     private static long minute2Flag;
     private static long minute3Flag;
 
     public static final String PATH_SPLASH_BITMAP;
     public static final String PATH_SPLASH_STRING;
 
-    static {
+    static
+    {
         PATH_SPLASH_BITMAP = Environment.getExternalStorageDirectory().getPath() + "/.BallQ";
         PATH_SPLASH_STRING = Environment.getExternalStorageDirectory().getPath() + "/.BallQ/.splash.txt";
     }
 
     @Nullable
     @Override
-    public IBinder onBind(Intent intent) {
+    public IBinder onBind(Intent intent)
+    {
         return null;
     }
 
     @Override
-    public void onCreate() {
+    public void onCreate()
+    {
         super.onCreate();
         mTimer = new Timer();
         handler = new Handler(Looper.getMainLooper());
@@ -86,29 +97,39 @@ public class TimeTaskPickerService extends BaseService implements Runnable {
     }
 
     @Override
-    public void onDestroy() {
+    public void onDestroy()
+    {
         super.onDestroy();
         mTimer.cancel();
     }
 
     @Override
-    public void run() {
+    public void run()
+    {
+        final long timeMinute1 = minute1Flag;
         final long timeMinute2 = minute2Flag;
         final long timeMinute3 = minute3Flag;
 
         final long timeNow = System.currentTimeMillis();
 
-        if (timeNow - timeMinute2 > 2 * 60 * 1000L) {
-            KLog.a("球商后台两分钟执行...");
-            minute2Flag = timeNow;
+        if (timeNow - timeMinute2 > 60 * 1000L)
+        {
+            KLog.e("球商后台每分钟执行...");
+            minute1Flag = timeNow;
 
             // 爆料、球茎 小红点提示
             tipOrArticleDotTask();
         }
+        if (timeNow - timeMinute2 > 2 * 60 * 1000L)
+        {
+            KLog.a("球商后台每两分钟执行...");
+            minute2Flag = timeNow;
+        }
 
         // 三分钟
-        if (timeNow - timeMinute3 > 3 * 60 * 1000L) {
-            KLog.a("球商后台三分钟执行...");
+        if (timeNow - timeMinute3 > 3 * 60 * 1000L)
+        {
+            KLog.a("球商后台每三分钟执行...");
 
             minute3Flag = timeNow;
 
@@ -124,47 +145,57 @@ public class TimeTaskPickerService extends BaseService implements Runnable {
     /**
      * 爆料、球茎 小红点提示
      */
-    private void tipOrArticleDotTask() {
+    private void tipOrArticleDotTask()
+    {
         //noinspection StringBufferReplaceableByString
         StringBuilder sb = new StringBuilder();
         sb.append(HttpUrls.HOST_URL);
         sb.append("/api/ares/update_tags/");
 
-        HttpClientUtil.getHttpClientUtil().sendGetRequest(TAG, sb.toString(), 0, new HttpClientUtil.StringResponseCallBack() {
+        HttpClientUtil.getHttpClientUtil().sendGetRequest(TAG, sb.toString(), 0, new HttpClientUtil.StringResponseCallBack()
+        {
             @Override
-            public void onBefore(Request request) {
+            public void onBefore(Request request)
+            {
             }
 
             @Override
-            public void onError(Call call, Exception error) {
+            public void onError(Call call, Exception error)
+            {
             }
 
             @Override
-            public void onSuccess(Call call, String response) {
+            public void onSuccess(Call call, String response)
+            {
                 KLog.json(response);
 
                 com.alibaba.fastjson.JSONObject object = JSON.parseObject(response);
-                if (!JsonParams.isJsonRight(object)) {
+                if (!JsonParams.isJsonRight(object))
+                {
                     return;
                 }
                 com.alibaba.fastjson.JSONObject data = object.getJSONObject("data");
-                if (data == null || data.isEmpty()) {
+                if (data == null || data.isEmpty())
+                {
                     return;
                 }
                 final long defValue = -999L;
                 final long tipTag = SharedPreferencesUtil.getValue(TimeTaskPickerService.this, SharedPreferencesUtil.KEY_TIP_MSG_DOT, defValue);
                 final long articleTag = SharedPreferencesUtil.getValue(TimeTaskPickerService.this, SharedPreferencesUtil.KEY_ARTICLE_MSG_DOT, defValue);
-                if (tipTag != defValue && tipTag != data.getLong("tip")) {
+                if (tipTag != defValue && tipTag != data.getLong("tip"))
+                {
                     // 通知爆料小红点
                     sendMessageToShowDot("tip");
                 }
-                if (articleTag != defValue && articleTag != data.getLong("article")) {
+                if (articleTag != defValue && articleTag != data.getLong("article"))
+                {
                     // 通知球茎小红点
                     sendMessageToShowDot("article");
                 }
             }
 
-            private void sendMessageToShowDot(String type) {
+            private void sendMessageToShowDot(String type)
+            {
                 //noinspection StringBufferReplaceableByString
                 StringBuilder sb = new StringBuilder();
                 sb.append("{");
@@ -178,7 +209,8 @@ public class TimeTaskPickerService extends BaseService implements Runnable {
             }
 
             @Override
-            public void onFinish(Call call) {
+            public void onFinish(Call call)
+            {
             }
         });
     }
@@ -186,91 +218,117 @@ public class TimeTaskPickerService extends BaseService implements Runnable {
     /**
      * 启动广告图的获取
      */
-    private void splashTask() {
+    private void splashTask()
+    {
         //noinspection StringBufferReplaceableByString
         StringBuilder sb = new StringBuilder();
         sb.append(HttpUrls.HOST_URL_V1);
         sb.append("info/splash/");
 
-        HttpClientUtil.getHttpClientUtil().sendGetRequest(TAG, sb.toString(), 0, new HttpClientUtil.StringResponseCallBack() {
+        HttpClientUtil.getHttpClientUtil().sendGetRequest(TAG, sb.toString(), 0, new HttpClientUtil.StringResponseCallBack()
+        {
             @Override
-            public void onBefore(Request request) {
+            public void onBefore(Request request)
+            {
             }
 
             @Override
-            public void onError(Call call, Exception error) {
+            public void onError(Call call, Exception error)
+            {
                 error.printStackTrace();
             }
 
             @Override
-            public void onSuccess(Call call, final String response) {
+            public void onSuccess(Call call, final String response)
+            {
                 KLog.json(response);
 
                 String last = FileUtil.readStringFromFile(new File(PATH_SPLASH_STRING));
-                if (last.equals(response)) {
+                if (last.equals(response))
+                {
                     return;
                 }
 
                 JSONObject object = null;
-                try {
+                try
+                {
                     object = new JSONObject(response);
-                } catch (JSONException e) {
+                }
+                catch (JSONException e)
+                {
                     e.printStackTrace();
                 }
-                if (object == null) {
+                if (object == null)
+                {
                     return;
                 }
-                if (object.optInt("status", -999) == 0 && object.optString("message").equalsIgnoreCase("ok")) {
+                if (object.optInt("status", -999) == 0 && object.optString("message").equalsIgnoreCase("ok"))
+                {
                     JSONArray data = object.optJSONArray("data");
                     JSONObject aData;
                     JSONArray items;
                     JSONObject aItem;
                     String image_url;
                     int id;
-                    for (int i = 0, length = data.length(); i < length; i++) {
+                    for (int i = 0, length = data.length(); i < length; i++)
+                    {
                         aData = data.optJSONObject(i);
-                        if (aData == null) {
+                        if (aData == null)
+                        {
                             continue;
                         }
                         items = aData.optJSONArray("items");
-                        if (items == null || items.length() == 0) {
+                        if (items == null || items.length() == 0)
+                        {
                             continue;
                         }
-                        for (int j = 0, itemLength = items.length(); j < itemLength; j++) {
+                        for (int j = 0, itemLength = items.length(); j < itemLength; j++)
+                        {
                             aItem = items.optJSONObject(i);
-                            if (aItem == null) {
+                            if (aItem == null)
+                            {
                                 continue;
                             }
                             image_url = aItem.optString("image_url");
                             id = aItem.optInt("id");
-                            if (TextUtils.isEmpty(image_url) || id <= 0) {
+                            if (TextUtils.isEmpty(image_url) || id <= 0)
+                            {
                                 continue;
                             }
                             KLog.e();
                             Glide.with(TimeTaskPickerService.this)
                                     .load(HttpUrls.getImageUrl(image_url))
                                     .asBitmap()
-                                    .listener(new RequestListener<String, Bitmap>() {
+                                    .listener(new RequestListener<String, Bitmap>()
+                                    {
                                         @Override
-                                        public boolean onException(Exception e, String model, Target<Bitmap> target, boolean isFirstResource) {
+                                        public boolean onException(Exception e, String model, Target<Bitmap> target, boolean isFirstResource)
+                                        {
                                             KLog.e();
                                             return false;
                                         }
 
                                         @Override
-                                        public boolean onResourceReady(Bitmap resource, String model, Target<Bitmap> target, boolean isFromMemoryCache, boolean isFirstResource) {
+                                        public boolean onResourceReady(Bitmap resource, String model, Target<Bitmap> target, boolean isFromMemoryCache, boolean isFirstResource)
+                                        {
                                             final StringBuilder sb = new StringBuilder();
                                             sb.append(".BallQSplash");
-                                            if (model.endsWith(".png") || model.endsWith(".PNG")) {
+                                            if (model.endsWith(".png") || model.endsWith(".PNG"))
+                                            {
                                                 sb.append(".png");
-                                            } else if (model.endsWith(".jpg") || model.endsWith(".JPG") || model.endsWith(".jpeg") || model.endsWith(".JPEG")) {
+                                            }
+                                            else if (model.endsWith(".jpg") || model.endsWith(".JPG") || model.endsWith(".jpeg") || model.endsWith(".JPEG"))
+                                            {
                                                 sb.append(".jpg");
-                                            } else {
+                                            }
+                                            else
+                                            {
                                                 sb.append(".gif");
                                             }
                                             KLog.d(resource);
                                             KLog.d(model);
-                                            if (resource != null) {
+                                            if (resource != null)
+                                            {
                                                 final File splashBitmap = new File(PATH_SPLASH_BITMAP, sb.toString());
                                                 FileUtil.writeBitmapToFile(splashBitmap, resource);
 
@@ -280,9 +338,11 @@ public class TimeTaskPickerService extends BaseService implements Runnable {
                                             return false;
                                         }
                                     })
-                                    .into(new SimpleTarget<Bitmap>() {
+                                    .into(new SimpleTarget<Bitmap>()
+                                    {
                                         @Override
-                                        public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
+                                        public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation)
+                                        {
                                         }
                                     });
                         }
@@ -291,7 +351,8 @@ public class TimeTaskPickerService extends BaseService implements Runnable {
             }
 
             @Override
-            public void onFinish(Call call) {
+            public void onFinish(Call call)
+            {
             }
         });
     }

@@ -19,6 +19,7 @@ import com.tysci.ballq.networks.HttpUrls;
 import com.tysci.ballq.utils.KLog;
 import com.tysci.ballq.utils.ToastUtil;
 import com.tysci.ballq.utils.UserInfoUtil;
+import com.tysci.ballq.views.UserProfileCountsView;
 import com.tysci.ballq.views.adapters.BallQUserRankInfoAdapter;
 import com.tysci.ballq.views.adapters.BallQUserRewardRankInfoAdapter;
 import com.tysci.ballq.views.widgets.CircleImageView;
@@ -213,6 +214,9 @@ public class UserProfileActivity extends BaseActivity
         ;
         tvTotalProfitAndLoss.setText(String.format(Locale.getDefault(), "%.2f", (float) userInfo.getTearn() / 100));
         tvWinProbability.setText(String.format(Locale.getDefault(), "%.2f", userInfo.getWins() * 100) + "%");
+
+        UserProfileCountsView userProfileCountsView = (UserProfileCountsView) findViewById(R.id.user_counts_view);
+        userProfileCountsView.setUserCountsData(userInfo.getBsc(), userInfo.getBwc(), userInfo.getBlc(), userInfo.getBgc());
 
         View userTipOffRecord = this.findViewById(R.id.menu_user_tip_off_record);
         View userBallWrapRecord = this.findViewById(R.id.menu_user_ball_wrap_record);

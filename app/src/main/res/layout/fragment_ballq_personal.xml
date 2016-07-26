@@ -197,8 +197,13 @@
         <LinearLayout
             android:id="@+id/layout_right_menus"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="vertical">
+
+            <com.tysci.ballq.views.UserProfileCountsView
+                android:id="@+id/user_counts_view"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dimen50dp"/>
 
             <com.tysci.ballq.views.widgets.MainMenuItemView
                 android:id="@+id/menu_user_trend_statistics"
