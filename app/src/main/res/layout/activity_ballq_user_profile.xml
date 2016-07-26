@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical">
 
-    <include layout="@layout/layout_title_bar" />
+    <include layout="@layout/layout_title_bar"/>
 
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="#272727" />
+        android:background="#272727"/>
 
     <LinearLayout
         android:id="@+id/layout_user_info"
@@ -29,7 +29,7 @@
                 layout="@layout/layout_user_header"
                 android:layout_width="60dp"
                 android:layout_height="60dp"
-                android:layout_centerHorizontal="true" />
+                android:layout_centerHorizontal="true"/>
 
             <ImageView
                 android:id="@+id/ivAchievement1"
@@ -40,7 +40,7 @@
                 android:layout_marginStart="5dp"
                 android:layout_toEndOf="@id/layout_user_header"
                 android:layout_toRightOf="@id/layout_user_header"
-                android:src="@mipmap/icon_user_achievement_circle_mark" />
+                android:src="@mipmap/icon_user_achievement_circle_mark"/>
 
             <ImageView
                 android:id="@+id/ivAchievement2"
@@ -51,7 +51,7 @@
                 android:layout_marginStart="5dp"
                 android:layout_toEndOf="@id/ivAchievement1"
                 android:layout_toRightOf="@id/ivAchievement1"
-                android:src="@mipmap/icon_user_achievement_circle_mark" />
+                android:src="@mipmap/icon_user_achievement_circle_mark"/>
         </RelativeLayout>
 
         <LinearLayout
@@ -69,7 +69,7 @@
                 android:gravity="center"
                 android:text="@string/app_name"
                 android:textColor="@color/white"
-                android:textSize="16sp" />
+                android:textSize="16sp"/>
 
             <TextView
                 android:id="@+id/tvUserBio"
@@ -80,7 +80,7 @@
                 android:text="@string/app_name"
                 android:textColor="@color/white"
                 android:textSize="14sp"
-                android:visibility="gone" />
+                android:visibility="gone"/>
 
             <TextView
                 android:id="@+id/tvAttention"
@@ -96,14 +96,15 @@
                 android:paddingTop="7dp"
                 android:text="加关注"
                 android:textColor="@color/white"
-                android:textSize="12sp" />
+                android:textSize="12sp"/>
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:layout_marginTop="10dp"
+            android:layout_height="70dp"
+            android:layout_marginBottom="-7dp"
+            android:layout_marginTop="-7dp"
+            android:background="@mipmap/bg_user_profile_data"
             android:orientation="horizontal">
 
             <LinearLayout
@@ -120,7 +121,7 @@
                     android:layout_height="wrap_content"
                     android:text="%0"
                     android:textColor="#3a3a3a"
-                    android:textSize="15sp" />
+                    android:textSize="15sp"/>
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -129,13 +130,15 @@
                     android:singleLine="true"
                     android:text="投资回报"
                     android:textColor="#3a3a3a"
-                    android:textSize="13sp" />
+                    android:textSize="13sp"/>
             </LinearLayout>
 
             <ImageView
                 android:layout_width="1dp"
                 android:layout_height="match_parent"
-                android:background="#2a2a2a" />
+                android:layout_marginBottom="15dp"
+                android:layout_marginTop="15dp"
+                android:background="@color/white"/>
 
             <LinearLayout
                 android:layout_width="0dp"
@@ -151,7 +154,7 @@
                     android:layout_height="wrap_content"
                     android:text="8"
                     android:textColor="#3a3a3a"
-                    android:textSize="15sp" />
+                    android:textSize="15sp"/>
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -160,13 +163,15 @@
                     android:singleLine="true"
                     android:text="总盈亏"
                     android:textColor="#3a3a3a"
-                    android:textSize="13sp" />
+                    android:textSize="13sp"/>
             </LinearLayout>
 
             <ImageView
                 android:layout_width="1dp"
                 android:layout_height="match_parent"
-                android:background="#2a2a2a" />
+                android:layout_marginBottom="15dp"
+                android:layout_marginTop="15dp"
+                android:background="@color/white"/>
 
             <LinearLayout
                 android:layout_width="0dp"
@@ -182,7 +187,7 @@
                     android:layout_height="wrap_content"
                     android:text="0%"
                     android:textColor="#3a3a3a"
-                    android:textSize="15sp" />
+                    android:textSize="15sp"/>
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -191,14 +196,14 @@
                     android:singleLine="true"
                     android:text="胜率"
                     android:textColor="#3a3a3a"
-                    android:textSize="13sp" />
+                    android:textSize="13sp"/>
             </LinearLayout>
         </LinearLayout>
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="#bfbfbf" />
+        <!--<View-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="1dp"-->
+            <!--android:background="#bfbfbf"/>-->
 
         <ScrollView
             android:layout_width="match_parent"
@@ -217,12 +222,12 @@
                     app:checked_color="#20eacb70"
                     app:menu_icon="@mipmap/icon_user_menu_trend_statistics"
                     app:menu_name="走势统计"
-                    app:text_color="#4d4d4d" />
+                    app:text_color="#4d4d4d"/>
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="#bfbfbf" />
+                <!--<View-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="1dp"-->
+                    <!--android:background="#bfbfbf"/>-->
 
                 <com.tysci.ballq.views.widgets.MainMenuItemView
                     android:id="@+id/menu_user_guessing_record"
@@ -231,12 +236,12 @@
                     app:checked_color="#20eacb70"
                     app:menu_icon="@mipmap/icon_user_menu_guess_record"
                     app:menu_name="竞猜记录"
-                    app:text_color="#4d4d4d" />
+                    app:text_color="#4d4d4d"/>
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="#bfbfbf" />
+                <!--<View-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="1dp"-->
+                    <!--android:background="#bfbfbf"/>-->
 
                 <com.tysci.ballq.views.widgets.MainMenuItemView
                     android:id="@+id/menu_user_attentions"
@@ -245,13 +250,13 @@
                     app:checked_color="#20eacb70"
                     app:menu_icon="@mipmap/icon_user_menu_follow"
                     app:menu_name="关注的人"
-                    app:text_color="#4d4d4d" />
+                    app:text_color="#4d4d4d"/>
 
-                <View
-                    android:id="@+id/divider01"
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="#bfbfbf" />
+                <!--<View-->
+                    <!--android:id="@+id/divider01"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="1dp"-->
+                    <!--android:background="#bfbfbf"/>-->
 
                 <com.tysci.ballq.views.widgets.MainMenuItemView
                     android:id="@+id/menu_user_tip_off_record"
@@ -260,13 +265,13 @@
                     app:checked_color="#20eacb70"
                     app:menu_icon="@mipmap/icon_user_menu_tip_off_record"
                     app:menu_name="爆料记录"
-                    app:text_color="#4d4d4d" />
+                    app:text_color="#4d4d4d"/>
 
-                <View
-                    android:id="@+id/divider02"
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="#bfbfbf" />
+                <!--<View-->
+                    <!--android:id="@+id/divider02"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="1dp"-->
+                    <!--android:background="#bfbfbf"/>-->
 
                 <com.tysci.ballq.views.widgets.MainMenuItemView
                     android:id="@+id/menu_user_ball_wrap_record"
@@ -275,12 +280,12 @@
                     app:checked_color="#20eacb70"
                     app:menu_icon="@mipmap/icon_user_menu_ball_wrap_record"
                     app:menu_name="球经记录"
-                    app:text_color="#4d4d4d" />
+                    app:text_color="#4d4d4d"/>
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="#bfbfbf" />
+                <!--<View-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="1dp"-->
+                    <!--android:background="#bfbfbf"/>-->
 
                 <com.tysci.ballq.views.widgets.MainMenuItemView
                     android:id="@+id/menu_user_achievement"
@@ -289,13 +294,13 @@
                     app:checked_color="#20eacb70"
                     app:menu_icon="@mipmap/icon_user_menu_achievement"
                     app:menu_name="他的成就"
-                    app:text_color="#4d4d4d" />
+                    app:text_color="#4d4d4d"/>
 
-                <View
-                    android:id="@+id/divider03"
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="#bfbfbf" />
+                <!--<View-->
+                    <!--android:id="@+id/divider03"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="1dp"-->
+                    <!--android:background="#bfbfbf"/>-->
 
                 <com.tysci.ballq.views.widgets.MainMenuItemView
                     android:id="@+id/menu_user_old_guess_record"
@@ -304,12 +309,12 @@
                     app:checked_color="#20eacb70"
                     app:menu_icon="@mipmap/icon_user_menu_old_datas"
                     app:menu_name="老用户战绩"
-                    app:text_color="#4d4d4d" />
+                    app:text_color="#4d4d4d"/>
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="#bfbfbf" />
+                <!--<View-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="1dp"-->
+                    <!--android:background="#bfbfbf"/>-->
             </LinearLayout>
         </ScrollView>
     </LinearLayout>

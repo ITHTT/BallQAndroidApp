@@ -137,7 +137,7 @@ public class BallQTipOffFragment extends BaseFragment implements View.OnClickLis
         fragments.add(fragment);
         fragment = new UserAttentionAllFragment();
         fragments.add(fragment);
-        BallQFragmentPagerAdapter adapter = new BallQFragmentPagerAdapter(getChildFragmentManager(), titles, fragments);
+        BallQFragmentPagerAdapter adapter = new BallQFragmentPagerAdapter<>(getChildFragmentManager(), titles, fragments);
         viewPager.setAdapter(adapter);
         viewPager.setOffscreenPageLimit(fragments.size());
         tabLayout.setViewPager(viewPager);
