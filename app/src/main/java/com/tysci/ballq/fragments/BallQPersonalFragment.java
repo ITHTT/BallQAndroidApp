@@ -24,12 +24,10 @@ import com.tysci.ballq.modles.UserInfoEntity;
 import com.tysci.ballq.modles.event.EventType;
 import com.tysci.ballq.networks.GlideImageLoader;
 import com.tysci.ballq.utils.UserInfoUtil;
-import com.tysci.ballq.views.UserProfileCountsView;
+import com.tysci.ballq.views.UserProfileHeaderView;
 import com.tysci.ballq.views.widgets.CircleImageView;
 import com.tysci.ballq.views.widgets.MainMenuItemView;
 import com.tysci.ballq.views.widgets.TitleBar;
-
-import java.util.Locale;
 
 import butterknife.Bind;
 import butterknife.OnClick;
@@ -55,15 +53,15 @@ public class BallQPersonalFragment extends BaseFragment
     protected TextView tvUserName;
     @Bind(R.id.tv_user_bio)
     protected TextView tvUserBio;
-    @Bind(R.id.tv_ROI)
-    protected TextView tvROI;
-    @Bind(R.id.tv_total_profi_and_loss)
-    protected TextView tvTotalROI;
-    @Bind(R.id.tv_winning_probability)
-    protected TextView tvWins;
+//    @Bind(R.id.tv_ROI)
+//    protected TextView tvROI;
+//    @Bind(R.id.tv_total_profi_and_loss)
+//    protected TextView tvTotalROI;
+//    @Bind(R.id.tv_winning_probability)
+//    protected TextView tvWins;
 
-    @Bind(R.id.user_counts_view)
-    protected UserProfileCountsView mUserProfileCountsView;
+    @Bind(R.id.user_profile_header_view)
+    protected UserProfileHeaderView mUserProfileHeaderView;
 
     @Bind(R.id.menu_user_tip_off_record)
     protected MainMenuItemView tipRecord;
@@ -124,9 +122,10 @@ public class BallQPersonalFragment extends BaseFragment
     {
         if (action.equals(EventType.EVENT_USER_EXIT))
         {
-            ivUserHeader.setImageResource(R.mipmap.icon_camera);
-            ivUserV.setVisibility(View.GONE);
-            tvUserName.setText("登录后即可参与竞猜");
+//            ivUserHeader.setImageResource(R.mipmap.icon_camera);
+//            ivUserV.setVisibility(View.GONE);
+//            tvUserName.setText("登录后即可参与竞猜");
+            mUserProfileHeaderView.setUserUnLoginData();
         }
     }
 
@@ -181,22 +180,24 @@ public class BallQPersonalFragment extends BaseFragment
             // 老用户
             oldUser.setVisibility(userInfo.getIs_old_user() == 1 ? View.VISIBLE : View.GONE);
 
-            tvROI.setText(String.format(Locale.getDefault(), "%.2f", userInfo.getRor()) + "%");
-            tvTotalROI.setText(String.format(Locale.getDefault(), "%.2f", (float) userInfo.getTearn() / 100));
-            tvWins.setText(String.format(Locale.getDefault(), "%.2f", userInfo.getWins() * 100) + "%");
+//            tvROI.setText(String.format(Locale.getDefault(), "%.2f", userInfo.getRor()));
+//            tvROI.append("%");
+//            tvTotalROI.setText(String.format(Locale.getDefault(), "%.2f", (float) userInfo.getTearn() / 100));
+//            tvWins.setText(String.format(Locale.getDefault(), "%.2f", userInfo.getWins() * 100));
+//            tvWins.append("%");
 
-            mUserProfileCountsView.setUserCountsData(userInfo.getBsc(),userInfo.getBwc(),userInfo.getBlc(),userInfo.getBgc());
+            mUserProfileHeaderView.setUserDataInfo(userInfo);
         }
     }
 
-    @OnClick({R.id.iv_user_header, R.id.tv_user_name, R.id.tv_user_bio})
-    protected void onClickUserInfo(View view)
-    {
-        if (!UserInfoUtil.checkLogin(baseActivity))
-        {
-            UserInfoUtil.userLogin(baseActivity);
-        }
-    }
+//    @OnClick({R.id.iv_user_header, R.id.tv_user_name, R.id.tv_user_bio})
+//    protected void onClickUserInfo(View view)
+//    {
+//        if (!UserInfoUtil.checkLogin(baseActivity))
+//        {
+//            UserInfoUtil.userLogin(baseActivity);
+//        }
+//    }
 
     @OnClick({R.id.menu_user_trend_statistics,
             R.id.menu_user_guessing_record,

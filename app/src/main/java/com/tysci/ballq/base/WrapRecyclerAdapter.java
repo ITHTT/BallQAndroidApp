@@ -4,8 +4,10 @@ import android.support.v7.widget.RecyclerView;
 import android.view.ViewGroup;
 
 import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -15,7 +17,7 @@ import java.util.List;
  */
 public abstract class WrapRecyclerAdapter<Bean, VH extends ButterKnifeRecyclerViewHolder> extends RecyclerView.Adapter<VH>
 {
-    private List<Bean> dataList;
+    private List<Bean> mDataList;
 
     public WrapRecyclerAdapter()
     {
@@ -24,31 +26,31 @@ public abstract class WrapRecyclerAdapter<Bean, VH extends ButterKnifeRecyclerVi
 
     public WrapRecyclerAdapter(List<Bean> dataList)
     {
-        this.dataList = dataList;
+        this.mDataList = dataList;
     }
 
     public final Bean getItem(int position)
     {
-        return dataList == null ? null : dataList.get(position);
+        return mDataList == null ? null : mDataList.get(position);
     }
 
     @Override
     public int getItemCount()
     {
-        return dataList == null ? 0 : dataList.size();
+        return mDataList == null ? 0 : mDataList.size();
     }
 
     public final boolean isEmpty()
     {
-        return dataList == null || dataList.isEmpty();
+        return mDataList == null || mDataList.isEmpty();
     }
 
     public final void clear()
     {
-        if (dataList != null)
+        if (mDataList != null)
         {
-            dataList.clear();
-            dataList = null;
+            mDataList.clear();
+            mDataList = null;
         }
         notifyDataSetChanged();
     }
@@ -59,25 +61,49 @@ public abstract class WrapRecyclerAdapter<Bean, VH extends ButterKnifeRecyclerVi
         onBindViewHolder(holder, getItem(position), position);
     }
 
-    public final void addDataList(JSONArray array, boolean append, Class<Bean> cls)
+    public final void addDataList(boolean append, Bean... beans)
     {
-        if (dataList == null)
+        if (mDataList == null)
         {
-            dataList = new ArrayList<>();
+            mDataList = new ArrayList<>();
         }
         if (!append)
         {
-            dataList.clear();
+            mDataList.clear();
+        }
+        if (beans == null || beans.length == 0)
+        {
+            notifyDataSetChanged();
+            return;
+        }
+        Collections.addAll(mDataList, beans);
+        notifyDataSetChanged();
+    }
+
+    public final void addDataList(JSONArray array, boolean append, Class<Bean> cls)
+    {
+        if (mDataList == null)
+        {
+            mDataList = new ArrayList<>();
+        }
+        if (!append)
+        {
+            mDataList.clear();
         }
         if (array == null || array.isEmpty())
         {
             notifyDataSetChanged();
             return;
         }
+        Bean bean;
         for (int i = 0, size = array.size(); i < size; i++)
         {
-            Bean bean = array.getObject(i, cls);
-            dataList.add(bean);
+            if (cls == JSONObject.class)
+                //noinspection unchecked
+                bean = (Bean) array.getJSONObject(i);
+            else
+                bean = array.getObject(i, cls);
+            mDataList.add(bean);
         }
         notifyDataSetChanged();
     }

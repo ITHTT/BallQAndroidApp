@@ -19,7 +19,9 @@
             android:layout_centerHorizontal="true"
             android:layout_marginTop="16dp"
             android:contentDescription="@string/app_name"
-            android:src="@mipmap/icon_camera"/>
+            android:src="@mipmap/icon_camera"
+            app:border_color="@color/gray"
+            app:border_width="@dimen/dimen1dp"/>
 
         <ImageView
             android:id="@+id/iv_user_v"
@@ -87,108 +89,108 @@
             android:textSize="16sp"/>
     </RelativeLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="70dp"
-        android:layout_marginBottom="-7dp"
-        android:layout_marginTop="-7dp"
-        android:background="@mipmap/bg_user_profile_data"
-        android:orientation="horizontal"
-        android:paddingBottom="8dp"
-        android:paddingTop="8dp">
+    <!--<LinearLayout-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="70dp"-->
+    <!--android:layout_marginBottom="-7dp"-->
+    <!--android:layout_marginTop="-7dp"-->
+    <!--android:background="@mipmap/bg_user_profile_data"-->
+    <!--android:orientation="horizontal"-->
+    <!--android:paddingBottom="8dp"-->
+    <!--android:paddingTop="8dp">-->
 
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:orientation="vertical">
+    <!--<LinearLayout-->
+    <!--android:layout_width="0dp"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_gravity="center"-->
+    <!--android:layout_weight="1"-->
+    <!--android:gravity="center"-->
+    <!--android:orientation="vertical">-->
 
-            <TextView
-                android:id="@+id/tv_ROI"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="%+0"
-                android:textColor="@color/black"
-                android:textSize="15sp"/>
+    <!--<TextView-->
+    <!--android:id="@+id/tv_ROI"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:text="%+0"-->
+    <!--android:textColor="@color/black"-->
+    <!--android:textSize="15sp"/>-->
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:singleLine="true"
-                android:text="投资回报"
-                android:textColor="@color/black"
-                android:textSize="13sp"/>
-        </LinearLayout>
+    <!--<TextView-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_marginTop="5dp"-->
+    <!--android:singleLine="true"-->
+    <!--android:text="投资回报"-->
+    <!--android:textColor="@color/black"-->
+    <!--android:textSize="13sp"/>-->
+    <!--</LinearLayout>-->
 
-        <ImageView
-            android:layout_width="1dp"
-            android:layout_height="match_parent"
-            android:layout_marginBottom="10dp"
-            android:layout_marginTop="10dp"
-            android:background="@color/white"/>
+    <!--<ImageView-->
+    <!--android:layout_width="1dp"-->
+    <!--android:layout_height="match_parent"-->
+    <!--android:layout_marginBottom="10dp"-->
+    <!--android:layout_marginTop="10dp"-->
+    <!--android:background="@color/white"/>-->
 
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:orientation="vertical">
+    <!--<LinearLayout-->
+    <!--android:layout_width="0dp"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_gravity="center"-->
+    <!--android:layout_weight="1"-->
+    <!--android:gravity="center"-->
+    <!--android:orientation="vertical">-->
 
-            <TextView
-                android:id="@+id/tv_total_profi_and_loss"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="+0"
-                android:textColor="@color/black"
-                android:textSize="15sp"/>
+    <!--<TextView-->
+    <!--android:id="@+id/tv_total_profi_and_loss"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:text="+0"-->
+    <!--android:textColor="@color/black"-->
+    <!--android:textSize="15sp"/>-->
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:singleLine="true"
-                android:text="总盈亏"
-                android:textColor="@color/black"
-                android:textSize="13sp"/>
-        </LinearLayout>
+    <!--<TextView-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_marginTop="5dp"-->
+    <!--android:singleLine="true"-->
+    <!--android:text="总盈亏"-->
+    <!--android:textColor="@color/black"-->
+    <!--android:textSize="13sp"/>-->
+    <!--</LinearLayout>-->
 
-        <ImageView
-            android:layout_width="1dp"
-            android:layout_height="match_parent"
-            android:layout_marginBottom="10dp"
-            android:layout_marginTop="10dp"
-            android:background="@color/white"/>
+    <!--<ImageView-->
+    <!--android:layout_width="1dp"-->
+    <!--android:layout_height="match_parent"-->
+    <!--android:layout_marginBottom="10dp"-->
+    <!--android:layout_marginTop="10dp"-->
+    <!--android:background="@color/white"/>-->
 
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:orientation="vertical">
+    <!--<LinearLayout-->
+    <!--android:layout_width="0dp"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_gravity="center"-->
+    <!--android:layout_weight="1"-->
+    <!--android:gravity="center"-->
+    <!--android:orientation="vertical">-->
 
-            <TextView
-                android:id="@+id/tv_winning_probability"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="+0%"
-                android:textColor="@color/black"
-                android:textSize="15sp"/>
+    <!--<TextView-->
+    <!--android:id="@+id/tv_winning_probability"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:text="+0%"-->
+    <!--android:textColor="@color/black"-->
+    <!--android:textSize="15sp"/>-->
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:singleLine="true"
-                android:text="胜率"
-                android:textColor="@color/black"
-                android:textSize="13sp"/>
-        </LinearLayout>
-    </LinearLayout>
+    <!--<TextView-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_marginTop="5dp"-->
+    <!--android:singleLine="true"-->
+    <!--android:text="胜率"-->
+    <!--android:textColor="@color/black"-->
+    <!--android:textSize="13sp"/>-->
+    <!--</LinearLayout>-->
+    <!--</LinearLayout>-->
 
     <ScrollView
         android:layout_width="match_parent"
@@ -200,10 +202,10 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <com.tysci.ballq.views.UserProfileCountsView
-                android:id="@+id/user_counts_view"
+            <com.tysci.ballq.views.UserProfileHeaderView
+                android:id="@+id/user_profile_header_view"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/dimen50dp"/>
+                android:layout_height="wrap_content"/>
 
             <com.tysci.ballq.views.widgets.MainMenuItemView
                 android:id="@+id/menu_user_trend_statistics"
