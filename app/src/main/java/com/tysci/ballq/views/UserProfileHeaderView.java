@@ -243,9 +243,9 @@ public final class UserProfileHeaderView extends LinearLayout implements View.On
     public void onClick(View v)
     {
         final Context context = getContext();
-        if (UserInfoUtil.checkLogin(context))
+        if (!UserInfoUtil.checkLogin(context))
         {
-            if (userId != null && userId.equals(UserInfoUtil.getUserId(context)))
+            if (userId != null && !userId.equals(UserInfoUtil.getUserId(context)))
                 UserInfoUtil.userLogin(context);
         }
     }
@@ -256,6 +256,8 @@ public final class UserProfileHeaderView extends LinearLayout implements View.On
     @OnClick(R.id.tv_follow_click)
     protected void onFollowClick(View view)
     {
+        tvFollowClick.setEnabled(false);
+
         final Context context = getContext();
         final String following = "取消关注";
         final String unfollow = "关注";
@@ -263,6 +265,7 @@ public final class UserProfileHeaderView extends LinearLayout implements View.On
         if (!UserInfoUtil.checkLogin(context))
         {
             UserInfoUtil.userLogin(context);
+            tvFollowClick.setEnabled(true);
             return;
         }
         String url = HttpUrls.HOST_URL_V5 + "follow/change/";
@@ -320,7 +323,7 @@ public final class UserProfileHeaderView extends LinearLayout implements View.On
             @Override
             public void onFinish(Call call)
             {
-
+                tvFollowClick.setEnabled(true);
             }
         });
     }

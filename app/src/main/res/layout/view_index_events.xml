@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:layout_width="match_parent"
+              android:layout_height="65dp"
+              android:background="@mipmap/icon_bq_index_events_bg"
+              android:gravity="center_vertical"
+              android:orientation="horizontal"
+              android:paddingBottom="8dp"
+              android:paddingLeft="@dimen/dimen7dp"
+              android:paddingRight="@dimen/dimen7dp"
+              android:paddingTop="8dp">
+
+    <com.tysci.ballq.views.widgets.CircleImageView
+        android:id="@+id/circle_image_view"
+        android:layout_width="@dimen/dimen35dp"
+        android:layout_height="@dimen/dimen35dp"
+        android:src="@mipmap/icon_user_default"
+        app:border_color="@color/gray"
+        app:border_width="0dp"/>
+
+    <TextView
+        android:id="@+id/tv_user_nickname"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:text="虚位以待"
+        android:textColor="#3a3a3a"
+        android:textSize="@dimen/dimen12sp"/>
+</LinearLayout>

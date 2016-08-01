@@ -35,9 +35,11 @@ import okhttp3.Call;
 import okhttp3.Request;
 
 /**
- * Created by Administrator on 2016/6/24.
+ * Created by HTT
+ * on 2016/6/24.
  */
-public class UserAccountActivity extends BaseActivity {
+public class UserAccountActivity extends BaseActivity
+{
     @Bind(R.id.layout_segment_tab)
     protected SegmentTabLayout tabLayout;
     @Bind(R.id.view_pager)
@@ -59,39 +61,48 @@ public class UserAccountActivity extends BaseActivity {
     private String wx_portrait;// 微信头像
 
     @Override
-    protected int getContentViewId() {
+    protected int getContentViewId()
+    {
         return R.layout.activity_user_account;
     }
 
     @Override
-    protected void initViews() {
+    protected void initViews()
+    {
         this.setTitle("我的资产");
         tabLayout.setTabData(titles);
-        tabLayout.setOnTabSelectListener(new SlidingTabLayout.OnTabSelectListener() {
+        tabLayout.setOnTabSelectListener(new SlidingTabLayout.OnTabSelectListener()
+        {
             @Override
-            public void onTabSelect(int position) {
+            public void onTabSelect(int position)
+            {
                 viewPager.setCurrentItem(position);
             }
 
             @Override
-            public void onTabReselect(int position) {
+            public void onTabReselect(int position)
+            {
 
             }
         });
-        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener()
+        {
             @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels)
+            {
 
             }
 
             @Override
-            public void onPageSelected(int position) {
+            public void onPageSelected(int position)
+            {
                 tabLayout.setCurrentTab(position);
 
             }
 
             @Override
-            public void onPageScrollStateChanged(int state) {
+            public void onPageScrollStateChanged(int state)
+            {
 
             }
         });
@@ -100,17 +111,21 @@ public class UserAccountActivity extends BaseActivity {
     }
 
     @Override
-    protected View getLoadingTargetView() {
+    protected View getLoadingTargetView()
+    {
         return this.findViewById(R.id.layout_account_info);
     }
 
     @Override
-    protected void getIntentData(Intent intent) {
+    protected void getIntentData(Intent intent)
+    {
 
     }
 
-    private void addFragments() {
-        if (viewPager.getAdapter() == null) {
+    private void addFragments()
+    {
+        if (viewPager.getAdapter() == null)
+        {
             List<BaseFragment> fragments = new ArrayList<>(2);
             fragments.add(new UserAccountTradeRecordFragment());
             fragments.add(new UserAccountGoldRecordFragment());
@@ -121,24 +136,31 @@ public class UserAccountActivity extends BaseActivity {
 
     }
 
-    private void getUserAccountInfo() {
+    private void getUserAccountInfo()
+    {
         String url = HttpUrls.HOST_URL_V5 + "my_account/";
         HashMap<String, String> params = new HashMap<>(2);
-        if (UserInfoUtil.checkLogin(this)) {
+        if (UserInfoUtil.checkLogin(this))
+        {
             params.put("user", UserInfoUtil.getUserId(this));
             params.put("token", UserInfoUtil.getUserToken(this));
         }
-        HttpClientUtil.getHttpClientUtil().sendPostRequest(Tag, url, params, new HttpClientUtil.StringResponseCallBack() {
+        HttpClientUtil.getHttpClientUtil().sendPostRequest(Tag, url, params, new HttpClientUtil.StringResponseCallBack()
+        {
             @Override
-            public void onBefore(Request request) {
+            public void onBefore(Request request)
+            {
 
             }
 
             @Override
-            public void onError(Call call, Exception error) {
-                showErrorInfo(new View.OnClickListener() {
+            public void onError(Call call, Exception error)
+            {
+                showErrorInfo(new View.OnClickListener()
+                {
                     @Override
-                    public void onClick(View v) {
+                    public void onClick(View v)
+                    {
                         showLoading();
                         getUserAccountInfo();
                     }
@@ -146,16 +168,22 @@ public class UserAccountActivity extends BaseActivity {
             }
 
             @Override
-            public void onSuccess(Call call, String response) {
+            public void onSuccess(Call call, String response)
+            {
                 KLog.json(response);
-                if (!TextUtils.isEmpty(response)) {
+                if (!TextUtils.isEmpty(response))
+                {
                     JSONObject obj = JSONObject.parseObject(response);
-                    if (obj != null && !obj.isEmpty()) {
-                        if (obj.getIntValue("status") == 0) {
+                    if (obj != null && !obj.isEmpty())
+                    {
+                        if (obj.getIntValue("status") == 0)
+                        {
                             JSONArray datas = obj.getJSONArray("data");
-                            if (datas != null && !datas.isEmpty()) {
+                            if (datas != null && !datas.isEmpty())
+                            {
                                 JSONObject data = datas.getJSONObject(0);
-                                if (data != null && !data.isEmpty()) {
+                                if (data != null && !data.isEmpty())
+                                {
                                     hideLoad();
 
                                     isBindWeChat = data.getInteger("bind_to_wechat") == 1;
@@ -177,51 +205,61 @@ public class UserAccountActivity extends BaseActivity {
             }
 
             @Override
-            public void onFinish(Call call) {
+            public void onFinish(Call call)
+            {
 
             }
         });
     }
 
     @Override
-    protected boolean isCanceledEventBus() {
+    protected boolean isCanceledEventBus()
+    {
         return false;
     }
 
     @Override
-    protected void saveInstanceState(Bundle outState) {
+    protected void saveInstanceState(Bundle outState)
+    {
 
     }
 
     @Override
-    protected void handleInstanceState(Bundle outState) {
+    protected void handleInstanceState(Bundle outState)
+    {
 
     }
 
     @Override
-    protected void onViewClick(View view) {
+    protected void onViewClick(View view)
+    {
 
     }
 
     @Override
-    protected void notifyEvent(String action) {
+    protected void notifyEvent(String action)
+    {
 
     }
 
     @Override
-    protected void notifyEvent(String action, Bundle data) {
+    protected void notifyEvent(String action, Bundle data)
+    {
 
     }
 
     @OnClick(R.id.tvGetScoreByCompleteTask)
-    protected void onTaskPointsRecord(View view) {
+    protected void onTaskPointsRecord(View view)
+    {
         Intent intent = new Intent(this, BallQTaskPointsRecordActivity.class);
         startActivity(intent);
     }
 
     @OnClick(R.id.tvBuyGoldCoin)
-    protected void onBuyGoldCoin(View view) {
-        if (goldCoinBuyDialog == null) {
+    protected void onBuyGoldCoin(View view)
+    {
+        if (goldCoinBuyDialog == null)
+        {
             goldCoinBuyDialog = new BallQGoldCoinBuyDialog(this);
         }
         goldCoinBuyDialog.show();
@@ -231,7 +269,8 @@ public class UserAccountActivity extends BaseActivity {
      * 充值
      */
     @OnClick(R.id.tvRecharge)
-    protected void onRechargeClick(View view) {
+    protected void onRechargeClick(View view)
+    {
         Intent intent = new Intent(this, PingPayActivity.class);
         startActivity(intent);
     }
@@ -240,7 +279,8 @@ public class UserAccountActivity extends BaseActivity {
      * 提现
      */
     @OnClick(R.id.tvWithdrawals)
-    protected void onWithdrawsClick(View view) {
+    protected void onWithdrawsClick(View view)
+    {
         Intent i = new Intent(this, UserWithdrawsActivity.class);
         i.putExtra("Balance", balance);
         i.putExtra("BindToWeChat", isBindWeChat);
@@ -253,19 +293,22 @@ public class UserAccountActivity extends BaseActivity {
      * 兑奖
      */
     @OnClick(R.id.tvCashPrize)
-    protected void onCashPrizeClick(View view) {
+    protected void onCashPrizeClick(View view)
+    {
         ToastUtil.show(this, "敬请期待");
     }
 
     @OnClick(R.id.tvLuckyDraw)
-    protected void onLuckyDrawClick(View view) {
+    protected void onLuckyDrawClick(View view)
+    {
         Intent i = new Intent(this, BallQWebViewActivity.class);
         i.putExtra("title", "积分抽奖");
 
         //noinspection MismatchedQueryAndUpdateOfStringBuilder
         StringBuilder sb = new StringBuilder();
         sb.append(HttpUrls.HOST_URL).append("/weixin/gold_lottery/");
-        if (UserInfoUtil.checkLogin(this)) {
+        if (UserInfoUtil.checkLogin(this))
+        {
             sb.append("?user=").append(UserInfoUtil.getUserId(this));
             sb.append("&token=").append(UserInfoUtil.getUserToken(this));
         }
