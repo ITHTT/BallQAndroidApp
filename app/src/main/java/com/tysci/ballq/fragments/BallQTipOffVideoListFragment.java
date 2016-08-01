@@ -32,12 +32,13 @@ import ru.noties.scrollable.OnFlingOverListener;
 /**
  * Created by Administrator on 2016/7/20.
  */
-public class BallQTipOffVideoListFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener, AutoLoadMoreRecyclerView.OnLoadMoreListener,CanScrollVerticallyDelegate, OnFlingOverListener {
+public class BallQTipOffVideoListFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener, AutoLoadMoreRecyclerView.OnLoadMoreListener, CanScrollVerticallyDelegate, OnFlingOverListener
+{
     @Bind(R.id.swipe_refresh)
     protected SwipeRefreshLayout swipeRefresh;
     @Bind(R.id.recycler_view)
     protected AutoLoadMoreRecyclerView recyclerView;
-    private int etype = 0;
+    private int etype = -1;
 
     private BallQTipOffVideoAdapter adapter = null;
     private List<BallQTipOffEntity> ballQTipOffEntityList = null;
@@ -45,25 +46,34 @@ public class BallQTipOffVideoListFragment extends BaseFragment implements SwipeR
 
 
     @Override
-    protected int getViewLayoutId() {
+    protected int getViewLayoutId()
+    {
         return R.layout.layout_swiperefresh_recyclerview;
     }
 
-    private void setRefreshing() {
-        swipeRefresh.post(new Runnable() {
+    private void setRefreshing()
+    {
+        swipeRefresh.post(new Runnable()
+        {
             @Override
-            public void run() {
+            public void run()
+            {
                 swipeRefresh.setRefreshing(true);
             }
         });
     }
 
-    private void onRefreshCompelete() {
-        if (swipeRefresh != null) {
-            swipeRefresh.postDelayed(new Runnable() {
+    private void onRefreshCompelete()
+    {
+        if (swipeRefresh != null)
+        {
+            swipeRefresh.postDelayed(new Runnable()
+            {
                 @Override
-                public void run() {
-                    if (swipeRefresh != null) {
+                public void run()
+                {
+                    if (swipeRefresh != null)
+                    {
                         swipeRefresh.setRefreshing(false);
                         // recyclerView.setStartLoadMore();
                     }
@@ -73,7 +83,8 @@ public class BallQTipOffVideoListFragment extends BaseFragment implements SwipeR
     }
 
     @Override
-    protected void initViews(View view, Bundle savedInstanceState) {
+    protected void initViews(View view, Bundle savedInstanceState)
+    {
         swipeRefresh.setOnRefreshListener(this);
         recyclerView.setLayoutManager(new LinearLayoutManager(this.getActivity()));
         recyclerView.setOnLoadMoreListener(this);
@@ -84,107 +95,150 @@ public class BallQTipOffVideoListFragment extends BaseFragment implements SwipeR
     }
 
     @Override
-    protected View getLoadingTargetView() {
+    protected View getLoadingTargetView()
+    {
         return null;
     }
 
     @Override
-    protected boolean isCancledEventBus() {
+    protected boolean isCancledEventBus()
+    {
         return false;
     }
 
     @Override
-    protected void notifyEvent(String action) {
+    protected void notifyEvent(String action)
+    {
 
     }
 
     @Override
-    protected void notifyEvent(String action, Bundle data) {
+    protected void notifyEvent(String action, Bundle data)
+    {
 
     }
 
-    private void requestDatas(int pages, final boolean isLoadMore) {
+    public void setEtype(int etype)
+    {
+        this.etype = etype;
+        showLoading();
+        requestDatas(1, false);
+    }
+
+    private void requestDatas(int pages, final boolean isLoadMore)
+    {
         String url = HttpUrls.HOST_URL_V5 + "tips/?settled=-1&etype=" + etype + "&rtype=2&p=" + pages;
         KLog.e("url:" + url);
         HashMap<String, String> params = null;
-        if (UserInfoUtil.checkLogin(baseActivity)) {
+        if (UserInfoUtil.checkLogin(baseActivity))
+        {
             params = new HashMap<>(2);
             params.put("user", UserInfoUtil.getUserId(baseActivity));
             params.put("token", UserInfoUtil.getUserToken(baseActivity));
         }
 
-        HttpClientUtil.getHttpClientUtil().sendPostRequest(Tag, url, params, new HttpClientUtil.StringResponseCallBack() {
+        HttpClientUtil.getHttpClientUtil().sendPostRequest(Tag, url, params, new HttpClientUtil.StringResponseCallBack()
+        {
             @Override
-            public void onBefore(Request request) {
+            public void onBefore(Request request)
+            {
 
             }
 
             @Override
-            public void onError(Call call, Exception error) {
-                if (!isLoadMore) {
+            public void onError(Call call, Exception error)
+            {
+                if (!isLoadMore)
+                {
                     recyclerView.setRefreshComplete();
-                    if (adapter != null) {
+                    if (adapter != null)
+                    {
                         recyclerView.setStartLoadMore();
-                    } else {
-                        showErrorInfo(new View.OnClickListener() {
+                    }
+                    else
+                    {
+                        showErrorInfo(new View.OnClickListener()
+                        {
                             @Override
-                            public void onClick(View v) {
+                            public void onClick(View v)
+                            {
                                 showLoading();
                                 requestDatas(1, false);
                             }
                         });
                     }
-                } else {
+                }
+                else
+                {
                     recyclerView.setLoadMoreDataFailed();
                 }
             }
 
             @Override
-            public void onSuccess(Call call, String response) {
+            public void onSuccess(Call call, String response)
+            {
                 KLog.json(response);
                 onResponseSuccess(response, isLoadMore);
             }
 
             @Override
-            public void onFinish(Call call) {
-                if (!isLoadMore) {
+            public void onFinish(Call call)
+            {
+                if (!isLoadMore)
+                {
                     onRefreshCompelete();
                 }
             }
         });
     }
 
-    protected void onResponseSuccess(String response, boolean isLoadMore) {
-        if (!isLoadMore) {
+    protected void onResponseSuccess(String response, boolean isLoadMore)
+    {
+        if (!isLoadMore)
+        {
             recyclerView.setRefreshComplete();
         }
-        if (!TextUtils.isEmpty(response)) {
+        if (!TextUtils.isEmpty(response))
+        {
             JSONObject obj = JSONObject.parseObject(response);
-            if (obj != null && !obj.isEmpty()) {
+            if (obj != null && !obj.isEmpty())
+            {
                 JSONArray objArrays = obj.getJSONArray("data");
-                if (objArrays != null && !objArrays.isEmpty()) {
+                if (objArrays != null && !objArrays.isEmpty())
+                {
                     hideLoad();
-                    if (ballQTipOffEntityList == null) {
+                    if (ballQTipOffEntityList == null)
+                    {
                         ballQTipOffEntityList = new ArrayList<>(10);
                     }
-                    if (!isLoadMore && ballQTipOffEntityList.size() > 0) {
+                    if (!isLoadMore && ballQTipOffEntityList.size() > 0)
+                    {
                         ballQTipOffEntityList.clear();
                     }
                     CommonUtils.getJSONListObject(objArrays, ballQTipOffEntityList, BallQTipOffEntity.class);
-                    if (adapter == null) {
+                    if (adapter == null)
+                    {
                         adapter = new BallQTipOffVideoAdapter(ballQTipOffEntityList);
                         recyclerView.setAdapter(adapter);
-                    } else {
+                    }
+                    else
+                    {
                         adapter.notifyDataSetChanged();
                     }
 
-                    if (objArrays.size() < 10) {
+                    if (objArrays.size() < 10)
+                    {
                         recyclerView.setLoadMoreDataComplete("没有更多数据了");
-                    } else {
+                    }
+                    else
+                    {
                         recyclerView.setStartLoadMore();
-                        if (!isLoadMore) {
+                        if (!isLoadMore)
+                        {
                             currentPages = 2;
-                        } else {
+                        }
+                        else
+                        {
                             currentPages++;
                         }
                     }
@@ -192,19 +246,26 @@ public class BallQTipOffVideoListFragment extends BaseFragment implements SwipeR
                 }
             }
         }
-        if (isLoadMore) {
+        if (isLoadMore)
+        {
             recyclerView.setLoadMoreDataComplete("没有更多数据了");
         }
     }
 
     @Override
-    public void onLoadMore() {
-        if (recyclerView.isRefreshing()) {
+    public void onLoadMore()
+    {
+        if (recyclerView.isRefreshing())
+        {
             recyclerView.setLoadMoreDataComplete("刷新数据中...");
-        } else {
-            recyclerView.postDelayed(new Runnable() {
+        }
+        else
+        {
+            recyclerView.postDelayed(new Runnable()
+            {
                 @Override
-                public void run() {
+                public void run()
+                {
                     requestDatas(currentPages, true);
                 }
             }, 300);
@@ -213,23 +274,30 @@ public class BallQTipOffVideoListFragment extends BaseFragment implements SwipeR
     }
 
     @Override
-    public void onRefresh() {
-        if (recyclerView.isLoadMoreing()) {
+    public void onRefresh()
+    {
+        if (recyclerView.isLoadMoreing())
+        {
             recyclerView.setRefreshing();
             onRefreshCompelete();
-        } else {
+        }
+        else
+        {
             requestDatas(1, false);
         }
     }
 
     @Override
-    public boolean canScrollVertically(int direction) {
+    public boolean canScrollVertically(int direction)
+    {
         return recyclerView != null && recyclerView.canScrollVertically(direction);
     }
 
     @Override
-    public void onFlingOver(int y, long duration) {
-        if (recyclerView != null) {
+    public void onFlingOver(int y, long duration)
+    {
+        if (recyclerView != null)
+        {
             recyclerView.smoothScrollBy(0, y);
         }
     }
