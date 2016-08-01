@@ -1,18 +1,222 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
               android:orientation="vertical">
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="125dp"
+        android:background="@mipmap/icon_main_menu_bg">
+
+        <com.tysci.ballq.views.widgets.CircleImageView
+            android:id="@+id/iv_user_portrait"
+            android:layout_width="@dimen/dimen60dp"
+            android:layout_height="@dimen/dimen60dp"
+            android:layout_marginLeft="@dimen/dimen10dp"
+            android:layout_marginStart="@dimen/dimen10dp"
+            android:layout_marginTop="@dimen/dimen15dp"
+            android:src="@mipmap/icon_user_default"
+            app:border_color="@color/gray"
+            app:border_width="3dp"/>
+
+        <ImageView
+            android:id="@+id/iv_user_v"
+            android:layout_width="@dimen/dimen20dp"
+            android:layout_height="@dimen/dimen20dp"
+            android:layout_alignEnd="@id/iv_user_portrait"
+            android:layout_alignRight="@id/iv_user_portrait"
+            android:layout_alignTop="@id/iv_user_portrait"
+            android:layout_marginEnd="-3dp"
+            android:layout_marginRight="-3dp"
+            android:layout_marginTop="-3dp"
+            android:contentDescription="@string/app_name"
+            android:src="@mipmap/icon_user_v_mark"/>
+
+        <LinearLayout
+            android:id="@+id/layout_nickname"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@id/iv_user_portrait"
+            android:layout_marginTop="@dimen/dimen5dp"
+            android:layout_toEndOf="@id/iv_user_portrait"
+            android:layout_toRightOf="@id/iv_user_portrait"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_user_nickname"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/dimen15dp"
+                android:layout_marginStart="@dimen/dimen15dp"
+                android:ellipsize="end"
+                android:lines="1"
+                android:maxLength="6"
+                android:text="红烧茄子黄焖鸡"
+                android:textColor="@color/white"
+                android:textSize="14sp"/>
+
+            <ImageView
+                android:id="@+id/iv_expert"
+                android:layout_width="@dimen/dimen30dp"
+                android:layout_height="@dimen/dimen20dp"
+                android:layout_marginLeft="@dimen/dimen5dp"
+                android:layout_marginStart="@dimen/dimen5dp"
+                android:contentDescription="@string/app_name"
+                android:src="@mipmap/ic_launcher"/>
+
+            <TextView
+                android:id="@+id/tv_follow_click"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/dimen10dp"
+                android:layout_marginStart="@dimen/dimen10dp"
+                android:background="@drawable/btn_tra_gold"
+                android:paddingBottom="5dp"
+                android:paddingLeft="@dimen/dimen10dp"
+                android:paddingRight="@dimen/dimen10dp"
+                android:paddingTop="5dp"
+                android:text="关注"
+                android:textColor="@color/white"
+                android:textSize="12sp"/>
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/iv_setting"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:contentDescription="@string/app_name"
+            android:padding="@dimen/dimen10dp"
+            android:paddingTop="10dp"
+            android:src="@mipmap/icon_setting"
+            android:visibility="visible"/>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/layout_nickname"
+            android:layout_marginTop="@dimen/dimen10dp"
+            android:layout_toEndOf="@id/iv_user_portrait"
+            android:layout_toRightOf="@id/iv_user_portrait"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingEnd="0dp"
+            android:paddingLeft="@dimen/dimen15dp"
+            android:paddingRight="0dp"
+            android:paddingStart="@dimen/dimen15dp">
+
+            <ImageView
+                android:id="@+id/iv_user_achievement01"
+                android:layout_width="@dimen/achievement_image_view_small"
+                android:layout_height="@dimen/achievement_image_view_small"
+                android:contentDescription="@string/app_name"
+                android:src="@mipmap/icon_user_achievement_circle_mark"/>
+
+            <ImageView
+                android:layout_width="@dimen/achievement_image_view_small"
+                android:layout_height="@dimen/achievement_image_view_small"
+                android:layout_marginEnd="@dimen/dimen10dp"
+                android:layout_marginLeft="5dp"
+                android:id="@+id/iv_user_achievement02"
+                android:layout_marginRight="@dimen/dimen10dp"
+                android:layout_marginStart="5dp"
+                android:contentDescription="@string/app_name"
+                android:src="@mipmap/icon_user_achievement_circle_mark"/>
+
+            <TextView
+                android:id="@+id/tv_user_bio"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:lines="1"
+                android:text="带我装逼带我飞"
+                android:textColor="@color/white"
+                android:textSize="@dimen/dimen13sp"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="32dp"
+            android:layout_below="@id/iv_user_portrait"
+            android:layout_marginTop="@dimen/dimen15dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingBottom="7dp"
+            android:paddingTop="7dp">
+
+            <TextView
+                android:id="@+id/tv_all_count"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="250场"
+                android:textColor="@color/white"
+                android:textSize="@dimen/dimen13sp"/>
+
+            <ImageView
+                android:layout_width="@dimen/dimen1dp"
+                android:layout_height="match_parent"
+                android:background="@color/white"
+                android:contentDescription="@string/app_name"/>
+
+            <TextView
+                android:id="@+id/tv_win_count"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="225赢"
+                android:textColor="@color/white"
+                android:textSize="@dimen/dimen13sp"/>
+
+            <ImageView
+                android:layout_width="@dimen/dimen1dp"
+                android:layout_height="match_parent"
+                android:background="@color/white"
+                android:contentDescription="@string/app_name"/>
+
+            <TextView
+                android:id="@+id/tv_lose_count"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="25输"
+                android:textColor="@color/white"
+                android:textSize="@dimen/dimen13sp"/>
+
+            <ImageView
+                android:layout_width="@dimen/dimen1dp"
+                android:layout_height="match_parent"
+                android:background="@color/white"
+                android:contentDescription="@string/app_name"/>
+
+            <TextView
+                android:id="@+id/tv_go_count"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="0走"
+                android:textColor="@color/white"
+                android:textSize="@dimen/dimen13sp"/>
+        </LinearLayout>
+    </RelativeLayout>
+
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="70dp"
+        android:layout_height="60dp"
         android:layout_marginBottom="-7dp"
         android:layout_marginTop="-7dp"
         android:background="@mipmap/bg_user_profile_data"
         android:orientation="horizontal"
-        android:paddingBottom="8dp"
-        android:paddingTop="8dp">
+        android:paddingBottom="5dp"
+        android:paddingTop="5dp">
 
         <LinearLayout
             android:layout_width="0dp"
@@ -107,75 +311,9 @@
         </LinearLayout>
     </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
-        android:paddingBottom="7dp"
-        android:paddingTop="7dp">
 
-        <TextView
-            android:id="@+id/tv_all_count"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="250场"
-            android:textColor="#1d1d1d"
-            android:textSize="@dimen/dimen13sp"/>
-
-        <ImageView
-            android:layout_width="@dimen/dimen1dp"
-            android:layout_height="match_parent"
-            android:background="@color/gold"
-            android:contentDescription="@string/app_name"/>
-
-        <TextView
-            android:id="@+id/tv_win_count"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="225赢"
-            android:textColor="#ff202b"
-            android:textSize="@dimen/dimen13sp"/>
-
-        <ImageView
-            android:layout_width="@dimen/dimen1dp"
-            android:layout_height="match_parent"
-            android:background="@color/gold"
-            android:contentDescription="@string/app_name"/>
-
-        <TextView
-            android:id="@+id/tv_lose_count"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="25输"
-            android:textColor="#2a611d"
-            android:textSize="@dimen/dimen13sp"/>
-
-        <ImageView
-            android:layout_width="@dimen/dimen1dp"
-            android:layout_height="match_parent"
-            android:background="@color/gold"
-            android:contentDescription="@string/app_name"/>
-
-        <TextView
-            android:id="@+id/tv_go_count"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="0走"
-            android:textColor="#505050"
-            android:textSize="@dimen/dimen13sp"/>
-    </LinearLayout>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/gold"/>
+    <!--<View-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="1dp"-->
+    <!--android:background="@color/gold"/>-->
 </LinearLayout>

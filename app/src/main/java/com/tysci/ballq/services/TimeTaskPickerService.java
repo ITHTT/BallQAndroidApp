@@ -114,7 +114,7 @@ public class TimeTaskPickerService extends BaseService implements Runnable
 
         if (timeNow - timeMinute2 > 60 * 1000L)
         {
-            KLog.e("球商后台每分钟执行...");
+            KLog.a("球商后台每分钟执行...");
             minute1Flag = timeNow;
 
             // 爆料、球茎 小红点提示

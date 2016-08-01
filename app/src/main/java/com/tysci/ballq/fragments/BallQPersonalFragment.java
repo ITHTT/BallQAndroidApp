@@ -2,10 +2,7 @@ package com.tysci.ballq.fragments;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.view.View;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.tysci.ballq.R;
 import com.tysci.ballq.activitys.BallQSettingActivity;
@@ -22,10 +19,8 @@ import com.tysci.ballq.activitys.UserTrendStatisticActivity;
 import com.tysci.ballq.base.BaseFragment;
 import com.tysci.ballq.modles.UserInfoEntity;
 import com.tysci.ballq.modles.event.EventType;
-import com.tysci.ballq.networks.GlideImageLoader;
 import com.tysci.ballq.utils.UserInfoUtil;
 import com.tysci.ballq.views.UserProfileHeaderView;
-import com.tysci.ballq.views.widgets.CircleImageView;
 import com.tysci.ballq.views.widgets.MainMenuItemView;
 import com.tysci.ballq.views.widgets.TitleBar;
 
@@ -41,18 +36,18 @@ public class BallQPersonalFragment extends BaseFragment
 {
     @Bind(R.id.title_bar)
     protected TitleBar titleBar;
-    @Bind(R.id.iv_user_header)
-    protected CircleImageView ivUserHeader;
-    @Bind(R.id.iv_user_v)
-    protected ImageView ivUserV;
-    @Bind(R.id.iv_user_achievement_01)
-    protected ImageView ivUserAchievement01;
-    @Bind(R.id.iv_user_achievement_02)
-    protected ImageView ivUserAchievement02;
-    @Bind(R.id.tv_user_name)
-    protected TextView tvUserName;
-    @Bind(R.id.tv_user_bio)
-    protected TextView tvUserBio;
+//    @Bind(R.id.iv_user_header)
+//    protected CircleImageView ivUserHeader;
+//    @Bind(R.id.iv_user_v)
+//    protected ImageView ivUserV;
+//    @Bind(R.id.iv_user_achievement_01)
+//    protected ImageView ivUserAchievement01;
+//    @Bind(R.id.iv_user_achievement_02)
+//    protected ImageView ivUserAchievement02;
+//    @Bind(R.id.tv_user_name)
+//    protected TextView tvUserName;
+//    @Bind(R.id.tv_user_bio)
+//    protected TextView tvUserBio;
 //    @Bind(R.id.tv_ROI)
 //    protected TextView tvROI;
 //    @Bind(R.id.tv_total_profi_and_loss)
@@ -125,7 +120,7 @@ public class BallQPersonalFragment extends BaseFragment
 //            ivUserHeader.setImageResource(R.mipmap.icon_camera);
 //            ivUserV.setVisibility(View.GONE);
 //            tvUserName.setText("登录后即可参与竞猜");
-            mUserProfileHeaderView.setUserUnLoginData();
+            mUserProfileHeaderView.setUserUnLoginProfile(UserInfoUtil.getUserId(baseActivity));
         }
     }
 
@@ -147,36 +142,36 @@ public class BallQPersonalFragment extends BaseFragment
     {
         if (userInfo != null)
         {
-            GlideImageLoader.loadImage(this, userInfo.getPt(), R.mipmap.icon_user_default, ivUserHeader);
-            UserInfoUtil.setUserHeaderVMark(userInfo.getIsv(), ivUserV, ivUserHeader);
-            if (TextUtils.isEmpty(userInfo.getTitle1()))
-            {
-                ivUserAchievement01.setVisibility(View.GONE);
-            }
-            else
-            {
-                ivUserAchievement01.setVisibility(View.VISIBLE);
-                GlideImageLoader.loadImage(this, userInfo.getTitle1(), R.mipmap.icon_user_achievement_circle_mark, ivUserAchievement01);
-            }
-            if (TextUtils.isEmpty(userInfo.getTitle2()))
-            {
-                ivUserAchievement02.setVisibility(View.GONE);
-            }
-            else
-            {
-                ivUserAchievement02.setVisibility(View.VISIBLE);
-                GlideImageLoader.loadImage(this, userInfo.getTitle2(), R.mipmap.icon_user_achievement_circle_mark, ivUserAchievement02);
-            }
-            tvUserName.setText(userInfo.getFname());
-            if (TextUtils.isEmpty(userInfo.getBio()))
-            {
-                tvUserBio.setVisibility(View.GONE);
-            }
-            else
-            {
-                tvUserBio.setVisibility(View.VISIBLE);
-                tvUserBio.setText(userInfo.getBio());
-            }
+//            GlideImageLoader.loadImage(this, userInfo.getPt(), R.mipmap.icon_user_default, ivUserHeader);
+//            UserInfoUtil.setUserHeaderVMark(userInfo.getIsv(), ivUserV, ivUserHeader);
+//            if (TextUtils.isEmpty(userInfo.getTitle1()))
+//            {
+//                ivUserAchievement01.setVisibility(View.GONE);
+//            }
+//            else
+//            {
+//                ivUserAchievement01.setVisibility(View.VISIBLE);
+//                GlideImageLoader.loadImage(this, userInfo.getTitle1(), R.mipmap.icon_user_achievement_circle_mark, ivUserAchievement01);
+//            }
+//            if (TextUtils.isEmpty(userInfo.getTitle2()))
+//            {
+//                ivUserAchievement02.setVisibility(View.GONE);
+//            }
+//            else
+//            {
+//                ivUserAchievement02.setVisibility(View.VISIBLE);
+//                GlideImageLoader.loadImage(this, userInfo.getTitle2(), R.mipmap.icon_user_achievement_circle_mark, ivUserAchievement02);
+//            }
+//            tvUserName.setText(userInfo.getFname());
+//            if (TextUtils.isEmpty(userInfo.getBio()))
+//            {
+//                tvUserBio.setVisibility(View.GONE);
+//            }
+//            else
+//            {
+//                tvUserBio.setVisibility(View.VISIBLE);
+//                tvUserBio.setText(userInfo.getBio());
+//            }
             // 老用户
             oldUser.setVisibility(userInfo.getIs_old_user() == 1 ? View.VISIBLE : View.GONE);
 
@@ -186,7 +181,7 @@ public class BallQPersonalFragment extends BaseFragment
 //            tvWins.setText(String.format(Locale.getDefault(), "%.2f", userInfo.getWins() * 100));
 //            tvWins.append("%");
 
-            mUserProfileHeaderView.setUserDataInfo(userInfo);
+            mUserProfileHeaderView.setUserProfile(userInfo);
         }
     }
 

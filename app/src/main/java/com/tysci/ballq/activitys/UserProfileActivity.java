@@ -4,30 +4,21 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import com.alibaba.fastjson.JSONObject;
 import com.tysci.ballq.R;
 import com.tysci.ballq.base.BaseActivity;
 import com.tysci.ballq.modles.UserInfoEntity;
-import com.tysci.ballq.modles.event.EventObject;
-import com.tysci.ballq.networks.GlideImageLoader;
 import com.tysci.ballq.networks.HttpClientUtil;
 import com.tysci.ballq.networks.HttpUrls;
 import com.tysci.ballq.utils.KLog;
-import com.tysci.ballq.utils.ToastUtil;
 import com.tysci.ballq.utils.UserInfoUtil;
 import com.tysci.ballq.views.UserProfileHeaderView;
-import com.tysci.ballq.views.adapters.BallQUserRankInfoAdapter;
-import com.tysci.ballq.views.adapters.BallQUserRewardRankInfoAdapter;
-import com.tysci.ballq.views.widgets.CircleImageView;
 import com.tysci.ballq.views.widgets.MainMenuItemView;
 
 import java.util.HashMap;
 
-import butterknife.Bind;
 import butterknife.OnClick;
 import okhttp3.Call;
 import okhttp3.Request;
@@ -37,20 +28,20 @@ import okhttp3.Request;
  */
 public class UserProfileActivity extends BaseActivity
 {
-    @Bind(R.id.ivUserIcon)
-    protected CircleImageView ivUserIcon;
-    @Bind(R.id.isV)
-    protected ImageView isV;
-    @Bind(R.id.ivAchievement1)
-    protected ImageView ivAchievement1;
-    @Bind(R.id.ivAchievement2)
-    protected ImageView ivAchievement2;
-    @Bind(R.id.tvUserNickName)
-    protected TextView tvUserNickName;
-    @Bind(R.id.tvUserBio)
-    protected TextView tvUserBio;
-    @Bind(R.id.tvAttention)
-    protected TextView tvAttention;
+//    @Bind(R.id.ivUserIcon)
+//    protected CircleImageView ivUserIcon;
+//    @Bind(R.id.isV)
+//    protected ImageView isV;
+//    @Bind(R.id.ivAchievement1)
+//    protected ImageView ivAchievement1;
+//    @Bind(R.id.ivAchievement2)
+//    protected ImageView ivAchievement2;
+//    @Bind(R.id.tvUserNickName)
+//    protected TextView tvUserNickName;
+//    @Bind(R.id.tvUserBio)
+//    protected TextView tvUserBio;
+//    @Bind(R.id.tvAttention)
+//    protected TextView tvAttention;
 //    @Bind(R.id.tv_ROI)
 //    protected TextView tvROI;
 //    @Bind(R.id.tv_total_profi_and_loss)
@@ -141,7 +132,6 @@ public class UserProfileActivity extends BaseActivity
             @Override
             public void onBefore(Request request)
             {
-
             }
 
             @Override
@@ -187,35 +177,35 @@ public class UserProfileActivity extends BaseActivity
 
     private void showUserInfo(UserInfoEntity userInfo)
     {
-        GlideImageLoader.loadImage(this, userInfo.getPt(), R.mipmap.icon_user_default, ivUserIcon);
-        UserInfoUtil.setUserHeaderVMark(userInfo.getIsv(), isV, ivUserIcon);
-        UserInfoUtil.setUserAchievementInfo(this, userInfo.getTitle1(), ivAchievement1, userInfo.getTitle2(), ivAchievement2);
-        tvUserNickName.setText(userInfo.getFname());
-        if (TextUtils.isEmpty(userInfo.getBio()))
-        {
-            tvUserBio.setVisibility(View.GONE);
-        }
-        else
-        {
-            tvUserBio.setVisibility(View.VISIBLE);
-            tvUserBio.setText(userInfo.getBio());
-        }
-        if (String.valueOf(uid).equals(UserInfoUtil.getUserId(this)))
-        {
-            tvAttention.setVisibility(View.GONE);
-        }
-        else
-        {
-            tvAttention.setVisibility(View.VISIBLE);
-            tvAttention.setText(userInfo.getIsf() == 1 ? "取消关注" : "加关注");
-        }
+//        GlideImageLoader.loadImage(this, userInfo.getPt(), R.mipmap.icon_user_default, ivUserIcon);
+//        UserInfoUtil.setUserHeaderVMark(userInfo.getIsv(), isV, ivUserIcon);
+//        UserInfoUtil.setUserAchievementInfo(this, userInfo.getTitle1(), ivAchievement1, userInfo.getTitle2(), ivAchievement2);
+//        tvUserNickName.setText(userInfo.getFname());
+//        if (TextUtils.isEmpty(userInfo.getBio()))
+//        {
+//            tvUserBio.setVisibility(View.GONE);
+//        }
+//        else
+//        {
+//            tvUserBio.setVisibility(View.VISIBLE);
+//            tvUserBio.setText(userInfo.getBio());
+//        }
+//        if (String.valueOf(uid).equals(UserInfoUtil.getUserId(this)))
+//        {
+//            tvAttention.setVisibility(View.GONE);
+//        }
+//        else
+//        {
+//            tvAttention.setVisibility(View.VISIBLE);
+//            tvAttention.setText(userInfo.getIsf() == 1 ? "取消关注" : "加关注");
+//        }
 //        tvROI.setText(String.format(Locale.getDefault(), "%.2f", userInfo.getRor()) + "%");
 //        ;
 //        tvTotalProfitAndLoss.setText(String.format(Locale.getDefault(), "%.2f", (float) userInfo.getTearn() / 100));
 //        tvWinProbability.setText(String.format(Locale.getDefault(), "%.2f", userInfo.getWins() * 100) + "%");
 
         UserProfileHeaderView userProfileHeaderView = (UserProfileHeaderView) findViewById(R.id.user_counts_view);
-        userProfileHeaderView.setUserDataInfo(userInfo);
+        userProfileHeaderView.setUserProfile(userInfo);
 
         View userTipOffRecord = this.findViewById(R.id.menu_user_tip_off_record);
         View userBallWrapRecord = this.findViewById(R.id.menu_user_ball_wrap_record);
@@ -307,88 +297,6 @@ public class UserProfileActivity extends BaseActivity
         {
             startActivity(intent);
         }
-    }
-
-
-    @OnClick(R.id.tvAttention)
-    protected void userAttention(View view)
-    {
-        if (UserInfoUtil.checkLogin(this))
-        {
-            String url = HttpUrls.HOST_URL_V5 + "follow/change/";
-            HashMap<String, String> params = new HashMap<>(4);
-            params.put("user", UserInfoUtil.getUserId(this));
-            params.put("token", UserInfoUtil.getUserToken(this));
-            params.put("fid", String.valueOf(uid));
-            String str = tvAttention.getText().toString();
-            if (str.equals("加关注"))
-            {
-                params.put("change", "1");
-            }
-            else
-            {
-                params.put("change", "0");
-            }
-            HttpClientUtil.getHttpClientUtil().sendPostRequest(BallQUserRankingListDetailActivity.class.getSimpleName(), url, params, new HttpClientUtil.StringResponseCallBack()
-            {
-                @Override
-                public void onBefore(Request request)
-                {
-
-                }
-
-                @Override
-                public void onError(Call call, Exception error)
-                {
-                    ToastUtil.show(UserProfileActivity.this, "请求失败");
-                }
-
-                @Override
-                public void onSuccess(Call call, String response)
-                {
-                    KLog.json(response);
-                    if (!TextUtils.isEmpty(response))
-                    {
-                        JSONObject obj = JSONObject.parseObject(response);
-                        if (obj != null && !obj.isEmpty())
-                        {
-                            int status = obj.getIntValue("status");
-                            ToastUtil.show(UserProfileActivity.this, obj.getString("message"));
-                            if (status == 350)
-                            {
-                                tvAttention.setText("取消关注");
-                                publishUserAttention(1);
-                            }
-                            else if (status == 352)
-                            {
-                                tvAttention.setText("加关注");
-                                publishUserAttention(0);
-                            }
-                        }
-                    }
-                }
-
-                @Override
-                public void onFinish(Call call)
-                {
-
-                }
-            });
-
-        }
-        else
-        {
-            UserInfoUtil.userLogin(this);
-        }
-    }
-
-    private void publishUserAttention(int mark)
-    {
-        EventObject eventObject = new EventObject();
-        eventObject.addReceiver(BallQUserRankInfoAdapter.class, BallQUserRewardRankInfoAdapter.class);
-        eventObject.getData().putInt("attention", mark);
-        eventObject.getData().putInt("uid", uid);
-        EventObject.postEventObject(eventObject, "user_attention");
     }
 
     @Override

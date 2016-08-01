@@ -7,6 +7,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
+import android.widget.ImageView;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
@@ -32,8 +33,10 @@ public class BallQMainActivity extends BaseActivity
     protected MainBottomMenuView menuHome;
     @Bind(R.id.menu_match)
     protected MainBottomMenuView menuMatch;
-    @Bind(R.id.menu_tip_off)
-    protected MainBottomMenuView menuTipOff;
+//    @Bind(R.id.menu_tip_off)
+//    protected MainBottomMenuView menuTipOff;
+    @Bind(R.id.iv_tip_off)
+    protected ImageView iv_tip_off;
     @Bind(R.id.menu_find)
     protected MainBottomMenuView menuFind;
     @Bind(R.id.menu_my)
@@ -76,7 +79,8 @@ public class BallQMainActivity extends BaseActivity
         {
             menuHome.setMenuChecked(true);
             menuMatch.setMenuChecked(false);
-            menuTipOff.setMenuChecked(false);
+            iv_tip_off.setSelected(false);
+//            menuTipOff.setMenuChecked(false);
             menuFind.setMenuChecked(false);
             menuMy.setMenuChecked(false);
         }
@@ -84,15 +88,17 @@ public class BallQMainActivity extends BaseActivity
         {
             menuHome.setMenuChecked(false);
             menuMatch.setMenuChecked(true);
-            menuTipOff.setMenuChecked(false);
+            iv_tip_off.setSelected(false);
+//            menuTipOff.setMenuChecked(false);
             menuFind.setMenuChecked(false);
             menuMy.setMenuChecked(false);
         }
-        else if (id == R.id.menu_tip_off)
+        else if (id == R.id.iv_tip_off)
         {
             menuHome.setMenuChecked(false);
             menuMatch.setMenuChecked(false);
-            menuTipOff.setMenuChecked(true);
+            iv_tip_off.setSelected(true);
+//            menuTipOff.setMenuChecked(true);
             menuFind.setMenuChecked(false);
             menuMy.setMenuChecked(false);
         }
@@ -100,7 +106,8 @@ public class BallQMainActivity extends BaseActivity
         {
             menuHome.setMenuChecked(false);
             menuMatch.setMenuChecked(false);
-            menuTipOff.setMenuChecked(false);
+            iv_tip_off.setSelected(false);
+//            menuTipOff.setMenuChecked(false);
             menuFind.setMenuChecked(true);
             menuMy.setMenuChecked(false);
         }
@@ -108,7 +115,8 @@ public class BallQMainActivity extends BaseActivity
         {
             menuHome.setMenuChecked(false);
             menuMatch.setMenuChecked(false);
-            menuTipOff.setMenuChecked(false);
+            iv_tip_off.setSelected(false);
+//            menuTipOff.setMenuChecked(false);
             menuFind.setMenuChecked(false);
             menuMy.setMenuChecked(true);
         }
@@ -132,7 +140,7 @@ public class BallQMainActivity extends BaseActivity
                 transaction.hide(matchFragment);
             }
         }
-        else if (tab == R.id.menu_tip_off)
+        else if (tab == R.id.iv_tip_off)
         {
             if (tipOffFragment != null)
             {
@@ -192,7 +200,7 @@ public class BallQMainActivity extends BaseActivity
                     transaction.show(matchFragment);
                 }
                 break;
-            case R.id.menu_tip_off:
+            case R.id.iv_tip_off:
                 if (tipOffFragment == null)
                 {
                     tipOffFragment = new BallQTipOffFragment();
@@ -231,7 +239,7 @@ public class BallQMainActivity extends BaseActivity
         transaction.commitAllowingStateLoss();
     }
 
-    @OnClick({R.id.menu_home, R.id.menu_match, R.id.menu_tip_off, R.id.menu_find, R.id.menu_my})
+    @OnClick({R.id.menu_home, R.id.menu_match, R.id.iv_tip_off, R.id.menu_find, R.id.menu_my})
     protected void onClickMenuItem(View view)
     {
         setSelectedTab(view.getId());
@@ -318,14 +326,14 @@ public class BallQMainActivity extends BaseActivity
         if (rule.contains("ballqinapp://tips"))
         {
             // 跳转→爆料列表
-            setSelectedTab(R.id.menu_tip_off);
+            setSelectedTab(R.id.iv_tip_off);
             TipOffRunnable tipOffRunnable = new TipOffRunnable(0);
             handler.postDelayed(tipOffRunnable, 250);
         }
         else if (rule.contains("ballqinapp://articles"))
         {
             // 跳转→球茎列表
-            setSelectedTab(R.id.menu_tip_off);
+            setSelectedTab(R.id.iv_tip_off);
             TipOffRunnable tipOffRunnable = new TipOffRunnable(1);
             handler.postDelayed(tipOffRunnable, 250);
         }
@@ -351,7 +359,7 @@ public class BallQMainActivity extends BaseActivity
         else if (rule.contains("ballqinapp://tips_focus"))
         {
             // 跳转→爆料我的关注
-            setSelectedTab(R.id.menu_tip_off);
+            setSelectedTab(R.id.iv_tip_off);
             TipOffRunnable tipOffRunnable = new TipOffRunnable(3);
             handler.postDelayed(tipOffRunnable, 250);
         }
