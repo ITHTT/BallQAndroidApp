@@ -30,29 +30,38 @@ import ru.noties.scrollable.OnFlingOverListener;
  *
  * @author LinDe edit
  */
-public class UserAttentionAllFragment extends AppSwipeRefreshLoadMoreRecyclerViewFragment implements CanScrollVerticallyDelegate, OnFlingOverListener {
+public class UserAttentionAllFragment extends AppSwipeRefreshLoadMoreRecyclerViewFragment implements CanScrollVerticallyDelegate, OnFlingOverListener
+{
     private UserAttentionListAdapter adapter = null;
 
     @Override
-    protected void onLoadMoreData() {
+    protected void onLoadMoreData()
+    {
         requestDatas(currentPages, true);
 
     }
 
     @Override
-    protected void onRefreshData() {
+    protected void onRefreshData()
+    {
         requestDatas(1, false);
     }
 
     @Override
-    protected void initViews(View view, Bundle savedInstanceState) {
-        if (UserInfoUtil.checkLogin(baseActivity)) {
+    protected void initViews(View view, Bundle savedInstanceState)
+    {
+        if (UserInfoUtil.checkLogin(baseActivity))
+        {
             showLoading();
             requestDatas(1, false);
-        } else {
-            showEmptyInfo("您尚未登录,登录后才可查看", "点击登录", new View.OnClickListener() {
+        }
+        else
+        {
+            showEmptyInfo("您尚未登录,登录后才可查看", "点击登录", new View.OnClickListener()
+            {
                 @Override
-                public void onClick(View v) {
+                public void onClick(View v)
+                {
                     UserInfoUtil.userLogin(baseActivity);
                 }
             });
@@ -60,11 +69,13 @@ public class UserAttentionAllFragment extends AppSwipeRefreshLoadMoreRecyclerVie
     }
 
     @Override
-    protected View getLoadingTargetView() {
+    protected View getLoadingTargetView()
+    {
         return swipeRefresh;
     }
 
-    private void requestDatas(final int pages, final boolean isLoadMore) {
+    private void requestDatas(final int pages, final boolean isLoadMore)
+    {
         //noinspection StringBufferReplaceableByString
         StringBuilder sb = new StringBuilder();
         sb.append(HttpUrls.HOST_URL);
@@ -72,68 +83,92 @@ public class UserAttentionAllFragment extends AppSwipeRefreshLoadMoreRecyclerVie
         sb.append("?p=").append(pages);
 
         HashMap<String, String> params = null;
-        if (UserInfoUtil.checkLogin(baseActivity)) {
+        if (UserInfoUtil.checkLogin(baseActivity))
+        {
             params = new HashMap<>(2);
             params.put("user", UserInfoUtil.getUserId(baseActivity));
             params.put("token", UserInfoUtil.getUserToken(baseActivity));
         }
 
-        HttpClientUtil.getHttpClientUtil().sendPostRequest(Tag, sb.toString(), params, new HttpClientUtil.StringResponseCallBack() {
+        HttpClientUtil.getHttpClientUtil().sendPostRequest(Tag, sb.toString(), params, new HttpClientUtil.StringResponseCallBack()
+        {
             @Override
-            public void onBefore(Request request) {
+            public void onBefore(Request request)
+            {
 
             }
 
             @Override
-            public void onError(Call call, Exception error) {
-                if (!isLoadMore) {
-                    if (adapter != null) {
+            public void onError(Call call, Exception error)
+            {
+                if (!isLoadMore)
+                {
+                    if (adapter != null)
+                    {
                         recyclerView.setStartLoadMore();
                         ToastUtil.show(baseActivity, "请求失败");
-                    } else {
-                        showErrorInfo(new View.OnClickListener() {
+                    }
+                    else
+                    {
+                        showErrorInfo(new View.OnClickListener()
+                        {
                             @Override
-                            public void onClick(View v) {
+                            public void onClick(View v)
+                            {
                                 showLoading();
                                 requestDatas(pages, false);
                             }
                         });
                     }
-                } else {
+                }
+                else
+                {
                     recyclerView.setLoadMoreDataFailed();
                 }
             }
 
             @Override
-            public void onSuccess(Call call, String response) {
+            public void onSuccess(Call call, String response)
+            {
                 KLog.json(response);
                 hideLoad();
 //                mtype 1 比赛 2爆料 3球茎
                 JSONObject object = JSON.parseObject(response);
-                if (!JsonParams.isJsonRight(object)) {
-                    if (!isLoadMore) {
+                if (!JsonParams.isJsonRight(object))
+                {
+                    if (!isLoadMore)
+                    {
                         showEmptyInfo();
                     }
                     return;
                 }
 
-                if (adapter == null) {
+                if (adapter == null)
+                {
                     adapter = new UserAttentionListAdapter();
                     recyclerView.setAdapter(adapter);
                 }
 
                 JSONArray data = object.getJSONArray("data");
 
-                if (data == null || data.isEmpty()) {
-                    if (isLoadMore) {
+                if (data == null || data.isEmpty())
+                {
+                    if (isLoadMore)
+                    {
                         recyclerView.setLoadMoreDataComplete();
-                    } else {
+                    }
+                    else
+                    {
                         showEmptyInfo();
                     }
-                } else if (data.size() < 10) {
+                }
+                else if (data.size() < 10)
+                {
                     adapter.addDataList(data, isLoadMore, UserAttentionListEntity.class);
                     recyclerView.setLoadMoreDataComplete();
-                } else {
+                }
+                else
+                {
                     adapter.addDataList(data, isLoadMore, UserAttentionListEntity.class);
                     recyclerView.setStartLoadMore();
                 }
@@ -177,8 +212,10 @@ public class UserAttentionAllFragment extends AppSwipeRefreshLoadMoreRecyclerVie
             }
 
             @Override
-            public void onFinish(Call call) {
-                if (!isLoadMore) {
+            public void onFinish(Call call)
+            {
+                if (!isLoadMore)
+                {
                     recyclerView.setRefreshComplete();
                     onRefreshCompelete();
                 }
@@ -187,21 +224,28 @@ public class UserAttentionAllFragment extends AppSwipeRefreshLoadMoreRecyclerVie
     }
 
     @Override
-    protected boolean isCancledEventBus() {
+    protected boolean isCancledEventBus()
+    {
         return false;
     }
 
     @Override
-    protected void notifyEvent(String action) {
+    protected void notifyEvent(String action)
+    {
 
     }
 
     @Override
-    protected void notifyEvent(String action, Bundle data) {
-        if (!TextUtils.isEmpty(action)) {
-            if (action.equals("attention_refresh")) {
-                if (adapter != null) {
-                    if (adapter.getItemCount() > 0) {
+    protected void notifyEvent(String action, Bundle data)
+    {
+        if (!TextUtils.isEmpty(action))
+        {
+            if (action.equals("attention_refresh"))
+            {
+                if (adapter != null)
+                {
+                    if (adapter.getItemCount() > 0)
+                    {
                         adapter.clear();
                         adapter.notifyDataSetChanged();
                     }
@@ -216,36 +260,44 @@ public class UserAttentionAllFragment extends AppSwipeRefreshLoadMoreRecyclerVie
     }
 
     @Override
-    protected void userLogin(UserInfoEntity userInfoEntity) {
+    protected void userLogin(UserInfoEntity userInfoEntity)
+    {
         super.userLogin(userInfoEntity);
         showLoading();
         requestDatas(1, false);
     }
 
     @Override
-    protected void userExit() {
+    protected void userExit()
+    {
         super.userExit();
         HttpClientUtil.getHttpClientUtil().cancelTag(Tag);
-        if (!adapter.isEmpty()) {
+        if (!adapter.isEmpty())
+        {
             adapter.clear();
             adapter.notifyDataSetChanged();
         }
-        showEmptyInfo("您尚未登录,登录后才可查看", "点击登录", new View.OnClickListener() {
+        showEmptyInfo("您尚未登录,登录后才可查看", "点击登录", new View.OnClickListener()
+        {
             @Override
-            public void onClick(View v) {
+            public void onClick(View v)
+            {
                 UserInfoUtil.userLogin(baseActivity);
             }
         });
     }
 
     @Override
-    public boolean canScrollVertically(int direction) {
+    public boolean canScrollVertically(int direction)
+    {
         return recyclerView != null && recyclerView.canScrollVertically(direction);
     }
 
     @Override
-    public void onFlingOver(int y, long duration) {
-        if (recyclerView != null) {
+    public void onFlingOver(int y, long duration)
+    {
+        if (recyclerView != null)
+        {
             recyclerView.smoothScrollBy(0, y);
         }
     }

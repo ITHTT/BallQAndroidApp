@@ -21,7 +21,7 @@ import com.tysci.ballq.networks.HttpUrls;
 import com.tysci.ballq.utils.CommonUtils;
 import com.tysci.ballq.utils.KLog;
 import com.tysci.ballq.utils.UserInfoUtil;
-import com.tysci.ballq.views.adapters.BallQTipOffAdapter;
+import com.tysci.ballq.views.adapters.BallQMatchTipOffAdapter;
 import com.tysci.ballq.views.widgets.loadmorerecyclerview.AutoLoadMoreRecyclerView;
 
 import java.util.ArrayList;
@@ -48,7 +48,7 @@ public class BallQMatchTeamTipOffHistoryActivity extends BaseActivity implements
     private BallQMatchEntity matchEntity=null;
     private boolean isHomeTeam;
     private List<BallQTipOffEntity> tipOffEntityList;
-    private BallQTipOffAdapter adapter=null;
+    private BallQMatchTipOffAdapter adapter=null;
     private int currentPages=1;
 
     @Override
@@ -175,7 +175,7 @@ public class BallQMatchTeamTipOffHistoryActivity extends BaseActivity implements
                     }
                     CommonUtils.getJSONListObject(objArrays, tipOffEntityList, BallQTipOffEntity.class);
                     if(adapter==null){
-                        adapter=new BallQTipOffAdapter(tipOffEntityList);
+                        adapter=new BallQMatchTipOffAdapter(tipOffEntityList);
                         recyclerView.setAdapter(adapter);
                     }else{
                         adapter.notifyDataSetChanged();

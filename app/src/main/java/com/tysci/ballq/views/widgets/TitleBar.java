@@ -15,65 +15,93 @@ import com.tysci.ballq.R;
 /**
  * Created by HTT on 2016/5/30.
  */
-public class TitleBar extends LinearLayout{
+public class TitleBar extends LinearLayout
+{
     private ImageView ivBack;
     private TextView tvTitle;
+    private ImageView mTitleMore;
+
     private ImageView ivNextMenu01;
     private ImageView ivNextMenu02;
     private TextView tvNextMenu;
 
-    public TitleBar(Context context) {
+    public TitleBar(Context context)
+    {
         super(context);
         initViews(context);
     }
 
-    public TitleBar(Context context, AttributeSet attrs) {
+    public TitleBar(Context context, AttributeSet attrs)
+    {
         super(context, attrs);
         initViews(context);
     }
 
-    public TitleBar(Context context, AttributeSet attrs, int defStyleAttr) {
+    public TitleBar(Context context, AttributeSet attrs, int defStyleAttr)
+    {
         super(context, attrs, defStyleAttr);
         initViews(context);
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    public TitleBar(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+    public TitleBar(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes)
+    {
         super(context, attrs, defStyleAttr, defStyleRes);
         initViews(context);
     }
 
-    private void initViews(Context context){
-        LayoutInflater.from(context).inflate(R.layout.layout_title_bar_content,this,true);
-        ivBack=(ImageView)this.findViewById(R.id.iv_titlebar_left);
-        tvTitle=(TextView)this.findViewById(R.id.tv_titlebar_title);
-        ivNextMenu01= (ImageView) this.findViewById(R.id.iv_titlebar_next_menu01);
-        ivNextMenu02= (ImageView) this.findViewById(R.id.iv_titlebar_next_menu02);
-        tvNextMenu=(TextView)this.findViewById(R.id.tv_titlebar_next);
+    private void initViews(Context context)
+    {
+        LayoutInflater.from(context).inflate(R.layout.layout_title_bar_content, this, true);
+        ivBack = (ImageView) this.findViewById(R.id.iv_titlebar_left);
+        tvTitle = (TextView) this.findViewById(R.id.tv_titlebar_title);
+        mTitleMore = (ImageView) this.findViewById(R.id.iv_title_more);
+
+        ivNextMenu01 = (ImageView) this.findViewById(R.id.iv_titlebar_next_menu01);
+        ivNextMenu02 = (ImageView) this.findViewById(R.id.iv_titlebar_next_menu02);
+        tvNextMenu = (TextView) this.findViewById(R.id.tv_titlebar_next);
+
+        mTitleMore.setVisibility(GONE);
     }
 
-    public void setTitleBarLeftIcon(int res, OnClickListener onClickListener){
+    public void setTitleMoreVisibility(int visibility)
+    {
+        mTitleMore.setVisibility(visibility);
+    }
+
+    public void setTitleBarLeftIcon(int res, OnClickListener onClickListener)
+    {
         ivBack.setImageResource(res);
         ivBack.setOnClickListener(onClickListener);
     }
 
-    public void setTitleBarTitle(String title){
+    public void setTitleBarTitle(String title)
+    {
         tvTitle.setText(title);
     }
 
-    public ImageView getLeftBack(){
+    public void setTitleClickListener(View.OnClickListener listener)
+    {
+        tvTitle.setOnClickListener(listener);
+    }
+
+    public ImageView getLeftBack()
+    {
         return ivBack;
     }
 
-    public void setTitleBarTitle(int titleRes){
+    public void setTitleBarTitle(int titleRes)
+    {
         tvTitle.setText(titleRes);
     }
 
-    public TextView getTitleBarTitle(){
+    public TextView getTitleBarTitle()
+    {
         return tvTitle;
     }
 
-    public void resetTitle(){
+    public void resetTitle()
+    {
         tvTitle.setBackgroundResource(0);
         tvTitle.setCompoundDrawables(null, null, null, null);
         tvTitle.setTextSize(16f);
@@ -81,35 +109,41 @@ public class TitleBar extends LinearLayout{
         tvTitle.setOnClickListener(null);
     }
 
-    public void setRightMenuIcon(int res,OnClickListener onClickListener){
+    public void setRightMenuIcon(int res, OnClickListener onClickListener)
+    {
         ivNextMenu01.setVisibility(View.VISIBLE);
         ivNextMenu01.setImageResource(res);
         ivNextMenu01.setOnClickListener(onClickListener);
     }
 
-    public ImageView getRightMenuImageView(){
+    public ImageView getRightMenuImageView()
+    {
         ivNextMenu01.setVisibility(View.VISIBLE);
         return ivNextMenu01;
     }
 
-    public void setSecondRightMenuIcon(int res,OnClickListener onClickListener){
+    public void setSecondRightMenuIcon(int res, OnClickListener onClickListener)
+    {
         ivNextMenu02.setVisibility(View.VISIBLE);
         ivNextMenu02.setImageResource(res);
         ivNextMenu02.setOnClickListener(onClickListener);
     }
 
-    public void setRightMenuText(String title,OnClickListener onClickListener){
+    public void setRightMenuText(String title, OnClickListener onClickListener)
+    {
         tvNextMenu.setVisibility(View.VISIBLE);
         tvNextMenu.setText(title);
         tvNextMenu.setOnClickListener(onClickListener);
     }
 
-    public TextView getRightMenuTextView(){
+    public TextView getRightMenuTextView()
+    {
         tvNextMenu.setVisibility(View.VISIBLE);
         return tvNextMenu;
     }
 
-    public void setRightOnClickListener(OnClickListener listener){
+    public void setRightOnClickListener(OnClickListener listener)
+    {
         this.findViewById(R.id.layout_titlebar_next).setOnClickListener(listener);
     }
 

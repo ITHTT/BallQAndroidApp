@@ -29,7 +29,8 @@ import butterknife.ButterKnife;
 /**
  * Created by HTT on 2016/5/28.
  */
-public abstract class BaseActivity extends AppCompatActivity implements View.OnClickListener {
+public abstract class BaseActivity extends AppCompatActivity implements View.OnClickListener
+{
     protected final String Tag = this.getClass().getSimpleName();
     protected TitleBar titleBar;
     protected LoadingViewController loadingViewController;
@@ -37,56 +38,75 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
     private static int resumeNumber = 0;
 
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
+    protected void onCreate(@Nullable Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         setContentView(getContentViewId());
         titleBar = (TitleBar) this.findViewById(R.id.title_bar);
         setTitleBarLeftIcon(R.mipmap.icon_back_gold);
-        if (!isCanceledEventBus()) {
+        if (!isCanceledEventBus())
+        {
             EventBus.getDefault().register(this);
         }
         ButterKnife.bind(this);
-        if (getLoadingTargetView() != null) {
+        if (getLoadingTargetView() != null)
+        {
             loadingViewController = new LoadingViewController(getLoadingTargetView());
         }
         initViews();
-        if (getIntent() != null) {
+        if (getIntent() != null)
+        {
             getIntentData(this.getIntent());
         }
         handleInstanceState(savedInstanceState);
     }
 
-    protected void setTitle(String title) {
-        if (titleBar != null) {
+    protected void setTitle(String title)
+    {
+        if (titleBar != null)
+        {
             titleBar.setTitleBarTitle(title);
         }
     }
 
-    protected <T> void setTitleText(T title) {
-        if (titleBar != null) {
+    protected <T> void setTitleText(T title)
+    {
+        if (titleBar != null)
+        {
             String result;
-            if (title == null) {
+            if (title == null)
+            {
                 result = "";
-            } else if (title instanceof Integer) {
-                try {
+            }
+            else if (title instanceof Integer)
+            {
+                try
+                {
                     result = getResources().getString((Integer) title);
-                } catch (Resources.NotFoundException e) {
+                }
+                catch (Resources.NotFoundException e)
+                {
                     result = title.toString();
                 }
-            } else {
+            }
+            else
+            {
                 result = title.toString();
             }
             titleBar.setTitleBarTitle(result);
         }
     }
 
-    public TitleBar getTitleBar() {
+    public TitleBar getTitleBar()
+    {
         return titleBar;
     }
 
-    protected void setTitleBarLeftIcon(int res) {
-        if (titleBar != null) {
+    protected void setTitleBarLeftIcon(int res)
+    {
+        if (titleBar != null)
+        {
             titleBar.setTitleBarLeftIcon(res, this);
         }
     }
@@ -138,57 +158,75 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
     /**
      * 用户登录
      */
-    protected void userLogin(UserInfoEntity userInfoEntity) {
+    protected void userLogin(UserInfoEntity userInfoEntity)
+    {
 
     }
 
     /**
      * 用户退出
      */
-    protected void userExit() {
+    protected void userExit()
+    {
 
     }
 
-    protected void back() {
+    protected void back()
+    {
         this.finish();
     }
 
     @Override
-    public void onClick(View v) {
-        if (v.getId() == R.id.iv_titlebar_left) {
+    public void onClick(View v)
+    {
+        if (v.getId() == R.id.iv_titlebar_left)
+        {
             back();
         }
         onViewClick(v);
     }
 
     @Override
-    protected void onSaveInstanceState(Bundle outState) {
+    protected void onSaveInstanceState(Bundle outState)
+    {
         super.onSaveInstanceState(outState);
         saveInstanceState(outState);
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void handleEventBus(EventObject eventObject) {
-        if (eventObject != null) {
+    public void handleEventBus(EventObject eventObject)
+    {
+        if (eventObject != null)
+        {
             String action = eventObject.getEventAction();
-            if (action.equals(EventType.EVENT_USER_LOGIN)) {
+            if (action.equals(EventType.EVENT_USER_LOGIN))
+            {
                 String data = eventObject.getData().getString("user_info");
-                if (!TextUtils.isEmpty(data)) {
+                if (!TextUtils.isEmpty(data))
+                {
                     UserInfoEntity userInfoEntity = JSONObject.parseObject(data, UserInfoEntity.class);
-                    if (userInfoEntity != null) {
+                    if (userInfoEntity != null)
+                    {
                         userLogin(userInfoEntity);
                     }
                 }
-            } else {
+            }
+            else
+            {
                 SparseArray<Class> receivers = eventObject.getReceivers();
-                if (receivers.size() > 0) {
+                if (receivers.size() > 0)
+                {
                     int size = receivers.size();
-                    for (int i = 0; i < size; i++) {
-                        if (receivers.valueAt(i) == this.getClass()) {
+                    for (int i = 0; i < size; i++)
+                    {
+                        if (receivers.valueAt(i) == this.getClass())
+                        {
                             notifyEvent(action, eventObject.getData());
                         }
                     }
-                } else {
+                }
+                else
+                {
                     notifyEvent(action, eventObject.getData());
                 }
             }
@@ -196,67 +234,82 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void handleEventBus(String action) {
-        if (action.equals(EventType.EVENT_USER_EXIT)) {
+    public void handleEventBus(String action)
+    {
+        if (action.equals(EventType.EVENT_USER_EXIT))
+        {
             userExit();
-        } else {
+        }
+        else
+        {
             notifyEvent(action);
         }
 
     }
 
-    protected void showLoading() {
+    protected void showLoading()
+    {
         if (loadingViewController != null)
             loadingViewController.showLoading(null);
     }
 
-    protected void showErrorInfo(View.OnClickListener onClickListener) {
+    protected void showErrorInfo(View.OnClickListener onClickListener)
+    {
         if (loadingViewController != null)
             loadingViewController.showErrorInfo("当前网络不是很好", onClickListener);
     }
 
-    protected void showEmptyInfo() {
+    protected void showEmptyInfo()
+    {
         if (loadingViewController != null)
             loadingViewController.showEmptyInfo("暂无相关数据");
     }
 
-    protected void showEmptyInfo(String empty) {
+    protected void showEmptyInfo(String empty)
+    {
         if (loadingViewController != null)
             loadingViewController.showEmptyInfo(empty);
     }
 
-    protected void showEmptyInfo(String emptyInfo, String clickInfo, View.OnClickListener clickListener) {
+    protected void showEmptyInfo(String emptyInfo, String clickInfo, View.OnClickListener clickListener)
+    {
         if (loadingViewController != null)
             loadingViewController.showEmptyInfo(emptyInfo, clickInfo, clickListener);
     }
 
-    protected void hideLoad() {
+    protected void hideLoad()
+    {
         if (loadingViewController != null)
             loadingViewController.restore();
     }
 
     @Override
-    protected void onResume() {
+    protected void onResume()
+    {
         super.onResume();
         resumeNumber++;
     }
 
     @Override
-    protected void onPause() {
+    protected void onPause()
+    {
         super.onPause();
         resumeNumber--;
     }
 
-    public static boolean isForeground() {
+    public static boolean isForeground()
+    {
         return resumeNumber > 0;
     }
 
     @Override
-    protected void onDestroy() {
+    protected void onDestroy()
+    {
         super.onDestroy();
         loadingViewController = null;
         ButterKnife.unbind(this);
-        if (!isCanceledEventBus()) {
+        if (!isCanceledEventBus())
+        {
             EventBus.getDefault().unregister(this);
         }
         /**取消网络请求*/
@@ -264,8 +317,9 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
     }
 
     @Override
-    protected void finalize() throws Throwable {
+    protected void finalize() throws Throwable
+    {
         super.finalize();
-        KLog.e("内\n存\n泄\n漏\n...");
+        KLog.e("finalize...");
     }
 }

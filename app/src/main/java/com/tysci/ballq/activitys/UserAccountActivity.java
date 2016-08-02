@@ -17,7 +17,6 @@ import com.tysci.ballq.fragments.UserAccountTradeRecordFragment;
 import com.tysci.ballq.networks.HttpClientUtil;
 import com.tysci.ballq.networks.HttpUrls;
 import com.tysci.ballq.utils.KLog;
-import com.tysci.ballq.utils.ToastUtil;
 import com.tysci.ballq.utils.UserInfoUtil;
 import com.tysci.ballq.views.adapters.BallQFragmentPagerAdapter;
 import com.tysci.ballq.views.dialogs.BallQGoldCoinBuyDialog;
@@ -295,7 +294,10 @@ public class UserAccountActivity extends BaseActivity
     @OnClick(R.id.tvCashPrize)
     protected void onCashPrizeClick(View view)
     {
-        ToastUtil.show(this, "敬请期待");
+        Intent intent = new Intent(this, BallQWebViewActivity.class);
+        intent.putExtra("url", "https://m.baidu.com/s?from=1012852q&word=%E7%90%83%E5%95%86");
+        intent.putExtra("title", "球商");
+        startActivity(intent);
     }
 
     @OnClick(R.id.tvLuckyDraw)

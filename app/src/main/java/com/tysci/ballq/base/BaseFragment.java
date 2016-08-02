@@ -26,7 +26,8 @@ import butterknife.ButterKnife;
 /**
  * Created by HTT on 2016/5/28.
  */
-public abstract class BaseFragment extends Fragment {
+public abstract class BaseFragment extends Fragment
+{
     protected final String Tag = this.getClass().getSimpleName();
     protected BaseActivity baseActivity;
     protected LoadingViewController loadingViewController;
@@ -34,27 +35,32 @@ public abstract class BaseFragment extends Fragment {
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        if (!isCancledEventBus()) {
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState)
+    {
+        if (!isCancledEventBus())
+        {
             EventBus.getDefault().register(this);
         }
         View view = inflater.inflate(getViewLayoutId(), container, false);
         contentView = view;
         ButterKnife.bind(this, view);
-        if (getLoadingTargetView() != null) {
+        if (getLoadingTargetView() != null)
+        {
             loadingViewController = new LoadingViewController(getLoadingTargetView());
         }
         return view;
     }
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState)
+    {
         super.onViewCreated(view, savedInstanceState);
         initViews(view, savedInstanceState);
     }
 
     @Override
-    public void onAttach(Context context) {
+    public void onAttach(Context context)
+    {
         super.onAttach(context);
         this.baseActivity = (BaseActivity) context;
     }
@@ -86,39 +92,53 @@ public abstract class BaseFragment extends Fragment {
     /**
      * 用户登录
      */
-    protected void userLogin(UserInfoEntity userInfoEntity) {
+    protected void userLogin(UserInfoEntity userInfoEntity)
+    {
 
     }
 
     /**
      * 用户退出
      */
-    protected void userExit() {
+    protected void userExit()
+    {
 
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void handleEventBus(EventObject eventObject) {
-        if (eventObject != null) {
+    public void handleEventBus(EventObject eventObject)
+    {
+        if (eventObject != null)
+        {
             String action = eventObject.getEventAction();
-            if (action.equals(EventType.EVENT_USER_LOGIN)) {
+            if (action.equals(EventType.EVENT_USER_LOGIN))
+            {
                 String data = eventObject.getData().getString("user_info");
-                if (!TextUtils.isEmpty(data)) {
+                if (!TextUtils.isEmpty(data))
+                {
                     UserInfoEntity userInfoEntity = JSONObject.parseObject(data, UserInfoEntity.class);
-                    if (userInfoEntity != null) {
+                    if (userInfoEntity != null)
+                    {
                         userLogin(userInfoEntity);
                     }
                 }
-            } else {
+            }
+            else
+            {
                 SparseArray<Class> receivers = eventObject.getReceivers();
-                if (receivers.size() > 0) {
+                if (receivers.size() > 0)
+                {
                     int size = receivers.size();
-                    for (int i = 0; i < size; i++) {
-                        if (receivers.valueAt(i) == this.getClass()) {
+                    for (int i = 0; i < size; i++)
+                    {
+                        if (receivers.valueAt(i) == this.getClass())
+                        {
                             notifyEvent(action, eventObject.getData());
                         }
                     }
-                } else {
+                }
+                else
+                {
                     notifyEvent(action, eventObject.getData());
                 }
             }
@@ -126,56 +146,69 @@ public abstract class BaseFragment extends Fragment {
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void handleEventBus(String action) {
-        if (action.equals(EventType.EVENT_USER_EXIT)) {
+    public void handleEventBus(String action)
+    {
+        if (action.equals(EventType.EVENT_USER_EXIT))
+        {
             userExit();
-        } else {
+        }
+        else
+        {
             notifyEvent(action);
         }
     }
 
-    protected void showLoading() {
+    protected void showLoading()
+    {
         if (loadingViewController != null)
             loadingViewController.showLoading(null);
     }
 
-    protected void showErrorInfo(View.OnClickListener onClickListener) {
+    protected void showErrorInfo(View.OnClickListener onClickListener)
+    {
         if (loadingViewController != null)
             loadingViewController.showErrorInfo("当前网络不是很好", onClickListener);
     }
 
-    protected void showEmptyInfo() {
+    protected void showEmptyInfo()
+    {
         if (loadingViewController != null)
             loadingViewController.showEmptyInfo("暂无相关数据");
     }
 
-    protected void showEmptyInfo(String empty) {
+    protected void showEmptyInfo(String empty)
+    {
         if (loadingViewController != null)
             loadingViewController.showEmptyInfo(empty);
     }
 
-    protected void showEmptyInfo(String emptyInfo, String clickInfo, View.OnClickListener clickListener) {
+    protected void showEmptyInfo(String emptyInfo, String clickInfo, View.OnClickListener clickListener)
+    {
         if (loadingViewController != null)
             loadingViewController.showEmptyInfo(emptyInfo, clickInfo, clickListener);
     }
 
-    protected void hideLoad() {
+    protected void hideLoad()
+    {
         if (loadingViewController != null)
             loadingViewController.restore();
     }
 
     @Override
-    public void onDestroyView() {
+    public void onDestroyView()
+    {
         super.onDestroyView();
         ButterKnife.unbind(this);
     }
 
     @Override
-    public void onDestroy() {
+    public void onDestroy()
+    {
         super.onDestroy();
         loadingViewController = null;
         HttpClientUtil.getHttpClientUtil().cancelTag(Tag);
-        if (!isCancledEventBus()) {
+        if (!isCancledEventBus())
+        {
             EventBus.getDefault().unregister(this);
         }
     }

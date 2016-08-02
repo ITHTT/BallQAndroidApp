@@ -1,25 +1,22 @@
 package com.tysci.ballq.fragments;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.tysci.ballq.R;
 import com.tysci.ballq.base.AppSwipeRefreshLoadMoreRecyclerViewFragment;
 import com.tysci.ballq.modles.BallQBallWarpInfoEntity;
 import com.tysci.ballq.modles.event.EventObject;
 import com.tysci.ballq.networks.HttpClientUtil;
 import com.tysci.ballq.networks.HttpUrls;
-import com.tysci.ballq.utils.CommonUtils;
 import com.tysci.ballq.utils.SharedPreferencesUtil;
 import com.tysci.ballq.utils.UserInfoUtil;
-import com.tysci.ballq.views.adapters.BallQBallWarpAdapter;
+import com.tysci.ballq.views.adapters.BqBallWrapAdapter;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import okhttp3.Call;
@@ -28,67 +25,91 @@ import ru.noties.scrollable.CanScrollVerticallyDelegate;
 import ru.noties.scrollable.OnFlingOverListener;
 
 /**
- * Created by Administrator on 2016/5/31.
+ * Created by HTT on 2016/5/31.
+ *
+ * @author LinDe edit
  */
-public class BallQHomeBallWarpListFragment extends AppSwipeRefreshLoadMoreRecyclerViewFragment implements CanScrollVerticallyDelegate, OnFlingOverListener {
-    private List<BallQBallWarpInfoEntity> ballQBallWarpInfoEntityList;
-    private BallQBallWarpAdapter adapter;
+public class BallQHomeBallWarpListFragment extends AppSwipeRefreshLoadMoreRecyclerViewFragment implements CanScrollVerticallyDelegate, OnFlingOverListener
+{
+    //    private List<BallQBallWarpInfoEntity> ballQBallWarpInfoEntityList;
+//    private BallQBallWarpAdapter adapter;
+    private BqBallWrapAdapter mBqBallWrapAdapter;
 
     @Override
-    protected void initViews(View view, Bundle savedInstanceState) {
-        recyclerView.setBackgroundResource(R.color.white);
+    protected void initViews(View view, Bundle savedInstanceState)
+    {
+        recyclerView.setBackgroundColor(Color.parseColor("#dcdcdc"));
         requestDatas(currentPages, false);
     }
 
     @Override
-    protected View getLoadingTargetView() {
+    protected View getLoadingTargetView()
+    {
         return swipeRefresh;
     }
 
-    private void requestDatas(final int pages, final boolean isLoadMore) {
+    private void requestDatas(final int pages, final boolean isLoadMore)
+    {
         String url = HttpUrls.HOST_URL + "/api/ares/articles/?p=" + pages;
         Map<String, String> params = null;
-        if (UserInfoUtil.checkLogin(baseActivity)) {
+        if (UserInfoUtil.checkLogin(baseActivity))
+        {
             params = new HashMap<String, String>(2);
             params.put("user", UserInfoUtil.getUserId(baseActivity));
             params.put("token", UserInfoUtil.getUserToken(baseActivity));
         }
-        HttpClientUtil.getHttpClientUtil().sendPostRequest(Tag, url, params, new HttpClientUtil.StringResponseCallBack() {
+        HttpClientUtil.getHttpClientUtil().sendPostRequest(Tag, url, params, new HttpClientUtil.StringResponseCallBack()
+        {
             @Override
-            public void onBefore(Request request) {
+            public void onBefore(Request request)
+            {
 
             }
 
             @Override
-            public void onError(Call call, Exception error) {
-                if (recyclerView != null) {
-                    if (!isLoadMore) {
-                        if (adapter != null) {
+            public void onError(Call call, Exception error)
+            {
+                if (recyclerView != null)
+                {
+                    if (!isLoadMore)
+                    {
+                        if (mBqBallWrapAdapter != null)
+                        {
                             recyclerView.setStartLoadMore();
-                        } else {
-                            showErrorInfo(new View.OnClickListener() {
+                        }
+                        else
+                        {
+                            showErrorInfo(new View.OnClickListener()
+                            {
                                 @Override
-                                public void onClick(View v) {
+                                public void onClick(View v)
+                                {
                                     showLoading();
                                     requestDatas(pages, isLoadMore);
                                 }
                             });
                         }
-                    } else {
+                    }
+                    else
+                    {
                         recyclerView.setLoadMoreDataFailed();
                     }
                 }
             }
 
             @Override
-            public void onSuccess(Call call, String response) {
-                if (!isLoadMore) {
+            public void onSuccess(Call call, String response)
+            {
+                if (!isLoadMore)
+                {
                     onRefreshCompelete();
                     hideLoad();
                 }
-                if (!TextUtils.isEmpty(response)) {
+                if (!TextUtils.isEmpty(response))
+                {
                     JSONObject obj = JSONObject.parseObject(response);
-                    if (obj != null && !obj.isEmpty()) {
+                    if (obj != null && !obj.isEmpty())
+                    {
                         JSONObject data = obj.getJSONObject("data");
 
                         //noinspection StringBufferReplaceableByString
@@ -104,27 +125,46 @@ public class BallQHomeBallWarpListFragment extends AppSwipeRefreshLoadMoreRecycl
                         SharedPreferencesUtil.setValue(baseActivity, SharedPreferencesUtil.KEY_ARTICLE_MSG_DOT, data.getLong("tag"));
 
                         JSONArray objArray = data.getJSONArray("articles");
-                        if (objArray != null && !objArray.isEmpty()) {
-                            if (ballQBallWarpInfoEntityList == null) {
-                                ballQBallWarpInfoEntityList = new ArrayList<BallQBallWarpInfoEntity>(10);
+                        if (objArray != null && !objArray.isEmpty())
+                        {
+                            if (mBqBallWrapAdapter == null)
+                            {
+                                mBqBallWrapAdapter = new BqBallWrapAdapter();
+                                recyclerView.setAdapter(mBqBallWrapAdapter);
                             }
-                            if (!isLoadMore && !ballQBallWarpInfoEntityList.isEmpty()) {
-                                ballQBallWarpInfoEntityList.clear();
+//                            if (ballQBallWarpInfoEntityList == null)
+//                            {
+//                                ballQBallWarpInfoEntityList = new ArrayList<BallQBallWarpInfoEntity>(10);
+//                            }
+                            if (!isLoadMore && mBqBallWrapAdapter.getItemCount() > 0)
+                            {
+//                                ballQBallWarpInfoEntityList.clear();
+                                mBqBallWrapAdapter.addDataList(false);
                             }
-                            CommonUtils.getJSONListObject(objArray, ballQBallWarpInfoEntityList, BallQBallWarpInfoEntity.class);
-                            if (adapter == null) {
-                                adapter = new BallQBallWarpAdapter(ballQBallWarpInfoEntityList);
-                                recyclerView.setAdapter(adapter);
-                            } else {
-                                adapter.notifyDataSetChanged();
-                            }
-                            if (objArray.size() < 10) {
+//                            CommonUtils.getJSONListObject(objArray, ballQBallWarpInfoEntityList, BallQBallWarpInfoEntity.class);
+                            mBqBallWrapAdapter.addDataList(objArray, isLoadMore, BallQBallWarpInfoEntity.class);
+//                            if (adapter == null)
+//                            {
+//                                adapter = new BallQBallWarpAdapter(ballQBallWarpInfoEntityList);
+//                                recyclerView.setAdapter(adapter);
+//                            }
+//                            else
+//                            {
+//                                adapter.notifyDataSetChanged();
+//                            }
+                            if (objArray.size() < 10)
+                            {
                                 recyclerView.setLoadMoreDataComplete("没有更多数据了");
-                            } else {
+                            }
+                            else
+                            {
                                 recyclerView.setStartLoadMore();
-                                if (!isLoadMore) {
+                                if (!isLoadMore)
+                                {
                                     currentPages = 2;
-                                } else {
+                                }
+                                else
+                                {
                                     currentPages++;
                                 }
                             }
@@ -132,14 +172,17 @@ public class BallQHomeBallWarpListFragment extends AppSwipeRefreshLoadMoreRecycl
                         }
                     }
                 }
-                if (isLoadMore) {
+                if (isLoadMore)
+                {
                     recyclerView.setLoadMoreDataComplete("没有更多数据了");
                 }
             }
 
             @Override
-            public void onFinish(Call call) {
-                if (!isLoadMore) {
+            public void onFinish(Call call)
+            {
+                if (!isLoadMore)
+                {
                     recyclerView.setRefreshComplete();
                     onRefreshCompelete();
                 }
@@ -148,39 +191,47 @@ public class BallQHomeBallWarpListFragment extends AppSwipeRefreshLoadMoreRecycl
     }
 
     @Override
-    protected void onLoadMoreData() {
+    protected void onLoadMoreData()
+    {
         requestDatas(currentPages, true);
 
     }
 
     @Override
-    protected void onRefreshData() {
+    protected void onRefreshData()
+    {
         requestDatas(1, false);
     }
 
     @Override
-    protected boolean isCancledEventBus() {
+    protected boolean isCancledEventBus()
+    {
         return false;
     }
 
     @Override
-    protected void notifyEvent(String action) {
+    protected void notifyEvent(String action)
+    {
 
     }
 
     @Override
-    protected void notifyEvent(String action, Bundle data) {
+    protected void notifyEvent(String action, Bundle data)
+    {
 
     }
 
     @Override
-    public boolean canScrollVertically(int direction) {
+    public boolean canScrollVertically(int direction)
+    {
         return recyclerView != null && recyclerView.canScrollVertically(direction);
     }
 
     @Override
-    public void onFlingOver(int y, long duration) {
-        if (recyclerView != null) {
+    public void onFlingOver(int y, long duration)
+    {
+        if (recyclerView != null)
+        {
             recyclerView.smoothScrollBy(0, y);
         }
     }

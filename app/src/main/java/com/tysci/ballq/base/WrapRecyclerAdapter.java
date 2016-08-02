@@ -17,6 +17,8 @@ import java.util.List;
  */
 public abstract class WrapRecyclerAdapter<Bean, VH extends ButterKnifeRecyclerViewHolder> extends RecyclerView.Adapter<VH>
 {
+    protected final String TAG;
+
     private List<Bean> mDataList;
 
     public WrapRecyclerAdapter()
@@ -26,6 +28,7 @@ public abstract class WrapRecyclerAdapter<Bean, VH extends ButterKnifeRecyclerVi
 
     public WrapRecyclerAdapter(List<Bean> dataList)
     {
+        TAG = getClass().getSimpleName();
         this.mDataList = dataList;
     }
 

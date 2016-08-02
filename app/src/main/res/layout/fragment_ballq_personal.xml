@@ -327,12 +327,12 @@
             <!--android:layout_height="1dp"-->
             <!--android:background="@color/gold" />-->
 
-            <com.tysci.ballq.views.widgets.MainMenuItemView
-                android:id="@+id/menu_setting"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:menu_icon="@mipmap/icon_main_menu_setting"
-                app:menu_name="设置"/>
+            <!--<com.tysci.ballq.views.widgets.MainMenuItemView-->
+                <!--android:id="@+id/menu_setting"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--app:menu_icon="@mipmap/icon_main_menu_setting"-->
+                <!--app:menu_name="设置"/>-->
 
             <!--<View-->
             <!--android:layout_width="match_parent"-->

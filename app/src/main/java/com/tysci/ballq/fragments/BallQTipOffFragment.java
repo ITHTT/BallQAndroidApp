@@ -12,6 +12,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.tysci.ballq.R;
 import com.tysci.ballq.activitys.BallQTipOffSearchActivity;
 import com.tysci.ballq.base.BaseFragment;
+import com.tysci.ballq.dialog.BqTipOffPopupWindow;
 import com.tysci.ballq.modles.BallQBannerImageEntity;
 import com.tysci.ballq.modles.JsonParams;
 import com.tysci.ballq.networks.HttpClientUtil;
@@ -19,6 +20,7 @@ import com.tysci.ballq.networks.HttpUrls;
 import com.tysci.ballq.utils.BallQBusinessControler;
 import com.tysci.ballq.utils.CommonUtils;
 import com.tysci.ballq.utils.KLog;
+import com.tysci.ballq.utils.ScreenUtil;
 import com.tysci.ballq.views.adapters.BallQFragmentPagerAdapter;
 import com.tysci.ballq.views.widgets.BannerNetworkImageView;
 import com.tysci.ballq.views.widgets.SlidingTabLayout;
@@ -41,7 +43,7 @@ import ru.noties.scrollable.ScrollableLayout;
 /**
  * Created by HTT on 2016/7/12.
  */
-public class BallQTipOffFragment extends BaseFragment implements View.OnClickListener, OnItemClickListener
+public class BallQTipOffFragment extends BaseFragment implements View.OnClickListener, OnItemClickListener, BqTipOffPopupWindow.OnCheckItemCallback
 {
     @Bind(R.id.title_bar)
     protected TitleBar titleBar;
@@ -55,7 +57,9 @@ public class BallQTipOffFragment extends BaseFragment implements View.OnClickLis
     protected ScrollableLayout mScrollableLayout;
 
     private List<BallQBannerImageEntity> bannerList;
-    private List<BaseFragment> fragments=null;
+    private List<BaseFragment> fragments = null;
+
+    private BqTipOffPopupWindow mBqTipOffPopupWindow;
 
     @Override
     protected int getViewLayoutId()
@@ -66,9 +70,35 @@ public class BallQTipOffFragment extends BaseFragment implements View.OnClickLis
     @Override
     protected void initViews(View view, Bundle savedInstanceState)
     {
+        banner.setVisibility(View.GONE);
+
         titleBar.setTitleBarTitle("资讯");
         titleBar.setTitleBarLeftIcon(0, null);
         titleBar.setRightMenuIcon(R.mipmap.icon_search_mark, this);
+        titleBar.setTitleClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                int item = viewPager.getCurrentItem();
+                if (item != 0 && item != 1)
+                    return;
+                if (mBqTipOffPopupWindow == null)
+                {
+                    mBqTipOffPopupWindow = new BqTipOffPopupWindow(baseActivity);
+                    mBqTipOffPopupWindow.setOnCheckItemCallback(BallQTipOffFragment.this);
+                }
+                if (!mBqTipOffPopupWindow.isShowing())
+                {
+                    int x = (ScreenUtil.getDisplayMetrics(baseActivity).widthPixels - (mBqTipOffPopupWindow.getWidth())) / 2;
+                    mBqTipOffPopupWindow.showAsDropDown(titleBar, x, 20);
+                }
+                else
+                {
+                    mBqTipOffPopupWindow.dismiss();
+                }
+            }
+        });
         mScrollableLayout.setDraggableView(tabLayout);
         mScrollableLayout.setOnScrollChangedListener(new OnScrollChangedListener()
         {
@@ -98,7 +128,7 @@ public class BallQTipOffFragment extends BaseFragment implements View.OnClickLis
                 KLog.e("currentTab:" + viewPager.getCurrentItem());
                 BaseFragment fragment = fragments.get(viewPager.getCurrentItem());
 //                KLog.e("执行滑动操作。。");
-                KLog.e("fragment:"+fragment.getClass().getSimpleName());
+                KLog.e("fragment:" + fragment.getClass().getSimpleName());
                 if (fragment instanceof CanScrollVerticallyDelegate)
                 {
                     KLog.e("执行滑动操作。。");
@@ -114,10 +144,10 @@ public class BallQTipOffFragment extends BaseFragment implements View.OnClickLis
             {
                 BaseFragment fragment = fragments.get(viewPager.getCurrentItem());
                 //KLog.e("执行滑动操作。。");
-                if (fragment instanceof  OnFlingOverListener)
+                if (fragment instanceof OnFlingOverListener)
                 {
                     KLog.e("执行滑动操作。。");
-                    (( OnFlingOverListener) fragment).onFlingOver(y, duration);
+                    ((OnFlingOverListener) fragment).onFlingOver(y, duration);
                 }
             }
         });
@@ -127,13 +157,13 @@ public class BallQTipOffFragment extends BaseFragment implements View.OnClickLis
 
     private void addFragments()
     {
-        String[] titles = {"爆料", "球经", "视频", "我的关注"};
+        String[] titles = {"爆料", "视频", "球经", "我的关注"};
         fragments = new ArrayList<>(4);
         BaseFragment fragment = new BallQTipOffListFragment();
         fragments.add(fragment);
-        fragment = new BallQHomeBallWarpListFragment();
-        fragments.add(fragment);
         fragment = new BallQTipOffVideoListFragment();
+        fragments.add(fragment);
+        fragment = new BallQHomeBallWarpListFragment();
         fragments.add(fragment);
         fragment = new UserAttentionAllFragment();
         fragments.add(fragment);
@@ -141,12 +171,33 @@ public class BallQTipOffFragment extends BaseFragment implements View.OnClickLis
         viewPager.setAdapter(adapter);
         viewPager.setOffscreenPageLimit(fragments.size());
         tabLayout.setViewPager(viewPager);
+
+        titleBar.setTitleMoreVisibility(View.VISIBLE);
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener()
+        {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels)
+            {
+            }
+
+            @Override
+            public void onPageSelected(int position)
+            {
+                titleBar.setTitleMoreVisibility(position == 0 || position == 1 ? View.VISIBLE : View.GONE);
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state)
+            {
+            }
+        });
     }
 
     @Override
     protected View getLoadingTargetView()
     {
-        return contentView.findViewById(R.id.convenientBanner);
+//        return contentView.findViewById(R.id.convenientBanner);
+        return null;
     }
 
     @Override
@@ -310,6 +361,51 @@ public class BallQTipOffFragment extends BaseFragment implements View.OnClickLis
         {
             BallQBannerImageEntity info = bannerList.get(position);
             BallQBusinessControler.businessControler(baseActivity, Integer.parseInt(info.getJump_type()), info.getJump_url());
+        }
+    }
+
+    @Override
+    public void onCheckAllCallback()
+    {
+        KLog.e(viewPager.getCurrentItem());
+        switch (viewPager.getCurrentItem())
+        {
+            case 0:
+                ((BallQTipOffListFragment) fragments.get(0)).setEtype(-1);
+                break;
+            case 2:
+                ((BallQTipOffVideoListFragment) fragments.get(1)).setEtype(-1);
+                break;
+        }
+    }
+
+    @Override
+    public void onCheckSoccerCallback()
+    {
+        KLog.e(viewPager.getCurrentItem());
+        switch (viewPager.getCurrentItem())
+        {
+            case 0:
+                ((BallQTipOffListFragment) fragments.get(0)).setEtype(0);
+                break;
+            case 2:
+                ((BallQTipOffVideoListFragment) fragments.get(1)).setEtype(0);
+                break;
+        }
+    }
+
+    @Override
+    public void onCheckBasketCallback()
+    {
+        KLog.e(viewPager.getCurrentItem());
+        switch (viewPager.getCurrentItem())
+        {
+            case 0:
+                ((BallQTipOffListFragment) fragments.get(0)).setEtype(1);
+                break;
+            case 2:
+                ((BallQTipOffVideoListFragment) fragments.get(1)).setEtype(1);
+                break;
         }
     }
 }

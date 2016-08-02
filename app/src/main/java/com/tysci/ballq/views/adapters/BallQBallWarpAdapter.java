@@ -25,70 +25,88 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 
 /**
- * Created by Administrator on 2016/7/15.
+ * Created by HTT on 2016/7/15.
+ *
+ * @deprecated on 2016-08-01
  */
-public class BallQBallWarpAdapter extends RecyclerView.Adapter<BallQBallWarpAdapter.BallQBallWarpViewHolder>{
+@Deprecated
+public class BallQBallWarpAdapter extends RecyclerView.Adapter<BallQBallWarpAdapter.BallQBallWarpViewHolder>
+{
     private List<BallQBallWarpInfoEntity> ballQInfoListItemEntityList;
 
-    public BallQBallWarpAdapter(List<BallQBallWarpInfoEntity> ballQInfoListItemEntityList) {
+    public BallQBallWarpAdapter(List<BallQBallWarpInfoEntity> ballQInfoListItemEntityList)
+    {
         this.ballQInfoListItemEntityList = ballQInfoListItemEntityList;
     }
 
     @Override
-    public BallQBallWarpViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view= LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_ballq_ball_warp_item,parent,false);
+    public BallQBallWarpViewHolder onCreateViewHolder(ViewGroup parent, int viewType)
+    {
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_ballq_ball_warp_item, parent, false);
         return new BallQBallWarpViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(final BallQBallWarpViewHolder holder, int position) {
-        final BallQBallWarpInfoEntity info=ballQInfoListItemEntityList.get(position);
+    public void onBindViewHolder(final BallQBallWarpViewHolder holder, int position)
+    {
+        final BallQBallWarpInfoEntity info = ballQInfoListItemEntityList.get(position);
         GlideImageLoader.loadImage(holder.itemView.getContext(), info.getPt(), R.mipmap.icon_user_default, holder.ivUserHeader);
         UserInfoUtil.setUserHeaderVMark(info.getIsv(), holder.ivUserV, holder.ivUserHeader);
         holder.tvUserName.setText(info.getFname());
         holder.tvReadCounts.setText(String.valueOf(info.getReading_count()));
         holder.tvTitle.setText(info.getTitle());
-        UserInfoUtil.setUserLevel(holder.ivUserLevel,info.getIsv());
-        GlideImageLoader.loadImage(holder.itemView.getContext(),info.getCover(),R.mipmap.icon_ball_wrap_default_img,holder.ivImg);
-        Date tipDate= CommonUtils.getDateAndTimeFromGMT(info.getCtime());
-        if(tipDate!=null){
-            String dateInfo=CommonUtils.getDateAndTimeFormatString(tipDate);
-            if(!TextUtils.isEmpty(dateInfo)){
-                String[] dates=dateInfo.split(" ");
-                if(dates!=null){
+        UserInfoUtil.setUserLevel(holder.ivUserLevel, info.getIsv());
+        GlideImageLoader.loadImage(holder.itemView.getContext(), info.getCover(), R.mipmap.icon_ball_wrap_default_img, holder.ivImg);
+        Date tipDate = CommonUtils.getDateAndTimeFromGMT(info.getCtime());
+        if (tipDate != null)
+        {
+            String dateInfo = CommonUtils.getDateAndTimeFormatString(tipDate);
+            if (!TextUtils.isEmpty(dateInfo))
+            {
+                String[] dates = dateInfo.split(" ");
+                if (dates != null)
+                {
                     holder.tvCreateDate.setText(dates[0]);
-                    holder.tvCreateTime.setText(dates[dates.length-1]);
+                    holder.tvCreateTime.setText(dates[dates.length - 1]);
                 }
             }
-        }else{
+        }
+        else
+        {
             holder.tvCreateTime.setText("");
             holder.tvCreateDate.setText("");
         }
 
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
+        holder.itemView.setOnClickListener(new View.OnClickListener()
+        {
             @Override
-            public void onClick(View v) {
-                Context context=holder.itemView.getContext();
-                Intent intent=new Intent(context, BallQBallWarpDetailActivity.class);
-                intent.putExtra(BallQBallWarpDetailActivity.class.getSimpleName(),info);
+            public void onClick(View v)
+            {
+                Context context = holder.itemView.getContext();
+                Intent intent = new Intent(context, BallQBallWarpDetailActivity.class);
+                intent.putExtra(BallQBallWarpDetailActivity.class.getSimpleName(), info);
                 context.startActivity(intent);
             }
         });
 
-        holder.ivUserHeader.setOnClickListener(new View.OnClickListener() {
+        holder.ivUserHeader.setOnClickListener(new View.OnClickListener()
+        {
             @Override
-            public void onClick(View v) {
-                UserInfoUtil.lookUserInfo(holder.itemView.getContext(),info.getUid());
+            public void onClick(View v)
+            {
+                UserInfoUtil.lookUserInfo(holder.itemView.getContext(), info.getUid());
             }
         });
     }
 
     @Override
-    public int getItemCount() {
+    public int getItemCount()
+    {
         return ballQInfoListItemEntityList.size();
     }
 
-    public static final class BallQBallWarpViewHolder extends RecyclerView.ViewHolder{
+    public static final class BallQBallWarpViewHolder extends RecyclerView.ViewHolder
+    {
         @Bind(R.id.ivUserIcon)
         CircleImageView ivUserHeader;
         @Bind(R.id.isV)
@@ -108,9 +126,10 @@ public class BallQBallWarpAdapter extends RecyclerView.Adapter<BallQBallWarpAdap
         @Bind(R.id.iv_ball_ward_img)
         ImageView ivImg;
 
-        public BallQBallWarpViewHolder(View itemView) {
+        public BallQBallWarpViewHolder(View itemView)
+        {
             super(itemView);
-            ButterKnife.bind(this,itemView);
+            ButterKnife.bind(this, itemView);
         }
     }
 }

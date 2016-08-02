@@ -14,6 +14,7 @@ import com.tysci.ballq.base.ButterKnifeRecyclerViewHolder;
 import com.tysci.ballq.base.WrapRecyclerAdapter;
 import com.tysci.ballq.utils.ImageUtil;
 import com.tysci.ballq.utils.UserInfoUtil;
+import com.tysci.ballq.views.UserVStatusImageView;
 import com.tysci.ballq.views.widgets.CircleImageView;
 import com.tysci.ballq.views.widgets.recyclerviewstickyheader.StickyHeaderAdapter;
 
@@ -98,6 +99,8 @@ public class BqIndexAdapter extends WrapRecyclerAdapter<JSONObject, BqIndexAdapt
         holder.tv_user_nickname.setText(object.getString("fname"));
         holder.tv_content.setText(object.getString("note"));
 
+        holder.iv_analyst.setUserV_Icon(object.getInteger("v_status"));
+
         holder.itemView.setOnClickListener(new View.OnClickListener()
         {
             @Override
@@ -156,7 +159,7 @@ public class BqIndexAdapter extends WrapRecyclerAdapter<JSONObject, BqIndexAdapt
         @Bind(R.id.circle_image_view)
         CircleImageView circle_image_view;
         @Bind(R.id.iv_analyst)
-        ImageView iv_analyst;
+        UserVStatusImageView iv_analyst;
 
         @Bind(R.id.tv_user_nickname)
         TextView tv_user_nickname;

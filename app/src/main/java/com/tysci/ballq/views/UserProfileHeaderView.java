@@ -48,7 +48,7 @@ public final class UserProfileHeaderView extends LinearLayout implements View.On
     @Bind(R.id.tv_user_nickname)
     TextView tvUserNickname;// 用户昵称
     @Bind(R.id.iv_expert)
-    ImageView ivUserExpert;// 砖家图标
+    UserVStatusImageView ivUserExpert;// 砖家图标
     @Bind(R.id.tv_follow_click)
     TextView tvFollowClick;// 关注/取消关注
     @Bind(R.id.iv_user_achievement01)
@@ -165,7 +165,7 @@ public final class UserProfileHeaderView extends LinearLayout implements View.On
         // 昵称
         tvUserNickname.setText(userInfo.getFname());
         // 砖家图标
-        ivUserExpert.setVisibility(GONE);
+        ivUserExpert.setUserV_Icon(userInfo.getIsv());
         // 关注
         tvFollowClick.setVisibility(isUserSelf ? GONE : VISIBLE);
         // 成就图标1

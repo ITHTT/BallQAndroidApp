@@ -29,7 +29,8 @@ import okhttp3.Request;
 /**
  * Created by Administrator on 2016/5/31.
  */
-public class UserInfoUtil {
+public class UserInfoUtil
+{
     private static final String userFileName = "user_info";
 
     private static final String USER_TOKEN = "user_token";
@@ -41,129 +42,166 @@ public class UserInfoUtil {
     private static final String USER_WECHAT_TOKEN_INFO = "user_wechat_token";
     private static final String USER_WECHAT_USER_INFO = "user_wecaht_user_info";
 
-    public static void setUserToken(Context context, String token) {
+    public static void setUserToken(Context context, String token)
+    {
         SharedPreferencesUtil.setStringValue(context, userFileName, USER_TOKEN, token);
     }
 
-    public static String getUserToken(Context context) {
+    public static String getUserToken(Context context)
+    {
         return SharedPreferencesUtil.getStringValue(context, userFileName, USER_TOKEN);
     }
 
-    public static void setUserAccount(Context context, String phone) {
+    public static void setUserAccount(Context context, String phone)
+    {
         SharedPreferencesUtil.setStringValue(context, userFileName, USER_ACCOUNT, phone);
     }
 
-    public static String getUserAccount(Context context) {
+    public static String getUserAccount(Context context)
+    {
         return SharedPreferencesUtil.getStringValue(context, userFileName, USER_ACCOUNT);
     }
 
-    public static void setUserId(Context context, String id) {
+    public static void setUserId(Context context, String id)
+    {
         SharedPreferencesUtil.setStringValue(context, userFileName, USER_ID, id);
     }
 
-    public static String getUserId(Context context) {
+    public static String getUserId(Context context)
+    {
         return SharedPreferencesUtil.getStringValue(context, userFileName, USER_ID);
     }
 
-    public static void setUserInfo(Context context, UserInfoEntity userInfo) {
+    public static void setUserInfo(Context context, UserInfoEntity userInfo)
+    {
         String info = JSONObject.toJSONString(userInfo);
-        if (!TextUtils.isEmpty(info)) {
+        if (!TextUtils.isEmpty(info))
+        {
             SharedPreferencesUtil.setStringValue(context, userFileName, USER_INFO, info);
         }
     }
 
-    public static void setUserInfo(Context context, String userInfoStr) {
+    public static void setUserInfo(Context context, String userInfoStr)
+    {
         SharedPreferencesUtil.setStringValue(context, userFileName, USER_INFO, userInfoStr);
     }
 
-    public static UserInfoEntity getUserInfo(Context context) {
+    public static UserInfoEntity getUserInfo(Context context)
+    {
         String userInfo = SharedPreferencesUtil.getStringValue(context, userFileName, USER_INFO);
-        if (!TextUtils.isEmpty(userInfo)) {
+        if (!TextUtils.isEmpty(userInfo))
+        {
             return JSONObject.parseObject(userInfo, UserInfoEntity.class);
         }
         return null;
     }
 
-    public static boolean isVIPUser(Context context) {
+    public static boolean isVIPUser(Context context)
+    {
         UserInfoEntity info = getUserInfo(context);
-        if (info != null) {
+        if (info != null)
+        {
             return info.getRank() >= 10;
         }
         return false;
     }
 
-    public static void setUserRank(Context context, int rank) {
+    public static void setUserRank(Context context, int rank)
+    {
         SharedPreferencesUtil.setIntValue(context, userFileName, USER_RANK, rank);
     }
 
-    public static int getUserRank(Context context) {
+    public static int getUserRank(Context context)
+    {
         return SharedPreferencesUtil.getIntValue(context, userFileName, USER_RANK);
     }
 
-    public static void setUserPortrait(Context context, String portrait) {
+    public static void setUserPortrait(Context context, String portrait)
+    {
         SharedPreferencesUtil.setStringValue(context, userFileName, USER_PORTRAIT, portrait);
     }
 
-    public static String getUserPortrait(Context context) {
+    public static String getUserPortrait(Context context)
+    {
         return SharedPreferencesUtil.getStringValue(context, userFileName, USER_PORTRAIT);
     }
 
-    public static void setUserWechatTokenInfo(Context context, String info) {
+    public static void setUserWechatTokenInfo(Context context, String info)
+    {
         SharedPreferencesUtil.setStringValue(context, userFileName, USER_WECHAT_TOKEN_INFO, info);
     }
 
-    public static void setUserWechatTokenInfo(Context context, JSONObject info) {
-        if (info != null) {
+    public static void setUserWechatTokenInfo(Context context, JSONObject info)
+    {
+        if (info != null)
+        {
             SharedPreferencesUtil.setStringValue(context, userFileName, USER_WECHAT_TOKEN_INFO, info.toJSONString());
         }
     }
 
-    public static JSONObject getUserWechatTokenInfo(Context context) {
+    public static JSONObject getUserWechatTokenInfo(Context context)
+    {
         String info = SharedPreferencesUtil.getStringValue(context, userFileName, USER_WECHAT_TOKEN_INFO);
-        if (!TextUtils.isEmpty(info)) {
+        if (!TextUtils.isEmpty(info))
+        {
             return JSONObject.parseObject(info);
         }
         return null;
     }
 
-    public static void setWechatUserInfo(Context context, String info) {
+    public static void setWechatUserInfo(Context context, String info)
+    {
         SharedPreferencesUtil.setStringValue(context, userFileName, USER_WECHAT_USER_INFO, info);
     }
 
-    public static void setWechatUserInfo(Context context, JSONObject info) {
-        if (info != null) {
+    public static void setWechatUserInfo(Context context, JSONObject info)
+    {
+        if (info != null)
+        {
             SharedPreferencesUtil.setStringValue(context, userFileName, USER_WECHAT_USER_INFO, info.toJSONString());
         }
     }
 
-    public static JSONObject getWechatUserInfo(Context context) {
+    public static JSONObject getWechatUserInfo(Context context)
+    {
         String info = SharedPreferencesUtil.getStringValue(context, userFileName, USER_WECHAT_USER_INFO);
-        if (!TextUtils.isEmpty(info)) {
+        if (!TextUtils.isEmpty(info))
+        {
             return JSONObject.parseObject(info);
         }
         return null;
     }
 
-    public static void userLogin(Context context) {
+    public static void userLogin(Context context)
+    {
         Intent intent = new Intent(context, WXEntryActivity.class);
         context.startActivity(intent);
     }
 
-    public static void setUserLevel(ImageView ivLeve,int level){
-        if(level==110){
+    public static void setUserLevel(ImageView ivLeve, int level)
+    {
+        if (level == 110)
+        {
             ivLeve.setImageResource(R.mipmap.icon_user_level_experts);
-        }else if(level==120){
+        }
+        else if (level == 120)
+        {
             ivLeve.setImageResource(R.mipmap.icon_user_level_specail);
 
-        }else if(level==130) {
+        }
+        else if (level == 130)
+        {
             ivLeve.setImageResource(R.mipmap.icon_user_level_author);
-        }else{
+        }
+        else
+        {
             ivLeve.setImageResource(0);
         }
     }
 
 
-    public static void saveUserInfo(Context context, JSONObject data) {
+    public static void saveUserInfo(Context context, JSONObject data)
+    {
         UserInfoUtil.setUserRank(context, data.getIntValue("rank"));
         UserInfoUtil.setUserId(context, data.getString("user"));
         UserInfoUtil.setUserAccount(context, data.getString("nickname"));
@@ -171,16 +209,19 @@ public class UserInfoUtil {
         UserInfoUtil.setUserPortrait(context, data.getString("portrait"));
     }
 
-    public static boolean checkLogin(Context context) {
+    public static boolean checkLogin(Context context)
+    {
         String userId = getUserId(context);
         String token = getUserToken(context);
-        if (!TextUtils.isEmpty(userId) && !TextUtils.isEmpty(token)) {
+        if (!TextUtils.isEmpty(userId) && !TextUtils.isEmpty(token))
+        {
             return true;
         }
         return false;
     }
 
-    public static void lookUserInfo(Context context, int uid) {
+    public static void lookUserInfo(Context context, int uid)
+    {
         Intent intent = new Intent(context, UserProfileActivity.class);
         intent.putExtra(UserProfileActivity.class.getSimpleName(), uid);
         context.startActivity(intent);
@@ -191,7 +232,8 @@ public class UserInfoUtil {
      *
      * @param context
      */
-    public static void exitLogin(Context context) {
+    public static void exitLogin(Context context)
+    {
         setUserId(context, null);
         setUserAccount(context, null);
         setUserToken(context, null);
@@ -205,27 +247,38 @@ public class UserInfoUtil {
         EventObject.postEventObject(eventObject, EventType.EVENT_USER_EXIT);
     }
 
-    public static void setUserHeaderVMark(int isV, ImageView iV, CircleImageView userHeader) {
-        if (isV == 1) {
+    public static void setUserHeaderVMark(int isV, ImageView iV, CircleImageView userHeader)
+    {
+        if (isV == 1)
+        {
             iV.setVisibility(View.VISIBLE);
             userHeader.setBorderColor(Color.parseColor("#ffc90c"));
-        } else {
+        }
+        else
+        {
             iV.setVisibility(View.GONE);
             userHeader.setBorderColor(Color.parseColor("#e6e6e6"));
         }
     }
 
-    public static void setUserAchievementInfo(Context context, String achieve1, ImageView iv1, String achieve2, ImageView iv2) {
-        if (TextUtils.isEmpty(achieve1)) {
+    public static void setUserAchievementInfo(Context context, String achieve1, ImageView iv1, String achieve2, ImageView iv2)
+    {
+        if (TextUtils.isEmpty(achieve1))
+        {
             iv1.setVisibility(View.GONE);
-        } else {
+        }
+        else
+        {
             iv1.setVisibility(View.VISIBLE);
             GlideImageLoader.loadImage(context, achieve1, R.mipmap.icon_user_achievement_circle_mark, iv1);
         }
 
-        if (TextUtils.isEmpty(achieve2)) {
+        if (TextUtils.isEmpty(achieve2))
+        {
             iv2.setVisibility(View.GONE);
-        } else {
+        }
+        else
+        {
             iv2.setVisibility(View.VISIBLE);
             GlideImageLoader.loadImage(context, achieve2, R.mipmap.icon_user_achievement_circle_mark, iv2);
         }
@@ -239,37 +292,48 @@ public class UserInfoUtil {
      * @param userId
      * @param loadingProgressDialog
      */
-    public static void getUserInfo(final Activity context, String tag, String userId, final boolean isLogin, final LoadingProgressDialog loadingProgressDialog) {
+    public static void getUserInfo(final Activity context, String tag, String userId, final boolean isLogin, final LoadingProgressDialog loadingProgressDialog)
+    {
         String url = HttpUrls.getUserInfoUrl(userId);
         KLog.e("url:" + url);
-        HttpClientUtil.getHttpClientUtil().sendPostRequest(tag, url, null, new HttpClientUtil.StringResponseCallBack() {
+        HttpClientUtil.getHttpClientUtil().sendPostRequest(tag, url, null, new HttpClientUtil.StringResponseCallBack()
+                {
                     @Override
-                    public void onBefore(Request request) {
+                    public void onBefore(Request request)
+                    {
 
                     }
 
                     @Override
-                    public void onError(Call call, Exception error) {
+                    public void onError(Call call, Exception error)
+                    {
                         KLog.e("请求失败...");
                     }
 
                     @Override
-                    public void onSuccess(Call call, String response) {
+                    public void onSuccess(Call call, String response)
+                    {
                         KLog.json(response);
-                        if (!TextUtils.isEmpty(response)) {
+                        if (!TextUtils.isEmpty(response))
+                        {
                             JSONObject responseObj = JSONObject.parseObject(response);
-                            if (responseObj != null && !responseObj.isEmpty()) {
+                            if (responseObj != null && !responseObj.isEmpty())
+                            {
                                 String userInfo = responseObj.getString("data");
-                                if (!TextUtils.isEmpty(userInfo)) {
+                                if (!TextUtils.isEmpty(userInfo))
+                                {
                                     UserInfoUtil.setUserInfo(context, userInfo);
                                     EventObject eventObject = new EventObject();
                                     eventObject.getData().putString("user_info", userInfo);
-                                    if (isLogin) {
+                                    if (isLogin)
+                                    {
                                         context.setResult(Activity.RESULT_OK);
                                         context.finish();
                                         /**发布登录事件*/
                                         EventObject.postEventObject(eventObject, EventType.EVENT_USER_LOGIN);
-                                    } else {
+                                    }
+                                    else
+                                    {
                                         EventObject.postEventObject(eventObject, EventType.EVENT_REFRESH_USER_INFO);
                                     }
                                 }
@@ -278,8 +342,10 @@ public class UserInfoUtil {
                     }
 
                     @Override
-                    public void onFinish(Call call) {
-                        if (loadingProgressDialog != null) {
+                    public void onFinish(Call call)
+                    {
+                        if (loadingProgressDialog != null)
+                        {
                             loadingProgressDialog.dismiss();
                         }
                     }
@@ -287,7 +353,8 @@ public class UserInfoUtil {
         );
     }
 
-    public static void getUserTaskMsg(Context context) {
+    public static void getUserTaskMsg(Context context)
+    {
         Intent intent = new Intent(context, UserTaskService.class);
         context.startService(intent);
     }

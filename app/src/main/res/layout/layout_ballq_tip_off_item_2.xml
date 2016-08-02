@@ -1,0 +1,515 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@+id/_ll1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/dimen10dp"
+        android:background="@color/white">
+
+        <ImageView
+            android:id="@+id/ivBetResult"
+            android:layout_width="110dp"
+            android:layout_height="125dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:contentDescription="@string/app_name"
+            android:paddingBottom="25dp"
+            android:paddingEnd="10dp"
+            android:paddingLeft="0dp"
+            android:paddingRight="10dp"
+            android:paddingStart="0dp"
+            android:src="@mipmap/watermark_gone"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="60dp"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp">
+
+                <RelativeLayout
+                    android:id="@+id/_rl1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:id="@+id/ivHtLogo"
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:contentDescription="@string/app_name"
+                        android:src="@mipmap/ic_ballq_logo"/>
+
+                    <TextView
+                        android:id="@+id/tvHtName"
+                        android:layout_width="100dp"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="7dp"
+                        android:layout_marginStart="7dp"
+                        android:layout_toEndOf="@id/ivHtLogo"
+                        android:layout_toRightOf="@id/ivHtLogo"
+                        android:ellipsize="end"
+                        android:maxLines="1"
+                        android:text="@string/app_name"
+                        android:textColor="#282828"
+                        android:textSize="13sp"/>
+
+                    <TextView
+                        android:id="@+id/tvHtScore"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:text="0"
+                        android:textColor="#989797"
+                        android:textSize="14sp"/>
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/_rl1"
+                    android:layout_marginTop="5dp"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:id="@+id/ivAtLogo"
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:contentDescription="@string/app_name"
+                        android:src="@mipmap/ic_ballq_logo"/>
+
+                    <TextView
+                        android:id="@+id/tvAtName"
+                        android:layout_width="100dp"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="7dp"
+                        android:layout_marginStart="7dp"
+                        android:layout_toEndOf="@id/ivAtLogo"
+                        android:layout_toRightOf="@id/ivAtLogo"
+                        android:ellipsize="end"
+                        android:maxLines="1"
+                        android:text="@string/app_name"
+                        android:textColor="#282828"
+                        android:textSize="13sp"/>
+
+                    <TextView
+                        android:id="@+id/tvAtScore"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:text="0"
+                        android:textColor="#989797"
+                        android:textSize="14sp"/>
+                </RelativeLayout>
+
+                <ImageView
+                    android:id="@+id/ivCheckCollection"
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:contentDescription="@string/app_name"
+                    android:padding="@dimen/dimen10dp"
+                    android:src="@drawable/icon_user_collect_selector"/>
+
+                <TextView
+                    android:id="@+id/tvGameState"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_toLeftOf="@id/ivCheckCollection"
+                    android:layout_toStartOf="@id/ivCheckCollection"
+                    android:text="未开始"
+                    android:textColor="@color/c_3a3a3a"
+                    android:textSize="13sp"/>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:gravity="center_vertical"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp">
+
+                <TextView
+                    android:id="@+id/tvChoice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/app_name"
+                    android:textColor="#cdaa44"
+                    android:textSize="12sp"/>
+
+                <TextView
+                    android:id="@+id/tvTipCreateTime"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:text="04/28 11:38"
+                    android:textColor="@color/ebpay_black"
+                    android:textSize="12sp"
+                    tools:ignore="HardcodedText"/>
+            </RelativeLayout>
+
+            <!--<LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="信心指数："
+                    android:textColor="#cdaa44"
+                    android:textSize="13sp"
+                    tools:ignore="HardcodedText" />
+
+                <ImageView
+                    android:id="@id/ivLike1"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:contentDescription="@string/app_name"
+                    android:src="@drawable/confidence_flag" />
+
+                <ImageView
+                    android:id="@id/ivLike2"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_marginLeft="3dp"
+                    android:layout_marginStart="3dp"
+                    android:contentDescription="@string/app_name"
+                    android:src="@drawable/confidence_flag" />
+
+                <ImageView
+                    android:id="@id/ivLike3"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_marginLeft="3dp"
+                    android:layout_marginStart="3dp"
+                    android:contentDescription="@string/app_name"
+                    android:src="@drawable/confidence_flag" />
+
+                <ImageView
+                    android:id="@id/ivLike4"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_marginLeft="3dp"
+                    android:layout_marginStart="3dp"
+                    android:contentDescription="@string/app_name"
+                    android:src="@drawable/confidence_flag" />
+
+                <ImageView
+                    android:id="@id/ivLike5"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_marginLeft="3dp"
+                    android:layout_marginStart="3dp"
+                    android:contentDescription="@string/app_name"
+                    android:src="@drawable/confidence_flag" />
+            </LinearLayout>-->
+
+            <TextView
+                android:id="@+id/tvContent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:ellipsize="none"
+                android:lines="3"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp"
+                android:text="@string/app_name"
+                android:textColor="#676767"
+                android:textSize="13sp"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:gravity="center_vertical|end"
+                android:orientation="horizontal"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp">
+
+                <com.tysci.ballq.views.widgets.TextWithLeftImageView
+                    android:id="@+id/text_sam"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:text_left_image="@mipmap/icon_gold"/>
+
+                <com.tysci.ballq.views.widgets.TextWithLeftImageView
+                    android:id="@+id/text_read"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/dimen10dp"
+                    android:layout_marginStart="@dimen/dimen10dp"
+                    app:text_left_image="@mipmap/icon_read_count"/>
+
+                <com.tysci.ballq.views.widgets.TextWithLeftImageView
+                    android:id="@+id/text_comment"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/dimen10dp"
+                    android:layout_marginStart="@dimen/dimen10dp"
+                    app:text_left_image="@mipmap/icon_comment_counts"/>
+
+                <com.tysci.ballq.views.widgets.TextWithLeftImageView
+                    android:id="@+id/text_like"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/dimen10dp"
+                    android:layout_marginStart="@dimen/dimen10dp"
+                    app:text_left_image="@mipmap/icon_like_normal"/>
+
+                <!--<ImageView-->
+                <!--android:id="@+id/imageView2"-->
+                <!--android:layout_width="@dimen/tipfragment_imagesize"-->
+                <!--android:layout_height="@dimen/tipfragment_imagesize"-->
+                <!--android:layout_marginLeft="15dp"-->
+                <!--android:layout_marginStart="15dp"-->
+                <!--android:contentDescription="@string/app_name"-->
+                <!--android:src="@mipmap/icon_gold"/>-->
+
+                <!--<TextView-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_marginLeft="3dp"-->
+                <!--android:layout_marginStart="3dp"-->
+                <!--android:gravity="center"-->
+                <!--android:text="0"-->
+                <!--android:textColor="#cdaa44"-->
+                <!--android:textSize="@dimen/tipfragment_textsize"/>-->
+
+                <!--<ImageView-->
+                <!--android:layout_width="@dimen/tipfragment_imagesize"-->
+                <!--android:layout_height="@dimen/tipfragment_imagesize"-->
+                <!--android:layout_marginLeft="15dp"-->
+                <!--android:layout_marginStart="15dp"-->
+                <!--android:contentDescription="@string/app_name"-->
+                <!--android:src="@mipmap/icon_read_count"/>-->
+
+                <!--<TextView-->
+                <!--android:id="@+id/tvReadingCount"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_marginLeft="3dp"-->
+                <!--android:layout_marginStart="3dp"-->
+                <!--android:text="0"-->
+                <!--android:textColor="#676767"-->
+                <!--android:textSize="@dimen/tipfragment_textsize"/>-->
+
+                <!--<ImageView-->
+                <!--android:layout_width="@dimen/tipfragment_imagesize"-->
+                <!--android:layout_height="@dimen/tipfragment_imagesize"-->
+                <!--android:layout_marginLeft="15dp"-->
+                <!--android:layout_marginStart="15dp"-->
+                <!--android:contentDescription="@string/app_name"-->
+                <!--android:src="@mipmap/icon_comment_counts"/>-->
+
+                <!--<TextView-->
+                <!--android:id="@+id/tvCommentNum"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_marginLeft="3dp"-->
+                <!--android:layout_marginStart="3dp"-->
+                <!--android:text="0"-->
+                <!--android:textColor="#676767"-->
+                <!--android:textSize="@dimen/tipfragment_textsize"/>-->
+
+                <!--<ImageView-->
+                <!--android:layout_width="@dimen/tipfragment_imagesize"-->
+                <!--android:layout_height="@dimen/tipfragment_imagesize"-->
+                <!--android:layout_marginLeft="15dp"-->
+                <!--android:layout_marginStart="15dp"-->
+                <!--android:contentDescription="@string/app_name"-->
+                <!--android:src="@mipmap/icon_like_normal"/>-->
+
+                <!--<TextView-->
+                <!--android:id="@+id/tvLikeCount"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_marginLeft="3dp"-->
+                <!--android:layout_marginStart="3dp"-->
+                <!--android:text="0"-->
+                <!--android:textColor="#676767"-->
+                <!--android:textSize="@dimen/tipfragment_textsize"/>-->
+            </LinearLayout>
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginLeft="60dp"
+                android:layout_marginStart="60dp"
+                android:layout_marginTop="10dp"
+                android:background="#828282"
+                android:contentDescription="@string/app_name"/>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="27dp"
+                android:layout_marginLeft="65dp"
+                android:layout_marginStart="65dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tvUserNickName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:maxEms="5"
+                    android:singleLine="true"
+                    android:text="ball"
+                    android:textColor="#1a1a1a"
+                    android:textSize="12sp"/>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:gravity="center_vertical"
+                    android:paddingEnd="15dp"
+                    android:paddingLeft="0dp"
+                    android:paddingRight="15dp"
+                    android:paddingStart="0dp">
+
+                    <com.tysci.ballq.views.widgets.TextWithLeftImageView
+                        android:id="@+id/text_tip_count"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:text_left_image="@mipmap/icon_tip_count"/>
+
+                    <com.tysci.ballq.views.widgets.TextWithLeftImageView
+                        android:id="@+id/text_wins"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/dimen10dp"
+                        android:layout_marginStart="@dimen/dimen10dp"
+                        app:text_left_image="@mipmap/icon_tip_win_rate"/>
+
+                    <com.tysci.ballq.views.widgets.TextWithLeftImageView
+                        android:id="@+id/text_ror"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/dimen10dp"
+                        android:layout_marginStart="@dimen/dimen10dp"
+                        app:text_left_image="@mipmap/icon_tip_trend"/>
+                </LinearLayout>
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:background="#828282"/>
+        </LinearLayout>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp">
+
+        <ImageView
+            android:id="@+id/iv_2"
+            android:layout_width="match_parent"
+            android:layout_height="25dp"
+            android:layout_marginEnd="2dp"
+            android:layout_marginRight="2dp"
+            android:layout_marginTop="3dp"
+            android:background="@drawable/shou_ye_bao_liao_dui_hua_kuang_yin_ying"
+            android:contentDescription="@string/app_name"/>
+
+        <ImageView
+            android:id="@+id/iv_1"
+            android:layout_width="match_parent"
+            android:layout_height="25dp"
+            android:layout_marginBottom="3dp"
+            android:layout_marginEnd="5dp"
+            android:layout_marginRight="5dp"
+            android:background="@drawable/shou_ye_bao_liao_dui_hua_kuang"
+            android:contentDescription="@string/app_name"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="25dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tvMatchTime"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="11:30"
+                android:textColor="#1b1b1b"
+                android:textSize="13sp"/>
+
+            <TextView
+                android:id="@+id/tvMatchEvent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="法国足球甲级联赛"
+                android:textColor="#1b1b1b"
+                android:textSize="13sp"/>
+
+            <TextView
+                android:id="@+id/tvMatchDate"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="08-01"
+                android:textColor="#1b1b1b"
+                android:textSize="13sp"/>
+        </LinearLayout>
+
+        <com.tysci.ballq.views.widgets.SimpleTriangleView
+            android:layout_width="20dp"
+            android:layout_height="15dp"
+            android:layout_marginLeft="25dp"
+            android:layout_marginStart="25dp"
+            android:layout_marginTop="28dp"
+            app:triangle_color="#30eacb70"/>
+
+        <com.tysci.ballq.views.widgets.SimpleTriangleView
+            android:layout_width="20dp"
+            android:layout_height="15dp"
+            android:layout_marginLeft="22dp"
+            android:layout_marginStart="22dp"
+            android:layout_marginTop="25dp"
+            app:triangle_color="#eacb70"/>
+    </RelativeLayout>
+
+    <include
+        layout="@layout/layout_user_header"
+        android:layout_width="@dimen/dimen50dp"
+        android:layout_height="@dimen/dimen50dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginLeft="10dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="-55dp"/>
+</RelativeLayout>

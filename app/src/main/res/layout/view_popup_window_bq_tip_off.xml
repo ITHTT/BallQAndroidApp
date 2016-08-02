@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/tv_check_all"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/selector_tip_off_pw_top"
+        android:gravity="center"
+        android:paddingBottom="@dimen/dimen10dp"
+        android:paddingTop="@dimen/dimen10dp"
+        android:text="全部"
+        android:textColor="@color/white"
+        android:textSize="@dimen/dimen13sp"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dimen1dp"
+        android:background="#6c6141"/>
+
+    <TextView
+        android:id="@+id/tv_check_soccer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/selector_tip_off_pw_center"
+        android:gravity="center"
+        android:paddingBottom="@dimen/dimen10dp"
+        android:paddingTop="@dimen/dimen10dp"
+        android:text="足球"
+        android:textColor="@color/white"
+        android:textSize="@dimen/dimen13sp"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dimen1dp"
+        android:background="#6c6141"/>
+
+    <TextView
+        android:id="@+id/tv_check_basket"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/selector_tip_off_pw_bottom"
+        android:gravity="center"
+        android:paddingBottom="@dimen/dimen10dp"
+        android:paddingTop="@dimen/dimen10dp"
+        android:text="篮球"
+        android:textColor="@color/white"
+        android:textSize="@dimen/dimen13sp"/>
+</LinearLayout>

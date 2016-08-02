@@ -13,8 +13,8 @@
 
     <ImageView
         android:id="@+id/image_view"
-        android:layout_width="100dp"
-        android:layout_height="60dp"
+        android:layout_width="50dp"
+        android:layout_height="30dp"
         android:layout_margin="@dimen/dimen10dp"
         android:contentDescription="@string/app_name"
         android:src="@mipmap/icon_bq_index_page_analyst"/>

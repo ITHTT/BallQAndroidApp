@@ -1,5 +1,6 @@
 package com.tysci.ballq.fragments;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
@@ -13,15 +14,12 @@ import com.tysci.ballq.base.BaseFragment;
 import com.tysci.ballq.modles.BallQTipOffEntity;
 import com.tysci.ballq.networks.HttpClientUtil;
 import com.tysci.ballq.networks.HttpUrls;
-import com.tysci.ballq.utils.CommonUtils;
 import com.tysci.ballq.utils.KLog;
 import com.tysci.ballq.utils.UserInfoUtil;
-import com.tysci.ballq.views.adapters.BallQTipOffVideoAdapter;
+import com.tysci.ballq.views.adapters.BqTipOffVideoAdapter;
 import com.tysci.ballq.views.widgets.loadmorerecyclerview.AutoLoadMoreRecyclerView;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 import butterknife.Bind;
 import okhttp3.Call;
@@ -40,8 +38,9 @@ public class BallQTipOffVideoListFragment extends BaseFragment implements SwipeR
     protected AutoLoadMoreRecyclerView recyclerView;
     private int etype = -1;
 
-    private BallQTipOffVideoAdapter adapter = null;
-    private List<BallQTipOffEntity> ballQTipOffEntityList = null;
+    private BqTipOffVideoAdapter mBqTipOffVideoAdapter;
+    //    private BallQTipOffVideoAdapter adapter = null;
+//    private List<BallQTipOffEntity> ballQTipOffEntityList = null;
     private int currentPages = 1;
 
 
@@ -88,7 +87,7 @@ public class BallQTipOffVideoListFragment extends BaseFragment implements SwipeR
         swipeRefresh.setOnRefreshListener(this);
         recyclerView.setLayoutManager(new LinearLayoutManager(this.getActivity()));
         recyclerView.setOnLoadMoreListener(this);
-        recyclerView.setBackgroundResource(R.color.white);
+        recyclerView.setBackgroundColor(Color.parseColor("#dcdcdc"));
         // recyclerView.setAdapter(new BallQHomeTipOffAdapter());
         // showLoading();
         requestDatas(currentPages, false);
@@ -142,7 +141,6 @@ public class BallQTipOffVideoListFragment extends BaseFragment implements SwipeR
             @Override
             public void onBefore(Request request)
             {
-
             }
 
             @Override
@@ -151,7 +149,7 @@ public class BallQTipOffVideoListFragment extends BaseFragment implements SwipeR
                 if (!isLoadMore)
                 {
                     recyclerView.setRefreshComplete();
-                    if (adapter != null)
+                    if (mBqTipOffVideoAdapter != null)
                     {
                         recyclerView.setStartLoadMore();
                     }
@@ -207,24 +205,30 @@ public class BallQTipOffVideoListFragment extends BaseFragment implements SwipeR
                 if (objArrays != null && !objArrays.isEmpty())
                 {
                     hideLoad();
-                    if (ballQTipOffEntityList == null)
+//                    if (ballQTipOffEntityList == null)
+//                    {
+//                        ballQTipOffEntityList = new ArrayList<>(10);
+//                    }
+                    if (mBqTipOffVideoAdapter == null)
                     {
-                        ballQTipOffEntityList = new ArrayList<>(10);
+                        mBqTipOffVideoAdapter = new BqTipOffVideoAdapter();
+                        recyclerView.setAdapter(mBqTipOffVideoAdapter);
                     }
-                    if (!isLoadMore && ballQTipOffEntityList.size() > 0)
+                    if (!isLoadMore && mBqTipOffVideoAdapter.getItemCount() > 0)
                     {
-                        ballQTipOffEntityList.clear();
+                        mBqTipOffVideoAdapter.clear();
                     }
-                    CommonUtils.getJSONListObject(objArrays, ballQTipOffEntityList, BallQTipOffEntity.class);
-                    if (adapter == null)
-                    {
-                        adapter = new BallQTipOffVideoAdapter(ballQTipOffEntityList);
-                        recyclerView.setAdapter(adapter);
-                    }
-                    else
-                    {
-                        adapter.notifyDataSetChanged();
-                    }
+                    mBqTipOffVideoAdapter.addDataList(objArrays, isLoadMore, BallQTipOffEntity.class);
+//                    CommonUtils.getJSONListObject(objArrays, ballQTipOffEntityList, BallQTipOffEntity.class);
+//                    if (adapter == null)
+//                    {
+//                        adapter = new BallQTipOffVideoAdapter(ballQTipOffEntityList);
+//                        recyclerView.setAdapter(adapter);
+//                    }
+//                    else
+//                    {
+//                        adapter.notifyDataSetChanged();
+//                    }
 
                     if (objArrays.size() < 10)
                     {

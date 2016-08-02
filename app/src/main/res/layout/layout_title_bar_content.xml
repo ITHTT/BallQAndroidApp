@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="45dp"
-    android:fitsSystemWindows="true"
-    android:gravity="center_vertical"
-    android:background="@color/colorPrimary">
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:background="@color/colorPrimary"
+                android:fitsSystemWindows="true"
+                android:gravity="center_vertical">
 
     <RelativeLayout
         android:id="@+id/layout_titlebar_back"
@@ -16,6 +16,7 @@
         android:clipToPadding="false"
         android:paddingLeft="12dp"
         android:paddingRight="12dp">
+
         <ImageView
             android:id="@+id/iv_titlebar_left"
             android:layout_width="25dp"
@@ -25,18 +26,34 @@
             android:src="@mipmap/icon_back_gold"/>
     </RelativeLayout>
 
-    <TextView
-        android:id="@+id/tv_titlebar_title"
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
+        android:gravity="center_vertical"
         android:layout_centerInParent="true"
-        android:drawablePadding="3dp"
-        android:gravity="center"
+        android:orientation="horizontal"
         android:paddingLeft="10dp"
-        android:paddingRight="10dp"
-        android:text="球商"
-        android:textColor="@color/gold"
-        android:textSize="16sp"/>
+        android:paddingRight="10dp">
+
+        <TextView
+            android:id="@+id/tv_titlebar_title"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:drawablePadding="3dp"
+            android:gravity="center"
+            android:text="球商"
+            android:textColor="@color/gold"
+            android:textSize="16sp"/>
+
+        <ImageView
+            android:id="@+id/iv_title_more"
+            android:layout_width="@dimen/dimen15dp"
+            android:layout_height="@dimen/dimen15dp"
+            android:layout_marginLeft="@dimen/dimen5dp"
+            android:layout_marginStart="@dimen/dimen5dp"
+            android:contentDescription="@string/app_name"
+            android:src="@mipmap/icon_top_more"/>
+    </LinearLayout>
 
     <LinearLayout
         android:id="@+id/layout_titlebar_next"
@@ -44,21 +61,24 @@
         android:layout_height="match_parent"
         android:layout_alignParentRight="true"
         android:gravity="center_vertical"
-        android:paddingRight="12dp"
-        android:paddingLeft="12dp">
+        android:paddingLeft="12dp"
+        android:paddingRight="12dp">
+
         <ImageView
             android:id="@+id/iv_titlebar_next_menu01"
             android:layout_width="25dp"
             android:layout_height="25dp"
             android:scaleType="fitXY"
             android:visibility="gone"/>
+
         <ImageView
             android:id="@+id/iv_titlebar_next_menu02"
             android:layout_width="25dp"
             android:layout_height="25dp"
-            android:scaleType="fitXY"
             android:layout_marginLeft="10dp"
+            android:scaleType="fitXY"
             android:visibility="gone"/>
+
         <TextView
             android:id="@+id/tv_titlebar_next"
             android:layout_width="wrap_content"
@@ -66,6 +86,6 @@
             android:layout_marginLeft="10dp"
             android:text=""
             android:textSize="14sp"
-            android:visibility="gone" />
+            android:visibility="gone"/>
     </LinearLayout>
 </RelativeLayout>

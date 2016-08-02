@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.tysci.ballq.R;
-import com.tysci.ballq.activitys.BallQSettingActivity;
 import com.tysci.ballq.activitys.UserAccountActivity;
 import com.tysci.ballq.activitys.UserAchievementActivity;
 import com.tysci.ballq.activitys.UserArticleListRecordActivity;
@@ -203,8 +202,7 @@ public class BallQPersonalFragment extends BaseFragment
             R.id.menu_user_achievement,
             R.id.menu_user_tip_off_record,
             R.id.menu_user_ball_warp_record,
-            R.id.menu_user_old_guess_record,
-            R.id.menu_setting})
+            R.id.menu_user_old_guess_record})
     protected void onClickUserInfoMenuItem(View view)
     {
         if (!UserInfoUtil.checkLogin(baseActivity))
@@ -246,9 +244,9 @@ public class BallQPersonalFragment extends BaseFragment
                 case R.id.menu_user_old_guess_record:// 老用户战绩
                     cls = UserOldDataActivity.class;
                     break;
-                case R.id.menu_setting:// 设置
-                    cls = BallQSettingActivity.class;
-                    break;
+//                case R.id.menu_setting:// 设置
+//                    cls = BallQSettingActivity.class;
+//                    break;
             }
             if (cls != null)
             {
