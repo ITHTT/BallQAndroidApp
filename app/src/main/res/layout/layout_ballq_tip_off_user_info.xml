@@ -3,12 +3,11 @@
     android:id="@+id/layout_ballq_tip_user_header"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="75dp"
     android:background="@mipmap/icon_ballq_info_header_01"
-    android:paddingBottom="10dp"
     android:paddingLeft="6dp"
     android:paddingRight="6dp"
-    android:paddingTop="10dp">
+    android:gravity="center_vertical">
 
     <include
         layout="@layout/layout_user_header"

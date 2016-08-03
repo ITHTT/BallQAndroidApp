@@ -54,6 +54,8 @@ public class BallQMatchLeagueSelectActivity extends BaseActivity {
     protected void initViews() {
         setTitle("赛事筛选");
         setTitleRightAttributes();
+        btSelectAll.setEnabled(false);
+        btSelectNothing.setEnabled(false);
     }
 
     @Override
@@ -130,6 +132,8 @@ public class BallQMatchLeagueSelectActivity extends BaseActivity {
                     List<BallQMatchLeagueEntity> datas=BallQMatchLeagueEntity.getBallQMatchLeagueInfos(response);
                     if(datas!=null&&!datas.isEmpty()){
                         hideLoad();
+                        btSelectAll.setEnabled(true);
+                        btSelectNothing.setEnabled(true);
                         if(leagueEntities==null){
                             leagueEntities=new ArrayList<>();
                         }

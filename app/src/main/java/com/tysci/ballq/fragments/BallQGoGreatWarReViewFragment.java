@@ -308,13 +308,15 @@ public class BallQGoGreatWarReViewFragment extends BaseFragment implements BallQ
                         }
                     }
                 }
-                getView().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        currentPages = 1;
-                        getDanmakuInfos(currentPages);
-                    }
-                },2000);
+                if(contentView!=null) {
+                    contentView.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            currentPages = 1;
+                            getDanmakuInfos(currentPages);
+                        }
+                    }, 2000);
+                }
             }
 
             @Override

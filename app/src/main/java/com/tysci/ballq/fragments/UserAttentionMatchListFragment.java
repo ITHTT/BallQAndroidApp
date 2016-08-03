@@ -36,7 +36,6 @@ public class UserAttentionMatchListFragment extends AppSwipeRefreshLoadMoreRecyc
     @Override
     protected void onLoadMoreData() {
         requestDatas(currentPages, true);
-
     }
 
     @Override
@@ -47,8 +46,8 @@ public class UserAttentionMatchListFragment extends AppSwipeRefreshLoadMoreRecyc
     @Override
     protected void initViews(View view, Bundle savedInstanceState) {
         if (UserInfoUtil.checkLogin(baseActivity)) {
-            //showLoading();
-            //requestDatas(1, false);
+            showLoading();
+            requestDatas(1, false);
         } else {
             showEmptyInfo("您尚未登录,登录后才可查看", "点击登录", new View.OnClickListener() {
                 @Override

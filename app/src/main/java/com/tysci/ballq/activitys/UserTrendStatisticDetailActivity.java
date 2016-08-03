@@ -20,8 +20,10 @@ import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.formatter.FillFormatter;
+import com.github.mikephil.charting.formatter.ValueFormatter;
 import com.github.mikephil.charting.interfaces.dataprovider.LineDataProvider;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
+import com.github.mikephil.charting.utils.ViewPortHandler;
 import com.tysci.ballq.R;
 import com.tysci.ballq.base.BaseActivity;
 import com.tysci.ballq.modles.BallQTrendProfitStatisticEntity;
@@ -497,7 +499,13 @@ public class UserTrendStatisticDetailActivity extends BaseActivity {
                     return 0f;
                 }
             });
-            dataSet.setValueTextSize(11);
+            dataSet.setValueTextSize(10f);
+            dataSet.setValueFormatter(new ValueFormatter() {
+                @Override
+                public String getFormattedValue(float value, Entry entry, int dataSetIndex, ViewPortHandler viewPortHandler) {
+                    return String.format(Locale.getDefault(),"%.0f",value);
+                }
+            });
 
             XAxis xAxis = lineChartView.getXAxis();
             xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);

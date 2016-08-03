@@ -140,6 +140,12 @@ public class BallQWebViewActivity extends BaseActivity
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        webView.onResume();
+    }
+
+    @Override
     protected void onPause()
     {
         super.onPause();
@@ -150,6 +156,7 @@ public class BallQWebViewActivity extends BaseActivity
                 webView.getClass().getMethod("onPause").invoke(webView, (Object[]) null);
                 // webView.pauseTimers();
                 //webView.stopLoading();
+                //webView.onPause();
             }
             catch (IllegalAccessException e)
             {
@@ -200,9 +207,7 @@ public class BallQWebViewActivity extends BaseActivity
         {
             UserInfoUtil.userLogin(this);
             return true;
-        }
-        else if (url.contains("ballqinapp://event/signing"))
-        {
+        } else if (url.contains("ballqinapp://event/signing")){
             if (UserInfoUtil.checkLogin(this))
             {
                 String userId = UserInfoUtil.getUserId(this);
@@ -228,9 +233,7 @@ public class BallQWebViewActivity extends BaseActivity
                 UserInfoUtil.userLogin(this);
             }
             return true;
-        }
-        else if (!url.contains(HttpUrls.HOST_URL + "/weixin/events/lobby"))
-        {
+        }else if (!url.contains(HttpUrls.HOST_URL + "/weixin/events/lobby")) {
             String urlStr = url;
             KLog.e("url:" + url);
             if (UserInfoUtil.checkLogin(this))

@@ -120,7 +120,8 @@ public class BallQMatchListFragment extends AppSwipeRefreshLoadMoreRecyclerViewF
                 KLog.json(response);
                 if (!TextUtils.isEmpty(response)) {
                     JSONObject obj = JSONObject.parseObject(response);
-                    if (obj != null&&!obj.isEmpty()) {
+                    int status=obj.getIntValue("status");
+                    if (obj != null&&!obj.isEmpty()&&status==0) {
                         JSONObject data = obj.getJSONObject("data");
                         if (data != null) {
                             JSONArray array = data.getJSONArray("matches");

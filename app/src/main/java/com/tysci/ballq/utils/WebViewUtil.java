@@ -28,7 +28,7 @@ public class WebViewUtil {
             webSettings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.NORMAL);
             webSettings.setUseWideViewPort(true);
             webSettings.setLoadWithOverviewMode(true);
-            webSettings.setSupportZoom(true);
+            webSettings.setSupportZoom(false);
             webSettings.setJavaScriptEnabled(true);
             webView.loadDataWithBaseURL(null, getHtmlData(html), mimeType, encoding, null);
             return webView;

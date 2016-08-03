@@ -95,13 +95,14 @@ public class UserAttentionOrFansAdapter extends RecyclerView.Adapter<UserAttenti
         });
     }
 
-    public void setPushListener(final UserAttentionOrFansViweHolder holder,BallQUserAttentionOrFansEntity info){
+    public void setPushListener(final UserAttentionOrFansViweHolder holder, final BallQUserAttentionOrFansEntity info){
         final Context context=holder.itemView.getContext();
         Map<String,String>params=new HashMap<>(5);
         params.put("user", UserInfoUtil.getUserId(context));
         params.put("token", UserInfoUtil.getUserToken(context));
         params.put("fid", String.valueOf(info.getUid()));
         params.put("did", JPushInterface.getRegistrationID(context));
+        KLog.e("attention:"+info.getIsa());
         params.put("attention", String.valueOf(info.getIsa()));
         String url= HttpUrls.HOST_URL_V6+"attention_user_tip/";
         HttpClientUtil.getHttpClientUtil().sendPostRequest(tag, url, params, new HttpClientUtil.StringResponseCallBack() {
@@ -113,7 +114,6 @@ public class UserAttentionOrFansAdapter extends RecyclerView.Adapter<UserAttenti
             @Override
             public void onError(Call call, Exception error) {
                 ToastUtil.show(context,"请求失败");
-
             }
 
             @Override
@@ -127,8 +127,10 @@ public class UserAttentionOrFansAdapter extends RecyclerView.Adapter<UserAttenti
                         int status = obj.getIntValue("status");
                         if (status == 821) {
                             holder.ivPush.setSelected(true);
+                            info.setIsa(1);
                         } else if (status == 820) {
                             holder.ivPush.setSelected(false);
+                            info.setIsa(0);
                         }
                     }
                 }
@@ -138,7 +140,6 @@ public class UserAttentionOrFansAdapter extends RecyclerView.Adapter<UserAttenti
             @Override
             public void onFinish(Call call) {
                 holder.ivPush.setEnabled(true);
-
             }
         });
 
@@ -189,7 +190,6 @@ public class UserAttentionOrFansAdapter extends RecyclerView.Adapter<UserAttenti
             @Override
             public void onFinish(Call call) {
                 holder.ivAttention.setEnabled(true);
-
             }
         });
     }

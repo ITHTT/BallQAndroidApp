@@ -729,6 +729,8 @@ public class BallQBallWarpDetailActivity extends BaseActivity implements SwipeRe
             return;
         }
         String commentInfo=etComment.getText().toString().trim();
+        KLog.e("comment_info:"+commentInfo);
+
         if(TextUtils.isEmpty(commentInfo)){
             ToastUtil.show(this,"评论内容不能为空");
             return;
@@ -836,7 +838,6 @@ public class BallQBallWarpDetailActivity extends BaseActivity implements SwipeRe
 
                 }
             });
-
         }else{
             UserInfoUtil.userLogin(this);
         }
