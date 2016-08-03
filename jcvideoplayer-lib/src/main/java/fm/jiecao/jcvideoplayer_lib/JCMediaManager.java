@@ -100,8 +100,12 @@ public class JCMediaManager implements MediaPlayer.OnPreparedListener, MediaPlay
                         instance().mediaPlayer.setSurface(null);
                     } else {
                         Surface holder = (Surface) msg.obj;
-                        if (holder.isValid()) {
-                            instance().mediaPlayer.setSurface(holder);
+                        if (mediaPlayer!=null&&holder!=null&&holder.isValid()) {
+                            try {
+                                instance().mediaPlayer.setSurface(holder);
+                            }catch(Exception e){
+                                e.printStackTrace();
+                            }
                         }
                     }
                     break;
@@ -111,7 +115,6 @@ public class JCMediaManager implements MediaPlayer.OnPreparedListener, MediaPlay
             }
         }
     }
-
 
     public void prepare(final String url, final Map<String, String> mapHeadData, boolean loop) {
         if (TextUtils.isEmpty(url)) return;
