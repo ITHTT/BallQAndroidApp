@@ -756,4 +756,20 @@ public abstract class JCVideoPlayer extends FrameLayout implements View.OnClickL
         }
     }
 
+    /**暂停播放*/
+    public void pausePlay(){
+        if (mCurrentState == CURRENT_STATE_PLAYING) {
+            Log.d(TAG, "pauseVideo [" + this.hashCode() + "] ");
+            JCMediaManager.instance().mediaPlayer.pause();
+            setStateAndUi(CURRENT_STATE_PAUSE);
+            if (JC_BURIED_POINT != null && JCMediaManager.instance().listener == this) {
+                if (mIfCurrentIsFullscreen) {
+                    JC_BURIED_POINT.onClickStopFullscreen(mUrl, mObjects);
+                } else {
+                    JC_BURIED_POINT.onClickStop(mUrl, mObjects);
+                }
+            }
+        }
+    }
+
 }
