@@ -13,7 +13,6 @@ import android.widget.TextView;
 import com.tysci.ballq.R;
 import com.tysci.ballq.base.BaseActivity;
 import com.tysci.ballq.base.BaseFragment;
-import com.tysci.ballq.fragments.BallQHomeFragment;
 import com.tysci.ballq.fragments.BallQHomePageFragment;
 import com.tysci.ballq.fragments.BallQMatchFragment;
 import com.tysci.ballq.modles.UserInfoEntity;
@@ -143,9 +142,9 @@ public class MainActivity extends BaseActivity {
             case -1:
                 fragment=new BallQHomePageFragment();
                 break;
-            case R.id.menu_index:
-                fragment=new BallQHomeFragment();
-                break;
+//            case R.id.menu_index:
+//                fragment=new BallQHomeFragment();
+//                break;
             case R.id.menu_match:
                 fragment=new BallQMatchFragment();
                 break;

@@ -25,7 +25,8 @@ import butterknife.Bind;
 import butterknife.OnClick;
 
 /**
- * Created by HTT on 2016/7/12.
+ * Created by HTT
+ * on 2016/7/12.
  */
 public class BallQMainActivity extends BaseActivity
 {

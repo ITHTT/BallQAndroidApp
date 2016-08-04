@@ -34,7 +34,8 @@ import okhttp3.Request;
 /**
  * Created by HTT on 2016/7/12.
  */
-public class BallQFindFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener,AdapterView.OnItemClickListener{
+public class BallQFindFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener, AdapterView.OnItemClickListener
+{
     @Bind(R.id.swipe_refresh)
     protected SwipeRefreshLayout swipeRefresh;
     @Bind(R.id.title_bar)
@@ -43,16 +44,20 @@ public class BallQFindFragment extends BaseFragment implements SwipeRefreshLayou
     protected ListView findMenuList;
 
     private List<BallQFindMenuEntity> findMenuEntityList;
-    private BallQFindMenuAdapter adapter=null;
+    private BallQFindMenuAdapter adapter = null;
 
     @Override
-    protected int getViewLayoutId() {
+    protected int getViewLayoutId()
+    {
         return R.layout.fragment_ballq_find;
     }
 
     @Override
-    protected void initViews(View view, Bundle savedInstanceState) {
-       titleBar.setTitleBarTitle("发现");
+    protected void initViews(View view, Bundle savedInstanceState)
+    {
+        findMenuList.setDivider(null);
+
+        titleBar.setTitleBarTitle("发现");
         titleBar.setTitleBarLeftIcon(0, null);
         findMenuList.setOnItemClickListener(this);
         swipeRefresh.setOnRefreshListener(this);
@@ -61,39 +66,50 @@ public class BallQFindFragment extends BaseFragment implements SwipeRefreshLayou
     }
 
     @Override
-    protected View getLoadingTargetView() {
+    protected View getLoadingTargetView()
+    {
         return null;
     }
 
     @Override
-    protected boolean isCancledEventBus() {
+    protected boolean isCancledEventBus()
+    {
         return false;
     }
 
     @Override
-    protected void notifyEvent(String action) {
+    protected void notifyEvent(String action)
+    {
 
     }
 
     @Override
-    protected void notifyEvent(String action, Bundle data) {
+    protected void notifyEvent(String action, Bundle data)
+    {
 
     }
 
-    private void setRefreshing() {
-        swipeRefresh.post(new Runnable() {
+    private void setRefreshing()
+    {
+        swipeRefresh.post(new Runnable()
+        {
             @Override
-            public void run() {
+            public void run()
+            {
                 swipeRefresh.setRefreshing(true);
             }
         });
     }
 
-    private void onRefreshCompelete() {
-        swipeRefresh.postDelayed(new Runnable() {
+    private void onRefreshCompelete()
+    {
+        swipeRefresh.postDelayed(new Runnable()
+        {
             @Override
-            public void run() {
-                if (swipeRefresh != null) {
+            public void run()
+            {
+                if (swipeRefresh != null)
+                {
                     swipeRefresh.setRefreshing(false);
                 }
             }
@@ -106,42 +122,56 @@ public class BallQFindFragment extends BaseFragment implements SwipeRefreshLayou
 //        startActivity(intent);
 //    }
 
-    private void requestFindMenus(){
-        String url= HttpUrls.HOST_URL+"/api/ares/discover/";
-        KLog.e("url:"+url);
-        HttpClientUtil.getHttpClientUtil().sendGetRequest(Tag, url, 5*60, new HttpClientUtil.StringResponseCallBack() {
+    private void requestFindMenus()
+    {
+        String url = HttpUrls.HOST_URL + "/api/ares/discover/";
+        KLog.e("url:" + url);
+        HttpClientUtil.getHttpClientUtil().sendGetRequest(Tag, url, 5 * 60, new HttpClientUtil.StringResponseCallBack()
+        {
             @Override
-            public void onBefore(Request request) {
+            public void onBefore(Request request)
+            {
 
             }
 
             @Override
-            public void onError(Call call, Exception error) {
-                ToastUtil.show(baseActivity,"请求失败");
+            public void onError(Call call, Exception error)
+            {
+                ToastUtil.show(baseActivity, "请求失败");
 
             }
 
             @Override
-            public void onSuccess(Call call, String response) {
+            public void onSuccess(Call call, String response)
+            {
                 KLog.json(response);
-                if(!TextUtils.isEmpty(response)){
-                    JSONObject obj=JSONObject.parseObject(response);
-                    if(obj!=null&&!obj.isEmpty()){
-                        int status=obj.getIntValue("status");
-                        if(status==0) {
+                if (!TextUtils.isEmpty(response))
+                {
+                    JSONObject obj = JSONObject.parseObject(response);
+                    if (obj != null && !obj.isEmpty())
+                    {
+                        int status = obj.getIntValue("status");
+                        if (status == 0)
+                        {
                             JSONArray datas = obj.getJSONArray("data");
-                            if(datas!=null&&!datas.isEmpty()){
-                                if(findMenuEntityList==null){
-                                    findMenuEntityList=new ArrayList<BallQFindMenuEntity>(10);
+                            if (datas != null && !datas.isEmpty())
+                            {
+                                if (findMenuEntityList == null)
+                                {
+                                    findMenuEntityList = new ArrayList<BallQFindMenuEntity>(10);
                                 }
-                                if(!findMenuEntityList.isEmpty()){
+                                if (!findMenuEntityList.isEmpty())
+                                {
                                     findMenuEntityList.clear();
                                 }
-                                CommonUtils.getJSONListObject(datas,findMenuEntityList,BallQFindMenuEntity.class);
-                                if(adapter==null){
-                                    adapter=new BallQFindMenuAdapter(findMenuEntityList);
+                                CommonUtils.getJSONListObject(datas, findMenuEntityList, BallQFindMenuEntity.class);
+                                if (adapter == null)
+                                {
+                                    adapter = new BallQFindMenuAdapter(findMenuEntityList);
                                     findMenuList.setAdapter(adapter);
-                                }else{
+                                }
+                                else
+                                {
                                     adapter.notifyDataSetChanged();
                                 }
                             }
@@ -151,46 +181,52 @@ public class BallQFindFragment extends BaseFragment implements SwipeRefreshLayou
             }
 
             @Override
-            public void onFinish(Call call) {
+            public void onFinish(Call call)
+            {
                 onRefreshCompelete();
             }
         });
     }
 
     @Override
-    public void onRefresh() {
+    public void onRefresh()
+    {
         requestFindMenus();
     }
 
     @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        BallQFindMenuEntity menuEntity=findMenuEntityList.get(position);
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id)
+    {
+        BallQFindMenuEntity menuEntity = findMenuEntityList.get(position);
         BallQBusinessControler.businessControler(baseActivity, menuEntity.getJump_type(), menuEntity.getJump_url());
     }
 
-    @OnClick({R.id.layout_WhoScorec,R.id.layout_CleverGames,R.id.layout_TiTan})
-    protected void onClickExtraInfo(View view){
-        String url=null;
-        String title=null;
-        int id=view.getId();
-        switch(id){
+    @OnClick({R.id.layout_WhoScorec, R.id.layout_CleverGames, R.id.layout_TiTan})
+    protected void onClickExtraInfo(View view)
+    {
+        String url = null;
+        String title = null;
+        int id = view.getId();
+        switch (id)
+        {
             case R.id.layout_WhoScorec:
-                url="http://euro.ballq.cn/";
-                title="WhoScored";
+                url = "http://euro.ballq.cn/";
+                title = "WhoScored";
                 break;
             case R.id.layout_CleverGames:
-                url="http://euro.ballq.cn/Games/";
-                title="Clevergames";
+                url = "http://euro.ballq.cn/Games/";
+                title = "Clevergames";
                 break;
             case R.id.layout_TiTan:
-                url="http://www.ttplus.cn/m/index.html#/home";
-                title="体坛+";
+                url = "http://www.ttplus.cn/m/index.html#/home";
+                title = "体坛+";
                 break;
         }
-        if(!TextUtils.isEmpty(url)){
-            Intent intent=new Intent(baseActivity, BallQWebViewActivity.class);
-            intent.putExtra("url",url);
-            intent.putExtra("title",title);
+        if (!TextUtils.isEmpty(url))
+        {
+            Intent intent = new Intent(baseActivity, BallQWebViewActivity.class);
+            intent.putExtra("url", url);
+            intent.putExtra("title", title);
             startActivity(intent);
         }
     }

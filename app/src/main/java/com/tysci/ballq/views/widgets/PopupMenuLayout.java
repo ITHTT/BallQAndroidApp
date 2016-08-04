@@ -78,7 +78,7 @@ public class PopupMenuLayout extends FrameLayout {
         this.context=context;
         menuItems=new ArrayList<>(5);
         if(attrs!=null){
-            TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.CircleImageView);
+            TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.PopupMenuLayout);
             menuItemWidth=a.getDimensionPixelSize(R.styleable.PopupMenuLayout_menu_item_width, CommonUtils.dip2px(context,45));
             menuItemHeight=a.getDimensionPixelSize(R.styleable.PopupMenuLayout_menu_item_height,CommonUtils.dip2px(context,45));
             itemPadding=a.getDimensionPixelSize(R.styleable.PopupMenuLayout_menu_item_padding,CommonUtils.dip2px(context,10));
@@ -104,7 +104,7 @@ public class PopupMenuLayout extends FrameLayout {
                     layoutParams.leftMargin=targetX+targetView.getWidth()/2-menuItemWidth/2;
                     addView(view,layoutParams);
                     view.setVisibility(View.GONE);
-                    menuItems.add(view);
+                   // menuItems.add(view);
                 }
             }
         });

@@ -1,34 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/layout_circle"
+<LinearLayout android:id="@+id/layout_circle"
+              xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="60dp"
+              android:gravity="center_vertical"
+              android:background="@drawable/iv_user_item_bg"
+              android:paddingBottom="10dp"
+              android:paddingLeft="16dp"
+              android:paddingTop="10dp">
+
+    <ImageView
+        android:id="@+id/iv_find_icon"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:src="@mipmap/main_tab_find_check"/>
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center_vertical"
-        android:paddingLeft="16dp"
-        android:paddingTop="10dp"
-        android:paddingBottom="10dp">
-        <ImageView
-            android:id="@+id/iv_find_icon"
-            android:layout_width="25dp"
-            android:layout_height="25dp"
-            android:src="@mipmap/main_tab_find_check"/>
-        <LinearLayout
-            android:layout_width="match_parent"
+        android:layout_marginLeft="16dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tv_find_title"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_marginLeft="16dp">
-            <TextView
-                android:id="@+id/tv_find_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="15sp"
-                android:textColor="@color/gold"
-                android:text="圈子"/>
-            <TextView
-                android:id="@+id/tv_find_brief"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="13sp"
-                android:text="话题、圈子、图集、反馈"/>
-        </LinearLayout>
+            android:text="圈子"
+            android:textColor="@color/gold"
+            android:textSize="15sp"/>
+
+        <TextView
+            android:id="@+id/tv_find_brief"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="话题、圈子、图集、反馈"
+            android:textSize="13sp"/>
     </LinearLayout>
+</LinearLayout>

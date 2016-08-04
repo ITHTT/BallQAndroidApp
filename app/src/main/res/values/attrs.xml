@@ -1,5 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <declare-styleable name="MaterialLayout">
+        <attr name="material_alpha" format="integer"/>
+        <attr name="material_alpha_step" format="integer"/>
+        <attr name="material_framerate" format="integer"/>
+        <attr name="material_duration" format="integer"/>
+        <attr name="material_color" format="color"/>
+        <attr name="material_scale" format="float"/>
+    </declare-styleable>
     <declare-styleable name="TextWithLeftImageView">
         <attr name="text_left_image" format="reference"/>
     </declare-styleable>
@@ -44,9 +52,9 @@
     <declare-styleable name="MainMenuItemView">
         <attr name="menu_icon" format="reference"/>
         <attr name="menu_name" format="string"/>
-        <attr name="menu_brief" format="string"/>
-        <attr name="is_checked" format="boolean"/>
-        <attr name="checked_color" format="color"/>
+        <!--<attr name="menu_brief" format="string"/>-->
+        <!--<attr name="is_checked" format="boolean"/>-->
+        <!--<attr name="checked_color" format="color"/>-->
         <attr name="text_color" format="color"/>
     </declare-styleable>
 

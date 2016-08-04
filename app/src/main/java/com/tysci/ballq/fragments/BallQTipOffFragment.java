@@ -81,7 +81,7 @@ public class BallQTipOffFragment extends BaseFragment implements View.OnClickLis
             public void onClick(View v)
             {
                 int item = viewPager.getCurrentItem();
-                if (item != 0 && item != 1)
+                if (item >= 0)// TODO 需求暂时不予显示
                     return;
                 if (mBqTipOffPopupWindow == null)
                 {
@@ -172,7 +172,7 @@ public class BallQTipOffFragment extends BaseFragment implements View.OnClickLis
         viewPager.setOffscreenPageLimit(fragments.size());
         tabLayout.setViewPager(viewPager);
 
-        titleBar.setTitleMoreVisibility(View.VISIBLE);
+//        mTitleBar.setTitleMoreVisibility(View.VISIBLE);
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener()
         {
             @Override
@@ -183,7 +183,8 @@ public class BallQTipOffFragment extends BaseFragment implements View.OnClickLis
             @Override
             public void onPageSelected(int position)
             {
-                titleBar.setTitleMoreVisibility(position == 0 || position == 1 ? View.VISIBLE : View.GONE);
+                // TODO 需求暂时不予显示
+                titleBar.setTitleMoreVisibility(/*position == 0 || position == 1 ? View.VISIBLE : */View.GONE);
             }
 
             @Override

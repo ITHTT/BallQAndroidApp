@@ -223,8 +223,7 @@
                 <com.tysci.ballq.views.widgets.MainMenuItemView
                     android:id="@+id/menu_user_trend_statistics"
                     android:layout_width="match_parent"
-                    android:layout_height="45dp"
-                    app:checked_color="#20eacb70"
+                    android:layout_height="wrap_content"
                     app:menu_icon="@mipmap/icon_user_menu_trend_statistics"
                     app:menu_name="走势统计"
                     app:text_color="#4d4d4d"/>
@@ -237,8 +236,7 @@
                 <com.tysci.ballq.views.widgets.MainMenuItemView
                     android:id="@+id/menu_user_guessing_record"
                     android:layout_width="match_parent"
-                    android:layout_height="45dp"
-                    app:checked_color="#20eacb70"
+                    android:layout_height="wrap_content"
                     app:menu_icon="@mipmap/icon_user_menu_guess_record"
                     app:menu_name="竞猜记录"
                     app:text_color="#4d4d4d"/>
@@ -251,8 +249,7 @@
                 <com.tysci.ballq.views.widgets.MainMenuItemView
                     android:id="@+id/menu_user_attentions"
                     android:layout_width="match_parent"
-                    android:layout_height="45dp"
-                    app:checked_color="#20eacb70"
+                    android:layout_height="wrap_content"
                     app:menu_icon="@mipmap/icon_user_menu_follow"
                     app:menu_name="关注的人"
                     app:text_color="#4d4d4d"/>
@@ -266,8 +263,8 @@
                 <com.tysci.ballq.views.widgets.MainMenuItemView
                     android:id="@+id/menu_user_tip_off_record"
                     android:layout_width="match_parent"
-                    android:layout_height="45dp"
-                    app:checked_color="#20eacb70"
+                    android:layout_height="wrap_content"
+
                     app:menu_icon="@mipmap/icon_user_menu_tip_off_record"
                     app:menu_name="爆料记录"
                     app:text_color="#4d4d4d"/>
@@ -281,8 +278,7 @@
                 <com.tysci.ballq.views.widgets.MainMenuItemView
                     android:id="@+id/menu_user_ball_wrap_record"
                     android:layout_width="match_parent"
-                    android:layout_height="45dp"
-                    app:checked_color="#20eacb70"
+                    android:layout_height="wrap_content"
                     app:menu_icon="@mipmap/icon_user_menu_ball_wrap_record"
                     app:menu_name="球经记录"
                     app:text_color="#4d4d4d"/>
@@ -295,8 +291,7 @@
                 <com.tysci.ballq.views.widgets.MainMenuItemView
                     android:id="@+id/menu_user_achievement"
                     android:layout_width="match_parent"
-                    android:layout_height="45dp"
-                    app:checked_color="#20eacb70"
+                    android:layout_height="wrap_content"
                     app:menu_icon="@mipmap/icon_user_menu_achievement"
                     app:menu_name="他的成就"
                     app:text_color="#4d4d4d"/>
@@ -310,8 +305,7 @@
                 <com.tysci.ballq.views.widgets.MainMenuItemView
                     android:id="@+id/menu_user_old_guess_record"
                     android:layout_width="match_parent"
-                    android:layout_height="45dp"
-                    app:checked_color="#20eacb70"
+                    android:layout_height="wrap_content"
                     app:menu_icon="@mipmap/icon_user_menu_old_datas"
                     app:menu_name="老用户战绩"
                     app:text_color="#4d4d4d"/>

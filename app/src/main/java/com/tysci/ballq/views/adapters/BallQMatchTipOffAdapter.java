@@ -30,40 +30,50 @@ import butterknife.ButterKnife;
 /**
  * Created by Administrator on 2016/6/10.
  */
-public class BallQMatchTipOffAdapter extends RecyclerView.Adapter<BallQMatchTipOffAdapter.BallQMatchTipOffViewHolder>{
+public class BallQMatchTipOffAdapter extends RecyclerView.Adapter<BallQMatchTipOffAdapter.BallQMatchTipOffViewHolder>
+{
     private List<BallQTipOffEntity> matchTipOffList;
 
-    public BallQMatchTipOffAdapter(List<BallQTipOffEntity> matchTipOffList) {
+    public BallQMatchTipOffAdapter(List<BallQTipOffEntity> matchTipOffList)
+    {
         this.matchTipOffList = matchTipOffList;
     }
 
     @Override
-    public int getItemCount() {
+    public int getItemCount()
+    {
         return matchTipOffList.size();
     }
 
     @Override
-    public BallQMatchTipOffViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view= LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_match_tip_off_item,parent,false);
+    public BallQMatchTipOffViewHolder onCreateViewHolder(ViewGroup parent, int viewType)
+    {
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_match_tip_off_item, parent, false);
         return new BallQMatchTipOffViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(final BallQMatchTipOffViewHolder holder, int position) {
-        final BallQTipOffEntity info=matchTipOffList.get(position);
+    public void onBindViewHolder(final BallQMatchTipOffViewHolder holder, int position)
+    {
+        final BallQTipOffEntity info = matchTipOffList.get(position);
 
-        Date date= CommonUtils.getDateAndTimeFromGMT(info.getCtime());
-        if(date!=null){
+        Date date = CommonUtils.getDateAndTimeFromGMT(info.getCtime());
+        if (date != null)
+        {
             holder.tvTipCreatedDate.setText(CommonUtils.getDayOfMonth(date));
-            String time= CommonUtils.getTimeOfDay(date);
+            String time = CommonUtils.getTimeOfDay(date);
             holder.tvTipCreatedTime.setText(time);
 
-            String times[]=time.split(":");
-            if(times!=null){
-               int hour=Integer.parseInt(times[0]);
-                if(hour>6&&hour<18) {
+            String times[] = time.split(":");
+            if (times != null)
+            {
+                int hour = Integer.parseInt(times[0]);
+                if (hour > 6 && hour < 18)
+                {
                     holder.ivTimeDayOrNight.setImageResource(R.mipmap.icon_match_tip_off_day_tag);
-                }else{
+                }
+                else
+                {
                     holder.ivTimeDayOrNight.setImageResource(R.mipmap.icon_match_tip_off_night_tag);
                 }
             }
@@ -76,31 +86,42 @@ public class BallQMatchTipOffAdapter extends RecyclerView.Adapter<BallQMatchTipO
         holder.tvTipCount.setText(String.valueOf(info.getTipcount()));
         holder.tvWinPercent.setText(String.format(Locale.getDefault(), "%.2f", info.getWins() * 100) + "%");
         holder.tvBonCount.setText(String.valueOf(info.getBoncount()));
-        holder.tvRor.setText(String.format(Locale.getDefault(),"%.2f",info.getRor())+"%");
-        if(!TextUtils.isEmpty(info.getChoice())&&!TextUtils.isEmpty(info.getOtype())&&!TextUtils.isEmpty(info.getOdata())){
-            String choice=MatchBettingInfoUtil.getBettingResultInfo(info.getChoice(), info.getOtype(), info.getOdata());
-            if(!TextUtils.isEmpty(choice)) {
+        holder.tvRor.setText(String.format(Locale.getDefault(), "%.2f", info.getRor()) + "%");
+        if (!TextUtils.isEmpty(info.getChoice()) && !TextUtils.isEmpty(info.getOtype()) && !TextUtils.isEmpty(info.getOdata()))
+        {
+            String choice = MatchBettingInfoUtil.getBettingResultInfo(info.getChoice(), info.getOtype(), info.getOdata());
+            if (!TextUtils.isEmpty(choice))
+            {
                 holder.layoutTipOffBettingInfo.setVisibility(View.VISIBLE);
                 holder.tvChoice.setText(choice);
-            }else{
+            }
+            else
+            {
                 holder.layoutTipOffBettingInfo.setVisibility(View.GONE);
             }
-        }else{
+        }
+        else
+        {
             holder.layoutTipOffBettingInfo.setVisibility(View.GONE);
         }
 
-        holder.tvBettingNum.setText(String.valueOf(info.getSam()));
+        holder.tvBettingNum.setText(String.format(Locale.getDefault(), "%.0f", info.getSam() * 1F / 100));
 
-        if(info.getConfidence()==0){
+        if (info.getConfidence() == 0)
+        {
             holder.layoutConfidence.setVisibility(View.GONE);
-        }else{
+        }
+        else
+        {
             holder.layoutConfidence.setVisibility(View.VISIBLE);
-            holder.rattingBar.setRattingValue(info.getConfidence()/10);
+            holder.rattingBar.setRattingValue(info.getConfidence() / 10);
         }
 
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
+        holder.itemView.setOnClickListener(new View.OnClickListener()
+        {
             @Override
-            public void onClick(View v) {
+            public void onClick(View v)
+            {
                 Context context = holder.itemView.getContext();
                 Intent intent = new Intent(context, BallQTipOffDetailActivity.class);
                 intent.putExtra(BallQTipOffDetailActivity.class.getSimpleName(), info);
@@ -108,9 +129,11 @@ public class BallQMatchTipOffAdapter extends RecyclerView.Adapter<BallQMatchTipO
             }
         });
 
-        holder.ivUserIcon.setOnClickListener(new View.OnClickListener() {
+        holder.ivUserIcon.setOnClickListener(new View.OnClickListener()
+        {
             @Override
-            public void onClick(View v) {
+            public void onClick(View v)
+            {
                 Context context = holder.itemView.getContext();
                 UserInfoUtil.lookUserInfo(context, info.getUid());
             }
@@ -118,12 +141,14 @@ public class BallQMatchTipOffAdapter extends RecyclerView.Adapter<BallQMatchTipO
     }
 
     @Override
-    public void onViewDetachedFromWindow(BallQMatchTipOffViewHolder holder) {
+    public void onViewDetachedFromWindow(BallQMatchTipOffViewHolder holder)
+    {
         super.onViewDetachedFromWindow(holder);
         ButterKnife.unbind(holder);
     }
 
-    public static final class BallQMatchTipOffViewHolder extends RecyclerView.ViewHolder{
+    public static final class BallQMatchTipOffViewHolder extends RecyclerView.ViewHolder
+    {
         @Bind(R.id.ivTimeDayOrNight)
         ImageView ivTimeDayOrNight;
         @Bind(R.id.tvTipCreateTime)
@@ -157,9 +182,10 @@ public class BallQMatchTipOffAdapter extends RecyclerView.Adapter<BallQMatchTipO
         @Bind(R.id.layout_tip_off_betting_info)
         View layoutTipOffBettingInfo;
 
-        public BallQMatchTipOffViewHolder(View itemView) {
+        public BallQMatchTipOffViewHolder(View itemView)
+        {
             super(itemView);
-            ButterKnife.bind(this,itemView);
+            ButterKnife.bind(this, itemView);
         }
     }
 }

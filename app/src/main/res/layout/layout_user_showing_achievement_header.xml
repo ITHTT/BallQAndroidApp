@@ -66,6 +66,7 @@
     </RelativeLayout>
 
     <TextView
+        android:id="@+id/text_achievement_msg"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/dimen15dp"

@@ -114,7 +114,7 @@ public class UserAchievementActivity extends BaseActivity implements SwipeRefres
 
         showingList = new ArrayList<>();
 
-        headerView.setShowingLayoutVisibile(isSelf);
+        headerView.setShowingLayoutVisibility(isSelf);
 
         showLoading();
         headerView.startFirstCheck();

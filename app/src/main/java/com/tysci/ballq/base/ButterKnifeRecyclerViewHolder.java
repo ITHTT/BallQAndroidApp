@@ -10,16 +10,12 @@ import butterknife.ButterKnife;
  *
  * @see android.support.v7.widget.RecyclerView.ViewHolder
  */
-public abstract class ButterKnifeRecyclerViewHolder extends RecyclerView.ViewHolder {
-    public final int viewType;
+public abstract class ButterKnifeRecyclerViewHolder extends RecyclerView.ViewHolder
+{
 
-    public ButterKnifeRecyclerViewHolder(View itemView) {
-        this(itemView, 0);
-    }
-
-    public ButterKnifeRecyclerViewHolder(View itemView, int viewType) {
+    public ButterKnifeRecyclerViewHolder(View itemView)
+    {
         super(itemView);
-        this.viewType = viewType;
         ButterKnife.bind(this, itemView);
     }
 }

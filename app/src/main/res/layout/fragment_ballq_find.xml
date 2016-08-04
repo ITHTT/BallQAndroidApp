@@ -179,7 +179,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textSize="14sp"
+                        android:textSize="12sp"
                         android:text="合作伙伴"/>
                     <View
                         android:layout_width="0dp"
@@ -191,12 +191,12 @@
                     android:id="@+id/layout_WhoScorec"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="2dp"
                     android:gravity="center_vertical"
                     android:orientation="horizontal">
                     <ImageView
-                        android:layout_width="80dp"
-                        android:layout_height="24dp"
+                        android:layout_width="60dp"
+                        android:layout_height="15dp"
                         android:layout_marginLeft="5dp"
                         android:contentDescription=""
                         android:src="@mipmap/icon_app_whoscore" />
@@ -208,11 +208,11 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="10dp"
+                            android:layout_marginTop="2dp"
                             android:ellipsize="marquee"
                             android:maxLines="1"
                             android:text="WhoScored"
-                            android:textSize="14sp" />
+                            android:textSize="10sp" />
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -220,19 +220,19 @@
                             android:ellipsize="marquee"
                             android:maxLines="1"
                             android:text="全球顶级足球数据资讯"
-                            android:textSize="12sp" />
+                            android:textSize="10sp" />
                     </LinearLayout>
                 </LinearLayout>
                 <LinearLayout
                     android:id="@+id/layout_CleverGames"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="3dp"
                     android:gravity="center_vertical"
                     android:orientation="horizontal">
                     <ImageView
-                        android:layout_width="80dp"
-                        android:layout_height="24dp"
+                        android:layout_width="60dp"
+                        android:layout_height="15dp"
                         android:layout_marginLeft="5dp"
                         android:contentDescription=""
                         android:src="@mipmap/icon_app_clevergames" />
@@ -244,11 +244,11 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="10dp"
+                            android:layout_marginTop="2dp"
                             android:ellipsize="marquee"
                             android:maxLines="1"
                             android:text="Clevergames"
-                            android:textSize="14sp" />
+                            android:textSize="10sp" />
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -256,20 +256,20 @@
                             android:ellipsize="marquee"
                             android:maxLines="1"
                             android:text="最强悍的体育数据游戏"
-                            android:textSize="12sp" />
+                            android:textSize="10sp" />
                     </LinearLayout>
                 </LinearLayout>
                 <LinearLayout
                     android:id="@+id/layout_TiTan"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="10dp"
+                    android:layout_marginBottom="2dp"
                     android:gravity="center_vertical"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="3dp"
                     android:orientation="horizontal">
                     <ImageView
-                        android:layout_width="80dp"
-                        android:layout_height="24dp"
+                        android:layout_width="60dp"
+                        android:layout_height="15dp"
                         android:layout_marginLeft="5dp"
                         android:contentDescription=""
                         android:src="@mipmap/icon_app_titan" />
@@ -281,11 +281,11 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="10dp"
+                            android:layout_marginTop="2dp"
                             android:ellipsize="marquee"
                             android:maxLines="1"
                             android:text="体坛+"
-                            android:textSize="14sp" />
+                            android:textSize="10sp" />
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -293,7 +293,7 @@
                             android:ellipsize="marquee"
                             android:maxLines="1"
                             android:text="所有关于《体坛周报》的记忆"
-                            android:textSize="12sp" />
+                            android:textSize="10sp" />
                     </LinearLayout>
                 </LinearLayout>
             </LinearLayout>

@@ -109,7 +109,7 @@ public class BqBallWrapAdapter extends WrapRecyclerAdapter<BallQBallWarpInfoEnti
         holder.user_v_status.setUserV_Icon(info.getIsv());
     }
 
-    class ViewHolder extends ButterKnifeRecyclerViewHolder
+    static class ViewHolder extends ButterKnifeRecyclerViewHolder
     {
         @Bind(R.id.iv_ballq_info_cover)
         ImageView ivInfoConver;

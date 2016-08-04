@@ -47,7 +47,8 @@ import okhttp3.Request;
  * Created by LinDe on 2016-07-15 0015.
  * 老用户战绩
  */
-public class UserOldDataActivity extends BaseActivity implements SwipeRefreshLayout.OnRefreshListener, AutoLoadMoreRecyclerView.OnLoadMoreListener {
+public class UserOldDataActivity extends BaseActivity implements SwipeRefreshLayout.OnRefreshListener, AutoLoadMoreRecyclerView.OnLoadMoreListener
+{
     // 亚盘胜率 总盈亏 投资回报
 
     @Bind(R.id.swipe_refresh)
@@ -102,12 +103,14 @@ public class UserOldDataActivity extends BaseActivity implements SwipeRefreshLay
     private int nextPage;
 
     @Override
-    protected int getContentViewId() {
+    protected int getContentViewId()
+    {
         return R.layout.activity_old_user;
     }
 
     @Override
-    protected void initViews() {
+    protected void initViews()
+    {
         setTitleText("老用户战绩");
 
         mSwipeUtil = new SwipeUtil(refreshLayout);
@@ -125,72 +128,89 @@ public class UserOldDataActivity extends BaseActivity implements SwipeRefreshLay
     }
 
     @Override
-    protected View getLoadingTargetView() {
+    protected View getLoadingTargetView()
+    {
         return findViewById(R.id.swipe_refresh);
     }
 
     @Override
-    protected void getIntentData(Intent intent) {
+    protected void getIntentData(Intent intent)
+    {
         String userId = intent.getStringExtra("uid");
-        if (TextUtils.isEmpty(userId)) {
+        if (TextUtils.isEmpty(userId))
+        {
             this.userId = UserInfoUtil.getUserId(this);
-        } else {
+        }
+        else
+        {
             this.userId = userId;
         }
         onTabClick(tv_left);
     }
 
     @Override
-    protected boolean isCanceledEventBus() {
+    protected boolean isCanceledEventBus()
+    {
         return false;
     }
 
     @Override
-    protected void saveInstanceState(Bundle outState) {
+    protected void saveInstanceState(Bundle outState)
+    {
 
     }
 
     @Override
-    protected void handleInstanceState(Bundle outState) {
+    protected void handleInstanceState(Bundle outState)
+    {
 
     }
 
     @Override
-    protected void onViewClick(View view) {
+    protected void onViewClick(View view)
+    {
 
     }
 
     @Override
-    protected void notifyEvent(String action) {
+    protected void notifyEvent(String action)
+    {
 
     }
 
     @Override
-    protected void notifyEvent(String action, Bundle data) {
+    protected void notifyEvent(String action, Bundle data)
+    {
 
     }
 
     @Override
-    public void onRefresh() {
+    public void onRefresh()
+    {
         HashMap<String, String> map = new HashMap<>();
         map.put("user", UserInfoUtil.getUserId(this));
         map.put("token", UserInfoUtil.getUserToken(this));
 
-        HttpClientUtil.getHttpClientUtil().sendPostRequest(Tag, HttpUrls.HOST_URL_V5 + "old/user/" + userId + "/profile/", map, new HttpClientUtil.StringResponseCallBack() {
+        HttpClientUtil.getHttpClientUtil().sendPostRequest(Tag, HttpUrls.HOST_URL_V5 + "old/user/" + userId + "/profile/", map, new HttpClientUtil.StringResponseCallBack()
+        {
             @Override
-            public void onBefore(Request request) {
+            public void onBefore(Request request)
+            {
             }
 
             @Override
-            public void onError(Call call, Exception error) {
+            public void onError(Call call, Exception error)
+            {
                 ToastUtil.show(UserOldDataActivity.this, R.string.request_error);
             }
 
             @Override
-            public void onSuccess(Call call, String response) {
+            public void onSuccess(Call call, String response)
+            {
                 KLog.json(response);
                 JSONObject object = JSON.parseObject(response);
-                if (object.getInteger("status") == 0 && object.getString("message").equalsIgnoreCase("ok")) {
+                if (object.getInteger("status") == 0 && object.getString("message").equalsIgnoreCase("ok"))
+                {
                     userProfile = object.getObject("data", UserInfoEntity.class);
                     refreshUserProfile();
                 }
@@ -198,7 +218,8 @@ public class UserOldDataActivity extends BaseActivity implements SwipeRefreshLay
             }
 
             @Override
-            public void onFinish(Call call) {
+            public void onFinish(Call call)
+            {
             }
         });
 
@@ -206,7 +227,8 @@ public class UserOldDataActivity extends BaseActivity implements SwipeRefreshLay
 
     }
 
-    private void onRefreshData(final boolean isLoadMore) {
+    private void onRefreshData(final boolean isLoadMore)
+    {
         final int page = isLoadMore ? nextPage : 1;
 
         HashMap<String, String> map = new HashMap<>();
@@ -217,38 +239,52 @@ public class UserOldDataActivity extends BaseActivity implements SwipeRefreshLay
         url.append(HttpUrls.HOST_URL_V5);
         url.append("old/user/");
         url.append(userId);
-        if (tv_left.isSelected()) {
+        if (tv_left.isSelected())
+        {
             url.append("/betting_stats_summary/");
-        } else if (tv_right.isSelected()) {
+        }
+        else if (tv_right.isSelected())
+        {
             url.append("/bets/?p=");
             url.append(page);
         }
 
-        HttpClientUtil.getHttpClientUtil().sendPostRequest(Tag, url.toString(), map, new HttpClientUtil.StringResponseCallBack() {
+        HttpClientUtil.getHttpClientUtil().sendPostRequest(Tag, url.toString(), map, new HttpClientUtil.StringResponseCallBack()
+        {
             @Override
-            public void onBefore(Request request) {
+            public void onBefore(Request request)
+            {
 
             }
 
             @Override
-            public void onError(Call call, Exception error) {
+            public void onError(Call call, Exception error)
+            {
 
             }
 
             @Override
-            public void onSuccess(Call call, String response) {
+            public void onSuccess(Call call, String response)
+            {
                 KLog.json(response);
                 JSONObject object = JSON.parseObject(response);
-                if (object.getInteger("status") == 0 && object.getString("message").equalsIgnoreCase("ok")) {
-                    if (tv_left.isSelected()) {
+                if (object.getInteger("status") == 0 && object.getString("message").equalsIgnoreCase("ok"))
+                {
+                    if (tv_left.isSelected())
+                    {
                         layout_all_trend.setVisibility(View.VISIBLE);
                         toRefreshLeftData(object);
-                    } else {
+                    }
+                    else
+                    {
                         layout_all_trend.setVisibility(View.GONE);
                     }
-                    if (tv_right.isSelected()) {
+                    if (tv_right.isSelected())
+                    {
                         toRefreshRightData(isLoadMore, object);
-                    } else {
+                    }
+                    else
+                    {
                         dataList.clear();
                         adapter.notifyDataSetChanged();
                         recycler_view.setLoadMoreDataComplete();
@@ -257,43 +293,58 @@ public class UserOldDataActivity extends BaseActivity implements SwipeRefreshLay
             }
 
             @Override
-            public void onFinish(Call call) {
+            public void onFinish(Call call)
+            {
 
             }
         });
     }
 
-    private void toRefreshRightData(boolean isLoadMore, JSONObject object) {
+    private void toRefreshRightData(boolean isLoadMore, JSONObject object)
+    {
         JSONArray arrays = object.getJSONArray("data");
-        if (arrays != null && !arrays.isEmpty()) {
-            if (!isLoadMore) {
-                if (!dataList.isEmpty()) {
+        if (arrays != null && !arrays.isEmpty())
+        {
+            if (!isLoadMore)
+            {
+                if (!dataList.isEmpty())
+                {
                     dataList.clear();
                 }
             }
             CommonUtils.getJSONListObject(arrays, dataList, BallQUserGuessBettingRecordEntity.class);
-            if (adapter == null) {
+            if (adapter == null)
+            {
                 adapter = new BallQUserBettingGuessRecordAdapter(dataList);
                 StickyHeaderDecoration decoration = new StickyHeaderDecoration(adapter);
                 recycler_view.setAdapter(adapter);
                 recycler_view.addItemDecoration(decoration);
-            } else {
+            }
+            else
+            {
                 adapter.notifyDataSetChanged();
             }
-            if (arrays.size() < 10) {
+            if (arrays.size() < 10)
+            {
                 recycler_view.setLoadMoreDataComplete();
-            } else {
+            }
+            else
+            {
                 recycler_view.setStartLoadMore();
-                if (isLoadMore) {
+                if (isLoadMore)
+                {
                     nextPage++;
-                } else {
+                }
+                else
+                {
                     nextPage = 2;
                 }
             }
         }
     }
 
-    private void toRefreshLeftData(JSONObject object) {
+    private void toRefreshLeftData(JSONObject object)
+    {
         JSONObject data = object.getJSONObject("data");
 
         layout_all_trend.setAllNum(data.getString("all_count"));
@@ -302,7 +353,8 @@ public class UserOldDataActivity extends BaseActivity implements SwipeRefreshLay
         layout_all_trend.setAllGoneNum(data.getString("all_go_count"));
     }
 
-    private void refreshUserProfile() {
+    private void refreshUserProfile()
+    {
         ImageUtil.loadImage(ivUserIcon, R.mipmap.icon_user_default, userProfile.getPt());
         UserInfoUtil.setUserHeaderVMark(userProfile.getIsv(), iv_v, ivUserIcon);
         tvUserNickName.setText(userProfile.getFname());
@@ -328,7 +380,8 @@ public class UserOldDataActivity extends BaseActivity implements SwipeRefreshLay
 
     @SuppressWarnings("deprecation")
     @OnClick({R.id.tv_left, R.id.tv_right})
-    public void onTabClick(View view) {
+    public void onTabClick(View view)
+    {
         Resources res = getResources();
         int colorNormal = res.getColor(R.color.gold);
         int colorCheck = res.getColor(R.color.c_3a3a3a);
@@ -339,7 +392,8 @@ public class UserOldDataActivity extends BaseActivity implements SwipeRefreshLay
         tv_left.setSelected(false);
         tv_right.setSelected(false);
 
-        switch (view.getId()) {
+        switch (view.getId())
+        {
             case R.id.tv_left:
             default:
                 tv_left.setSelected(true);
@@ -363,7 +417,16 @@ public class UserOldDataActivity extends BaseActivity implements SwipeRefreshLay
     }
 
     @Override
-    public void onLoadMore() {
+    public void onLoadMore()
+    {
         onRefreshData(true);
+    }
+
+    @OnClick(R.id.layout_all_trend)
+    public void onTrendClick(View view)
+    {
+        Intent intent = new Intent(this, UserOldTrendStatisticActivity.class);
+        intent.putExtra("uid", userId);
+        startActivity(intent);
     }
 }

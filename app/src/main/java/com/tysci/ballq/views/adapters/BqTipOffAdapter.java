@@ -287,7 +287,7 @@ public class BqTipOffAdapter extends WrapRecyclerAdapter<BallQTipOffEntity, BqTi
         }
     }
 
-    class ViewHolder extends ButterKnifeRecyclerViewHolder
+    static class ViewHolder extends ButterKnifeRecyclerViewHolder
     {
         @Bind(R.id.tvMatchTime)
         TextView tvMatchTime;// 比赛时间

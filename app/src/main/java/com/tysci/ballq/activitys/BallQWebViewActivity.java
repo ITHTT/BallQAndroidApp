@@ -1,5 +1,6 @@
 package com.tysci.ballq.activitys;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -10,11 +11,13 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.tysci.ballq.R;
 import com.tysci.ballq.base.BaseActivity;
 import com.tysci.ballq.modles.event.EventObject;
 import com.tysci.ballq.networks.HttpUrls;
+import com.tysci.ballq.utils.CommonUtils;
 import com.tysci.ballq.utils.KLog;
 import com.tysci.ballq.utils.UserInfoUtil;
 
@@ -37,6 +40,8 @@ public class BallQWebViewActivity extends BaseActivity
     private String title;
 
     private boolean isIndex;
+
+    private boolean isDingDan;
 
     @Override
     protected int getContentViewId()
@@ -61,6 +66,7 @@ public class BallQWebViewActivity extends BaseActivity
     {
         url = intent.getStringExtra("url");
         title = intent.getStringExtra("title");
+        isDingDan = intent.getBooleanExtra("is_ding_dan", false);
         KLog.e(title);
         KLog.e(url);
 
@@ -137,6 +143,13 @@ public class BallQWebViewActivity extends BaseActivity
         {
             finish();
         }
+    }
+
+    @Override
+    protected void onResume()
+    {
+        super.onResume();
+        webView.onResume();
     }
 
     @Override
@@ -320,6 +333,31 @@ public class BallQWebViewActivity extends BaseActivity
         {
             super.onReceivedTitle(view, title);
             titleBar.setTitleBarTitle(title);
+            if (!isDingDan && title != null && title.equals("球商夺宝"))
+            {
+                Context context = BallQWebViewActivity.this;
+                TextView tv = titleBar.getRightMenuTextView();
+                int _10 = CommonUtils.dip2px(context, 10);
+                int _5 = CommonUtils.dip2px(context, 5);
+                tv.setPadding(_10, _5, _10, _5);
+                //noinspection deprecation
+                tv.setTextColor(getResources().getColor(R.color.gold));
+                tv.setText("订单");
+                tv.setTextSize(12F);
+                tv.setBackgroundResource(R.drawable.btn_tra_gold);
+                tv.setOnClickListener(new View.OnClickListener()
+                {
+                    @Override
+                    public void onClick(View v)
+                    {
+                        Intent intent = new Intent(v.getContext(), BallQWebViewActivity.class);
+                        intent.putExtra("url", "http://int.ballq.cn:8002/ballq/indiana/order?user=7204&token=4dl-cc607e1090d0ba431eb1");
+                        intent.putExtra("title", "球商夺宝");
+                        intent.putExtra("is_ding_dan", true);
+                        startActivity(intent);
+                    }
+                });
+            }
         }
     }
 

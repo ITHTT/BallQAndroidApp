@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="@dimen/dimen1dp"
+            android:layout_weight="1"
+            android:background="@color/gold"/>
+
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="30dp"
+            android:layout_margin="@dimen/dimen10dp"
+            android:contentDescription="@string/app_name"
+            android:src="@mipmap/icon_bq_index_page_analyst"/>
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="@dimen/dimen1dp"
+            android:layout_weight="1"
+            android:background="@color/gold"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/layout_analyst"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <include
+            layout="@layout/view_holder_bq_index_adapter"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"/>
+
+        <include
+            layout="@layout/view_holder_bq_index_adapter"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"/>
+
+        <include
+            layout="@layout/view_holder_bq_index_adapter"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"/>
+
+        <include
+            layout="@layout/view_holder_bq_index_adapter"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="@dimen/dimen1dp"
+            android:layout_weight="1"
+            android:background="@color/gold"/>
+
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="30dp"
+            android:layout_margin="@dimen/dimen10dp"
+            android:contentDescription="@string/app_name"
+            android:src="@mipmap/icon_bq_index_page_overseas"/>
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="@dimen/dimen1dp"
+            android:layout_weight="1"
+            android:background="@color/gold"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/layout_overseas"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <include
+            layout="@layout/view_holder_bq_index_adapter"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"/>
+
+        <include
+            layout="@layout/view_holder_bq_index_adapter"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"/>
+
+        <include
+            layout="@layout/view_holder_bq_index_adapter"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"/>
+
+        <include
+            layout="@layout/view_holder_bq_index_adapter"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"/>
+    </LinearLayout>
+</LinearLayout>

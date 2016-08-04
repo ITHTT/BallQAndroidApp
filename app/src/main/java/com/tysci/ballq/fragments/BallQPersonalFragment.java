@@ -73,6 +73,8 @@ public class BallQPersonalFragment extends BaseFragment
     @Override
     protected void initViews(View view, Bundle savedInstanceState)
     {
+        mUserProfileHeaderView.setUserUnLoginProfile(UserInfoUtil.getUserId(baseActivity));
+
         titleBar.setTitleBarTitle("我的");
         titleBar.setTitleBarLeftIcon(0, null);
         if (UserInfoUtil.checkLogin(baseActivity))

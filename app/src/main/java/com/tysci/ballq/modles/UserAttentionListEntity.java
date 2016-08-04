@@ -37,6 +37,7 @@ public class UserAttentionListEntity
         private String atname;
         private String atscore;
 
+        private int boncount;
         private int btyc;
 
         private int champion_id;
@@ -85,7 +86,7 @@ public class UserAttentionListEntity
         private int ram;
         private int reading_count;
         private int richtext_type;
-        private String ror;
+        private float ror;
         private int rtype;
 
         private int sam;
@@ -105,7 +106,128 @@ public class UserAttentionListEntity
 
         private String vid;
 
-        private String wins;
+        private float wins;
+
+        public String getFirst_image()
+        {
+            return first_image;
+        }
+
+        public void setFirst_image(String first_image)
+        {
+            this.first_image = first_image;
+        }
+
+        public int getFid()
+        {
+            return fid;
+        }
+
+        public void setFid(int fid)
+        {
+            this.fid = fid;
+        }
+
+        public int getGroup_id()
+        {
+            return group_id;
+        }
+
+        public int getBoncount()
+        {
+            return boncount;
+        }
+
+        public void setBoncount(int boncount)
+        {
+            this.boncount = boncount;
+        }
+
+        public void setGroup_id(int group_id)
+        {
+            this.group_id = group_id;
+        }
+
+        public int getIsc()
+        {
+            return isc;
+        }
+
+        public void setIsc(int isc)
+        {
+            this.isc = isc;
+        }
+
+        public int getIsf()
+        {
+            return isf;
+        }
+
+        public void setIsf(int isf)
+        {
+            this.isf = isf;
+        }
+
+        public int getRichtext_type()
+        {
+            return richtext_type;
+        }
+
+        public void setRichtext_type(int richtext_type)
+        {
+            this.richtext_type = richtext_type;
+        }
+
+
+        public int getRtype()
+        {
+            return rtype;
+        }
+
+        public void setRtype(int rtype)
+        {
+            this.rtype = rtype;
+        }
+
+        public int getSorder()
+        {
+            return sorder;
+        }
+
+        public void setSorder(int sorder)
+        {
+            this.sorder = sorder;
+        }
+
+        public String getTitle1()
+        {
+            return title1;
+        }
+
+        public void setTitle1(String title1)
+        {
+            this.title1 = title1;
+        }
+
+        public String getTitle2()
+        {
+            return title2;
+        }
+
+        public void setTitle2(String title2)
+        {
+            this.title2 = title2;
+        }
+
+        public float getWins()
+        {
+            return wins;
+        }
+
+        public void setWins(float wins)
+        {
+            this.wins = wins;
+        }
 
         public String getAtlogo()
         {
@@ -437,12 +559,12 @@ public class UserAttentionListEntity
             this.ram = ram;
         }
 
-        public String getRor()
+        public float getRor()
         {
             return ror;
         }
 
-        public void setRor(String ror)
+        public void setRor(float ror)
         {
             this.ror = ror;
         }

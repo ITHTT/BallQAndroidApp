@@ -6,6 +6,7 @@ import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -18,6 +19,7 @@ import com.tysci.ballq.modles.UserInfoEntity;
 import com.tysci.ballq.modles.event.EventObject;
 import com.tysci.ballq.networks.HttpClientUtil;
 import com.tysci.ballq.networks.HttpUrls;
+import com.tysci.ballq.utils.CommonUtils;
 import com.tysci.ballq.utils.ImageUtil;
 import com.tysci.ballq.utils.KLog;
 import com.tysci.ballq.utils.ToastUtil;
@@ -41,6 +43,9 @@ import okhttp3.Request;
  */
 public final class UserProfileHeaderView extends LinearLayout implements View.OnClickListener
 {
+    @Bind(R.id.layout_user_info)
+    ViewGroup layoutUserInfo;
+
     @Bind(R.id.iv_user_portrait)
     CircleImageView ivUserPortrait;// 用户头像
     @Bind(R.id.iv_user_v)
@@ -67,6 +72,8 @@ public final class UserProfileHeaderView extends LinearLayout implements View.On
     @Bind(R.id.tv_winning_probability)
     TextView tv_winning_probability;// 胜率
 
+    @Bind(R.id.layout_user_betting_counts)
+    ViewGroup layoutUserBettingCounts;// 场次视图
     @Bind(R.id.tv_all_count)
     TextView tvAllCount;// 总场次
     @Bind(R.id.tv_win_count)
@@ -106,7 +113,8 @@ public final class UserProfileHeaderView extends LinearLayout implements View.On
 
     public void setUserUnLoginProfile(String userId)
     {
-        final boolean isUserSelf = !TextUtils.isEmpty(userId) && userId.equals(UserInfoUtil.getUserId(getContext()));
+        this.userId = userId;
+        final boolean isUserSelf = TextUtils.isEmpty(userId) || userId.equals(UserInfoUtil.getUserId(getContext()));
 
         // 头像
         ivUserPortrait.setImageResource(R.mipmap.icon_user_default);
@@ -133,6 +141,16 @@ public final class UserProfileHeaderView extends LinearLayout implements View.On
         // 胜率
         tv_winning_probability.setText("+0%");
 
+        if (isUserSelf)
+        {
+            layoutUserBettingCounts.setVisibility(GONE);
+            setUserInfoLayoutParams(93);
+        }
+        else
+        {
+            layoutUserBettingCounts.setVisibility(VISIBLE);
+            setUserInfoLayoutParams(125);
+        }
         // 总场次
         tvAllCount.setText(String.valueOf(0));
         tvAllCount.append("场");
@@ -170,7 +188,9 @@ public final class UserProfileHeaderView extends LinearLayout implements View.On
         tvFollowClick.setVisibility(isUserSelf ? GONE : VISIBLE);
         // 成就图标1
         tmp = userInfo.getTitle1();
-        if (TextUtils.isEmpty(tmp))
+        if (!isUserSelf)
+            ivUserAchievement1.setVisibility(GONE);
+        else if (TextUtils.isEmpty(tmp))
             ivUserAchievement1.setVisibility(GONE);
         else
         {
@@ -179,7 +199,9 @@ public final class UserProfileHeaderView extends LinearLayout implements View.On
         }
         // 成就图标2
         tmp = userInfo.getTitle2();
-        if (TextUtils.isEmpty(tmp))
+        if (!isUserSelf)
+            ivUserAchievement2.setVisibility(GONE);
+        else if (TextUtils.isEmpty(tmp))
             ivUserAchievement2.setVisibility(GONE);
         else
         {
@@ -188,7 +210,9 @@ public final class UserProfileHeaderView extends LinearLayout implements View.On
         }
         // 用户签名
         tmp = userInfo.getBio();
-        if (TextUtils.isEmpty(tmp))
+        if (isUserSelf)
+            tvUserBio.setVisibility(GONE);
+        else if (TextUtils.isEmpty(tmp))
             tvUserBio.setVisibility(GONE);
         else
         {
@@ -213,6 +237,16 @@ public final class UserProfileHeaderView extends LinearLayout implements View.On
         tv_winning_probability.append(String.format(Locale.getDefault(), "%.2f", fmp * 100F));
         tv_winning_probability.append("%");
 
+        if (isUserSelf)
+        {
+            layoutUserBettingCounts.setVisibility(GONE);
+            setUserInfoLayoutParams(93);
+        }
+        else
+        {
+            layoutUserBettingCounts.setVisibility(VISIBLE);
+            setUserInfoLayoutParams(125);
+        }
         // 总场次
         imp = userInfo.getBsc();
         if (imp < 0)
@@ -239,13 +273,20 @@ public final class UserProfileHeaderView extends LinearLayout implements View.On
         tvGoneCount.append("走");
     }
 
+    private void setUserInfoLayoutParams(int height)
+    {
+        LayoutParams lp = (LayoutParams) layoutUserInfo.getLayoutParams();
+        lp.height = CommonUtils.dip2px(getContext(), height);
+        layoutUserInfo.setLayoutParams(lp);
+    }
+
     @Override
     public void onClick(View v)
     {
         final Context context = getContext();
         if (!UserInfoUtil.checkLogin(context))
         {
-            if (userId != null && !userId.equals(UserInfoUtil.getUserId(context)))
+            if (TextUtils.isEmpty(userId))
                 UserInfoUtil.userLogin(context);
         }
     }

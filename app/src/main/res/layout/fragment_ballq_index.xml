@@ -13,157 +13,157 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <com.tysci.ballq.views.widgets.BqIndexHeaderView
-            android:id="@+id/bq_index_header_view"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
 
         <android.support.v4.widget.SwipeRefreshLayout
             android:id="@+id/swipe_refresh"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <com.tysci.ballq.views.widgets.loadmorerecyclerview.AutoLoadMoreRecyclerView
-                android:id="@+id/recycler_view"
+            <ScrollView
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"/>
-            <!--<ScrollView-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="match_parent"-->
-            <!--android:background="@color/white"-->
-            <!--android:orientation="vertical">-->
+                android:layout_height="match_parent"
+                android:background="@color/white"
+                android:orientation="vertical">
 
-            <!--<LinearLayout-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:background="@color/white"-->
-            <!--android:orientation="vertical">-->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:orientation="vertical">
 
-            <!--<com.tysci.ballq.views.widgets.convenientbanner.ConvenientBanner-->
-            <!--android:id="@+id/convenientBanner"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:minHeight="150dp"-->
-            <!--android:paddingLeft="5dp"-->
-            <!--android:paddingRight="5dp"-->
-            <!--android:paddingTop="5dp"-->
-            <!--app:canLoop="true"/>-->
+                    <com.tysci.ballq.views.widgets.BqIndexHeaderView
+                        android:id="@+id/bq_index_header_view"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"/>
 
-            <!--<LinearLayout-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_marginTop="8dp"-->
-            <!--android:paddingLeft="8dp"-->
-            <!--android:paddingRight="8dp">-->
+                    <com.tysci.ballq.views.BqIndexPageSuperManView
+                        android:id="@+id/bq_index_super_man"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"/>
+                    <!--<com.tysci.ballq.views.widgets.convenientbanner.ConvenientBanner-->
+                    <!--android:id="@+id/convenientBanner"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:minHeight="150dp"-->
+                    <!--android:paddingLeft="5dp"-->
+                    <!--android:paddingRight="5dp"-->
+                    <!--android:paddingTop="5dp"-->
+                    <!--app:canLoop="true"/>-->
 
-            <!--<com.tysci.ballq.views.IndexEventsView-->
-            <!--android:id="@+id/event1"-->
-            <!--android:layout_width="0dp"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_marginEnd="@dimen/dimen3dp"-->
-            <!--android:layout_marginRight="@dimen/dimen3dp"-->
-            <!--android:layout_weight="1"/>-->
+                    <!--<LinearLayout-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_marginTop="8dp"-->
+                    <!--android:paddingLeft="8dp"-->
+                    <!--android:paddingRight="8dp">-->
 
-            <!--<com.tysci.ballq.views.IndexEventsView-->
-            <!--android:id="@+id/event2"-->
-            <!--android:layout_width="0dp"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_marginEnd="@dimen/dimen3dp"-->
-            <!--android:layout_marginRight="@dimen/dimen3dp"-->
-            <!--android:layout_weight="1"/>-->
+                    <!--<com.tysci.ballq.views.IndexEventsView-->
+                    <!--android:id="@+id/event1"-->
+                    <!--android:layout_width="0dp"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_marginEnd="@dimen/dimen3dp"-->
+                    <!--android:layout_marginRight="@dimen/dimen3dp"-->
+                    <!--android:layout_weight="1"/>-->
 
-            <!--<com.tysci.ballq.views.IndexEventsView-->
-            <!--android:id="@+id/event3"-->
-            <!--android:layout_width="0dp"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_weight="1"/>-->
-            <!--&lt;!&ndash;<ImageView&ndash;&gt;-->
-            <!--&lt;!&ndash;android:id="@+id/iv_fight_ballq_gou"&ndash;&gt;-->
-            <!--&lt;!&ndash;android:layout_width="0dp"&ndash;&gt;-->
-            <!--&lt;!&ndash;android:layout_height="80dp"&ndash;&gt;-->
-            <!--&lt;!&ndash;android:layout_weight="1"&ndash;&gt;-->
-            <!--&lt;!&ndash;android:src="@mipmap/icon_ballq_get_gold"/>&ndash;&gt;-->
-            <!--&lt;!&ndash;<ImageView&ndash;&gt;-->
-            <!--&lt;!&ndash;android:id="@+id/iv_get_ballq_gold"&ndash;&gt;-->
-            <!--&lt;!&ndash;android:layout_width="0dp"&ndash;&gt;-->
-            <!--&lt;!&ndash;android:layout_height="80dp"&ndash;&gt;-->
-            <!--&lt;!&ndash;android:layout_weight="1"&ndash;&gt;-->
-            <!--&lt;!&ndash;android:src="@mipmap/icon_ballq_fight_gou"/>&ndash;&gt;-->
-            <!--</LinearLayout>-->
+                    <!--<com.tysci.ballq.views.IndexEventsView-->
+                    <!--android:id="@+id/event2"-->
+                    <!--android:layout_width="0dp"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_marginEnd="@dimen/dimen3dp"-->
+                    <!--android:layout_marginRight="@dimen/dimen3dp"-->
+                    <!--android:layout_weight="1"/>-->
 
-            <!--<RelativeLayout-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="35dp"-->
-            <!--android:layout_marginLeft="7dp"-->
-            <!--android:layout_marginRight="7dp"-->
-            <!--android:layout_marginTop="6dp"-->
-            <!--android:background="@color/colorPrimary">-->
+                    <!--<com.tysci.ballq.views.IndexEventsView-->
+                    <!--android:id="@+id/event3"-->
+                    <!--android:layout_width="0dp"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_weight="1"/>-->
+                    <!--&lt;!&ndash;<ImageView&ndash;&gt;-->
+                    <!--&lt;!&ndash;android:id="@+id/iv_fight_ballq_gou"&ndash;&gt;-->
+                    <!--&lt;!&ndash;android:layout_width="0dp"&ndash;&gt;-->
+                    <!--&lt;!&ndash;android:layout_height="80dp"&ndash;&gt;-->
+                    <!--&lt;!&ndash;android:layout_weight="1"&ndash;&gt;-->
+                    <!--&lt;!&ndash;android:src="@mipmap/icon_ballq_get_gold"/>&ndash;&gt;-->
+                    <!--&lt;!&ndash;<ImageView&ndash;&gt;-->
+                    <!--&lt;!&ndash;android:id="@+id/iv_get_ballq_gold"&ndash;&gt;-->
+                    <!--&lt;!&ndash;android:layout_width="0dp"&ndash;&gt;-->
+                    <!--&lt;!&ndash;android:layout_height="80dp"&ndash;&gt;-->
+                    <!--&lt;!&ndash;android:layout_weight="1"&ndash;&gt;-->
+                    <!--&lt;!&ndash;android:src="@mipmap/icon_ballq_fight_gou"/>&ndash;&gt;-->
+                    <!--</LinearLayout>-->
 
-            <!--<ImageView-->
-            <!--android:layout_width="5dp"-->
-            <!--android:layout_height="match_parent"-->
-            <!--android:background="#eacb70"-->
-            <!--android:contentDescription=""/>-->
+                    <!--<RelativeLayout-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="35dp"-->
+                    <!--android:layout_marginLeft="7dp"-->
+                    <!--android:layout_marginRight="7dp"-->
+                    <!--android:layout_marginTop="6dp"-->
+                    <!--android:background="@color/colorPrimary">-->
 
-            <!--<ImageView-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="1dp"-->
-            <!--android:layout_alignParentBottom="true"-->
-            <!--android:layout_marginLeft="10dp"-->
-            <!--android:layout_marginStart="10dp"-->
-            <!--android:background="#828282"-->
-            <!--android:contentDescription=""/>-->
+                    <!--<ImageView-->
+                    <!--android:layout_width="5dp"-->
+                    <!--android:layout_height="match_parent"-->
+                    <!--android:background="#eacb70"-->
+                    <!--android:contentDescription=""/>-->
 
-            <!--<TextView-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_centerVertical="true"-->
-            <!--android:layout_marginLeft="10dp"-->
-            <!--android:layout_marginStart="10dp"-->
-            <!--android:text="一周分析师推荐"-->
-            <!--android:textColor="@color/white"-->
-            <!--android:textSize="14sp"-->
-            <!--android:typeface="monospace"/>-->
+                    <!--<ImageView-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="1dp"-->
+                    <!--android:layout_alignParentBottom="true"-->
+                    <!--android:layout_marginLeft="10dp"-->
+                    <!--android:layout_marginStart="10dp"-->
+                    <!--android:background="#828282"-->
+                    <!--android:contentDescription=""/>-->
 
-            <!--<TextView-->
-            <!--android:id="@+id/tv_more_rank"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_alignParentRight="true"-->
-            <!--android:layout_centerVertical="true"-->
-            <!--android:layout_marginRight="5dp"-->
-            <!--android:text="更多排行"-->
-            <!--android:textColor="@color/white"-->
-            <!--android:textSize="13sp"/>-->
-            <!--</RelativeLayout>-->
+                    <!--<TextView-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_centerVertical="true"-->
+                    <!--android:layout_marginLeft="10dp"-->
+                    <!--android:layout_marginStart="10dp"-->
+                    <!--android:text="一周分析师推荐"-->
+                    <!--android:textColor="@color/white"-->
+                    <!--android:textSize="14sp"-->
+                    <!--android:typeface="monospace"/>-->
 
-            <!--<com.tysci.ballq.views.widgets.BallQUserAnalystView-->
-            <!--android:id="@+id/first_analyst"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_marginTop="6dp"-->
-            <!--android:paddingLeft="8dp"-->
-            <!--android:paddingRight="8dp"/>-->
+                    <!--<TextView-->
+                    <!--android:id="@+id/tv_more_rank"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_alignParentRight="true"-->
+                    <!--android:layout_centerVertical="true"-->
+                    <!--android:layout_marginRight="5dp"-->
+                    <!--android:text="更多排行"-->
+                    <!--android:textColor="@color/white"-->
+                    <!--android:textSize="13sp"/>-->
+                    <!--</RelativeLayout>-->
 
-            <!--<com.tysci.ballq.views.widgets.BallQUserAnalystView-->
-            <!--android:id="@+id/second_analyst"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_marginTop="6dp"-->
-            <!--android:paddingLeft="8dp"-->
-            <!--android:paddingRight="8dp"/>-->
+                    <!--<com.tysci.ballq.views.widgets.BallQUserAnalystView-->
+                    <!--android:id="@+id/first_analyst"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_marginTop="6dp"-->
+                    <!--android:paddingLeft="8dp"-->
+                    <!--android:paddingRight="8dp"/>-->
 
-            <!--<com.tysci.ballq.views.widgets.BallQUserAnalystView-->
-            <!--android:id="@+id/third_analyst"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_marginBottom="8dp"-->
-            <!--android:layout_marginTop="6dp"-->
-            <!--android:paddingLeft="8dp"-->
-            <!--android:paddingRight="8dp"/>-->
-            <!--</LinearLayout>-->
-            <!--</ScrollView>-->
+                    <!--<com.tysci.ballq.views.widgets.BallQUserAnalystView-->
+                    <!--android:id="@+id/second_analyst"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_marginTop="6dp"-->
+                    <!--android:paddingLeft="8dp"-->
+                    <!--android:paddingRight="8dp"/>-->
+
+                    <!--<com.tysci.ballq.views.widgets.BallQUserAnalystView-->
+                    <!--android:id="@+id/third_analyst"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_marginBottom="8dp"-->
+                    <!--android:layout_marginTop="6dp"-->
+                    <!--android:paddingLeft="8dp"-->
+                    <!--android:paddingRight="8dp"/>-->
+                </LinearLayout>
+            </ScrollView>
         </android.support.v4.widget.SwipeRefreshLayout>
     </LinearLayout>
 

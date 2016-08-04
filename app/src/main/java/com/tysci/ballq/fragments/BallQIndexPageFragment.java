@@ -2,8 +2,6 @@ package com.tysci.ballq.fragments;
 
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.text.TextUtils;
 import android.view.View;
 
@@ -17,11 +15,9 @@ import com.tysci.ballq.networks.HttpClientUtil;
 import com.tysci.ballq.networks.HttpUrls;
 import com.tysci.ballq.utils.KLog;
 import com.tysci.ballq.utils.UserInfoUtil;
-import com.tysci.ballq.views.adapters.BqIndexAdapter;
+import com.tysci.ballq.views.BqIndexPageSuperManView;
 import com.tysci.ballq.views.widgets.BqIndexHeaderView;
 import com.tysci.ballq.views.widgets.TitleBar;
-import com.tysci.ballq.views.widgets.loadmorerecyclerview.AutoLoadMoreRecyclerView;
-import com.tysci.ballq.views.widgets.recyclerviewstickyheader.StickyHeaderDecoration;
 
 import java.util.HashMap;
 import java.util.List;
@@ -54,11 +50,10 @@ public class BallQIndexPageFragment extends BaseFragment implements SwipeRefresh
 //    IndexEventsView mIndexEventsView2;
 //    @Bind(R.id.event3)
 //    IndexEventsView mIndexEventsView3;
-    @Bind(R.id.recycler_view)
-    protected AutoLoadMoreRecyclerView mRecyclerView;
     @Bind(R.id.bq_index_header_view)
     protected BqIndexHeaderView mBqIndexHeaderView;
-    private BqIndexAdapter mBqIndexAdapter;
+    @Bind(R.id.bq_index_super_man)
+    protected BqIndexPageSuperManView mBqIndexPageSuperManView;
 
 //    @Bind(R.id.first_analyst)
 //    protected BallQUserAnalystView firstAnalyst;
@@ -104,19 +99,7 @@ public class BallQIndexPageFragment extends BaseFragment implements SwipeRefresh
 //            }
 //        });
         swipeRefresh.setOnRefreshListener(this);
-
-        GridLayoutManager lm = new GridLayoutManager(baseActivity, 4);
-        lm.setOrientation(LinearLayoutManager.VERTICAL);
-        mRecyclerView.setLayoutManager(lm);
-
-//        mBqIndexHeaderView = new BqIndexHeaderView(baseActivity);
         mBqIndexHeaderView.setSwipeRefreshLayout(swipeRefresh);
-//        mRecyclerView.addHeaderView(mBqIndexHeaderView);
-
-        mBqIndexAdapter = new BqIndexAdapter(4);
-        StickyHeaderDecoration decoration = new StickyHeaderDecoration(mBqIndexAdapter);
-        mRecyclerView.setAdapter(mBqIndexAdapter);
-        mRecyclerView.addItemDecoration(decoration);
 
         showLoading();
         getHomePageInfo();
@@ -224,10 +207,6 @@ public class BallQIndexPageFragment extends BaseFragment implements SwipeRefresh
                         }
                     });
                 }
-                else
-                {
-
-                }
             }
 
             @Override
@@ -246,22 +225,15 @@ public class BallQIndexPageFragment extends BaseFragment implements SwipeRefresh
                             JSONArray eventsArray = dataObj.getJSONArray("events");
                             if (eventsArray != null && !eventsArray.isEmpty())
                             {
-//                                setEvents(eventsArray);
                                 mBqIndexHeaderView.setEvents(eventsArray);
                             }
                             JSONArray picArray = dataObj.getJSONArray("pics");
                             if (picArray != null && !picArray.isEmpty())
                             {
-//                                setBannerPictures(picArray);
                                 mBqIndexHeaderView.setBannerPictures(picArray);
                             }
-                            // TODO: 2016-08-01 0001
-                            mBqIndexAdapter.addData(dataObj.getJSONArray("weekly_recomends"), dataObj.getJSONArray("overseas_recomends"));
-//                            JSONArray recommdArray = dataObj.getJSONArray("recomend");
-//                            if (recommdArray != null && !recommdArray.isEmpty())
-//                            {
-//                                setAuthorAnalystInfo(recommdArray);
-//                            }
+                            mBqIndexPageSuperManView.updateData(BqIndexPageSuperManView.TYPE_ANALYST, dataObj.getJSONArray("weekly_recomends"));
+                            mBqIndexPageSuperManView.updateData(BqIndexPageSuperManView.TYPE_OVERSEAS, dataObj.getJSONArray("overseas_recomends"));
                         }
                     }
                 }
@@ -273,11 +245,6 @@ public class BallQIndexPageFragment extends BaseFragment implements SwipeRefresh
                 onRefreshCompelete();
             }
         });
-    }
-
-    private void setEvents(JSONArray eventsArray)
-    {
-
     }
 
     @Override

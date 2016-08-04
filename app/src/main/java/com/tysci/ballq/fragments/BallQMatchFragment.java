@@ -8,8 +8,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.nineoldandroids.animation.ObjectAnimator;
 import com.tysci.ballq.R;
@@ -38,7 +38,7 @@ public class BallQMatchFragment extends BaseFragment implements BallQMatchFilter
     @Bind(R.id.popmenu)
     protected PopupMenuLayout popupMenuLayout;
     @Bind(R.id.title_bar)
-    protected TitleBar titleBar;
+    protected TitleBar mTitleBar;
     @Bind(R.id.tab_layout)
     protected SlidingTabLayout tabLayout;
     @Bind(R.id.rv_dates)
@@ -88,13 +88,13 @@ public class BallQMatchFragment extends BaseFragment implements BallQMatchFilter
     @Override
     protected void initViews(View view, Bundle savedInstanceState)
     {
-        titleBar.setTitleBarTitle("竞技场");
-        titleBar.setOnClickListener(this);
+        mTitleBar.setTitleBarTitle("竞技场");
+        mTitleBar.setOnClickListener(this);
         layoutTipShow.setOnClickListener(this);
         setLeftMenuAttrs();
         setRightMenuAttrs();
         addPopMenuItems();
-        popupMenuLayout.setTargetView(titleBar.getLeftBack());
+        popupMenuLayout.setTargetView(mTitleBar.getLeftBack());
         popupMenuLayout.setOnPopupMenuShowListener(this);
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this.getActivity());
@@ -109,16 +109,34 @@ public class BallQMatchFragment extends BaseFragment implements BallQMatchFilter
 
     private void setRightMenuAttrs()
     {
-        ImageView ivRightMenu = titleBar.getRightMenuImageView();
-        ivRightMenu.getLayoutParams().height = LinearLayout.LayoutParams.WRAP_CONTENT;
-        ivRightMenu.getLayoutParams().width = LinearLayout.LayoutParams.WRAP_CONTENT;
-        ivRightMenu.setImageResource(R.mipmap.icon_match_filter);
-        ivRightMenu.setOnClickListener(this);
+//        ImageView ivRightMenu = mTitleBar.getRightMenuImageView();
+//        ivRightMenu.getLayoutParams().height = LinearLayout.LayoutParams.WRAP_CONTENT;
+//        ivRightMenu.getLayoutParams().width = LinearLayout.LayoutParams.WRAP_CONTENT;
+//        ivRightMenu.setImageResource(R.mipmap.icon_match_filter);
+//        ivRightMenu.setOnClickListener(this);
+
+        TextView tvRightMenu = mTitleBar.getRightMenuTextView();
+        int hor = CommonUtils.dip2px(baseActivity, 10);
+        int ver = CommonUtils.dip2px(baseActivity, 3);
+        tvRightMenu.setPadding(hor, ver, hor, ver);
+        //noinspection deprecation
+        tvRightMenu.setTextColor(getResources().getColor(R.color.gold));
+        tvRightMenu.setText("筛选");
+        tvRightMenu.setTextSize(8F);
+        tvRightMenu.setBackgroundResource(R.drawable.btn_tra_gold);
+        tvRightMenu.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                matchLeagueFilter();
+            }
+        });
     }
 
     private void setLeftMenuAttrs()
     {
-        ImageView ivLeftMenu = titleBar.getLeftBack();
+        ImageView ivLeftMenu = mTitleBar.getLeftBack();
         ivLeftMenu.setImageResource(R.mipmap.icon_match_filter_left);
         RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) ivLeftMenu.getLayoutParams();
         layoutParams.leftMargin = CommonUtils.dip2px(baseActivity, 12);
@@ -285,16 +303,16 @@ public class BallQMatchFragment extends BaseFragment implements BallQMatchFilter
         int id = v.getId();
         switch (id)
         {
-            case R.id.iv_titlebar_next_menu01:
-                if (popupMenuLayout.isShowing())
-                {
-                    popupMenuLayout.toggle();
-                }
-                else
-                {
-                    matchLeagueFilter();
-                }
-                break;
+//            case R.id.iv_titlebar_next_menu01:
+//                if (popupMenuLayout.isShowing())
+//                {
+//                    popupMenuLayout.toggle();
+//                }
+//                else
+//                {
+//                    matchLeagueFilter();
+//                }
+//                break;
             case R.id.title_bar:
             case R.id.layout_tip_show:
                 if (popupMenuLayout.isShowing())
@@ -375,8 +393,8 @@ public class BallQMatchFragment extends BaseFragment implements BallQMatchFilter
 
     private void setMatchLeagueMenuVisibility(boolean isVi)
     {
-        View right = titleBar.getRightMenuImageView();
-        View left = titleBar.getLeftBack();
+        View right = mTitleBar.getRightMenuImageView();
+        View left = mTitleBar.getLeftBack();
         if (isVi)
         {
             right.setVisibility(View.VISIBLE);

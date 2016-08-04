@@ -47,7 +47,8 @@ import okhttp3.Request;
 /**
  * Created by HTT on 2016/6/17.
  */
-public class UserTrendStatisticDetailActivity extends BaseActivity {
+public class UserTrendStatisticDetailActivity extends BaseActivity
+{
     @Bind(R.id.ivUserIcon)
     protected CircleImageView ivUserIcon;
     @Bind(R.id.isV)
@@ -100,12 +101,14 @@ public class UserTrendStatisticDetailActivity extends BaseActivity {
     private boolean isOldUser = false;
 
     @Override
-    protected int getContentViewId() {
+    protected int getContentViewId()
+    {
         return R.layout.activity_user_trend_statistics_detail;
     }
 
     @Override
-    protected void initViews() {
+    protected void initViews()
+    {
         trendAhc.setTrendProfitTitle("按亚盘统计盈利");
         trendLeague.setTrendProfitTitle("按赛事统计盈利");
         trendMonth.setTrendProfitTitle("按月份统计盈利");
@@ -127,12 +130,15 @@ public class UserTrendStatisticDetailActivity extends BaseActivity {
     }
 
     @Override
-    protected View getLoadingTargetView() {
+    protected View getLoadingTargetView()
+    {
         return this.findViewById(R.id.layout_trend_static_info);
     }
 
     @Override
-    protected void getIntentData(Intent intent) {
+    protected void getIntentData(Intent intent)
+    {
+        isOldUser = intent.getBooleanExtra("old_user", false);
         uid = intent.getStringExtra("user_id");
         etype = intent.getIntExtra("etype", -1);
         setTitle(intent.getStringExtra("trend_title"));
@@ -147,13 +153,15 @@ public class UserTrendStatisticDetailActivity extends BaseActivity {
         CommonUtils.setTextViewFormatString(tvGoCount, goneCount + " 场", goneCount, Color.parseColor("#d4d4d4"), 1f);
 
         UserInfoEntity userInfo = intent.getParcelableExtra("user_info");
-        if (userInfo != null) {
+        if (userInfo != null)
+        {
             GlideImageLoader.loadImage(this, userInfo.getPt(), R.mipmap.icon_user_default, ivUserIcon);
             UserInfoUtil.setUserHeaderVMark(userInfo.getIsv(), isV, ivUserIcon);
             tvUserName.setText(userInfo.getFname());
         }
 
-        if (!TextUtils.isEmpty(uid)) {
+        if (!TextUtils.isEmpty(uid))
+        {
             showLoading();
             getTrendStatisticDetailInfo(etype, uid);
         }
@@ -161,24 +169,31 @@ public class UserTrendStatisticDetailActivity extends BaseActivity {
     }
 
     @Override
-    protected boolean isCanceledEventBus() {
+    protected boolean isCanceledEventBus()
+    {
         return false;
     }
 
-    private void getTrendStatisticDetailInfo(final int etype, final String uid) {
+    private void getTrendStatisticDetailInfo(final int etype, final String uid)
+    {
         String url = HttpUrls.HOST_URL_V5 + (isOldUser ? "old/" : "") + "user/" + uid + "/betting_stats/" + (etype >= 0 ? "?etype=" + etype : "");
         KLog.e("url:" + url);
-        HttpClientUtil.getHttpClientUtil().sendPostRequest(Tag, url, null, new HttpClientUtil.StringResponseCallBack() {
+        HttpClientUtil.getHttpClientUtil().sendPostRequest(Tag, url, null, new HttpClientUtil.StringResponseCallBack()
+        {
             @Override
-            public void onBefore(Request request) {
+            public void onBefore(Request request)
+            {
 
             }
 
             @Override
-            public void onError(Call call, Exception error) {
-                showErrorInfo(new View.OnClickListener() {
+            public void onError(Call call, Exception error)
+            {
+                showErrorInfo(new View.OnClickListener()
+                {
                     @Override
-                    public void onClick(View v) {
+                    public void onClick(View v)
+                    {
                         showLoading();
                         getTrendStatisticDetailInfo(etype, uid);
                     }
@@ -187,66 +202,77 @@ public class UserTrendStatisticDetailActivity extends BaseActivity {
             }
 
             @Override
-            public void onSuccess(Call call, String response) {
+            public void onSuccess(Call call, String response)
+            {
                 KLog.json(response);
                 hideLoad();
-                if (!TextUtils.isEmpty(response)) {
+                if (!TextUtils.isEmpty(response))
+                {
                     JSONObject obj = JSONObject.parseObject(response);
-                    if (obj != null) {
+                    if (obj != null)
+                    {
                         JSONObject dataObj = obj.getJSONObject("data");
-                        if (dataObj != null && !dataObj.isEmpty()) {
+                        if (dataObj != null && !dataObj.isEmpty())
+                        {
                             JSONObject generalObj = dataObj.getJSONObject("general");
-                            if (generalObj != null && !generalObj.isEmpty()) {
+                            if (generalObj != null && !generalObj.isEmpty())
+                            {
                                 setTrendStataisticInfo(generalObj);
                             }
 
                             JSONArray ahcArrays = dataObj.getJSONArray("ahc");
-                            if (ahcArrays != null && !ahcArrays.isEmpty()) {
+                            if (ahcArrays != null && !ahcArrays.isEmpty())
+                            {
                                 List<BallQTrendProfitStatisticEntity> ahcs = new ArrayList<>(ahcArrays.size());
                                 CommonUtils.getJSONListObject(ahcArrays, ahcs, BallQTrendProfitStatisticEntity.class);
                                 setTrendProfitType(1, ahcs);
-                                trendAhc.setTrendProfitStatistValue("ahc", "ahc_type",etype, ahcs);
+                                trendAhc.setTrendProfitStatistValue("ahc", "ahc_type", etype, ahcs);
                             }
 
                             JSONArray tournArrays = dataObj.getJSONArray("tourn");
-                            if (tournArrays != null && !tournArrays.isEmpty()) {
+                            if (tournArrays != null && !tournArrays.isEmpty())
+                            {
                                 List<BallQTrendProfitStatisticEntity> tourns = new ArrayList<>();
                                 CommonUtils.getJSONListObject(tournArrays, tourns, BallQTrendProfitStatisticEntity.class);
                                 setTrendProfitType(2, tourns);
-                                trendLeague.setTrendProfitStatistValue("tourn", "tournid",etype, tourns);
+                                trendLeague.setTrendProfitStatistValue("tourn", "tournid", etype, tourns);
                             }
 
                             JSONArray monthArrays = dataObj.getJSONArray("month");
-                            if (monthArrays != null && !monthArrays.isEmpty()) {
+                            if (monthArrays != null && !monthArrays.isEmpty())
+                            {
                                 List<BallQTrendProfitStatisticEntity> months = new ArrayList<>();
                                 CommonUtils.getJSONListObject(monthArrays, months, BallQTrendProfitStatisticEntity.class);
                                 setTrendProfitType(3, months);
-                                trendMonth.setTrendProfitStatistValue("month", "month", etype,months);
+                                trendMonth.setTrendProfitStatistValue("month", "month", etype, months);
                                 setLineChartViewData(months);
                             }
 
                             JSONArray toArrays = dataObj.getJSONArray("to");
-                            if (toArrays != null && !toArrays.isEmpty()) {
+                            if (toArrays != null && !toArrays.isEmpty())
+                            {
                                 List<BallQTrendProfitStatisticEntity> tos = new ArrayList<>();
                                 CommonUtils.getJSONListObject(toArrays, tos, BallQTrendProfitStatisticEntity.class);
                                 setTrendProfitType(4, tos);
-                                trendTo.setTrendProfitStatistValue("to", "to_type", etype,tos);
+                                trendTo.setTrendProfitStatistValue("to", "to_type", etype, tos);
                             }
 
                             JSONArray amountArrays = dataObj.getJSONArray("amount");
-                            if (amountArrays != null && !amountArrays.isEmpty()) {
+                            if (amountArrays != null && !amountArrays.isEmpty())
+                            {
                                 List<BallQTrendProfitStatisticEntity> amounts = new ArrayList<>();
                                 CommonUtils.getJSONListObject(amountArrays, amounts, BallQTrendProfitStatisticEntity.class);
                                 setTrendProfitType(5, amounts);
-                                trendGold.setTrendProfitStatistValue("amount", "sam",etype, amounts);
+                                trendGold.setTrendProfitStatistValue("amount", "sam", etype, amounts);
                             }
 
                             JSONArray weekArrays = dataObj.getJSONArray("weekday");
-                            if (weekArrays != null && !weekArrays.isEmpty()) {
+                            if (weekArrays != null && !weekArrays.isEmpty())
+                            {
                                 List<BallQTrendProfitStatisticEntity> weeks = new ArrayList<>();
                                 CommonUtils.getJSONListObject(weekArrays, weeks, BallQTrendProfitStatisticEntity.class);
                                 setTrendProfitType(6, weeks);
-                                trendWeek.setTrendProfitStatistValue("weekday", "weekday",etype, weeks);
+                                trendWeek.setTrendProfitStatistValue("weekday", "weekday", etype, weeks);
                             }
                         }
                     }
@@ -255,13 +281,15 @@ public class UserTrendStatisticDetailActivity extends BaseActivity {
             }
 
             @Override
-            public void onFinish(Call call) {
+            public void onFinish(Call call)
+            {
 
             }
         });
     }
 
-    private void setTrendStataisticInfo(JSONObject general) {
+    private void setTrendStataisticInfo(JSONObject general)
+    {
         String tempStr;
 
         tempStr = general.getString("fname");
@@ -269,7 +297,8 @@ public class UserTrendStatisticDetailActivity extends BaseActivity {
             tvUserName.setText(tempStr);
 
         tempStr = general.getString("pt");
-        if (!TextUtils.isEmpty(tempStr)) {
+        if (!TextUtils.isEmpty(tempStr))
+        {
             GlideImageLoader.loadImage(this, tempStr, R.mipmap.icon_user_default, ivUserIcon);
             UserInfoUtil.setUserHeaderVMark(general.getIntValue("isv"), isV, ivUserIcon);
         }
@@ -309,35 +338,46 @@ public class UserTrendStatisticDetailActivity extends BaseActivity {
      * params tv:  显示走势的TextView
      * params s :  服务端传过来的走势数据，赢为1，输为2，走为3
      */
-    private void setTrendInfo(TextView tv, String s) {
-        try {
+    private void setTrendInfo(TextView tv, String s)
+    {
+        try
+        {
             char c;
             SpannableStringBuilder ssb = new SpannableStringBuilder();
-            for (int i = 0; i < s.length(); i++) {
+            for (int i = 0; i < s.length(); i++)
+            {
                 c = s.charAt(i);
-                if ((int) c == (int) '1') {
+                if ((int) c == (int) '1')
+                {
                     ssb.append('+');
                     ssb.setSpan(new ForegroundColorSpan(Color.parseColor("#ce483d")), i, i + 1, Spannable.SPAN_INCLUSIVE_INCLUSIVE);
                 }
-                if ((int) c == (int) '2') {
+                if ((int) c == (int) '2')
+                {
                     ssb.append('-');
                     ssb.setSpan(new ForegroundColorSpan(Color.parseColor("#469c4a")), i, i + 1, Spannable.SPAN_INCLUSIVE_INCLUSIVE);
                 }
-                if ((int) c == (int) '3') {
+                if ((int) c == (int) '3')
+                {
                     ssb.append('0');
                     ssb.setSpan(new ForegroundColorSpan(Color.parseColor("#9b9b9b")), i, i + 1, Spannable.SPAN_INCLUSIVE_INCLUSIVE);
                 }
             }
             tv.setText(ssb);
-        } catch (Exception e) {
+        }
+        catch (Exception e)
+        {
             e.printStackTrace();
         }
     }
 
-    private void setTrendProfitType(int type, List<BallQTrendProfitStatisticEntity> datas) {
-        if (datas != null && !datas.isEmpty()) {
+    private void setTrendProfitType(int type, List<BallQTrendProfitStatisticEntity> datas)
+    {
+        if (datas != null && !datas.isEmpty())
+        {
             int size = datas.size();
-            for (int i = 0; i < size; i++) {
+            for (int i = 0; i < size; i++)
+            {
                 datas.get(i).setType(type);
             }
         }
@@ -409,8 +449,10 @@ public class UserTrendStatisticDetailActivity extends BaseActivity {
 //        }
 //    }
 
-    private void setLineChartViewData(List<BallQTrendProfitStatisticEntity> datas) {
-        if (datas != null && datas.size() > 0) {
+    private void setLineChartViewData(List<BallQTrendProfitStatisticEntity> datas)
+    {
+        if (datas != null && datas.size() > 0)
+        {
             lineChartView.setVisibility(View.VISIBLE);
             String[] dates = datas.get(0).getMonth().split("-");
             final int year = Integer.parseInt(dates[0]);
@@ -424,35 +466,49 @@ public class UserTrendStatisticDetailActivity extends BaseActivity {
             int count = 13 - size;
             float min = 0f;
             float max = 0f;
-            for (int i = 0; i < count; i++) {
-                if (i == 0) {
+            for (int i = 0; i < count; i++)
+            {
+                if (i == 0)
+                {
                     //lineSet.addPoint(startMonth,0f);
                     xVals.add(startMonth);
                     yVals.add(new Entry(0f, yVals.size()));
-                } else {
+                }
+                else
+                {
                     //lineSet.addPoint("",0f);
                     xVals.add("");
                     yVals.add(new Entry(0f, yVals.size()));
                 }
             }
-            for (int i = size - 1; i >= 0; i--) {
+            for (int i = size - 1; i >= 0; i--)
+            {
                 float value = 0f;
-                if (i + 1 < size) {
+                if (i + 1 < size)
+                {
                     value = (float) (datas.get(i).getEarn() + datas.get(i + 1).getEarn()) / 100f;
-                    if (i == 0) {
+                    if (i == 0)
+                    {
                         //lineSet.addPoint(endMonth, value);
                         xVals.add(endMonth);
                         yVals.add(new Entry(value, yVals.size()));
-                    } else {
+                    }
+                    else
+                    {
                         xVals.add("");
                         yVals.add(new Entry(value, yVals.size()));
                     }
-                } else {
-                    if (size == 1) {
+                }
+                else
+                {
+                    if (size == 1)
+                    {
                         value = (float) (datas.get(i).getEarn() + datas.get(0).getEarn()) / 100f;
                         xVals.add(endMonth);
                         yVals.add(new Entry(value, yVals.size()));
-                    } else {
+                    }
+                    else
+                    {
                         value = (float) datas.get(i).getEarn() / 100f;
                         //lineSet.addPoint("",value);
                         xVals.add("");
@@ -460,10 +516,12 @@ public class UserTrendStatisticDetailActivity extends BaseActivity {
                     }
                 }
                 KLog.e("value:" + value);
-                if (min > value) {
+                if (min > value)
+                {
                     min = value;
                 }
-                if (max < value) {
+                if (max < value)
+                {
                     max = value;
                 }
             }
@@ -491,9 +549,11 @@ public class UserTrendStatisticDetailActivity extends BaseActivity {
             dataSet.setDrawFilled(true);//设置折线下方是否填充颜色
             dataSet.setFillColor(Color.parseColor("#f2efdf"));//设置填充色值
             dataSet.setFillAlpha(220);//设置填充透明度
-            dataSet.setFillFormatter(new FillFormatter() {
+            dataSet.setFillFormatter(new FillFormatter()
+            {
                 @Override
-                public float getFillLinePosition(ILineDataSet dataSet, LineDataProvider dataProvider) {
+                public float getFillLinePosition(ILineDataSet dataSet, LineDataProvider dataProvider)
+                {
                     return 0f;
                 }
             });
@@ -523,38 +583,46 @@ public class UserTrendStatisticDetailActivity extends BaseActivity {
 
             lineChartView.setData(lineData);
             lineChartView.animateXY(3000, 3000);
-        } else {
+        }
+        else
+        {
             lineChartView.setVisibility(View.GONE);
         }
     }
 
     @OnClick(R.id.layout_user_header_info)
-    protected void lookUserInfo(View view) {
+    protected void lookUserInfo(View view)
+    {
         UserInfoUtil.lookUserInfo(this, Integer.parseInt(uid));
     }
 
     @Override
-    protected void saveInstanceState(Bundle outState) {
+    protected void saveInstanceState(Bundle outState)
+    {
 
     }
 
     @Override
-    protected void handleInstanceState(Bundle outState) {
+    protected void handleInstanceState(Bundle outState)
+    {
 
     }
 
     @Override
-    protected void onViewClick(View view) {
+    protected void onViewClick(View view)
+    {
 
     }
 
     @Override
-    protected void notifyEvent(String action) {
+    protected void notifyEvent(String action)
+    {
 
     }
 
     @Override
-    protected void notifyEvent(String action, Bundle data) {
+    protected void notifyEvent(String action, Bundle data)
+    {
 
     }
 }
