@@ -1003,4 +1003,18 @@ public class BallQTipOffDetailActivity extends BaseActivity implements SwipeRefr
         setRefreshing();
         getTipOffInfo(tipOffInfo.getEid(), tipOffInfo.getId());
     }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        JCVideoPlayerStandard videoPlayer= (JCVideoPlayerStandard) headerView.findViewById(R.id.videoplayer);
+        videoPlayer.pausePlay();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        JCVideoPlayerStandard videoPlayer= (JCVideoPlayerStandard) headerView.findViewById(R.id.videoplayer);
+        videoPlayer.release();
+    }
 }

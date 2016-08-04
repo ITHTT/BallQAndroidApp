@@ -13,6 +13,7 @@ import com.nineoldandroids.animation.Animator;
 import com.nineoldandroids.animation.ObjectAnimator;
 import com.tysci.ballq.R;
 import com.tysci.ballq.utils.CommonUtils;
+import com.tysci.ballq.utils.KLog;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -104,7 +105,7 @@ public class PopupMenuLayout extends FrameLayout {
                     layoutParams.leftMargin=targetX+targetView.getWidth()/2-menuItemWidth/2;
                     addView(view,layoutParams);
                     view.setVisibility(View.GONE);
-                   // menuItems.add(view);
+                    //menuItems.add(view);
                 }
             }
         });
@@ -165,12 +166,13 @@ public class PopupMenuLayout extends FrameLayout {
         isShowing=true;
         isShowingAnimationPlaying=true;
         int size=menuItems.size();
-       for(int i=0;i<size;i++){
+        for(int i=0;i<size;i++){
            final int position=i;
                     final View imageView=menuItems.get(i);
                     imageView.setVisibility(View.VISIBLE);
                     imageView.bringToFront();
-                    ObjectAnimator yAnimator = ObjectAnimator.ofFloat(imageView, "y", targetY+targetView.getHeight() / 2-20, targetY+targetView.getHeight()+itemToTargetPadding + (size-i-1) * (menuItemHeight + itemPadding));
+                    //KLog.e((i+1)+"endY:"+targetY+targetView.getHeight()+itemToTargetPadding + (size-i-1) * (menuItemHeight + itemPadding));
+                    ObjectAnimator yAnimator = ObjectAnimator.ofFloat(imageView, "y", targetY+targetView.getHeight() / 2-30, targetY+targetView.getHeight()+itemToTargetPadding + (size-i-1) * (menuItemHeight + itemPadding));
                     yAnimator.setDuration(duration);
                     yAnimator.setStartDelay(i*delay);
                     yAnimator.setInterpolator(new AccelerateDecelerateInterpolator());
@@ -186,6 +188,7 @@ public class PopupMenuLayout extends FrameLayout {
                                 isShowingAnimationPlaying=false;
                             }
                             imageView.setClickable(true);
+                            KLog.e("Top:"+imageView.getTop());
                         }
 
                         @Override
@@ -227,7 +230,7 @@ public class PopupMenuLayout extends FrameLayout {
             final int position=i;
             final View imageView=menuItems.get(i);
             imageView.bringToFront();
-            ObjectAnimator yAnimator = ObjectAnimator.ofFloat(imageView, "y",targetY+targetView.getHeight() +itemToTargetPadding+ (size-i-1) * (menuItemHeight + itemPadding),targetY+targetView.getHeight() / 2-20);
+            ObjectAnimator yAnimator = ObjectAnimator.ofFloat(imageView, "y",targetY+targetView.getHeight() +itemToTargetPadding+ (size-i-1) * (menuItemHeight + itemPadding),targetY+targetView.getHeight() / 2-30);
             yAnimator.setDuration(duration);
             yAnimator.setStartDelay((size-i-1)*delay);
             yAnimator.setInterpolator(new AccelerateDecelerateInterpolator());

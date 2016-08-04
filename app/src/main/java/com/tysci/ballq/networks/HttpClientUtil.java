@@ -365,7 +365,6 @@ public class HttpClientUtil {
                     multipartBuilder.addPart(Headers.of("Content-Disposition",
                                     "form-data; name=\"" + fileKeyName + "\"; filename=\"" + fileKeyName + "\""),
                             fileBody);
-
                 }
             }
         }

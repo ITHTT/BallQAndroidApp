@@ -163,6 +163,7 @@ public class BallQWebViewActivity extends BaseActivity
                 webView.getClass().getMethod("onPause").invoke(webView, (Object[]) null);
                 // webView.pauseTimers();
                 //webView.stopLoading();
+                //webView.onPause();
             }
             catch (IllegalAccessException e)
             {
