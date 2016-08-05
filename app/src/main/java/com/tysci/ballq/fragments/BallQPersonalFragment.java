@@ -228,7 +228,7 @@ public class BallQPersonalFragment extends BaseFragment
                 case R.id.menu_user_message:
                     cls = UserMessageRecordActivity.class;
                     break;
-                case R.id.menu_user_attentions:
+                case R.id.menu_user_attentions:// 关注的人
                     cls = UserAttentionActivity.class;
                     break;
                 case R.id.menu_user_asset:// 账户中心

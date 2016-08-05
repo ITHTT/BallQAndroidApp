@@ -43,6 +43,9 @@ import okhttp3.Request;
  */
 public final class UserProfileHeaderView extends LinearLayout implements View.OnClickListener
 {
+    private static final String IS_FOLLOWING = "取消关注";
+    private static final String IS_UN_FOLLOW = "关注";
+
     @Bind(R.id.layout_user_info)
     ViewGroup layoutUserInfo;
 
@@ -141,16 +144,16 @@ public final class UserProfileHeaderView extends LinearLayout implements View.On
         // 胜率
         tv_winning_probability.setText("+0%");
 
-        if (isUserSelf)
-        {
-            layoutUserBettingCounts.setVisibility(GONE);
-            setUserInfoLayoutParams(93);
-        }
-        else
-        {
-            layoutUserBettingCounts.setVisibility(VISIBLE);
-            setUserInfoLayoutParams(125);
-        }
+//        if (isUserSelf)
+//        {
+        layoutUserBettingCounts.setVisibility(GONE);
+        setUserInfoLayoutParams(93);
+//        }
+//        else
+//        {
+//            layoutUserBettingCounts.setVisibility(VISIBLE);
+//            setUserInfoLayoutParams(125);
+//        }
         // 总场次
         tvAllCount.setText(String.valueOf(0));
         tvAllCount.append("场");
@@ -173,7 +176,7 @@ public final class UserProfileHeaderView extends LinearLayout implements View.On
         userId = String.valueOf(userInfo.getUid());
         final boolean isUserSelf = userId.equals(UserInfoUtil.getUserId(getContext()));
 
-        String tmp;
+//        String tmp;
         float fmp;
         int imp;
 
@@ -186,39 +189,41 @@ public final class UserProfileHeaderView extends LinearLayout implements View.On
         ivUserExpert.setUserV_Icon(userInfo.getIsv());
         // 关注
         tvFollowClick.setVisibility(isUserSelf ? GONE : VISIBLE);
-        // 成就图标1
-        tmp = userInfo.getTitle1();
-        if (!isUserSelf)
-            ivUserAchievement1.setVisibility(GONE);
-        else if (TextUtils.isEmpty(tmp))
-            ivUserAchievement1.setVisibility(GONE);
-        else
-        {
-            ivUserAchievement1.setVisibility(VISIBLE);
-            ImageUtil.loadImage(ivUserAchievement1, R.mipmap.icon_user_achievement_circle_mark, tmp);
-        }
-        // 成就图标2
-        tmp = userInfo.getTitle2();
-        if (!isUserSelf)
-            ivUserAchievement2.setVisibility(GONE);
-        else if (TextUtils.isEmpty(tmp))
-            ivUserAchievement2.setVisibility(GONE);
-        else
-        {
-            ivUserAchievement2.setVisibility(VISIBLE);
-            ImageUtil.loadImage(ivUserAchievement2, R.mipmap.icon_user_achievement_circle_mark, tmp);
-        }
-        // 用户签名
-        tmp = userInfo.getBio();
-        if (isUserSelf)
-            tvUserBio.setVisibility(GONE);
-        else if (TextUtils.isEmpty(tmp))
-            tvUserBio.setVisibility(GONE);
-        else
-        {
-            tvUserBio.setVisibility(VISIBLE);
-            tvUserBio.setText(tmp);
-        }
+//        // 成就图标1
+//        tmp = userInfo.getTitle1();
+//        if (!isUserSelf)
+        ivUserAchievement1.setVisibility(GONE);
+//        else if (TextUtils.isEmpty(tmp))
+//            ivUserAchievement1.setVisibility(GONE);
+//        else
+//        {
+//            ivUserAchievement1.setVisibility(VISIBLE);
+//            ImageUtil.loadImage(ivUserAchievement1, R.mipmap.icon_user_achievement_circle_mark, tmp);
+//        }
+//        // 成就图标2
+//        tmp = userInfo.getTitle2();
+//        if (!isUserSelf)
+        ivUserAchievement2.setVisibility(GONE);
+//        else if (TextUtils.isEmpty(tmp))
+//            ivUserAchievement2.setVisibility(GONE);
+//        else
+//        {
+//            ivUserAchievement2.setVisibility(VISIBLE);
+//            ImageUtil.loadImage(ivUserAchievement2, R.mipmap.icon_user_achievement_circle_mark, tmp);
+//        }
+//        // 用户签名
+//        tmp = userInfo.getBio();
+//        if (isUserSelf)
+        tvUserBio.setVisibility(GONE);
+//        else if (TextUtils.isEmpty(tmp))
+//            tvUserBio.setVisibility(GONE);
+//        else
+//        {
+//            tvUserBio.setVisibility(VISIBLE);
+//            tvUserBio.setText(tmp);
+//        }
+
+        tvFollowClick.setText(userInfo.getIsf() == 1 ? IS_FOLLOWING : IS_UN_FOLLOW);
 
         ivSetting.setVisibility(isUserSelf ? VISIBLE : GONE);
 
@@ -237,16 +242,16 @@ public final class UserProfileHeaderView extends LinearLayout implements View.On
         tv_winning_probability.append(String.format(Locale.getDefault(), "%.2f", fmp * 100F));
         tv_winning_probability.append("%");
 
-        if (isUserSelf)
-        {
-            layoutUserBettingCounts.setVisibility(GONE);
-            setUserInfoLayoutParams(93);
-        }
-        else
-        {
-            layoutUserBettingCounts.setVisibility(VISIBLE);
-            setUserInfoLayoutParams(125);
-        }
+//        if (isUserSelf)
+//        {
+        layoutUserBettingCounts.setVisibility(GONE);
+        setUserInfoLayoutParams(93);
+//        }
+//        else
+//        {
+//            layoutUserBettingCounts.setVisibility(VISIBLE);
+//            setUserInfoLayoutParams(125);
+//        }
         // 总场次
         imp = userInfo.getBsc();
         if (imp < 0)
@@ -300,8 +305,6 @@ public final class UserProfileHeaderView extends LinearLayout implements View.On
         tvFollowClick.setEnabled(false);
 
         final Context context = getContext();
-        final String following = "取消关注";
-        final String unfollow = "关注";
 
         if (!UserInfoUtil.checkLogin(context))
         {
@@ -315,11 +318,11 @@ public final class UserProfileHeaderView extends LinearLayout implements View.On
         params.put("token", UserInfoUtil.getUserToken(context));
         params.put("fid", userId);
         String str = tvFollowClick.getText().toString();
-        if (str.equals(unfollow))
+        if (str.equals(IS_UN_FOLLOW))
         {
             params.put("change", "1");
         }
-        else if (str.equals(following))
+        else if (str.equals(IS_FOLLOWING))
         {
             params.put("change", "0");
         }
@@ -349,12 +352,12 @@ public final class UserProfileHeaderView extends LinearLayout implements View.On
                         ToastUtil.show(context, obj.getString("message"));
                         if (status == 350)
                         {
-                            tvFollowClick.setText(following);
+                            tvFollowClick.setText(IS_FOLLOWING);
                             publishUserAttention(1);
                         }
                         else if (status == 352)
                         {
-                            tvFollowClick.setText(unfollow);
+                            tvFollowClick.setText(IS_UN_FOLLOW);
                             publishUserAttention(0);
                         }
                     }

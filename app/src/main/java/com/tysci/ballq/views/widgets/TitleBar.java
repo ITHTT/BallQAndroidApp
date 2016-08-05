@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.tysci.ballq.R;
@@ -18,6 +19,8 @@ import com.tysci.ballq.R;
 public class TitleBar extends LinearLayout
 {
     private ImageView ivBack;
+    private RelativeLayout layoutLeftBack;
+
     private TextView tvTitle;
     private ImageView mTitleMore;
 
@@ -54,6 +57,8 @@ public class TitleBar extends LinearLayout
     {
         LayoutInflater.from(context).inflate(R.layout.layout_title_bar_content, this, true);
         ivBack = (ImageView) this.findViewById(R.id.iv_titlebar_left);
+        layoutLeftBack = (RelativeLayout) this.findViewById(R.id.layout_titlebar_back);
+
         tvTitle = (TextView) this.findViewById(R.id.tv_titlebar_title);
         mTitleMore = (ImageView) this.findViewById(R.id.iv_title_more);
 
@@ -62,6 +67,8 @@ public class TitleBar extends LinearLayout
         tvNextMenu = (TextView) this.findViewById(R.id.tv_titlebar_next);
 
         mTitleMore.setVisibility(GONE);
+
+        layoutLeftBack.setId(R.id.iv_titlebar_left);
     }
 
     public void setTitleMoreVisibility(int visibility)
@@ -72,7 +79,7 @@ public class TitleBar extends LinearLayout
     public void setTitleBarLeftIcon(int res, OnClickListener onClickListener)
     {
         ivBack.setImageResource(res);
-        ivBack.setOnClickListener(onClickListener);
+        layoutLeftBack.setOnClickListener(onClickListener);
     }
 
     public void setTitleBarTitle(String title)

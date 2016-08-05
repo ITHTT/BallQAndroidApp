@@ -289,13 +289,24 @@ public class UserAccountActivity extends BaseActivity
     }
 
     /**
-     * 兑奖
+     * 夺宝记录
      */
     @OnClick(R.id.tvCashPrize)
     protected void onCashPrizeClick(View view)
     {
+        if (!UserInfoUtil.checkLogin(this))
+        {
+            UserInfoUtil.userLogin(this);
+            return;
+        }
+        String url = "http://int.ballq.cn:8002/ballq/indiana/order";
+        url += "?user=";
+        url += UserInfoUtil.getUserId(this);
+        url += "&token=";
+        url += UserInfoUtil.getUserToken(this);
+
         Intent intent = new Intent(this, BallQWebViewActivity.class);
-        intent.putExtra("url", "https://m.baidu.com/s?from=1012852q&word=%E7%90%83%E5%95%86");
+        intent.putExtra("url", url);
         intent.putExtra("title", "球商");
         startActivity(intent);
     }

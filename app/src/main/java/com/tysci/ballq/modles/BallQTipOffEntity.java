@@ -6,13 +6,14 @@ import android.os.Parcelable;
 /**
  * Created by HTT on 2016/6/5.
  */
-public class BallQTipOffEntity implements Parcelable {
+public class BallQTipOffEntity implements Parcelable
+{
     private int fid;
     private int atid;
     private int uid;
     private String atlogo;
     private String odata;
-    private int atscore;
+    private String atscore;
     private String choice;
     private int rtype;
     private int reading_count;
@@ -41,7 +42,7 @@ public class BallQTipOffEntity implements Parcelable {
     private int confidence;
     private int isv;
     private String ctime;
-    private int htscore;
+    private String htscore;
     private int like_count;
     private String pt;
     private String tourname;
@@ -58,419 +59,521 @@ public class BallQTipOffEntity implements Parcelable {
     private String vid;
     private int isf;
 
-    public int getFid() {
+    public int getFid()
+    {
         return fid;
     }
 
-    public void setFid(int fid) {
+    public void setFid(int fid)
+    {
         this.fid = fid;
     }
 
-    public int getAtid() {
+    public int getAtid()
+    {
         return atid;
     }
 
-    public void setAtid(int atid) {
+    public void setAtid(int atid)
+    {
         this.atid = atid;
     }
 
-    public int getUid() {
+    public int getUid()
+    {
         return uid;
     }
 
-    public void setUid(int uid) {
+    public void setUid(int uid)
+    {
         this.uid = uid;
     }
 
-    public String getAtlogo() {
+    public String getAtlogo()
+    {
         return atlogo;
     }
 
-    public void setAtlogo(String atlogo) {
+    public void setAtlogo(String atlogo)
+    {
         this.atlogo = atlogo;
     }
 
-    public String getOdata() {
+    public String getOdata()
+    {
         return odata;
     }
 
-    public void setOdata(String odata) {
+    public void setOdata(String odata)
+    {
         this.odata = odata;
     }
 
-    public int getAtscore() {
+    public String getAtscore()
+    {
         return atscore;
     }
 
-    public void setAtscore(int atscore) {
+    public void setAtscore(String atscore)
+    {
         this.atscore = atscore;
     }
 
-    public String getChoice() {
+    public String getChoice()
+    {
         return choice;
     }
 
-    public void setChoice(String choice) {
+    public void setChoice(String choice)
+    {
         this.choice = choice;
     }
 
-    public int getRtype() {
+    public int getRtype()
+    {
         return rtype;
     }
 
-    public void setRtype(int rtype) {
+    public void setRtype(int rtype)
+    {
         this.rtype = rtype;
     }
 
-    public int getReading_count() {
+    public int getReading_count()
+    {
         return reading_count;
     }
 
-    public void setReading_count(int reading_count) {
+    public void setReading_count(int reading_count)
+    {
         this.reading_count = reading_count;
     }
 
-    public int getEid() {
+    public int getEid()
+    {
         return eid;
     }
 
-    public void setEid(int eid) {
+    public void setEid(int eid)
+    {
         this.eid = eid;
     }
 
-    public String getHtname() {
+    public String getHtname()
+    {
         return htname;
     }
 
-    public void setHtname(String htname) {
+    public void setHtname(String htname)
+    {
         this.htname = htname;
     }
 
-    public int getSam() {
+    public int getSam()
+    {
         return sam;
     }
 
-    public void setSam(int sam) {
+    public void setSam(int sam)
+    {
         this.sam = sam;
     }
 
-    public String getHtlogo() {
+    public String getHtlogo()
+    {
         return htlogo;
     }
 
-    public void setHtlogo(String htlogo) {
+    public void setHtlogo(String htlogo)
+    {
         this.htlogo = htlogo;
     }
 
-    public int getId() {
+    public int getId()
+    {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(int id)
+    {
         this.id = id;
     }
 
-    public int getTournament_id() {
+    public int getTournament_id()
+    {
         return tournament_id;
     }
 
-    public void setTournament_id(int tournament_id) {
+    public void setTournament_id(int tournament_id)
+    {
         this.tournament_id = tournament_id;
     }
 
-    public int getIsc() {
+    public int getIsc()
+    {
         return isc;
     }
 
-    public void setIsc(int isc) {
+    public void setIsc(int isc)
+    {
         this.isc = isc;
     }
 
-    public String getCont() {
+    public String getCont()
+    {
         return cont;
     }
 
-    public void setCont(String cont) {
+    public void setCont(String cont)
+    {
         this.cont = cont;
     }
 
-    public int getEtype() {
+    public int getEtype()
+    {
         return etype;
     }
 
-    public void setEtype(int etype) {
+    public void setEtype(int etype)
+    {
         this.etype = etype;
     }
 
-    public String getFname() {
+    public String getFname()
+    {
         return fname;
     }
 
-    public void setFname(String fname) {
+    public void setFname(String fname)
+    {
         this.fname = fname;
     }
 
-    public float getRor() {
+    public float getRor()
+    {
         return ror;
     }
 
-    public void setRor(float ror) {
+    public void setRor(float ror)
+    {
         this.ror = ror;
     }
 
-    public int getBtyc() {
+    public int getBtyc()
+    {
         return btyc;
     }
 
-    public void setBtyc(int btyc) {
+    public void setBtyc(int btyc)
+    {
         this.btyc = btyc;
     }
 
-    public String getAtname() {
+    public String getAtname()
+    {
         return atname;
     }
 
-    public void setAtname(String atname) {
+    public void setAtname(String atname)
+    {
         this.atname = atname;
     }
 
-    public int getComcount() {
+    public int getComcount()
+    {
         return comcount;
     }
 
-    public void setComcount(int comcount) {
+    public void setComcount(int comcount)
+    {
         this.comcount = comcount;
     }
 
-    public String getTitle1() {
+    public String getTitle1()
+    {
         return title1;
     }
 
-    public void setTitle1(String title1) {
+    public void setTitle1(String title1)
+    {
         this.title1 = title1;
     }
 
-    public int getStatus() {
+    public int getStatus()
+    {
         return status;
     }
 
-    public void setStatus(int status) {
+    public void setStatus(int status)
+    {
         this.status = status;
     }
 
-    public String getTitle2() {
+    public String getTitle2()
+    {
         return title2;
     }
 
-    public void setTitle2(String title2) {
+    public void setTitle2(String title2)
+    {
         this.title2 = title2;
     }
 
-    public int getIs_like() {
+    public int getIs_like()
+    {
         return is_like;
     }
 
-    public void setIs_like(int is_like) {
+    public void setIs_like(int is_like)
+    {
         this.is_like = is_like;
     }
 
-    public int getTipcount() {
+    public int getTipcount()
+    {
         return tipcount;
     }
 
-    public void setTipcount(int tipcount) {
+    public void setTipcount(int tipcount)
+    {
         this.tipcount = tipcount;
     }
 
-    public String getMtime() {
+    public String getMtime()
+    {
         return mtime;
     }
 
-    public void setMtime(String mtime) {
+    public void setMtime(String mtime)
+    {
         this.mtime = mtime;
     }
 
-    public int getFcount() {
+    public int getFcount()
+    {
         return fcount;
     }
 
-    public void setFcount(int fcount) {
+    public void setFcount(int fcount)
+    {
         this.fcount = fcount;
     }
 
-    public int getMstatus() {
+    public int getMstatus()
+    {
         return mstatus;
     }
 
-    public void setMstatus(int mstatus) {
+    public void setMstatus(int mstatus)
+    {
         this.mstatus = mstatus;
     }
 
-    public int getConfidence() {
+    public int getConfidence()
+    {
         return confidence;
     }
 
-    public void setConfidence(int confidence) {
+    public void setConfidence(int confidence)
+    {
         this.confidence = confidence;
     }
 
-    public int getIsv() {
+    public int getIsv()
+    {
         return isv;
     }
 
-    public void setIsv(int isv) {
+    public void setIsv(int isv)
+    {
         this.isv = isv;
     }
 
-    public String getCtime() {
+    public String getCtime()
+    {
         return ctime;
     }
 
-    public void setCtime(String ctime) {
+    public void setCtime(String ctime)
+    {
         this.ctime = ctime;
     }
 
-    public int getHtscore() {
+    public String getHtscore()
+    {
         return htscore;
     }
 
-    public void setHtscore(int htscore) {
+    public void setHtscore(String htscore)
+    {
         this.htscore = htscore;
     }
 
-    public int getLike_count() {
+    public int getLike_count()
+    {
         return like_count;
     }
 
-    public void setLike_count(int like_count) {
+    public void setLike_count(int like_count)
+    {
         this.like_count = like_count;
     }
 
-    public String getPt() {
+    public String getPt()
+    {
         return pt;
     }
 
-    public void setPt(String pt) {
+    public void setPt(String pt)
+    {
         this.pt = pt;
     }
 
-    public String getTourname() {
+    public String getTourname()
+    {
         return tourname;
     }
 
-    public void setTourname(String tourname) {
+    public void setTourname(String tourname)
+    {
         this.tourname = tourname;
     }
 
-    public String getOtype() {
+    public String getOtype()
+    {
         return otype;
     }
 
-    public void setOtype(String otype) {
+    public void setOtype(String otype)
+    {
         this.otype = otype;
     }
 
-    public float getWins() {
+    public float getWins()
+    {
         return wins;
     }
 
-    public void setWins(float wins) {
+    public void setWins(float wins)
+    {
         this.wins = wins;
     }
 
-    public int getHtid() {
+    public int getHtid()
+    {
         return htid;
     }
 
-    public void setHtid(int htid) {
+    public void setHtid(int htid)
+    {
         this.htid = htid;
     }
 
-    public int getMtcount() {
+    public int getMtcount()
+    {
         return mtcount;
     }
 
-    public void setMtcount(int mtcount) {
+    public void setMtcount(int mtcount)
+    {
         this.mtcount = mtcount;
     }
 
-    public int getSettled() {
+    public int getSettled()
+    {
         return settled;
     }
 
-    public void setSettled(int settled) {
+    public void setSettled(int settled)
+    {
         this.settled = settled;
     }
 
-    public int getSorder() {
+    public int getSorder()
+    {
         return sorder;
     }
 
-    public void setSorder(int sorder) {
+    public void setSorder(int sorder)
+    {
         this.sorder = sorder;
     }
 
-    public int getBoncount() {
+    public int getBoncount()
+    {
         return boncount;
     }
 
-    public void setBoncount(int boncount) {
+    public void setBoncount(int boncount)
+    {
         this.boncount = boncount;
     }
 
-    public String getUrl() {
+    public String getUrl()
+    {
         return url;
     }
 
-    public void setUrl(String url) {
+    public void setUrl(String url)
+    {
         this.url = url;
     }
 
-    public int getRichtext_type() {
+    public int getRichtext_type()
+    {
         return richtext_type;
     }
 
-    public void setRichtext_type(int richtext_type) {
+    public void setRichtext_type(int richtext_type)
+    {
         this.richtext_type = richtext_type;
     }
 
-    public String getFirst_image() {
+    public String getFirst_image()
+    {
         return first_image;
     }
 
-    public void setFirst_image(String first_image) {
+    public void setFirst_image(String first_image)
+    {
         this.first_image = first_image;
     }
 
-    public String getVid() {
+    public String getVid()
+    {
         return vid;
     }
 
-    public void setVid(String vid) {
+    public void setVid(String vid)
+    {
         this.vid = vid;
     }
 
     @Override
-    public int describeContents() {
+    public int describeContents()
+    {
         return 0;
     }
 
-    public int getIsf() {
+    public int getIsf()
+    {
         return isf;
     }
 
-    public void setIsf(int isf) {
+    public void setIsf(int isf)
+    {
         this.isf = isf;
     }
 
     @Override
-    public void writeToParcel(Parcel dest, int flags) {
+    public void writeToParcel(Parcel dest, int flags)
+    {
         dest.writeInt(this.fid);
         dest.writeInt(this.atid);
         dest.writeInt(this.uid);
         dest.writeString(this.atlogo);
         dest.writeString(this.odata);
-        dest.writeInt(this.atscore);
+        dest.writeString(this.atscore);
         dest.writeString(this.choice);
         dest.writeInt(this.rtype);
         dest.writeInt(this.reading_count);
@@ -499,7 +602,7 @@ public class BallQTipOffEntity implements Parcelable {
         dest.writeInt(this.confidence);
         dest.writeInt(this.isv);
         dest.writeString(this.ctime);
-        dest.writeInt(this.htscore);
+        dest.writeString(this.htscore);
         dest.writeInt(this.like_count);
         dest.writeString(this.pt);
         dest.writeString(this.tourname);
@@ -517,16 +620,18 @@ public class BallQTipOffEntity implements Parcelable {
         dest.writeInt(this.isf);
     }
 
-    public BallQTipOffEntity() {
+    public BallQTipOffEntity()
+    {
     }
 
-    protected BallQTipOffEntity(Parcel in) {
+    protected BallQTipOffEntity(Parcel in)
+    {
         this.fid = in.readInt();
         this.atid = in.readInt();
         this.uid = in.readInt();
         this.atlogo = in.readString();
         this.odata = in.readString();
-        this.atscore = in.readInt();
+        this.atscore = in.readString();
         this.choice = in.readString();
         this.rtype = in.readInt();
         this.reading_count = in.readInt();
@@ -555,7 +660,7 @@ public class BallQTipOffEntity implements Parcelable {
         this.confidence = in.readInt();
         this.isv = in.readInt();
         this.ctime = in.readString();
-        this.htscore = in.readInt();
+        this.htscore = in.readString();
         this.like_count = in.readInt();
         this.pt = in.readString();
         this.tourname = in.readString();
@@ -567,20 +672,23 @@ public class BallQTipOffEntity implements Parcelable {
         this.settled = in.readInt();
         this.boncount = in.readInt();
         this.url = in.readString();
-        this.richtext_type=in.readInt();
-        this.first_image=in.readString();
-        this.vid=in.readString();
-        this.isf=in.readInt();
+        this.richtext_type = in.readInt();
+        this.first_image = in.readString();
+        this.vid = in.readString();
+        this.isf = in.readInt();
     }
 
-    public static final Creator<BallQTipOffEntity> CREATOR = new Creator<BallQTipOffEntity>() {
+    public static final Creator<BallQTipOffEntity> CREATOR = new Creator<BallQTipOffEntity>()
+    {
         @Override
-        public BallQTipOffEntity createFromParcel(Parcel source) {
+        public BallQTipOffEntity createFromParcel(Parcel source)
+        {
             return new BallQTipOffEntity(source);
         }
 
         @Override
-        public BallQTipOffEntity[] newArray(int size) {
+        public BallQTipOffEntity[] newArray(int size)
+        {
             return new BallQTipOffEntity[size];
         }
     };

@@ -127,7 +127,7 @@ public class BallQMatchLeagueSelectActivity extends BaseActivity {
 
             @Override
             public void onSuccess(Call call, String response) {
-                KLog.e(response);
+                KLog.json(response);
                 if(!TextUtils.isEmpty(response)){
                     List<BallQMatchLeagueEntity> datas=BallQMatchLeagueEntity.getBallQMatchLeagueInfos(response);
                     if(datas!=null&&!datas.isEmpty()){

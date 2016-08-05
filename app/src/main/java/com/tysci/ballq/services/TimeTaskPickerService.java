@@ -112,10 +112,10 @@ public class TimeTaskPickerService extends BaseService implements Runnable
 
         final long timeNow = System.currentTimeMillis();
 
-        if (timeNow - timeMinute2 > 60 * 1000L)
+        if (timeNow - timeMinute1 > 60 * 1000L)
         {
-            KLog.a("球商后台每分钟执行...");
             minute1Flag = timeNow;
+            KLog.a("球商后台每分钟执行...");
 
             // 爆料、球茎 小红点提示
             tipOrArticleDotTask();

@@ -129,7 +129,7 @@
                     android:paddingLeft="10dp"
                     android:paddingRight="10dp"
                     android:paddingTop="5dp"
-                    android:text="　兑奖　"
+                    android:text="夺宝记录"
                     android:textColor="@color/c_3a3a3a"
                     android:textSize="12sp"
                     android:typeface="monospace" />

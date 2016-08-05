@@ -61,7 +61,6 @@ public class UserProfileActivity extends BaseActivity
     protected void initViews()
     {
         setTitle("用户资料");
-
     }
 
     @Override

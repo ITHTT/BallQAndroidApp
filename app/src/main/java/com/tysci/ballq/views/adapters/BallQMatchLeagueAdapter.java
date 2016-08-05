@@ -15,75 +15,101 @@ import java.util.List;
 /**
  * Created by Administrator on 2016/5/1.
  */
-public class BallQMatchLeagueAdapter extends BaseAdapter{
+public class BallQMatchLeagueAdapter extends BaseAdapter
+{
     private List<BallQMatchLeagueEntity> ballQMatchLeagueEntityList;
-    private List<String>selectedItems;
+    private static List<String> selectedItems;
 
-    public BallQMatchLeagueAdapter(List<BallQMatchLeagueEntity> leagueEntityList){
-        this.ballQMatchLeagueEntityList=leagueEntityList;
-        addSelectedItmes();
+    public BallQMatchLeagueAdapter(List<BallQMatchLeagueEntity> leagueEntityList)
+    {
+        this.ballQMatchLeagueEntityList = leagueEntityList;
+//        addSelectedItmes();
+        if (selectedItems == null)
+            selectedItems = new ArrayList<>();
+        if (selectedItems.isEmpty())
+            addSelectedItmes();
     }
 
-    public void addSelectedItmes(){
-        if(selectedItems==null) {
+    public void addSelectedItmes()
+    {
+        if (selectedItems == null)
+        {
             this.selectedItems = new ArrayList<>(ballQMatchLeagueEntityList.size());
-        }else if(!selectedItems.isEmpty()){
+        }
+        else if (!selectedItems.isEmpty())
+        {
             selectedItems.clear();
         }
-        int size=ballQMatchLeagueEntityList.size();
-        for(int i=0;i<size;i++){
+        int size = ballQMatchLeagueEntityList.size();
+        for (int i = 0; i < size; i++)
+        {
             selectedItems.add(String.valueOf(ballQMatchLeagueEntityList.get(i).getId()));
         }
         notifyDataSetChanged();
     }
 
-    public void removeSelectedItems(){
-        if(selectedItems!=null&&!selectedItems.isEmpty()){
+    public void removeSelectedItems()
+    {
+        if (selectedItems != null && !selectedItems.isEmpty())
+        {
             selectedItems.clear();
         }
         notifyDataSetChanged();
     }
 
-    public List<String> getSelectedItems(){
+    public List<String> getSelectedItems()
+    {
         return selectedItems;
     }
 
     @Override
-    public int getCount() {
+    public int getCount()
+    {
         return ballQMatchLeagueEntityList.size();
     }
 
     @Override
-    public Object getItem(int position) {
+    public Object getItem(int position)
+    {
         return ballQMatchLeagueEntityList.get(position);
     }
 
     @Override
-    public long getItemId(int position) {
+    public long getItemId(int position)
+    {
         return position;
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        BallQLeagueViewHolder holder=null;
-        if(convertView==null){
-            convertView= LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_league_select_item,parent,false);
-            holder=new BallQLeagueViewHolder(convertView);
+    public View getView(int position, View convertView, ViewGroup parent)
+    {
+        BallQLeagueViewHolder holder = null;
+        if (convertView == null)
+        {
+            convertView = LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_league_select_item, parent, false);
+            holder = new BallQLeagueViewHolder(convertView);
             convertView.setTag(holder);
-        }else{
-            holder= (BallQLeagueViewHolder) convertView.getTag();
         }
-        final BallQMatchLeagueEntity info=ballQMatchLeagueEntityList.get(position);
+        else
+        {
+            holder = (BallQLeagueViewHolder) convertView.getTag();
+        }
+        final BallQMatchLeagueEntity info = ballQMatchLeagueEntityList.get(position);
         holder.rbLeagueItem.setText(info.getName());
         holder.rbLeagueItem.setChecked(isChecked(String.valueOf(info.getId())));
         final BallQLeagueViewHolder finalHolder = holder;
-        holder.rbLeagueItem.setOnClickListener(new View.OnClickListener() {
+        holder.rbLeagueItem.setOnClickListener(new View.OnClickListener()
+        {
             @Override
-            public void onClick(View v) {
-                if(isChecked(String.valueOf(info.getId()))){
+            public void onClick(View v)
+            {
+                if (isChecked(String.valueOf(info.getId())))
+                {
                     selectedItems.remove(String.valueOf(info.getId()));
                     finalHolder.rbLeagueItem.setChecked(false);
-                }else{
+                }
+                else
+                {
                     selectedItems.add(String.valueOf(info.getId()));
                     finalHolder.rbLeagueItem.setChecked(true);
                 }
@@ -92,21 +118,29 @@ public class BallQMatchLeagueAdapter extends BaseAdapter{
         return convertView;
     }
 
-    public boolean isChecked(String id){
-        if(selectedItems!=null&&selectedItems.size()>0){
-            if(selectedItems.contains(id)){
+    public boolean isChecked(String id)
+    {
+        if (selectedItems != null && selectedItems.size() > 0)
+        {
+            if (selectedItems.contains(id))
+            {
                 return true;
-            }else{
+            }
+            else
+            {
                 return false;
             }
         }
         return false;
     }
 
-    public static final class BallQLeagueViewHolder{
+    public static final class BallQLeagueViewHolder
+    {
         RadioButton rbLeagueItem;
-        public BallQLeagueViewHolder(View itemView){
-            rbLeagueItem= (RadioButton) itemView.findViewById(R.id.rb_league_item);
+
+        public BallQLeagueViewHolder(View itemView)
+        {
+            rbLeagueItem = (RadioButton) itemView.findViewById(R.id.rb_league_item);
         }
     }
 }

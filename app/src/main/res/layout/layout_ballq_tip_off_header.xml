@@ -148,10 +148,11 @@
         android:orientation="vertical"
         android:gravity="center_horizontal"
         android:layout_marginTop="8dp">
-        <Button
+        <TextView
             android:id="@+id/bt_rewards"
             android:layout_width="90dp"
             android:layout_height="30dp"
+            android:gravity="center"
             android:textSize="14sp"
             android:textColor="#ffffff"
             android:background="@drawable/icon_button_reward_bg"

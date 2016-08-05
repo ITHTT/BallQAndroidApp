@@ -90,7 +90,15 @@ public class UserAttentionOrFansAdapter extends RecyclerView.Adapter<UserAttenti
         holder.ivAttention.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                cancleAttention(holder,info);
+                cancleAttention(holder, info);
+            }
+        });
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v)
+            {
+                final Context context=v.getContext();
+                UserInfoUtil.lookUserInfo(context,info.getUid());
             }
         });
     }

@@ -24,109 +24,134 @@ import butterknife.Bind;
 /**
  * Created by Administrator on 2016/6/23.
  */
-public class UserAttentionActivity extends BaseActivity {
+public class UserAttentionActivity extends BaseActivity
+{
     @Bind(R.id.tab_layout)
     protected PagerSlidingTabStrip tabLayout;
     @Bind(R.id.view_pager)
     protected ViewPager viewPager;
 
-    private List<TextView>tvTitles=null;
+    private List<TextView> tvTitles = null;
 
 
-    private String uid=null;
+    private String uid = null;
 
     @Override
-    protected int getContentViewId() {
+    protected int getContentViewId()
+    {
         return R.layout.activity_user_attention;
     }
 
     @Override
-    protected void initViews() {
-        setTitle("我的关注");
+    protected void initViews()
+    {
     }
 
     @Override
-    protected View getLoadingTargetView() {
+    protected View getLoadingTargetView()
+    {
         return null;
     }
 
     @Override
-    protected void getIntentData(Intent intent) {
-        uid=intent.getStringExtra(Tag);
-        if(TextUtils.isEmpty(uid)){
-            uid= UserInfoUtil.getUserId(this);
+    protected void getIntentData(Intent intent)
+    {
+        uid = intent.getStringExtra(Tag);
+        if (TextUtils.isEmpty(uid))
+        {
+            uid = UserInfoUtil.getUserId(this);
         }
+        setTitle(uid.equals(UserInfoUtil.getUserId(this)) ? "我的关注" : "关注的人");
         addFragments();
     }
 
-    private void addFragments(){
-       String[] titles={"关注 0","粉丝 0"};
-        List<BaseFragment> fragments=new ArrayList<>(titles.length);
-        tvTitles=new ArrayList<>(titles.length);
-        for(int i=0;i<titles.length;i++){
-            View view= LayoutInflater.from(this).inflate(R.layout.layout_attention_tab_title, null);
-            TextView title= (TextView) view.findViewById(R.id.tv_tab_title);
+    private void addFragments()
+    {
+        String[] titles = {"关注 0", "粉丝 0"};
+        List<BaseFragment> fragments = new ArrayList<>(titles.length);
+        tvTitles = new ArrayList<>(titles.length);
+        for (int i = 0; i < titles.length; i++)
+        {
+            View view = LayoutInflater.from(this).inflate(R.layout.layout_attention_tab_title, null);
+            TextView title = (TextView) view.findViewById(R.id.tv_tab_title);
             title.setText(titles[i]);
             tvTitles.add(title);
             tabLayout.addTab(view);
-            UserAttentionFragment fragment=new UserAttentionFragment();
+            UserAttentionFragment fragment = new UserAttentionFragment();
             fragment.setUid(uid);
-            if(i==0){
+            if (i == 0)
+            {
                 fragment.setEtype(1);
-            }else{
+            }
+            else
+            {
                 fragment.setEtype(0);
             }
             fragments.add(fragment);
         }
-        BallQFragmentPagerAdapter adapter=new BallQFragmentPagerAdapter(this.getSupportFragmentManager(),fragments);
+        BallQFragmentPagerAdapter adapter = new BallQFragmentPagerAdapter(this.getSupportFragmentManager(), fragments);
         viewPager.setAdapter(adapter);
         tabLayout.setViewPager(viewPager);
     }
 
     @Override
-    protected boolean isCanceledEventBus() {
+    protected boolean isCanceledEventBus()
+    {
         return false;
     }
 
     @Override
-    protected void saveInstanceState(Bundle outState) {
+    protected void saveInstanceState(Bundle outState)
+    {
 
     }
 
     @Override
-    protected void handleInstanceState(Bundle outState) {
+    protected void handleInstanceState(Bundle outState)
+    {
 
     }
 
     @Override
-    protected void onViewClick(View view) {
+    protected void onViewClick(View view)
+    {
 
     }
 
     @Override
-    protected void notifyEvent(String action) {
+    protected void notifyEvent(String action)
+    {
 
     }
 
     @Override
-    protected void notifyEvent(String action, Bundle data) {
-        if(!TextUtils.isEmpty(action)){
-            if(action.equals("user_attention")){
-                if(data!=null){
-                    int etype=data.getInt("etype");
-                    int count=data.getInt("count");
-                    if(etype==0){
-                        TextView tvTitle=tvTitles.get(1);
-                        tvTitle.setText("粉丝 "+count);
-                    }else if(etype==1){
-                        TextView tvTitle=tvTitles.get(0);
-                        tvTitle.setText("关注 "+count);
+    protected void notifyEvent(String action, Bundle data)
+    {
+        if (!TextUtils.isEmpty(action))
+        {
+            if (action.equals("user_attention"))
+            {
+                if (data != null)
+                {
+                    int etype = data.getInt("etype");
+                    int count = data.getInt("count");
+                    if (etype == 0)
+                    {
+                        TextView tvTitle = tvTitles.get(1);
+                        tvTitle.setText("粉丝 " + count);
+                    }
+                    else if (etype == 1)
+                    {
+                        TextView tvTitle = tvTitles.get(0);
+                        tvTitle.setText("关注 " + count);
                     }
                 }
-            }else if(action.equals("cancel_attention")){
-                int size=data.getInt("size");
-                TextView tvTitle=tvTitles.get(0);
-                tvTitle.setText("关注 "+size);
+            }
+            else if (action.equals("cancel_attention"))
+            {
+                int size = data.getInt("size");
+                TextView tvTitle = tvTitles.get(0);
+                tvTitle.setText("关注 " + size);
             }
         }
     }

@@ -27,7 +27,9 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 
 /**
- * Created by Administrator on 2016/7/15.
+ * Created by HTT on 2016/7/15.
+ *
+ * @author LinDe edit
  */
 public class BallQWebViewActivity extends BaseActivity
 {
@@ -70,7 +72,7 @@ public class BallQWebViewActivity extends BaseActivity
         KLog.e(title);
         KLog.e(url);
 
-        isIndex = !TextUtils.isEmpty(url) && url.contains("index?");
+        isIndex = !TextUtils.isEmpty(url) && (url.contains("ballq/indiana/payment/success") || url.contains("ballq/indiana/order"));
 
         if (!TextUtils.isEmpty(title))
         {
@@ -139,7 +141,7 @@ public class BallQWebViewActivity extends BaseActivity
     @Override
     protected void notifyEvent(String action, Bundle data)
     {
-        if (action != null && action.equals("index"))
+        if (action != null && action.equals("index") && !TextUtils.isEmpty(url) && !url.contains("ballq/indiana/index"))
         {
             finish();
         }
@@ -281,6 +283,7 @@ public class BallQWebViewActivity extends BaseActivity
             KLog.e("strUrl:" + urlStr);
             intent.putExtra("url", urlStr);
             intent.putExtra("title", title);
+            intent.putExtra("is_ding_dan", url.contains("ballq/indiana"));
             startActivity(intent);
             return true;
         }
@@ -351,8 +354,19 @@ public class BallQWebViewActivity extends BaseActivity
                     @Override
                     public void onClick(View v)
                     {
+                        if (!UserInfoUtil.checkLogin(BallQWebViewActivity.this))
+                        {
+                            UserInfoUtil.userLogin(BallQWebViewActivity.this);
+                            return;
+                        }
+                        String url = "http://int.ballq.cn:8002/ballq/indiana/order";
+                        url += "?user=";
+                        url += UserInfoUtil.getUserId(BallQWebViewActivity.this);
+                        url += "&token=";
+                        url += UserInfoUtil.getUserToken(BallQWebViewActivity.this);
+
                         Intent intent = new Intent(v.getContext(), BallQWebViewActivity.class);
-                        intent.putExtra("url", "http://int.ballq.cn:8002/ballq/indiana/order?user=7204&token=4dl-cc607e1090d0ba431eb1");
+                        intent.putExtra("url", url);
                         intent.putExtra("title", "球商夺宝");
                         intent.putExtra("is_ding_dan", true);
                         startActivity(intent);

@@ -31,6 +31,8 @@ public class MainMenuItemView extends LinearLayout
 //    private String menuName;
 //    private String menuBrief;
 
+    private TextView tvTitle;
+
     private int checkedColor = Color.parseColor("#050404");
     private int textColor = Color.parseColor("#2e2e2e");
 
@@ -64,7 +66,7 @@ public class MainMenuItemView extends LinearLayout
         LayoutInflater.from(context).inflate(R.layout.layout_main_menu_item, this, true);
 
         ImageView ivIcon = (ImageView) this.findViewById(R.id.image_view);
-        TextView tvTitle = (TextView) this.findViewById(R.id.text_view);
+        tvTitle = (TextView) this.findViewById(R.id.text_view);
 //        selectMark=this.findViewById(R.id.selected_mark);
 //        ivMenuIcon = (ImageView) this.findViewById(R.id.image_view);
 //        tvMenuName = (TextView) this.findViewById(R.id.text_view);
@@ -124,5 +126,11 @@ public class MainMenuItemView extends LinearLayout
 //        }
     }
 
-
+    public <T> void setTitleText(T text)
+    {
+        if (text == null)
+            tvTitle.setText("");
+        else
+            tvTitle.setText(text.toString());
+    }
 }

@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:background="@drawable/click_style"
+              android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/dimen7dp"
+        android:layout_marginTop="@dimen/dimen5dp"
+        android:orientation="horizontal">
+
+        <include
+            android:id="@+id/layout_user_info"
+            layout="@layout/layout_user_header"
+            android:layout_width="@dimen/dimen50dp"
+            android:layout_height="@dimen/dimen50dp"
+            />
+
+        <LinearLayout
+            android:id="@+id/layout_1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@id/layout_user_info"
+            android:layout_marginLeft="@dimen/dimen10dp"
+            android:layout_marginTop="@dimen/dimen5dp"
+            android:layout_toRightOf="@id/layout_user_info"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_user_nickname"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/app_name"
+                android:textColor="@color/c_3a3a3a"/>
+
+            <ImageView
+                android:layout_width="@dimen/dimen20dp"
+                android:layout_height="@dimen/dimen20dp"
+                android:contentDescription="@string/app_name"
+                android:src="@mipmap/icon_comment"/>
+
+            <TextView
+                android:id="@+id/tv_comment_counts"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/dimen10dp"
+                android:layout_marginRight="@dimen/dimen7dp"
+                android:text="0"
+                android:textColor="@color/c_3a3a3a"/>
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tv_match_info"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/layout_1"
+            android:layout_marginLeft="@dimen/dimen10dp"
+            android:layout_marginTop="@dimen/dimen5dp"
+            android:layout_toRightOf="@id/layout_user_info"
+            android:text="A VS B"
+            android:textColor="#505050"
+            android:textSize="@dimen/dimen12sp"/>
+
+        <TextView
+            android:id="@+id/tv_create_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignTop="@id/tv_match_info"
+            android:layout_marginLeft="@dimen/dimen10dp"
+            android:layout_marginRight="@dimen/dimen7dp"
+            android:text="08-04 15:27"
+            android:textColor="#505050"
+            android:textSize="@dimen/dimen12sp"/>
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dimen5dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/tvChoice"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dimen10dp"
+            android:layout_weight="1"
+            android:text="大小球"/>
+
+        <ImageView
+            android:id="@+id/iv_money_icon"
+            android:layout_width="@dimen/dimen20dp"
+            android:layout_height="@dimen/dimen20dp"
+            android:contentDescription="@string/app_name"
+            android:src="@mipmap/icon_gold"/>
+
+        <TextView
+            android:id="@+id/tvSam"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dimen10dp"
+            android:layout_marginRight="@dimen/dimen7dp"
+            android:text="大小球"/>
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tv_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/dimen10dp"
+        android:layout_marginRight="@dimen/dimen7dp"
+        android:ellipsize="end"
+        android:maxLines="3"
+        android:textColor="@color/c_3a3a3a"
+        android:textSize="@dimen/dimen13sp"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dimen1dp"
+        android:layout_marginLeft="@dimen/dimen5dp"
+        android:layout_marginRight="@dimen/dimen5dp"
+        android:layout_marginTop="@dimen/dimen15dp"
+        android:background="@color/gold"/>
+</LinearLayout>

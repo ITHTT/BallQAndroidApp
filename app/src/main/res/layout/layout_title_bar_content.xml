@@ -23,14 +23,14 @@
             android:layout_height="25dp"
             android:layout_centerVertical="true"
             android:clickable="false"
-            android:src="@mipmap/icon_back_gold"/>
+            android:src="@drawable/icon_top_left_back"/>
     </RelativeLayout>
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:gravity="center_vertical"
         android:layout_centerInParent="true"
+        android:gravity="center_vertical"
         android:orientation="horizontal"
         android:paddingLeft="10dp"
         android:paddingRight="10dp">
