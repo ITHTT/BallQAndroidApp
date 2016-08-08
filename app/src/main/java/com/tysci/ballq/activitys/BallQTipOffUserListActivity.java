@@ -108,7 +108,7 @@ public class BallQTipOffUserListActivity extends BaseActivity implements SwipeRe
                 public void run() {
                     if (swipeRefresh != null) {
                         swipeRefresh.setRefreshing(false);
-                        // recyclerView.setStartLoadMore();
+                        // mRecyclerView.setStartLoadMore();
                     }
                 }
             }, 1000);
@@ -166,7 +166,7 @@ public class BallQTipOffUserListActivity extends BaseActivity implements SwipeRe
                                     adapter=new BallQTipOffUserInfoAdapter(rankInfoEntityList);
                                     recyclerView.setAdapter(adapter);
 //                                    DividerDecoration decoration=new DividerDecoration(BallQTipOffUserListActivity.this);
-//                                    recyclerView.addItemDecoration(decoration);
+//                                    mRecyclerView.addItemDecoration(decoration);
                                 }else{
                                     adapter.notifyDataSetChanged();
                                 }

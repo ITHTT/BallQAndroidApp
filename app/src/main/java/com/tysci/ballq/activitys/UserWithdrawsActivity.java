@@ -73,14 +73,14 @@ public class UserWithdrawsActivity extends BaseActivity implements SwipeRefreshL
         LinearLayoutManager llm = new LinearLayoutManager(this);
         llm.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(llm);
-//        recyclerView.addHeaderView(headerView);
+//        mRecyclerView.addHeaderView(headerView);
         recyclerView.setOnLoadMoreListener(this);
-//        recyclerView.setAdapter(adapter);
+//        mRecyclerView.setAdapter(adapter);
 //        recordEntityList = new ArrayList<>(10);
 //        adapter = new UserWithdrawalsAdapter(recordEntityList);
 //        StickyHeaderDecoration decoration = new StickyHeaderDecoration(adapter);
-//        recyclerView.setAdapter(adapter);
-//        recyclerView.addItemDecoration(decoration);
+//        mRecyclerView.setAdapter(adapter);
+//        mRecyclerView.addItemDecoration(decoration);
     }
 
     @Override

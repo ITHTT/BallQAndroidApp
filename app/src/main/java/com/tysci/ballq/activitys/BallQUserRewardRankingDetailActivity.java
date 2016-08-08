@@ -96,7 +96,7 @@ public class BallQUserRewardRankingDetailActivity extends BaseActivity implement
                 public void run() {
                     if (swipeRefresh != null) {
                         swipeRefresh.setRefreshing(false);
-                        // recyclerView.setStartLoadMore();
+                        // mRecyclerView.setStartLoadMore();
                     }
                 }
             }, 1000);

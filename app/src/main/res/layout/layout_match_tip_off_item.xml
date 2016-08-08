@@ -130,7 +130,7 @@
                         android:layout_width="15dp"
                         android:layout_height="15dp"
                         android:contentDescription="@string/app_name"
-                        android:src="@mipmap/icon_tip_gold"
+                        android:src="@mipmap/icon_tip_count"
                         android:visibility="visible"/>
 
                     <TextView

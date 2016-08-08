@@ -63,7 +63,7 @@ public class BallQFindCircleNoteActivity extends BaseActivity{
     }
 
     private void requestCircleSectionList(){
-        String url= HttpUrls.CIRCLE_HOST_URL+"bbs/section/list";
+        String url= HttpUrls.CIRCLE_HOST_URL_V2 +"bbs/section/list";
         HttpClientUtil.getHttpClientUtil().sendGetRequest(Tag, url, 60, new HttpClientUtil.StringResponseCallBack() {
             @Override
             public void onBefore(Request request) {

@@ -37,106 +37,130 @@ import okhttp3.Request;
 /**
  * Created by Administrator on 2016/7/1.
  */
-public class UserAttentionOrFansAdapter extends RecyclerView.Adapter<UserAttentionOrFansAdapter.UserAttentionOrFansViweHolder>{
+public class UserAttentionOrFansAdapter extends RecyclerView.Adapter<UserAttentionOrFansAdapter.UserAttentionOrFansViweHolder>
+{
     private List<BallQUserAttentionOrFansEntity> userAttentionOrFansEntityList;
-    private boolean isSelf=false;
+    private boolean isSelf = false;
     private String tag;
 
-    public UserAttentionOrFansAdapter(List<BallQUserAttentionOrFansEntity> userAttentionOrFansEntityList) {
+    public UserAttentionOrFansAdapter(List<BallQUserAttentionOrFansEntity> userAttentionOrFansEntityList)
+    {
         this.userAttentionOrFansEntityList = userAttentionOrFansEntityList;
     }
 
-    public void setIsSelf(boolean isSelf) {
+    public void setIsSelf(boolean isSelf)
+    {
         this.isSelf = isSelf;
     }
 
-    public void setTag(String tag) {
+    public void setTag(String tag)
+    {
         this.tag = tag;
     }
 
     @Override
-    public UserAttentionOrFansViweHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view= LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_ballq_user_attention_item,parent,false);
+    public UserAttentionOrFansViweHolder onCreateViewHolder(ViewGroup parent, int viewType)
+    {
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_ballq_user_attention_item, parent, false);
         return new UserAttentionOrFansViweHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(final UserAttentionOrFansViweHolder holder, int position) {
-        final BallQUserAttentionOrFansEntity info=userAttentionOrFansEntityList.get(position);
+    public void onBindViewHolder(final UserAttentionOrFansViweHolder holder, int position)
+    {
+        final BallQUserAttentionOrFansEntity info = userAttentionOrFansEntityList.get(position);
         GlideImageLoader.loadImage(holder.itemView.getContext(), info.getPt(), R.mipmap.icon_user_default, holder.ivUserIcon);
         holder.tvTipCount.setText(String.valueOf(info.getTipcount()));
         holder.tvUserNickName.setText(info.getFname());
-        holder.tvRor.setText(String.format(Locale.getDefault(),"%.2f",info.getRor())+"%");
-        holder.tvWins.setText(String.format(Locale.getDefault(),"%.2f",info.getWins())+"%");
-        holder.ivPush.setSelected(info.getIsa()==1);
+        holder.tvRor.setText(String.format(Locale.getDefault(), "%.2f", info.getRor()) + "%");
+        holder.tvWins.setText(String.format(Locale.getDefault(), "%.2f", info.getWins()) + "%");
+        holder.ivPush.setSelected(info.getIsa() == 1);
         holder.ivAttention.setSelected(true);
-        if(isSelf){
+        if (isSelf)
+        {
             holder.layoutPush.setVisibility(View.VISIBLE);
             holder.layoutAttention.setVisibility(View.VISIBLE);
             holder.divier.setVisibility(View.VISIBLE);
-        }else{
+        }
+        else
+        {
             holder.layoutPush.setVisibility(View.GONE);
             holder.layoutAttention.setVisibility(View.GONE);
             holder.divier.setVisibility(View.GONE);
         }
 
-        holder.ivPush.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                setPushListener(holder,info);
-            }
-        });
-
-        holder.ivAttention.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                cancleAttention(holder, info);
-            }
-        });
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
+        holder.layoutPush.setOnClickListener(new View.OnClickListener()
+        {
             @Override
             public void onClick(View v)
             {
-                final Context context=v.getContext();
-                UserInfoUtil.lookUserInfo(context,info.getUid());
+                setPushListener(holder, info);
+            }
+        });
+
+        holder.layoutAttention.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                cancleAttention(holder, info);
+            }
+        });
+        holder.itemView.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                final Context context = v.getContext();
+                UserInfoUtil.lookUserInfo(context, info.getUid());
             }
         });
     }
 
-    public void setPushListener(final UserAttentionOrFansViweHolder holder, final BallQUserAttentionOrFansEntity info){
-        final Context context=holder.itemView.getContext();
-        Map<String,String>params=new HashMap<>(5);
+    public void setPushListener(final UserAttentionOrFansViweHolder holder, final BallQUserAttentionOrFansEntity info)
+    {
+        final Context context = holder.itemView.getContext();
+        Map<String, String> params = new HashMap<>(5);
         params.put("user", UserInfoUtil.getUserId(context));
         params.put("token", UserInfoUtil.getUserToken(context));
         params.put("fid", String.valueOf(info.getUid()));
         params.put("did", JPushInterface.getRegistrationID(context));
-        KLog.e("attention:"+info.getIsa());
-        params.put("attention", String.valueOf(info.getIsa()));
-        String url= HttpUrls.HOST_URL_V6+"attention_user_tip/";
-        HttpClientUtil.getHttpClientUtil().sendPostRequest(tag, url, params, new HttpClientUtil.StringResponseCallBack() {
+        KLog.e("attention:" + info.getIsa());
+        params.put("attention", info.getIsa() == 1 ? "0" : "1");
+        String url = HttpUrls.HOST_URL_V6 + "attention_user_tip/";
+        HttpClientUtil.getHttpClientUtil().sendPostRequest(tag, url, params, new HttpClientUtil.StringResponseCallBack()
+        {
             @Override
-            public void onBefore(Request request) {
+            public void onBefore(Request request)
+            {
                 holder.ivPush.setEnabled(false);
             }
 
             @Override
-            public void onError(Call call, Exception error) {
-                ToastUtil.show(context,"请求失败");
+            public void onError(Call call, Exception error)
+            {
+                ToastUtil.show(context, "请求失败");
             }
 
             @Override
-            public void onSuccess(Call call, String response) {
+            public void onSuccess(Call call, String response)
+            {
                 KLog.json(response);
-                if (!TextUtils.isEmpty(response)) {
+                if (!TextUtils.isEmpty(response))
+                {
                     JSONObject obj = JSONObject.parseObject(response);
-                    if (obj != null && !obj.isEmpty()) {
+                    if (obj != null && !obj.isEmpty())
+                    {
                         String message = obj.getString("message");
                         ToastUtil.show(context, message);
                         int status = obj.getIntValue("status");
-                        if (status == 821) {
+                        if (status == 821)
+                        {
                             holder.ivPush.setSelected(true);
                             info.setIsa(1);
-                        } else if (status == 820) {
+                        }
+                        else if (status == 820)
+                        {
                             holder.ivPush.setSelected(false);
                             info.setIsa(0);
                         }
@@ -146,49 +170,58 @@ public class UserAttentionOrFansAdapter extends RecyclerView.Adapter<UserAttenti
             }
 
             @Override
-            public void onFinish(Call call) {
+            public void onFinish(Call call)
+            {
                 holder.ivPush.setEnabled(true);
             }
         });
 
     }
 
-    private void cancleAttention(final UserAttentionOrFansViweHolder holder,BallQUserAttentionOrFansEntity info){
-        String url=HttpUrls.HOST_URL_V5+"follow/change/";
-        final Context context=holder.itemView.getContext();
-        Map<String,String>params=new HashMap<>();
+    private void cancleAttention(final UserAttentionOrFansViweHolder holder, BallQUserAttentionOrFansEntity info)
+    {
+        String url = HttpUrls.HOST_URL_V5 + "follow/change/";
+        final Context context = holder.itemView.getContext();
+        Map<String, String> params = new HashMap<>();
         params.put("user", UserInfoUtil.getUserId(context));
         params.put("token", UserInfoUtil.getUserToken(context));
         params.put("fid", String.valueOf(info.getUid()));
-        params.put("change","0");
-        HttpClientUtil.getHttpClientUtil().sendPostRequest(tag, url, params, new HttpClientUtil.StringResponseCallBack() {
+        params.put("change", "0");
+        HttpClientUtil.getHttpClientUtil().sendPostRequest(tag, url, params, new HttpClientUtil.StringResponseCallBack()
+        {
             @Override
-            public void onBefore(Request request) {
+            public void onBefore(Request request)
+            {
                 holder.ivAttention.setEnabled(false);
             }
 
             @Override
-            public void onError(Call call, Exception error) {
-                ToastUtil.show(context,"请求失败");
+            public void onError(Call call, Exception error)
+            {
+                ToastUtil.show(context, "请求失败");
             }
 
             @Override
-            public void onSuccess(Call call, String response) {
+            public void onSuccess(Call call, String response)
+            {
                 KLog.json(response);
-                if (!TextUtils.isEmpty(response)) {
+                if (!TextUtils.isEmpty(response))
+                {
                     JSONObject obj = JSONObject.parseObject(response);
-                    if (obj != null && !obj.isEmpty()) {
+                    if (obj != null && !obj.isEmpty())
+                    {
                         String message = obj.getString("message");
                         ToastUtil.show(context, message);
                         int status = obj.getIntValue("status");
-                        if (status == 352) {
+                        if (status == 352)
+                        {
                             userAttentionOrFansEntityList.remove(holder.getAdapterPosition());
                             notifyItemRemoved(holder.getAdapterPosition());
 
-                            EventObject eventObject=new EventObject();
+                            EventObject eventObject = new EventObject();
                             eventObject.addReceiver(UserAttentionActivity.class);
                             eventObject.getData().putInt("size", userAttentionOrFansEntityList.size());
-                            EventObject.postEventObject(eventObject,"cancel_attention");
+                            EventObject.postEventObject(eventObject, "cancel_attention");
                         }
                     }
                 }
@@ -196,18 +229,21 @@ public class UserAttentionOrFansAdapter extends RecyclerView.Adapter<UserAttenti
             }
 
             @Override
-            public void onFinish(Call call) {
+            public void onFinish(Call call)
+            {
                 holder.ivAttention.setEnabled(true);
             }
         });
     }
 
     @Override
-    public int getItemCount() {
+    public int getItemCount()
+    {
         return userAttentionOrFansEntityList.size();
     }
 
-    public static final class UserAttentionOrFansViweHolder extends RecyclerView.ViewHolder{
+    public static final class UserAttentionOrFansViweHolder extends RecyclerView.ViewHolder
+    {
         @Bind(R.id.ivUserIcon)
         CircleImageView ivUserIcon;
         @Bind(R.id.tvUserNickName)
@@ -229,9 +265,10 @@ public class UserAttentionOrFansAdapter extends RecyclerView.Adapter<UserAttenti
         @Bind(R.id.layout_attention)
         FrameLayout layoutAttention;
 
-        public UserAttentionOrFansViweHolder(View itemView) {
+        public UserAttentionOrFansViweHolder(View itemView)
+        {
             super(itemView);
-            ButterKnife.bind(this,itemView);
+            ButterKnife.bind(this, itemView);
         }
     }
 }

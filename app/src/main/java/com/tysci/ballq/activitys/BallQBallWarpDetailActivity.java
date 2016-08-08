@@ -275,6 +275,8 @@ public class BallQBallWarpDetailActivity extends BaseActivity implements SwipeRe
 
     private void initBallWarpInfo(View view,BallQBallWarpInfoEntity data){
         RelativeLayout layoutUserInfo=(RelativeLayout)view.findViewById(R.id.layout_user_info);
+        layoutUserInfo.setBackgroundResource(CommonUtils.getRandomImageBackgournd());
+
         CircleImageView ivUserHeader= (CircleImageView) view.findViewById(R.id.ivUserIcon);
         ivUserHeader.setOnClickListener(this);
         ImageView isV=(ImageView)view.findViewById(R.id.isV);

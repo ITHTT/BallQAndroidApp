@@ -1,90 +1,121 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
     android:id="@+id/layout_user_info"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="65dp"
-    android:paddingTop="5dp"
+    android:background="@mipmap/icon_ballq_info_header_04"
     android:paddingBottom="5dp"
     android:paddingLeft="12dp"
-    android:paddingRight="12dp">
+    android:paddingRight="12dp"
+    android:paddingTop="5dp">
+
     <include
         android:id="@+id/layout_user_header"
+        layout="@layout/layout_user_header"
         android:layout_width="50dp"
-        android:layout_height="50dp"
-        layout="@layout/layout_user_header"/>
+        android:layout_height="50dp"/>
+
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
+        android:layout_marginTop="5dp"
         android:layout_toRightOf="@+id/layout_user_header"
-        android:orientation="vertical"
-        android:layout_marginTop="5dp">
+        android:orientation="vertical">
+
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
+
             <TextView
                 android:id="@+id/tv_user_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="14sp"
+                android:text="@string/app_name"
                 android:textColor="@color/gold"
-                android:typeface="monospace"
-                android:text=""/>
+                android:textSize="14sp"
+                android:typeface="monospace"/>
+
             <ImageView
                 android:id="@+id/iv_user_achievement_01"
                 android:layout_width="25dp"
                 android:layout_height="25dp"
-                android:layout_marginLeft="10dp"/>
+                android:layout_marginLeft="10dp"
+                android:src="@mipmap/icon_user_achievement_circle_mark"/>
+
             <ImageView
                 android:id="@+id/iv_user_achievement_02"
                 android:layout_width="25dp"
                 android:layout_height="25dp"
-                android:layout_marginLeft="5dp"/>
+                android:layout_marginLeft="5dp"
+                android:src="@mipmap/icon_user_achievement_circle_mark"/>
         </LinearLayout>
+
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:visibility="gone">
+            android:visibility="visible">
+
             <ImageView
                 android:layout_width="15dp"
                 android:layout_height="15dp"
                 android:src="@mipmap/icon_user_white_write"/>
+
             <TextView
                 android:id="@+id/tv_user_write_article_counts"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="3dp"
-                android:textSize="13sp"
+                android:text="0"
                 android:textColor="@color/white"
-                android:text=""/>
+                android:textSize="13sp"/>
+
             <TextView
                 android:id="@+id/tv_create_date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
-                android:textSize="13sp"
+                android:text="08-04 10:06"
                 android:textColor="@color/white"
-                android:typeface="monospace"
-                android:text=""/>
+                android:textSize="13sp"
+                android:typeface="monospace"/>
+
             <TextView
                 android:id="@+id/tv_create_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
-                android:textSize="12sp"
-                android:textColor="@color/white"
                 android:text=""
+                android:textColor="@color/white"
+                android:textSize="12sp"
                 android:typeface="monospace"
                 android:visibility="gone"/>
         </LinearLayout>
     </LinearLayout>
+
     <ImageView
         android:id="@+id/iv_attention"
         android:layout_width="20dp"
         android:layout_height="20dp"
-        android:layout_marginRight="16dp"
         android:layout_alignParentRight="true"
+        android:layout_marginRight="16dp"
         android:layout_marginTop="5dp"
-        android:src="@drawable/icon_user_push_attention_selector"/>
+        android:src="@drawable/icon_user_push_attention_selector"
+        android:visibility="gone"/>
+
+    <ImageView
+        android:contentDescription="@string/app_name"
+        android:id="@+id/iv_user_collection"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_gravity="right"
+        android:paddingBottom="@dimen/dimen5dp"
+        android:paddingLeft="@dimen/dimen5dp"
+        android:paddingRight="@dimen/dimen5dp"
+        android:paddingTop="@dimen/dimen5dp"
+        android:src="@drawable/icon_user_collect_selector"/>
 </RelativeLayout>

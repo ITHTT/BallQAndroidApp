@@ -26,6 +26,7 @@ import com.tysci.ballq.modles.BallQMatchEntity;
 import com.tysci.ballq.modles.BallQTipOffEntity;
 import com.tysci.ballq.modles.BallQUserCommentEntity;
 import com.tysci.ballq.modles.BallQUserRewardHeaderEntity;
+import com.tysci.ballq.modles.JsonParams;
 import com.tysci.ballq.modles.UserInfoEntity;
 import com.tysci.ballq.modles.event.EventType;
 import com.tysci.ballq.networks.GlideImageLoader;
@@ -64,7 +65,8 @@ import okhttp3.Request;
  * Created by HTT on 2016/6/6.
  */
 public class BallQTipOffDetailActivity extends BaseActivity implements SwipeRefreshLayout.OnRefreshListener, AutoLoadMoreRecyclerView.OnLoadMoreListener
-        , OnLongClickUserHeaderListener {
+        , OnLongClickUserHeaderListener
+{
     @Bind(R.id.swipe_refresh)
     protected SwipeRefreshLayout swipeRefresh;
     @Bind(R.id.recycler_view)
@@ -99,12 +101,14 @@ public class BallQTipOffDetailActivity extends BaseActivity implements SwipeRefr
     private ShareDialog shareDialog = null;
 
     @Override
-    protected int getContentViewId() {
+    protected int getContentViewId()
+    {
         return R.layout.activity_ballq_tip_off_detail;
     }
 
     @Override
-    protected void initViews() {
+    protected void initViews()
+    {
         setTitle("爆料详情");
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setOnLoadMoreListener(this);
@@ -114,18 +118,24 @@ public class BallQTipOffDetailActivity extends BaseActivity implements SwipeRefr
         headerView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
         recyclerView.addHeaderView(headerView);
 
-        etComment.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+        etComment.setOnFocusChangeListener(new View.OnFocusChangeListener()
+        {
             @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (hasFocus) {
+            public void onFocusChange(View v, boolean hasFocus)
+            {
+                if (hasFocus)
+                {
                     ivLike.setVisibility(View.GONE);
                     tvGuess.setVisibility(View.GONE);
                     btPublish.setVisibility(View.VISIBLE);
-                    if (!TextUtils.isEmpty(cacheCommentInfo)) {
+                    if (!TextUtils.isEmpty(cacheCommentInfo))
+                    {
                         etComment.setText(cacheCommentInfo);
                         etComment.setSelection(cacheCommentInfo.length());
                     }
-                } else {
+                }
+                else
+                {
                     etComment.setText("");
                     ivLike.setVisibility(View.VISIBLE);
                     tvGuess.setVisibility(View.VISIBLE);
@@ -133,10 +143,13 @@ public class BallQTipOffDetailActivity extends BaseActivity implements SwipeRefr
                 }
             }
         });
-        recyclerView.addOnItemTouchListener(new RecyclerView.OnItemTouchListener() {
+        recyclerView.addOnItemTouchListener(new RecyclerView.OnItemTouchListener()
+        {
             @Override
-            public boolean onInterceptTouchEvent(RecyclerView rv, MotionEvent e) {
-                if (e.getAction() == MotionEvent.ACTION_DOWN) {
+            public boolean onInterceptTouchEvent(RecyclerView rv, MotionEvent e)
+            {
+                if (e.getAction() == MotionEvent.ACTION_DOWN)
+                {
                     SoftInputUtil.hideSoftInput(BallQTipOffDetailActivity.this);
                     cacheCommentInfo = etComment.getText().toString();
                     replyerId = null;
@@ -149,38 +162,50 @@ public class BallQTipOffDetailActivity extends BaseActivity implements SwipeRefr
             }
 
             @Override
-            public void onTouchEvent(RecyclerView rv, MotionEvent e) {
+            public void onTouchEvent(RecyclerView rv, MotionEvent e)
+            {
             }
 
             @Override
-            public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {
+            public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept)
+            {
 
             }
         });
     }
 
     @Override
-    protected View getLoadingTargetView() {
+    protected View getLoadingTargetView()
+    {
         return swipeRefresh;
     }
 
-    private void setRefreshing() {
-        if (swipeRefresh != null) {
-            swipeRefresh.post(new Runnable() {
+    private void setRefreshing()
+    {
+        if (swipeRefresh != null)
+        {
+            swipeRefresh.post(new Runnable()
+            {
                 @Override
-                public void run() {
+                public void run()
+                {
                     swipeRefresh.setRefreshing(true);
                 }
             });
         }
     }
 
-    private void onRefreshCompelete() {
-        if (swipeRefresh != null) {
-            swipeRefresh.postDelayed(new Runnable() {
+    private void onRefreshCompelete()
+    {
+        if (swipeRefresh != null)
+        {
+            swipeRefresh.postDelayed(new Runnable()
+            {
                 @Override
-                public void run() {
-                    if (swipeRefresh != null) {
+                public void run()
+                {
+                    if (swipeRefresh != null)
+                    {
                         swipeRefresh.setRefreshing(false);
                     }
                 }
@@ -189,9 +214,11 @@ public class BallQTipOffDetailActivity extends BaseActivity implements SwipeRefr
     }
 
     @Override
-    protected void getIntentData(Intent intent) {
+    protected void getIntentData(Intent intent)
+    {
         tipOffInfo = intent.getParcelableExtra(Tag);
-        if (tipOffInfo != null) {
+        if (tipOffInfo != null)
+        {
             KLog.e("加载数据...");
             showLoading();
             getTipOffInfo(tipOffInfo.getEid(), tipOffInfo.getId());
@@ -204,34 +231,44 @@ public class BallQTipOffDetailActivity extends BaseActivity implements SwipeRefr
      * @param matchId
      * @param tipId
      */
-    private void getTipOffInfo(final int matchId, final int tipId) {
+    private void getTipOffInfo(final int matchId, final int tipId)
+    {
         String url = HttpUrls.HOST_URL_V5 + "match/" + matchId + "/tip/" + tipId + "/";
         KLog.e("Url:" + url);
         Map<String, String> params = null;
-        if (UserInfoUtil.checkLogin(this)) {
+        if (UserInfoUtil.checkLogin(this))
+        {
             params = new HashMap<>(2);
             params.put("user", UserInfoUtil.getUserId(this));
             params.put("token", UserInfoUtil.getUserToken(this));
         }
-        HttpClientUtil.getHttpClientUtil().sendPostRequest(Tag, url, params, new HttpClientUtil.StringResponseCallBack() {
+        HttpClientUtil.getHttpClientUtil().sendPostRequest(Tag, url, params, new HttpClientUtil.StringResponseCallBack()
+        {
             @Override
-            public void onBefore(Request request) {
+            public void onBefore(Request request)
+            {
 
             }
 
             @Override
-            public void onError(Call call, Exception error) {
+            public void onError(Call call, Exception error)
+            {
                 KLog.e("加载失败...");
                 onRefreshCompelete();
-                if (userCommentAdapter == null) {
-                    showErrorInfo(new View.OnClickListener() {
+                if (userCommentAdapter == null)
+                {
+                    showErrorInfo(new View.OnClickListener()
+                    {
                         @Override
-                        public void onClick(View v) {
+                        public void onClick(View v)
+                        {
                             showLoading();
                             getTipOffInfo(matchId, tipId);
                         }
                     });
-                } else {
+                }
+                else
+                {
                     recyclerView.setRefreshComplete();
                     recyclerView.setStartLoadMore();
                     ToastUtil.show(BallQTipOffDetailActivity.this, "请求失败");
@@ -239,15 +276,25 @@ public class BallQTipOffDetailActivity extends BaseActivity implements SwipeRefr
             }
 
             @Override
-            public void onSuccess(Call call, String response) {
+            public void onSuccess(Call call, String response)
+            {
                 KLog.json(response);
-                if (!TextUtils.isEmpty(response)) {
+                if (!TextUtils.isEmpty(response))
+                {
                     UserInfoUtil.getUserTaskMsg(BallQTipOffDetailActivity.this);
 
                     JSONObject obj = JSONObject.parseObject(response);
-                    if (obj != null) {
+                    if (!JsonParams.isJsonRight(obj))
+                    {
+                        ToastUtil.show(BallQTipOffDetailActivity.this, obj.getString(JsonParams.MESSAGE));
+                        finish();
+                        return;
+                    }
+                    if (obj != null)
+                    {
                         BallQTipOffEntity data = obj.getObject("data", BallQTipOffEntity.class);
-                        if (data != null) {
+                        if (data != null)
+                        {
                             hideLoad();
                             tipOffInfo = data;
                             initBallQTipOffInfo(headerView, data);
@@ -257,21 +304,24 @@ public class BallQTipOffDetailActivity extends BaseActivity implements SwipeRefr
                         }
                     }
                 }
-                if (userCommentAdapter == null) {
+                if (userCommentAdapter == null)
+                {
                     onRefreshCompelete();
                     showEmptyInfo();
                 }
             }
 
             @Override
-            public void onFinish(Call call) {
+            public void onFinish(Call call)
+            {
 
             }
         });
     }
 
-    private void initBallQTipOffInfo(View view, BallQTipOffEntity data) {
-        View headerView=view.findViewById(R.id.layout_ballq_tip_user_header);
+    private void initBallQTipOffInfo(View view, BallQTipOffEntity data)
+    {
+        View headerView = view.findViewById(R.id.layout_ballq_tip_user_header);
         headerView.setBackgroundResource(CommonUtils.getRandomImageBackgournd());
         CircleImageView ivUserIcon = (CircleImageView) view.findViewById(R.id.ivUserIcon);
         ivUserIcon.setOnClickListener(this);
@@ -298,7 +348,7 @@ public class BallQTipOffDetailActivity extends BaseActivity implements SwipeRefr
         ViewGroup layoutConfidence = (ViewGroup) view.findViewById(R.id.layout_confidence_data);
         CustomRattingBar rattingBar = (CustomRattingBar) view.findViewById(R.id.rating_bar);
 
-        View layoutBettingInfo=view.findViewById(R.id.layout_betting_result);
+        View layoutBettingInfo = view.findViewById(R.id.layout_betting_result);
 
         ImageView ivBettingResult = (ImageView) view.findViewById(R.id.ivBetResult);
         TextView tvTipContent = (TextView) view.findViewById(R.id.tv_tip_content);
@@ -309,20 +359,26 @@ public class BallQTipOffDetailActivity extends BaseActivity implements SwipeRefr
         view.findViewById(R.id.iv_home_team_icon).setOnClickListener(this);
         view.findViewById(R.id.iv_away_team_icon).setOnClickListener(this);
         view.findViewById(R.id.layout_other_tips).setOnClickListener(this);
-        ivAttention= (ImageView) view.findViewById(R.id.iv_attention);
+        ivAttention = (ImageView) view.findViewById(R.id.iv_attention);
         ivAttention.setOnClickListener(this);
-        ivAttention.setSelected(data.getIsf()==1);
+        ivAttention.setSelected(data.getIsf() == 1);
 
-        JCVideoPlayerStandard jcVideoPlayer= (JCVideoPlayerStandard) view.findViewById(R.id.videoplayer);
-        if(data.getRichtext_type()==2){
+        JCVideoPlayerStandard jcVideoPlayer = (JCVideoPlayerStandard) view.findViewById(R.id.videoplayer);
+        if (data.getRichtext_type() == 2)
+        {
             jcVideoPlayer.setVisibility(View.VISIBLE);
-            getVideoInfo(data.getVid(),jcVideoPlayer);
-            if(!TextUtils.isEmpty(data.getFirst_image())) {
+            getVideoInfo(data.getVid(), jcVideoPlayer);
+            if (!TextUtils.isEmpty(data.getFirst_image()))
+            {
                 GlideImageLoader.loadImage(this, data.getFirst_image(), R.mipmap.icon_ball_wrap_default_img, jcVideoPlayer.thumbImageView);
-            }else{
+            }
+            else
+            {
                 jcVideoPlayer.coverImageView.setImageResource(R.mipmap.icon_ball_wrap_default_img);
             }
-        }else{
+        }
+        else
+        {
             jcVideoPlayer.setVisibility(View.GONE);
         }
 
@@ -331,7 +387,8 @@ public class BallQTipOffDetailActivity extends BaseActivity implements SwipeRefr
         UserInfoUtil.setUserAchievementInfo(this, data.getTitle1(), ivAchievement01, data.getTitle2(), ivAchievement02);
         tvUserName.setText(data.getFname());
         Date date = CommonUtils.getDateAndTimeFromGMT(data.getCtime());
-        if (date != null) {
+        if (date != null)
+        {
             tvCreatedTime.setText(CommonUtils.getDateAndTimeFormatString(date));
         }
         tvUserTipCount.setText(String.valueOf(data.getTipcount()));
@@ -346,39 +403,55 @@ public class BallQTipOffDetailActivity extends BaseActivity implements SwipeRefr
         tvMatchLeague.setText(data.getTourname());
         String matchState = BallQMatchStateUtil.getMatchState(data.getMstatus(), data.getEtype());
         Date matchDate = CommonUtils.getDateAndTimeFromGMT(data.getMtime());
-        if (matchDate != null) {
+        if (matchDate != null)
+        {
             long times = matchDate.getTime();
-            if (times <= System.currentTimeMillis()) {
-                if (!TextUtils.isEmpty(matchState) && matchState.equals("未开始")) {
+            if (times <= System.currentTimeMillis())
+            {
+                if (!TextUtils.isEmpty(matchState) && matchState.equals("未开始"))
+                {
                     tvMatchTime.setText(CommonUtils.getTimeOfDay(date));
                     tvMatchDate.setText(CommonUtils.getMM_ddString(date));
-                } else {
+                }
+                else
+                {
                     final String tmpScore = data.getHtscore() + " - " + data.getAtscore();
                     tvMatchTime.setText(tmpScore);
                     tvMatchDate.setText(matchState);
                 }
-            } else {
+            }
+            else
+            {
                 tvMatchTime.setText(CommonUtils.getTimeOfDay(date));
                 tvMatchDate.setText(CommonUtils.getMM_ddString(date));
             }
         }
 
-        if(!TextUtils.isEmpty(data.getChoice())&&!TextUtils.isEmpty(data.getOtype())&&!TextUtils.isEmpty(data.getOdata())) {
+        if (!TextUtils.isEmpty(data.getChoice()) && !TextUtils.isEmpty(data.getOtype()) && !TextUtils.isEmpty(data.getOdata()))
+        {
             String choice = MatchBettingInfoUtil.getBettingResultInfo(data.getChoice(), data.getOtype(), data.getOdata());
-            if (!TextUtils.isEmpty(choice)) {
+            if (!TextUtils.isEmpty(choice))
+            {
                 layoutBettingInfo.setVisibility(View.VISIBLE);
                 tvChoice.setText(choice);
-            } else {
+            }
+            else
+            {
                 layoutBettingInfo.setVisibility(View.GONE);
                 tvChoice.setText("");
             }
-        }else{
+        }
+        else
+        {
             layoutBettingInfo.setVisibility(View.GONE);
         }
         setGuessBettingResult(ivBettingResult, data.getStatus());
-        if (data.getConfidence() == 0) {
+        if (data.getConfidence() == 0)
+        {
             layoutConfidence.setVisibility(View.GONE);
-        } else {
+        }
+        else
+        {
             layoutConfidence.setVisibility(View.VISIBLE);
             rattingBar.setRattingValue(data.getConfidence() / 10);
         }
@@ -386,15 +459,19 @@ public class BallQTipOffDetailActivity extends BaseActivity implements SwipeRefr
         tvTipContent.setText(Html.fromHtml(data.getCont()));
         tvSam.setText(String.valueOf(data.getSam() / 100));
 
-        if (data.getMtcount() > 1) {
+        if (data.getMtcount() > 1)
+        {
             layoutOtherTipInfo.setVisibility(View.VISIBLE);
             tvOtherTipCount.setText(String.valueOf(data.getMtcount()));
-        } else {
+        }
+        else
+        {
             layoutOtherTipInfo.setVisibility(View.GONE);
         }
 
         ivLike.setSelected(data.getIs_like() == 1);
-        if (userCommentEntityList == null) {
+        if (userCommentEntityList == null)
+        {
             userCommentEntityList = new ArrayList<>(10);
             userCommentAdapter = new BallQUserCommentAdapter(userCommentEntityList);
             userCommentAdapter.setOnLongClickUserHeaderListener(this);
@@ -402,8 +479,10 @@ public class BallQTipOffDetailActivity extends BaseActivity implements SwipeRefr
         }
     }
 
-    private void setGuessBettingResult(ImageView ivResult, int status) {
-        switch (status) {
+    private void setGuessBettingResult(ImageView ivResult, int status)
+    {
+        switch (status)
+        {
             case 1:
                 ivResult.setVisibility(View.VISIBLE);
                 ivResult.setImageResource(R.mipmap.win_icon);
@@ -422,42 +501,53 @@ public class BallQTipOffDetailActivity extends BaseActivity implements SwipeRefr
         }
     }
 
-    private void getVideoInfo(String vid, final JCVideoPlayerStandard videoPlayer){
-        String url=String.format("https://player.polyv.net/videojson/%s.js", new Object[]{vid});
-        HttpClientUtil.getHttpClientUtil().sendGetRequest(Tag, url, 60, new HttpClientUtil.StringResponseCallBack() {
+    private void getVideoInfo(String vid, final JCVideoPlayerStandard videoPlayer)
+    {
+        String url = String.format("https://player.polyv.net/videojson/%s.js", new Object[]{vid});
+        HttpClientUtil.getHttpClientUtil().sendGetRequest(Tag, url, 60, new HttpClientUtil.StringResponseCallBack()
+        {
             @Override
-            public void onBefore(Request request) {
+            public void onBefore(Request request)
+            {
 
             }
 
             @Override
-            public void onError(Call call, Exception error) {
+            public void onError(Call call, Exception error)
+            {
 
             }
 
             @Override
-            public void onSuccess(Call call, String response) {
+            public void onSuccess(Call call, String response)
+            {
                 KLog.json(response);
-                if(!TextUtils.isEmpty(response)){
-                    JSONObject obj=JSONObject.parseObject(response);
-                    if(obj!=null&&!obj.isEmpty()){
-                        JSONArray mp4Arrays=obj.getJSONArray("mp4");
-                        if(mp4Arrays!=null&&!mp4Arrays.isEmpty()){
-                            videoPlayer.setUp(mp4Arrays.getString(0),"");
+                if (!TextUtils.isEmpty(response))
+                {
+                    JSONObject obj = JSONObject.parseObject(response);
+                    if (obj != null && !obj.isEmpty())
+                    {
+                        JSONArray mp4Arrays = obj.getJSONArray("mp4");
+                        if (mp4Arrays != null && !mp4Arrays.isEmpty())
+                        {
+                            videoPlayer.setUp(mp4Arrays.getString(0), "");
                         }
                     }
                 }
             }
 
             @Override
-            public void onFinish(Call call) {
+            public void onFinish(Call call)
+            {
 
             }
         });
     }
 
-    private BallQMatchEntity getMatchEntity() {
-        if (tipOffInfo != null) {
+    private BallQMatchEntity getMatchEntity()
+    {
+        if (tipOffInfo != null)
+        {
             BallQMatchEntity match = new BallQMatchEntity();
             match.setEid(tipOffInfo.getEid());
             match.setEtype(tipOffInfo.getEtype());
@@ -479,38 +569,51 @@ public class BallQTipOffDetailActivity extends BaseActivity implements SwipeRefr
     }
 
 
-    private void getTipOffBounties(int id) {
+    private void getTipOffBounties(int id)
+    {
         String url = HttpUrls.HOST_URL_V5 + "bounties/?etype=38&eid=" + id;
-        HttpClientUtil.getHttpClientUtil().sendGetRequest(Tag, url, 10, new HttpClientUtil.StringResponseCallBack() {
+        HttpClientUtil.getHttpClientUtil().sendGetRequest(Tag, url, 10, new HttpClientUtil.StringResponseCallBack()
+        {
             @Override
-            public void onBefore(Request request) {
+            public void onBefore(Request request)
+            {
             }
 
             @Override
-            public void onError(Call call, Exception error) {
+            public void onError(Call call, Exception error)
+            {
 
             }
 
             @Override
-            public void onSuccess(Call call, String response) {
+            public void onSuccess(Call call, String response)
+            {
                 KLog.json(response);
-                if (!TextUtils.isEmpty(response)) {
+                if (!TextUtils.isEmpty(response))
+                {
                     JSONObject obj = JSONObject.parseObject(response);
-                    if (obj != null) {
+                    if (obj != null)
+                    {
                         JSONArray jsonArray = obj.getJSONArray("data");
-                        if (jsonArray != null && !jsonArray.isEmpty()) {
-                            if (userRewardHeaderEntityList == null) {
+                        if (jsonArray != null && !jsonArray.isEmpty())
+                        {
+                            if (userRewardHeaderEntityList == null)
+                            {
                                 userRewardHeaderEntityList = new ArrayList<BallQUserRewardHeaderEntity>(10);
                             }
-                            if (userRewardHeaderEntityList.size() > 0) {
+                            if (userRewardHeaderEntityList.size() > 0)
+                            {
                                 userRewardHeaderEntityList.clear();
                             }
                             CommonUtils.getJSONListObject(jsonArray, userRewardHeaderEntityList, BallQUserRewardHeaderEntity.class);
-                            if (userRewardHeaderAdapter == null) {
+                            if (userRewardHeaderAdapter == null)
+                            {
                                 userRewardHeaderAdapter = new BallQUserRewardHeaderAdapter(BallQTipOffDetailActivity.this, userRewardHeaderEntityList);
                                 GridView gridView = (GridView) headerView.findViewById(R.id.gridView);
                                 gridView.setAdapter(userRewardHeaderAdapter);
-                            } else {
+                            }
+                            else
+                            {
                                 userRewardHeaderAdapter.notifyDataSetChanged();
                             }
                             return;
@@ -520,57 +623,78 @@ public class BallQTipOffDetailActivity extends BaseActivity implements SwipeRefr
             }
 
             @Override
-            public void onFinish(Call call) {
+            public void onFinish(Call call)
+            {
 
             }
         });
     }
 
 
-    private void requestTipOffComments(int pages, int id, final boolean isLoadMore) {
+    private void requestTipOffComments(int pages, int id, final boolean isLoadMore)
+    {
         String url = HttpUrls.HOST_URL_V5 + "comments/?etype=38&eid=" + id + "&p=" + pages;
-        HttpClientUtil.getHttpClientUtil().sendGetRequest(Tag, url, 10, new HttpClientUtil.StringResponseCallBack() {
+        HttpClientUtil.getHttpClientUtil().sendGetRequest(Tag, url, 10, new HttpClientUtil.StringResponseCallBack()
+        {
             @Override
-            public void onBefore(Request request) {
+            public void onBefore(Request request)
+            {
 
             }
 
             @Override
-            public void onError(Call call, Exception error) {
-                if(!isLoadMore){
+            public void onError(Call call, Exception error)
+            {
+                if (!isLoadMore)
+                {
                     recyclerView.setRefreshComplete();
                 }
                 recyclerView.setLoadMoreDataFailed();
             }
 
             @Override
-            public void onSuccess(Call call, String response) {
+            public void onSuccess(Call call, String response)
+            {
                 KLog.json(response);
-                if(!isLoadMore){
+                if (!isLoadMore)
+                {
                     recyclerView.setRefreshComplete();
                 }
-                if (!TextUtils.isEmpty(response)) {
+                if (!TextUtils.isEmpty(response))
+                {
                     JSONObject obj = JSONObject.parseObject(response);
-                    if (obj != null) {
+                    if (obj != null)
+                    {
                         JSONArray array = obj.getJSONArray("data");
-                        if (array != null && !array.isEmpty()) {
+                        if (array != null && !array.isEmpty())
+                        {
                             headerView.findViewById(R.id.layout_user_comments).setVisibility(View.VISIBLE);
-                            if (!isLoadMore && !userCommentEntityList.isEmpty()) {
+                            if (!isLoadMore && !userCommentEntityList.isEmpty())
+                            {
                                 userCommentEntityList.clear();
                             }
                             CommonUtils.getJSONListObject(array, userCommentEntityList, BallQUserCommentEntity.class);
                             userCommentAdapter.notifyDataSetChanged();
-                            if (array.size() < 10) {
-                                if (!userCommentEntityList.isEmpty()) {
+                            if (array.size() < 10)
+                            {
+                                if (!userCommentEntityList.isEmpty())
+                                {
                                     recyclerView.setLoadMoreDataComplete("没有更多数据了");
-                                } else {
+                                }
+                                else
+                                {
                                     recyclerView.setLoadMoreDataComplete();
                                 }
-                            } else {
+                            }
+                            else
+                            {
                                 recyclerView.setStartLoadMore();
-                                if (isLoadMore) {
+                                if (isLoadMore)
+                                {
                                     currentPages++;
-                                } else {
+                                }
+                                else
+                                {
                                     currentPages = 2;
                                 }
                             }
@@ -578,14 +702,21 @@ public class BallQTipOffDetailActivity extends BaseActivity implements SwipeRefr
                         }
                     }
                 }
-                if (isLoadMore) {
-                    if (!userCommentEntityList.isEmpty()) {
+                if (isLoadMore)
+                {
+                    if (!userCommentEntityList.isEmpty())
+                    {
                         recyclerView.setLoadMoreDataComplete("没有更多数据了");
-                    } else {
+                    }
+                    else
+                    {
                         recyclerView.setLoadMoreDataComplete();
                     }
-                } else {
-                    if (userCommentEntityList.isEmpty()) {
+                }
+                else
+                {
+                    if (userCommentEntityList.isEmpty())
+                    {
                         recyclerView.setLoadMoreDataComplete();
                         headerView.findViewById(R.id.layout_user_comments).setVisibility(View.INVISIBLE);
                     }
@@ -593,8 +724,10 @@ public class BallQTipOffDetailActivity extends BaseActivity implements SwipeRefr
             }
 
             @Override
-            public void onFinish(Call call) {
-                if (!isLoadMore) {
+            public void onFinish(Call call)
+            {
+                if (!isLoadMore)
+                {
                     onRefreshCompelete();
                 }
             }
@@ -602,26 +735,32 @@ public class BallQTipOffDetailActivity extends BaseActivity implements SwipeRefr
     }
 
     @Override
-    protected boolean isCanceledEventBus() {
+    protected boolean isCanceledEventBus()
+    {
         return false;
     }
 
     @Override
-    protected void saveInstanceState(Bundle outState) {
+    protected void saveInstanceState(Bundle outState)
+    {
 
     }
 
     @Override
-    protected void handleInstanceState(Bundle outState) {
+    protected void handleInstanceState(Bundle outState)
+    {
 
     }
 
     @Override
-    protected void onViewClick(View view) {
-        Intent intent=null;
-        switch (view.getId()) {
+    protected void onViewClick(View view)
+    {
+        Intent intent = null;
+        switch (view.getId())
+        {
             case R.id.bt_rewards:
-                if (tipOffInfo != null) {
+                if (tipOffInfo != null)
+                {
                     KLog.e("打赏");
                     UserRewardActivity.userReward(this, "tip", String.valueOf(tipOffInfo.getUid()), tipOffInfo.getId(), tipOffInfo.getPt(), tipOffInfo.getIsv());
                 }
@@ -634,62 +773,76 @@ public class BallQTipOffDetailActivity extends BaseActivity implements SwipeRefr
                 break;
             case R.id.layout_match_info:
             case R.id.layout_other_tips:
-                intent=new Intent(this,BallQMatchDetailActivity.class);
-                intent.putExtra(BallQMatchDetailActivity.class.getSimpleName(),getMatchEntity());
+                intent = new Intent(this, BallQMatchDetailActivity.class);
+                intent.putExtra(BallQMatchDetailActivity.class.getSimpleName(), getMatchEntity());
                 startActivity(intent);
                 break;
             case R.id.iv_home_team_icon:
                 intent = new Intent(this, BallQMatchTeamTipOffHistoryActivity.class);
-                intent.putExtra("match_info",getMatchEntity());
+                intent.putExtra("match_info", getMatchEntity());
                 intent.putExtra("is_home_team", true);
                 startActivity(intent);
                 break;
             case R.id.iv_away_team_icon:
                 intent = new Intent(this, BallQMatchTeamTipOffHistoryActivity.class);
-                intent.putExtra("match_info",getMatchEntity());
+                intent.putExtra("match_info", getMatchEntity());
                 intent.putExtra("is_home_team", false);
                 startActivity(intent);
                 break;
             case R.id.ivUserIcon:
-                UserInfoUtil.lookUserInfo(this,tipOffInfo.getUid());
+                UserInfoUtil.lookUserInfo(this, tipOffInfo.getUid());
                 break;
         }
     }
 
-    private void userAttention(){
-        if(UserInfoUtil.checkLogin(this)){
-            String url= HttpUrls.HOST_URL_V5+ "follow/change/";
-            HashMap<String,String> params=new HashMap<>(4);
+    private void userAttention()
+    {
+        if (UserInfoUtil.checkLogin(this))
+        {
+            String url = HttpUrls.HOST_URL_V5 + "follow/change/";
+            HashMap<String, String> params = new HashMap<>(4);
             params.put("user", UserInfoUtil.getUserId(this));
             params.put("token", UserInfoUtil.getUserToken(this));
-            params.put("fid",String.valueOf(tipOffInfo.getUid()));
-            if(ivAttention.isSelected()){
-                params.put("change","0");
-            }else{
-                params.put("change","1");
+            params.put("fid", String.valueOf(tipOffInfo.getUid()));
+            if (ivAttention.isSelected())
+            {
+                params.put("change", "0");
             }
-            HttpClientUtil.getHttpClientUtil().sendPostRequest(BallQUserRankingListDetailActivity.class.getSimpleName(), url, params, new HttpClientUtil.StringResponseCallBack() {
+            else
+            {
+                params.put("change", "1");
+            }
+            HttpClientUtil.getHttpClientUtil().sendPostRequest(BallQUserRankingListDetailActivity.class.getSimpleName(), url, params, new HttpClientUtil.StringResponseCallBack()
+            {
                 @Override
-                public void onBefore(Request request) {
+                public void onBefore(Request request)
+                {
 
                 }
 
                 @Override
-                public void onError(Call call, Exception error) {
+                public void onError(Call call, Exception error)
+                {
                     ToastUtil.show(BallQTipOffDetailActivity.this, "请求失败");
                 }
 
                 @Override
-                public void onSuccess(Call call, String response) {
+                public void onSuccess(Call call, String response)
+                {
                     KLog.json(response);
-                    if (!TextUtils.isEmpty(response)) {
+                    if (!TextUtils.isEmpty(response))
+                    {
                         JSONObject obj = JSONObject.parseObject(response);
-                        if (obj != null && !obj.isEmpty()) {
+                        if (obj != null && !obj.isEmpty())
+                        {
                             int status = obj.getIntValue("status");
                             ToastUtil.show(BallQTipOffDetailActivity.this, obj.getString("message"));
-                            if (status == 350) {
+                            if (status == 350)
+                            {
                                 ivAttention.setSelected(true);
-                            } else if (status == 352) {
+                            }
+                            else if (status == 352)
+                            {
                                 ivAttention.setSelected(false);
                             }
                         }
@@ -697,19 +850,25 @@ public class BallQTipOffDetailActivity extends BaseActivity implements SwipeRefr
                 }
 
                 @Override
-                public void onFinish(Call call) {
+                public void onFinish(Call call)
+                {
 
                 }
             });
 
-        }else{
+        }
+        else
+        {
             UserInfoUtil.userLogin(this);
         }
     }
 
-    private void showShareDialog() {
-        if (tipOffInfo != null && !TextUtils.isEmpty(tipOffInfo.getUrl())) {
-            if (shareDialog == null) {
+    private void showShareDialog()
+    {
+        if (tipOffInfo != null && !TextUtils.isEmpty(tipOffInfo.getUrl()))
+        {
+            if (shareDialog == null)
+            {
                 shareDialog = new ShareDialog(this);
                 shareDialog.setShareType("0")
                         .setShareTitle(tipOffInfo.getFname() + "在球商爆料")
@@ -720,18 +879,23 @@ public class BallQTipOffDetailActivity extends BaseActivity implements SwipeRefr
         }
     }
 
-    private String getShareBriefInfo() {
+    private String getShareBriefInfo()
+    {
         if (tipOffInfo == null) return "";
         final StringBuilder sb = new StringBuilder();
         sb.append(tipOffInfo.getHtname());
         sb.append("VS");
         sb.append(tipOffInfo.getAtname());
         sb.append(",");
-        if (TextUtils.isEmpty(tipOffInfo.getOdata())) {
+        if (TextUtils.isEmpty(tipOffInfo.getOdata()))
+        {
             sb.append(tipOffInfo.getCont());
-        } else {
+        }
+        else
+        {
             String otype = MatchBettingInfoUtil.getBettingResultInfo(tipOffInfo.getChoice(), tipOffInfo.getOtype(), tipOffInfo.getOdata());
-            if (!TextUtils.isEmpty(otype)) {
+            if (!TextUtils.isEmpty(otype))
+            {
                 sb.append(otype.replaceAll(" ", "").replaceAll("@", "赔率"));
                 sb.append(",");
             }
@@ -740,8 +904,10 @@ public class BallQTipOffDetailActivity extends BaseActivity implements SwipeRefr
         return sb.toString();
     }
 
-    private void showProgressDialog(String msg) {
-        if (loadingProgressDialog == null) {
+    private void showProgressDialog(String msg)
+    {
+        if (loadingProgressDialog == null)
+        {
             loadingProgressDialog = new LoadingProgressDialog(this);
             loadingProgressDialog.setCanceledOnTouchOutside(false);
         }
@@ -749,64 +915,82 @@ public class BallQTipOffDetailActivity extends BaseActivity implements SwipeRefr
         loadingProgressDialog.show();
     }
 
-    private void dimssProgressDialog() {
-        if (loadingProgressDialog != null && loadingProgressDialog.isShowing()) {
+    private void dimssProgressDialog()
+    {
+        if (loadingProgressDialog != null && loadingProgressDialog.isShowing())
+        {
             loadingProgressDialog.dismiss();
         }
     }
 
 
     @OnClick(R.id.btnPublish)
-    protected void onClickPublishComment(View view) {
-        if (!UserInfoUtil.checkLogin(this)) {
+    protected void onClickPublishComment(View view)
+    {
+        if (!UserInfoUtil.checkLogin(this))
+        {
             UserInfoUtil.userLogin(this);
             return;
         }
         String commentInfo = etComment.getText().toString().trim();
-        if (TextUtils.isEmpty(commentInfo)) {
+        if (TextUtils.isEmpty(commentInfo))
+        {
             ToastUtil.show(this, "评论内容不能为空");
             return;
         }
         SoftInputUtil.hideSoftInput(this);
-        if (tipOffInfo == null) {
+        if (tipOffInfo == null)
+        {
             return;
         }
         String url = HttpUrls.HOST_URL_V5 + "comment/add/?etype=38&eid=" + tipOffInfo.getId();
         HashMap<String, String> params = null;
-        if (UserInfoUtil.checkLogin(this)) {
+        if (UserInfoUtil.checkLogin(this))
+        {
             params = new HashMap<>(2);
             params.put("user", UserInfoUtil.getUserId(this));
             params.put("token", UserInfoUtil.getUserToken(this));
-        } else {
+        }
+        else
+        {
             UserInfoUtil.userLogin(this);
             return;
         }
-        if (!TextUtils.isEmpty(replyerId)) {
-            if (!commentInfo.contains(replyerName)) {
+        if (!TextUtils.isEmpty(replyerId))
+        {
+            if (!commentInfo.contains(replyerName))
+            {
                 commentInfo = replyerName + commentInfo;
             }
             params.put("reply_id", replyerId);
         }
         params.put("cont", commentInfo);
-        HttpClientUtil.getHttpClientUtil().sendPostRequest(Tag, url, params, new HttpClientUtil.StringResponseCallBack() {
+        HttpClientUtil.getHttpClientUtil().sendPostRequest(Tag, url, params, new HttpClientUtil.StringResponseCallBack()
+        {
             @Override
-            public void onBefore(Request request) {
+            public void onBefore(Request request)
+            {
                 showProgressDialog("提交中...");
             }
 
             @Override
-            public void onError(Call call, Exception error) {
+            public void onError(Call call, Exception error)
+            {
                 ToastUtil.show(BallQTipOffDetailActivity.this, "评论失败");
             }
 
             @Override
-            public void onSuccess(Call call, String response) {
+            public void onSuccess(Call call, String response)
+            {
                 KLog.json(response);
-                if (!TextUtils.isEmpty(response)) {
+                if (!TextUtils.isEmpty(response))
+                {
                     JSONObject obj = JSONObject.parseObject(response);
-                    if (obj != null && !obj.isEmpty()) {
+                    if (obj != null && !obj.isEmpty())
+                    {
                         int status = obj.getIntValue("status");
-                        if (status == 307) {
+                        if (status == 307)
+                        {
                             etComment.setHint("发表评论");
                             etComment.clearFocus();
                             etComment.setText("");
@@ -821,22 +1005,28 @@ public class BallQTipOffDetailActivity extends BaseActivity implements SwipeRefr
             }
 
             @Override
-            public void onFinish(Call call) {
+            public void onFinish(Call call)
+            {
                 dimssProgressDialog();
             }
         });
     }
 
     @OnClick(R.id.tvGuess)
-    protected void onClickGuess(View view) {
-        if (!UserInfoUtil.checkLogin(this)) {
+    protected void onClickGuess(View view)
+    {
+        if (!UserInfoUtil.checkLogin(this))
+        {
             UserInfoUtil.userLogin(this);
             return;
         }
-        if (tipOffInfo != null) {
+        if (tipOffInfo != null)
+        {
             Date date = CommonUtils.getDateAndTimeFromGMT(tipOffInfo.getMtime());
-            if (date != null) {
-                if (date.getTime() <= System.currentTimeMillis()) {
+            if (date != null)
+            {
+                if (date.getTime() <= System.currentTimeMillis())
+                {
                     ToastUtil.show(this, "比赛进行中/已结束,无法竞猜");
                     return;
                 }
@@ -849,46 +1039,61 @@ public class BallQTipOffDetailActivity extends BaseActivity implements SwipeRefr
     }
 
     @OnClick(R.id.ivLike)
-    protected void onClickUserLike(View view) {
-        if (!UserInfoUtil.checkLogin(this)) {
+    protected void onClickUserLike(View view)
+    {
+        if (!UserInfoUtil.checkLogin(this))
+        {
             UserInfoUtil.userLogin(this);
             return;
         }
-        if (tipOffInfo != null) {
+        if (tipOffInfo != null)
+        {
             String url = HttpUrls.HOST_URL_V5 + "likes/";
             HashMap<String, String> params = null;
-            if (UserInfoUtil.checkLogin(this)) {
+            if (UserInfoUtil.checkLogin(this))
+            {
                 params = new HashMap<>(5);
                 params.put("user", UserInfoUtil.getUserId(this));
                 params.put("token", UserInfoUtil.getUserToken(this));
-            } else {
+            }
+            else
+            {
                 UserInfoUtil.userLogin(this);
                 return;
             }
             params.put("object_type", "tip");
             params.put("object_id", String.valueOf(tipOffInfo.getId()));
             params.put("action", ivLike.isSelected() ? "cancel" : "add");
-            HttpClientUtil.getHttpClientUtil().sendPostRequest(Tag, url, params, new HttpClientUtil.StringResponseCallBack() {
+            HttpClientUtil.getHttpClientUtil().sendPostRequest(Tag, url, params, new HttpClientUtil.StringResponseCallBack()
+            {
                 @Override
-                public void onBefore(Request request) {
+                public void onBefore(Request request)
+                {
                     ivLike.setEnabled(false);
                 }
 
                 @Override
-                public void onError(Call call, Exception error) {
+                public void onError(Call call, Exception error)
+                {
                     ToastUtil.show(BallQTipOffDetailActivity.this, "请求失败");
                 }
 
                 @Override
-                public void onSuccess(Call call, String response) {
+                public void onSuccess(Call call, String response)
+                {
                     KLog.json(response);
-                    if (!TextUtils.isEmpty(response)) {
+                    if (!TextUtils.isEmpty(response))
+                    {
                         JSONObject obj = JSONObject.parseObject(response);
-                        if (obj != null && !obj.isEmpty()) {
+                        if (obj != null && !obj.isEmpty())
+                        {
                             int status = obj.getIntValue("status");
-                            if (status == 8400) {
+                            if (status == 8400)
+                            {
                                 ivLike.setSelected(true);
-                            } else if (status == 8401) {
+                            }
+                            else if (status == 8401)
+                            {
                                 ivLike.setSelected(false);
                             }
                             ToastUtil.show(BallQTipOffDetailActivity.this, obj.getString("message"));
@@ -899,7 +1104,8 @@ public class BallQTipOffDetailActivity extends BaseActivity implements SwipeRefr
                 }
 
                 @Override
-                public void onFinish(Call call) {
+                public void onFinish(Call call)
+                {
                     ivLike.setEnabled(true);
                 }
             });
@@ -907,9 +1113,12 @@ public class BallQTipOffDetailActivity extends BaseActivity implements SwipeRefr
     }
 
     @Override
-    protected void notifyEvent(String action) {
-        if (!TextUtils.isEmpty(action)) {
-            if (action.equals(EventType.EVENT_WECHAT_SHARE_SUCCESS)) {
+    protected void notifyEvent(String action)
+    {
+        if (!TextUtils.isEmpty(action))
+        {
+            if (action.equals(EventType.EVENT_WECHAT_SHARE_SUCCESS))
+            {
                 KLog.e("获取分享成功的消息。。。");
                 handleWeChatShareSuccessResponse();
             }
@@ -917,40 +1126,49 @@ public class BallQTipOffDetailActivity extends BaseActivity implements SwipeRefr
     }
 
     @Override
-    protected void notifyEvent(String action, Bundle data) {
+    protected void notifyEvent(String action, Bundle data)
+    {
 
     }
 
-    private void handleWeChatShareSuccessResponse() {
-        if (shareDialog != null) {
+    private void handleWeChatShareSuccessResponse()
+    {
+        if (shareDialog != null)
+        {
             shareDialog.dismiss();
-            if (UserInfoUtil.checkLogin(this)) {
+            if (UserInfoUtil.checkLogin(this))
+            {
                 String url = HttpUrls.HOST_URL_V5 + "user/share_stats/";
                 HashMap<String, String> params = new HashMap<>(4);
                 params.put("user", UserInfoUtil.getUserId(this));
                 params.put("token", UserInfoUtil.getUserToken(this));
                 params.put("share_type", "0");
                 params.put("share_id", String.valueOf(tipOffInfo.getId()));
-                HttpClientUtil.getHttpClientUtil().sendPostRequest(Tag, url, params, new HttpClientUtil.StringResponseCallBack() {
+                HttpClientUtil.getHttpClientUtil().sendPostRequest(Tag, url, params, new HttpClientUtil.StringResponseCallBack()
+                {
                     @Override
-                    public void onBefore(Request request) {
+                    public void onBefore(Request request)
+                    {
 
                     }
 
                     @Override
-                    public void onError(Call call, Exception error) {
+                    public void onError(Call call, Exception error)
+                    {
                         KLog.e("请求失败");
 
                     }
 
                     @Override
-                    public void onSuccess(Call call, String response) {
+                    public void onSuccess(Call call, String response)
+                    {
                         KLog.json(response);
 
                     }
 
                     @Override
-                    public void onFinish(Call call) {
+                    public void onFinish(Call call)
+                    {
 
                     }
                 });
@@ -960,15 +1178,21 @@ public class BallQTipOffDetailActivity extends BaseActivity implements SwipeRefr
     }
 
     @Override
-    public void onLoadMore() {
-        if (recyclerView.isRefreshing()) {
+    public void onLoadMore()
+    {
+        if (recyclerView.isRefreshing())
+        {
             KLog.e("刷新数据中....");
             recyclerView.setRefreshingTip("刷新数据中...");
-        } else {
+        }
+        else
+        {
             KLog.e("currentPage:" + currentPages);
-            recyclerView.postDelayed(new Runnable() {
+            recyclerView.postDelayed(new Runnable()
+            {
                 @Override
-                public void run() {
+                public void run()
+                {
                     requestTipOffComments(currentPages, tipOffInfo.getId(), true);
                 }
             }, 300);
@@ -976,19 +1200,25 @@ public class BallQTipOffDetailActivity extends BaseActivity implements SwipeRefr
     }
 
     @Override
-    public void onRefresh() {
-        if (recyclerView.isLoadMoreing()) {
+    public void onRefresh()
+    {
+        if (recyclerView.isLoadMoreing())
+        {
             onRefreshCompelete();
-        } else {
+        }
+        else
+        {
             recyclerView.setRefreshing();
             getTipOffInfo(tipOffInfo.getEid(), tipOffInfo.getId());
         }
     }
 
     @Override
-    public void onLongClickUserHead(View v, int position) {
+    public void onLongClickUserHead(View v, int position)
+    {
         BallQUserCommentEntity info = userCommentEntityList.get(position);
-        if (info != null) {
+        if (info != null)
+        {
             etComment.requestFocus();
             SoftInputUtil.showSoftInput(this, etComment);
             replyerName = "@" + info.getFname().trim() + ":";
@@ -998,23 +1228,26 @@ public class BallQTipOffDetailActivity extends BaseActivity implements SwipeRefr
     }
 
     @Override
-    protected void userLogin(UserInfoEntity userInfoEntity) {
+    protected void userLogin(UserInfoEntity userInfoEntity)
+    {
         super.userLogin(userInfoEntity);
         setRefreshing();
         getTipOffInfo(tipOffInfo.getEid(), tipOffInfo.getId());
     }
 
     @Override
-    protected void onPause() {
+    protected void onPause()
+    {
         super.onPause();
-        JCVideoPlayerStandard videoPlayer= (JCVideoPlayerStandard) headerView.findViewById(R.id.videoplayer);
+        JCVideoPlayerStandard videoPlayer = (JCVideoPlayerStandard) headerView.findViewById(R.id.videoplayer);
         videoPlayer.pausePlay();
     }
 
     @Override
-    protected void onDestroy() {
+    protected void onDestroy()
+    {
         super.onDestroy();
-        JCVideoPlayerStandard videoPlayer= (JCVideoPlayerStandard) headerView.findViewById(R.id.videoplayer);
+        JCVideoPlayerStandard videoPlayer = (JCVideoPlayerStandard) headerView.findViewById(R.id.videoplayer);
         videoPlayer.release();
     }
 }

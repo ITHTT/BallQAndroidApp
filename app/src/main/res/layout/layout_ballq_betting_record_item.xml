@@ -1,37 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="horizontal"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:paddingLeft="10dp"
-    android:paddingRight="10dp"
-    android:paddingTop="8dp"
-    android:paddingBottom="8dp">
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:background="@drawable/click_style"
+              android:orientation="horizontal"
+              android:paddingBottom="8dp"
+              android:paddingLeft="10dp"
+              android:paddingRight="10dp"
+              android:paddingTop="8dp">
+
     <View
         android:id="@+id/view_mark"
         android:layout_width="3dp"
         android:layout_height="match_parent"
         android:background="@color/gold"/>
+
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:paddingLeft="8dp"
-        android:paddingRight="8dp"
+        android:gravity="center"
         android:orientation="vertical"
-        android:gravity="center">
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp">
+
         <TextView
             android:id="@+id/tv_betting_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="13sp"
-            android:text="16:02"/>
+            android:text="16:02"
+            android:textSize="13sp"/>
+
         <TextView
             android:id="@+id/tv_betting_date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="2dp"
-            android:textSize="11sp"
-            android:text="06/03"/>
+            android:text="06/03"
+            android:textSize="11sp"/>
     </LinearLayout>
 
     <LinearLayout
@@ -39,75 +44,87 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:orientation="vertical">
+
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
+
             <TextView
                 android:id="@+id/tv_betting_match_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="13sp"
-                android:text="英国足总杯联赛"/>
+                android:text="英国足总杯联赛"
+                android:textSize="13sp"/>
+
             <TextView
                 android:id="@+id/tv_betting_match_date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="8dp"
-                android:textSize="13sp"
-                android:text="07-01"/>
+                android:text="07-01"
+                android:textSize="13sp"/>
         </LinearLayout>
+
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="5dp">
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="8dp">
+
             <TextView
                 android:id="@+id/tv_home_team_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="13.5sp"
+                android:text="阿森纳"
                 android:textColor="@color/black"
-                android:text="阿森纳"/>
+                android:textSize="13.5sp"/>
+
             <TextView
                 android:id="@+id/tv_match_state"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
-                android:textSize="13.5sp"
+                android:text="0 - 1"
                 android:textColor="@color/black"
-                android:text="0 - 1"/>
+                android:textSize="13.5sp"/>
+
             <TextView
                 android:id="@+id/tv_away_team_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="13.5sp"
+                android:text="阿森纳"
                 android:textColor="@color/black"
-                android:text="阿森纳"/>
+                android:textSize="13.5sp"/>
         </LinearLayout>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_vertical">
+
             <TextView
                 android:id="@+id/tv_betting_result_info"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="13sp"
+                android:text="亚盘 客队+0.25@1.14“"
                 android:textColor="@color/gold"
-                android:text="亚盘 客队+0.25@1.14“"/>
+                android:textSize="13sp"/>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical|right"
                 android:paddingRight="20dp">
+
                 <ImageView
                     android:layout_width="18dp"
                     android:layout_height="18dp"
                     android:layout_marginLeft="10dp"
                     android:layout_marginStart="10dp"
                     android:contentDescription="@string/app_name"
-                    android:src="@mipmap/icon_gold" />
+                    android:src="@mipmap/icon_gold"/>
+
                 <TextView
                     android:id="@+id/tvSam"
                     android:layout_width="wrap_content"
@@ -117,7 +134,7 @@
                     android:text="0"
                     android:textColor="#3a3a3a"
                     android:textSize="13sp"
-                    android:typeface="monospace" />
+                    android:typeface="monospace"/>
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>
@@ -126,16 +143,18 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:paddingLeft="15dp"
-        android:paddingRight="15dp"
         android:gravity="center"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp">
+
         <ImageView
             android:id="@+id/ivBetResult"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:contentDescription="@string/app_name"
-            android:src="@mipmap/icon_guess_win" />
+            android:src="@mipmap/icon_guess_win"/>
+
         <TextView
             android:id="@+id/tvBetResultSam"
             android:layout_width="wrap_content"
@@ -143,6 +162,6 @@
             android:layout_marginTop="5dp"
             android:text="+100"
             android:textSize="13sp"
-            android:typeface="monospace" />
+            android:typeface="monospace"/>
     </LinearLayout>
 </LinearLayout>

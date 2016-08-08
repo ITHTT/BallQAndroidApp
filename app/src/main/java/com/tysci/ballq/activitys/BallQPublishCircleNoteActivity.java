@@ -194,7 +194,7 @@ public class BallQPublishCircleNoteActivity extends BaseActivity implements Ball
         params.put("userId", UserInfoUtil.getUserId(this));
         params.put("sectionId", String.valueOf(sectionId));
 
-        String url= HttpUrls.CIRCLE_HOST_URL+"bbs/topic/publish";
+        String url= HttpUrls.CIRCLE_HOST_URL_V2 +"bbs/topic/publish";
 
         final ProgressDialog dialog=new ProgressDialog(this);
         dialog.setMessage("提交中...");

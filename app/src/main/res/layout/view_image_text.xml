@@ -18,8 +18,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="@dimen/dimen12sp"
-        android:layout_marginLeft="@dimen/dimen10dp"
-        android:layout_marginStart="@dimen/dimen10dp"
+        android:layout_marginLeft="@dimen/dimen5dp"
+        android:layout_marginStart="@dimen/dimen5dp"
         android:text="0"
         android:textColor="@color/c_3a3a3a"/>
 </LinearLayout>

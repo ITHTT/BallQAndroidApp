@@ -299,7 +299,7 @@ public class UserAccountActivity extends BaseActivity
             UserInfoUtil.userLogin(this);
             return;
         }
-        String url = "http://int.ballq.cn:8002/ballq/indiana/order";
+        String url= HttpUrls.BQ_INDINAN_ORDER_NeedUserToken;
         url += "?user=";
         url += UserInfoUtil.getUserId(this);
         url += "&token=";

@@ -41,7 +41,7 @@ public class BallQFindCircleNoteListFragment extends AppSwipeRefreshLoadMoreRecy
     }
 
     private void requestDatas(final int pages, final boolean isLoadMore){
-        String url= HttpUrls.CIRCLE_HOST_URL+"bbs/topic/list?sortType=0&pageNo="+pages+"&sectionId="+sectionId+"&pageSize=10";
+        String url= HttpUrls.CIRCLE_HOST_URL_V1 +"bbs/topic/list?sortType=0&pageNo="+pages+"&sectionId="+sectionId+"&pageSize=10";
         HttpClientUtil.getHttpClientUtil().sendGetRequest(Tag, url, 30, new HttpClientUtil.StringResponseCallBack() {
             @Override
             public void onBefore(Request request) {

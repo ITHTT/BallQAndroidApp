@@ -133,12 +133,12 @@
         <FrameLayout
             android:id="@+id/layout_attention"
             android:layout_width="35dp"
-            android:layout_height="wrap_content">
+            android:layout_height="match_parent">
 
             <ImageView
                 android:id="@+id/ivAttention"
                 android:layout_width="16dp"
-                android:layout_height="match_parent"
+                android:layout_height="16dp"
                 android:layout_gravity="center"
                 android:src="@drawable/icon_user_push_attention_selector"/>
         </FrameLayout>

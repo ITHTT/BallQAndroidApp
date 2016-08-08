@@ -218,7 +218,7 @@ public class BallQMatchTeamTipOffHistoryActivity extends BaseActivity implements
 //                    CommonUtils.getJSONListObject(objArrays, tipOffEntityList, BallQTipOffEntity.class);
 //                    if(adapter==null){
 //                        adapter=new BqMatchTipOffHistoryAdapter();
-//                        recyclerView.setAdapter(adapter);
+//                        mRecyclerView.setAdapter(adapter);
 //                    }else{
 //                        adapter.notifyDataSetChanged();
 //                    }
