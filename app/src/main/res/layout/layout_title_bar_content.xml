@@ -3,6 +3,7 @@
                 xmlns:app="http://schemas.android.com/apk/res-auto"
                 android:layout_width="match_parent"
                 android:layout_height="45dp"
+                android:addStatesFromChildren="true"
                 android:background="@color/colorPrimary"
                 android:fitsSystemWindows="true"
                 android:gravity="center_vertical">
@@ -25,35 +26,6 @@
             android:clickable="false"
             android:src="@drawable/icon_top_left_back"/>
     </RelativeLayout>
-
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_centerInParent="true"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp">
-
-        <TextView
-            android:id="@+id/tv_titlebar_title"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:drawablePadding="3dp"
-            android:gravity="center"
-            android:text="球商"
-            android:textColor="@color/gold"
-            android:textSize="16sp"/>
-
-        <ImageView
-            android:id="@+id/iv_title_more"
-            android:layout_width="@dimen/dimen15dp"
-            android:layout_height="@dimen/dimen15dp"
-            android:layout_marginLeft="@dimen/dimen5dp"
-            android:layout_marginStart="@dimen/dimen5dp"
-            android:contentDescription="@string/app_name"
-            android:src="@mipmap/icon_top_more"/>
-    </LinearLayout>
 
     <LinearLayout
         android:id="@+id/layout_titlebar_next"
@@ -87,5 +59,35 @@
             android:text=""
             android:textSize="14sp"
             android:visibility="gone"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="200dp"
+        android:layout_height="match_parent"
+        android:layout_centerInParent="true"
+        android:addStatesFromChildren="true"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp">
+
+        <com.tysci.ballq.views.MarqueeTextView
+            android:id="@+id/tv_titlebar_title"
+            style="@style/MarqueeTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:drawablePadding="3dp"
+            android:text="球商"
+            android:textColor="@color/gold"
+            android:textSize="16sp"/>
+
+        <ImageView
+            android:id="@+id/iv_title_more"
+            android:layout_width="@dimen/dimen15dp"
+            android:layout_height="@dimen/dimen15dp"
+            android:layout_marginLeft="@dimen/dimen5dp"
+            android:layout_marginStart="@dimen/dimen5dp"
+            android:contentDescription="@string/app_name"
+            android:src="@mipmap/icon_top_more"/>
     </LinearLayout>
 </RelativeLayout>

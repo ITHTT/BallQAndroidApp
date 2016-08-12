@@ -85,10 +85,10 @@ public class JsonParams
             recyclerView.setLoadMoreDataComplete();
             return false;
         }
-        if (recyclerView.getAdapter() != adapter)
-        {
-            recyclerView.setAdapter(adapter);
-        }
+//        if (recyclerView.getAdapter() != adapter)
+//        {
+//            recyclerView.setAdapter(adapter);
+//        }
         adapter.addDataList(array, isLoadMore, cls);
         if (array.size() >= 10)
         {

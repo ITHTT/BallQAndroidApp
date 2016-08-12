@@ -27,7 +27,7 @@ import java.util.List;
 public class BallQTrendProfitStatisticLayout extends LinearLayout {
     private TextView tvTypeName;
     private ExpandableLinearLayout layoutExpandable;
-    private ListView listView;
+    private ListView mListView;
     private ImageView ivArrow;
     private View divider;
 
@@ -59,7 +59,7 @@ public class BallQTrendProfitStatisticLayout extends LinearLayout {
         LayoutInflater.from(context).inflate(R.layout.layout_trend_profit_statistic_item, this, true);
         tvTypeName = (TextView) this.findViewById(R.id.tv_type_name);
         layoutExpandable = (ExpandableLinearLayout) this.findViewById(R.id.layout_expandable);
-        listView = (ListView) this.findViewById(R.id.lv);
+        mListView = (ListView) this.findViewById(R.id.lv);
         ivArrow = (ImageView) this.findViewById(R.id.ivBtn);
         divider = this.findViewById(R.id.divider);
         this.findViewById(R.id.layout_type).setOnClickListener(new OnClickListener() {
@@ -99,7 +99,7 @@ public class BallQTrendProfitStatisticLayout extends LinearLayout {
                 trendProfitStatisticEntityList = new ArrayList<>();
                 trendProfitStatisticEntityList.addAll(datas);
                 adapter = new UserTrendProfitStatisticAdapter(trendProfitStatisticEntityList);
-                listView.setAdapter(adapter);
+                mListView.setAdapter(adapter);
             } else {
                 if (!trendProfitStatisticEntityList.isEmpty()) {
                     trendProfitStatisticEntityList.clear();

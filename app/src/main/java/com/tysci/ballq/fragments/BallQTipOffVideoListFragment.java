@@ -28,7 +28,8 @@ import ru.noties.scrollable.CanScrollVerticallyDelegate;
 import ru.noties.scrollable.OnFlingOverListener;
 
 /**
- * Created by Administrator on 2016/7/20.
+ * Created by HTT
+ * on 2016/7/20.
  */
 public class BallQTipOffVideoListFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener, AutoLoadMoreRecyclerView.OnLoadMoreListener, CanScrollVerticallyDelegate, OnFlingOverListener
 {
@@ -50,17 +51,17 @@ public class BallQTipOffVideoListFragment extends BaseFragment implements SwipeR
         return R.layout.layout_swiperefresh_recyclerview;
     }
 
-    private void setRefreshing()
-    {
-        swipeRefresh.post(new Runnable()
-        {
-            @Override
-            public void run()
-            {
-                swipeRefresh.setRefreshing(true);
-            }
-        });
-    }
+//    private void setRefreshing()
+//    {
+//        swipeRefresh.post(new Runnable()
+//        {
+//            @Override
+//            public void run()
+//            {
+//                swipeRefresh.setRefreshing(true);
+//            }
+//        });
+//    }
 
     private void onRefreshCompelete()
     {
@@ -96,7 +97,7 @@ public class BallQTipOffVideoListFragment extends BaseFragment implements SwipeR
     @Override
     protected View getLoadingTargetView()
     {
-        return null;
+        return contentView.findViewById(R.id.swipe_refresh);
     }
 
     @Override
@@ -229,7 +230,6 @@ public class BallQTipOffVideoListFragment extends BaseFragment implements SwipeR
 //                    {
 //                        adapter.notifyDataSetChanged();
 //                    }
-
                     if (objArrays.size() < 10)
                     {
                         recyclerView.setLoadMoreDataComplete("没有更多数据了");
@@ -253,6 +253,10 @@ public class BallQTipOffVideoListFragment extends BaseFragment implements SwipeR
         if (isLoadMore)
         {
             recyclerView.setLoadMoreDataComplete("没有更多数据了");
+        }
+        if (mBqTipOffVideoAdapter == null || mBqTipOffVideoAdapter.getItemCount() == 0)
+        {
+            showEmptyInfo();
         }
     }
 

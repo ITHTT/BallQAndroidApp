@@ -25,7 +25,7 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:gravity="center"
-        android:text="虚位以待"
+        android:text="球商活动"
         android:textColor="#3a3a3a"
         android:textSize="@dimen/dimen12sp"/>
 </LinearLayout>

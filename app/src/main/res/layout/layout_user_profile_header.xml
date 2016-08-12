@@ -46,16 +46,15 @@
             android:gravity="center_vertical"
             android:orientation="horizontal">
 
-            <TextView
+            <com.tysci.ballq.views.MarqueeTextView
                 android:id="@+id/tv_user_nickname"
+                style="@style/MarqueeTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/dimen15dp"
                 android:layout_marginStart="@dimen/dimen15dp"
-                android:ellipsize="end"
-                android:lines="1"
-                android:maxLength="12"
-                android:text="红烧茄子黄焖鸡"
+                android:maxWidth="110dp"
+                android:text="登录后即可参与竞猜"
                 android:textColor="@color/white"
                 android:textSize="14sp"/>
 
@@ -91,7 +90,7 @@
             android:contentDescription="@string/app_name"
             android:padding="@dimen/dimen10dp"
             android:paddingTop="10dp"
-            android:src="@mipmap/icon_setting"
+            android:src="@drawable/icon_user_setting"
             android:visibility="visible"/>
 
         <LinearLayout
@@ -126,12 +125,11 @@
                 android:contentDescription="@string/app_name"
                 android:src="@mipmap/icon_user_achievement_circle_mark"/>
 
-            <TextView
+            <com.tysci.ballq.views.MarqueeTextView
                 android:id="@+id/tv_user_bio"
+                style="@style/MarqueeTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:ellipsize="end"
-                android:lines="1"
                 android:text="带我装逼带我飞"
                 android:textColor="@color/white"
                 android:textSize="@dimen/dimen13sp"/>
@@ -148,8 +146,9 @@
             android:paddingBottom="7dp"
             android:paddingTop="7dp">
 
-            <TextView
+            <com.tysci.ballq.views.MarqueeTextView
                 android:id="@+id/tv_all_count"
+                style="@style/MarqueeTextView"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -164,8 +163,9 @@
                 android:background="@color/white"
                 android:contentDescription="@string/app_name"/>
 
-            <TextView
+            <com.tysci.ballq.views.MarqueeTextView
                 android:id="@+id/tv_win_count"
+                style="@style/MarqueeTextView"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -180,8 +180,9 @@
                 android:background="@color/white"
                 android:contentDescription="@string/app_name"/>
 
-            <TextView
+            <com.tysci.ballq.views.MarqueeTextView
                 android:id="@+id/tv_lose_count"
+                style="@style/MarqueeTextView"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -196,8 +197,9 @@
                 android:background="@color/white"
                 android:contentDescription="@string/app_name"/>
 
-            <TextView
+            <com.tysci.ballq.views.MarqueeTextView
                 android:id="@+id/tv_go_count"
+                style="@style/MarqueeTextView"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -226,15 +228,17 @@
             android:gravity="center"
             android:orientation="vertical">
 
-            <TextView
+            <com.tysci.ballq.views.MarqueeTextView
                 android:id="@+id/tv_roi"
+                style="@style/MarqueeTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="+0%"
                 android:textColor="@color/black"
                 android:textSize="15sp"/>
 
-            <TextView
+            <com.tysci.ballq.views.MarqueeTextView
+                style="@style/MarqueeTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
@@ -259,15 +263,17 @@
             android:gravity="center"
             android:orientation="vertical">
 
-            <TextView
+            <com.tysci.ballq.views.MarqueeTextView
                 android:id="@+id/tv_total_profit_and_loss"
+                style="@style/MarqueeTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="+0"
                 android:textColor="@color/black"
                 android:textSize="15sp"/>
 
-            <TextView
+            <com.tysci.ballq.views.MarqueeTextView
+                style="@style/MarqueeTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
@@ -292,15 +298,17 @@
             android:gravity="center"
             android:orientation="vertical">
 
-            <TextView
+            <com.tysci.ballq.views.MarqueeTextView
                 android:id="@+id/tv_winning_probability"
+                style="@style/MarqueeTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="+0%"
                 android:textColor="@color/black"
                 android:textSize="15sp"/>
 
-            <TextView
+            <com.tysci.ballq.views.MarqueeTextView
+                style="@style/MarqueeTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"

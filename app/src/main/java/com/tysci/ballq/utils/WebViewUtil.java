@@ -3,6 +3,7 @@ package com.tysci.ballq.utils;
 import android.content.Context;
 import android.text.TextUtils;
 import android.view.ViewGroup;
+import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.widget.LinearLayout;
@@ -10,7 +11,8 @@ import android.widget.LinearLayout;
 /**
  * Created by HTT on 2016/6/6.
  */
-public class WebViewUtil {
+public class WebViewUtil
+{
     public static WebView getHtmlWebView(Context context, String html)
     {
         if (!TextUtils.isEmpty(html))
@@ -29,8 +31,14 @@ public class WebViewUtil {
             webSettings.setUseWideViewPort(true);
             webSettings.setLoadWithOverviewMode(true);
             webSettings.setSupportZoom(false);
+            webView.setScrollBarStyle(WebView.SCROLLBARS_OUTSIDE_OVERLAY);
+            webSettings.setDefaultTextEncodingName(encoding);
             webSettings.setJavaScriptEnabled(true);
-            webView.loadDataWithBaseURL(null, getHtmlData(html), mimeType, encoding, null);
+            webView.setWebChromeClient(new WebChromeClient());
+            webSettings.setBlockNetworkImage(false);
+//            webView.loadData(html, mimeType, encoding);
+            webView.loadDataWithBaseURL("fake://not/needed", html, mimeType, encoding, null);
+//            webView.loadUrl(html);
             return webView;
         }
         return null;

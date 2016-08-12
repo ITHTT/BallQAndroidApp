@@ -287,7 +287,14 @@ public class BallQMainActivity extends BaseActivity
             if (object != null)
             {
                 String rule = object.getString("jump_in_app");
-                jumpInApp(rule);
+                try
+                {
+                    jumpInApp(rule);
+                }
+                catch (Exception e)
+                {
+                    e.printStackTrace();
+                }
             }
         }
     }

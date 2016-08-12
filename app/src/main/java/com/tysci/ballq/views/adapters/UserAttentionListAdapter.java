@@ -139,6 +139,17 @@ public class UserAttentionListAdapter extends WrapRecyclerAdapter<UserAttentionL
             holder.tv_match_date.setText("");
             holder.tv_match_time.setText("");
         }
+        if (BallQMatchStateUtil.getMatchState(info.getMstatus(), info.getEtype()).equals("完场"))
+        {
+            // 完场后VS改为显示比分
+            holder.tv_vs.setText(info.getHtscore());
+            holder.tv_vs.append(" - ");
+            holder.tv_vs.append(info.getAtscore());
+        }
+        else
+        {
+            holder.tv_vs.setText(String.valueOf("VS"));
+        }
 
         holder.tvMatchName.setText(info.getTourname());
 
@@ -152,7 +163,7 @@ public class UserAttentionListAdapter extends WrapRecyclerAdapter<UserAttentionL
         final int sam = info.getSam();
         holder.iv_money_icon.setVisibility(sam == 0 ? View.GONE : View.VISIBLE);
         holder.tvSam.setVisibility(sam == 0 ? View.GONE : View.VISIBLE);
-        holder.tvSam.setText(String.valueOf(sam));
+        holder.tvSam.setText(String.format(Locale.getDefault(), "%.2f", sam * 1F / 100F));
 
         holder.itemView.setOnClickListener(new View.OnClickListener()
         {
@@ -169,12 +180,13 @@ public class UserAttentionListAdapter extends WrapRecyclerAdapter<UserAttentionL
                 context.startActivity(intent);
             }
         });
-        holder.ivUserIcon.setOnClickListener(new View.OnClickListener() {
+        holder.ivUserIcon.setOnClickListener(new View.OnClickListener()
+        {
             @Override
             public void onClick(View v)
             {
-                Context context=v.getContext();
-                UserInfoUtil.lookUserInfo(context,info.getUid());
+                Context context = v.getContext();
+                UserInfoUtil.lookUserInfo(context, info.getUid());
             }
         });
     }
@@ -521,6 +533,8 @@ public class UserAttentionListAdapter extends WrapRecyclerAdapter<UserAttentionL
         TextView tv_match_time;
         @Bind(R.id.tv_match_date)
         TextView tv_match_date;
+        @Bind(R.id.tv_vs)
+        TextView tv_vs;
 
         @Bind(R.id.tvMatchName)
         TextView tvMatchName;

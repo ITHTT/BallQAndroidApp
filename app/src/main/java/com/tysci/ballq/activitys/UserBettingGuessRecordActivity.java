@@ -39,7 +39,8 @@ import okhttp3.Request;
 /**
  * Created by Administrator on 2016/6/20.
  */
-public class UserBettingGuessRecordActivity extends BaseActivity implements SwipeRefreshLayout.OnRefreshListener, AutoLoadMoreRecyclerView.OnLoadMoreListener {
+public class UserBettingGuessRecordActivity extends BaseActivity implements SwipeRefreshLayout.OnRefreshListener, AutoLoadMoreRecyclerView.OnLoadMoreListener
+{
     @Bind(R.id.tv_user_name)
     protected TextView tvUserName;
     @Bind(R.id.tv_user_profit_rate)
@@ -73,12 +74,14 @@ public class UserBettingGuessRecordActivity extends BaseActivity implements Swip
     private int currentPages = 1;
 
     @Override
-    protected int getContentViewId() {
+    protected int getContentViewId()
+    {
         return R.layout.activity_ballq_user_betting_record;
     }
 
     @Override
-    protected void initViews() {
+    protected void initViews()
+    {
         setTitle("竞猜记录");
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setOnLoadMoreListener(this);
@@ -86,14 +89,17 @@ public class UserBettingGuessRecordActivity extends BaseActivity implements Swip
     }
 
     @Override
-    protected View getLoadingTargetView() {
+    protected View getLoadingTargetView()
+    {
         return swipeRefresh;
     }
 
     @Override
-    protected void getIntentData(Intent intent) {
+    protected void getIntentData(Intent intent)
+    {
         uid = intent.getStringExtra(Tag);
-        if (TextUtils.isEmpty(uid)) {
+        if (TextUtils.isEmpty(uid))
+        {
             uid = UserInfoUtil.getUserId(this);
         }
 
@@ -105,12 +111,17 @@ public class UserBettingGuessRecordActivity extends BaseActivity implements Swip
         getUserInfo(uid);
     }
 
-    private void onRefreshCompelete() {
-        if (swipeRefresh != null) {
-            swipeRefresh.postDelayed(new Runnable() {
+    private void onRefreshCompelete()
+    {
+        if (swipeRefresh != null)
+        {
+            swipeRefresh.postDelayed(new Runnable()
+            {
                 @Override
-                public void run() {
-                    if (swipeRefresh != null) {
+                public void run()
+                {
+                    if (swipeRefresh != null)
+                    {
                         swipeRefresh.setRefreshing(false);
                     }
                 }
@@ -119,32 +130,38 @@ public class UserBettingGuessRecordActivity extends BaseActivity implements Swip
     }
 
     @Override
-    protected boolean isCanceledEventBus() {
+    protected boolean isCanceledEventBus()
+    {
         return false;
     }
 
     @Override
-    protected void saveInstanceState(Bundle outState) {
+    protected void saveInstanceState(Bundle outState)
+    {
 
     }
 
     @Override
-    protected void handleInstanceState(Bundle outState) {
+    protected void handleInstanceState(Bundle outState)
+    {
 
     }
 
     @Override
-    protected void onViewClick(View view) {
+    protected void onViewClick(View view)
+    {
 
     }
 
     @Override
-    protected void notifyEvent(String action) {
+    protected void notifyEvent(String action)
+    {
 
     }
 
     @Override
-    protected void notifyEvent(String action, Bundle data) {
+    protected void notifyEvent(String action, Bundle data)
+    {
 
     }
 
@@ -153,45 +170,59 @@ public class UserBettingGuessRecordActivity extends BaseActivity implements Swip
      *
      * @param uid
      */
-    private void getUserInfo(final String uid) {
+    private void getUserInfo(final String uid)
+    {
         String url = HttpUrls.HOST_URL_V5 + "user/" + uid + "/profile/";
         HashMap<String, String> params = null;
-        if (UserInfoUtil.checkLogin(this)) {
+        if (UserInfoUtil.checkLogin(this))
+        {
             params = new HashMap<>(2);
             params.put("user", UserInfoUtil.getUserId(this));
             params.put("token", UserInfoUtil.getUserToken(this));
         }
-        HttpClientUtil.getHttpClientUtil().sendPostRequest(Tag, url, params, new HttpClientUtil.StringResponseCallBack() {
+        HttpClientUtil.getHttpClientUtil().sendPostRequest(Tag, url, params, new HttpClientUtil.StringResponseCallBack()
+        {
 
             @Override
-            public void onBefore(Request request) {
+            public void onBefore(Request request)
+            {
 
             }
 
             @Override
-            public void onError(Call call, Exception error) {
+            public void onError(Call call, Exception error)
+            {
                 onRefreshCompelete();
-                if (adapter == null) {
-                    showErrorInfo(new View.OnClickListener() {
+                if (adapter == null)
+                {
+                    showErrorInfo(new View.OnClickListener()
+                    {
                         @Override
-                        public void onClick(View v) {
+                        public void onClick(View v)
+                        {
                             showLoading();
                             getUserInfo(uid);
                         }
                     });
-                } else {
+                }
+                else
+                {
                     ToastUtil.show(UserBettingGuessRecordActivity.this, "请求失败");
                 }
             }
 
             @Override
-            public void onSuccess(Call call, String response) {
+            public void onSuccess(Call call, String response)
+            {
                 KLog.json(response);
-                if (!TextUtils.isEmpty(response)) {
+                if (!TextUtils.isEmpty(response))
+                {
                     JSONObject obj = JSONObject.parseObject(response);
-                    if (obj != null) {
+                    if (obj != null)
+                    {
                         JSONObject dataObj = obj.getJSONObject("data");
-                        if (dataObj != null) {
+                        if (dataObj != null)
+                        {
                             requestUserBettingRecordInfos(1, uid, bet, query, etype, false);
                             GlideImageLoader.loadImage(UserBettingGuessRecordActivity.this, dataObj.getString("pt"), R.mipmap.icon_user_default, ivUserIcon);
                             UserInfoUtil.setUserHeaderVMark(dataObj.getIntValue("isv"), ivS, ivUserIcon);
@@ -214,80 +245,128 @@ public class UserBettingGuessRecordActivity extends BaseActivity implements Swip
                     }
                 }
                 onRefreshCompelete();
-                if (adapter == null) {
+                if (adapter == null)
+                {
                     showEmptyInfo();
                 }
             }
 
             @Override
-            public void onFinish(Call call) {
+            public void onFinish(Call call)
+            {
 
             }
         });
     }
 
-    private void requestUserBettingRecordInfos(final int pages, final String uid, final String bet, final String query, final String etype, final boolean isLoadMore) {
-        String url = HttpUrls.HOST_URL_V5 + "user/" + uid + "/bets" + (TextUtils.isEmpty(bet) ? "" : "/" + bet) + "/?p=" + pages + (TextUtils.isEmpty(query) ? "" : "&query=" + query) + (!TextUtils.isEmpty(etype) ? "&etype=" + etype : "");
-        KLog.e("url:" + url);
-        HttpClientUtil.getHttpClientUtil().sendGetRequest(Tag, url, 30, new HttpClientUtil.StringResponseCallBack() {
+    private void requestUserBettingRecordInfos(final int pages, final String uid, final String bet, final String query, final String etype, final boolean isLoadMore)
+    {
+//        String url = HttpUrls.HOST_URL_V5 + "user/" + uid + "/bets" + (TextUtils.isEmpty(bet) ? "" : "/" + bet) + "/?p=" + pages + (TextUtils.isEmpty(query) ? "" : "&query=" + query) + (!TextUtils.isEmpty(etype) ? "&etype=" + etype : "");
+//        url = "user/" + uid + "/bets/" + bet + "/?query=" + query + "&p=" + pages + (etype != null ? "&etype=" + etype : "");
+        StringBuilder sbUrl = new StringBuilder();
+        sbUrl.append(HttpUrls.HOST_URL_V5);
+        sbUrl.append("user/").append(uid).append("/");
+        sbUrl.append("bets/");
+        if (!TextUtils.isEmpty(bet))
+        {
+            sbUrl.append(bet).append("/");
+        }
+        if (!TextUtils.isEmpty(query))
+        {
+            sbUrl.append("?query=").append(query);
+        }
+        if (!TextUtils.isEmpty(etype))
+        {
+            sbUrl.append("&etype=").append(etype);
+        }
+        sbUrl.append("&p=").append(pages);
+        KLog.e("url:" + sbUrl.toString());
+        HttpClientUtil.getHttpClientUtil().sendGetRequest(Tag, sbUrl.toString(), 30, new HttpClientUtil.StringResponseCallBack()
+        {
             @Override
-            public void onBefore(Request request) {
+            public void onBefore(Request request)
+            {
 
             }
 
             @Override
-            public void onError(Call call, Exception error) {
-                if (!isLoadMore) {
-                    if (adapter != null) {
+            public void onError(Call call, Exception error)
+            {
+                if (!isLoadMore)
+                {
+                    if (adapter != null)
+                    {
                         recyclerView.setStartLoadMore();
                         ToastUtil.show(UserBettingGuessRecordActivity.this, "请求失败");
-                    } else {
-                        showErrorInfo(new View.OnClickListener() {
+                    }
+                    else
+                    {
+                        showErrorInfo(new View.OnClickListener()
+                        {
                             @Override
-                            public void onClick(View v) {
+                            public void onClick(View v)
+                            {
                                 showLoading();
                                 requestUserBettingRecordInfos(pages, uid, bet, query, etype, isLoadMore);
                             }
                         });
                     }
-                } else {
+                }
+                else
+                {
                     recyclerView.setLoadMoreDataFailed();
                 }
             }
 
             @Override
-            public void onSuccess(Call call, String response) {
+            public void onSuccess(Call call, String response)
+            {
                 KLog.json(response);
-                if (!TextUtils.isEmpty(response)) {
+                if (!TextUtils.isEmpty(response))
+                {
                     JSONObject obj = JSONObject.parseObject(response);
-                    if (obj != null && !obj.isEmpty() && obj.getIntValue("status") == 0) {
+                    if (obj != null && !obj.isEmpty() && obj.getIntValue("status") == 0)
+                    {
                         JSONArray arrays = obj.getJSONArray("data");
-                        if (arrays != null && !arrays.isEmpty()) {
+                        if (arrays != null && !arrays.isEmpty())
+                        {
                             hideLoad();
-                            if (userGuessBettingRecordEntityList == null) {
+                            if (userGuessBettingRecordEntityList == null)
+                            {
                                 userGuessBettingRecordEntityList = new ArrayList<BallQUserGuessBettingRecordEntity>(10);
                             }
-                            if (!isLoadMore) {
-                                if (!userGuessBettingRecordEntityList.isEmpty()) {
+                            if (!isLoadMore)
+                            {
+                                if (!userGuessBettingRecordEntityList.isEmpty())
+                                {
                                     userGuessBettingRecordEntityList.clear();
                                 }
                             }
                             CommonUtils.getJSONListObject(arrays, userGuessBettingRecordEntityList, BallQUserGuessBettingRecordEntity.class);
-                            if (adapter == null) {
+                            if (adapter == null)
+                            {
                                 adapter = new BallQUserBettingGuessRecordAdapter(userGuessBettingRecordEntityList);
                                 StickyHeaderDecoration decoration = new StickyHeaderDecoration(adapter);
                                 recyclerView.setAdapter(adapter);
                                 recyclerView.addItemDecoration(decoration);
-                            } else {
+                            }
+                            else
+                            {
                                 adapter.notifyDataSetChanged();
                             }
-                            if (arrays.size() < 10) {
+                            if (arrays.size() < 10)
+                            {
                                 recyclerView.setLoadMoreDataComplete(tip);
-                            } else {
+                            }
+                            else
+                            {
                                 recyclerView.setStartLoadMore();
-                                if (isLoadMore) {
+                                if (isLoadMore)
+                                {
                                     currentPages++;
-                                } else {
+                                }
+                                else
+                                {
                                     currentPages = 2;
                                 }
                                 return;
@@ -295,18 +374,24 @@ public class UserBettingGuessRecordActivity extends BaseActivity implements Swip
                         }
                     }
                 }
-                if (adapter == null) {
+                if (adapter == null)
+                {
                     showEmptyInfo();
-                } else {
-                    if (!isLoadMore) {
+                }
+                else
+                {
+                    if (!isLoadMore)
+                    {
                         recyclerView.setLoadMoreDataComplete(tip);
                     }
                 }
             }
 
             @Override
-            public void onFinish(Call call) {
-                if (!isLoadMore) {
+            public void onFinish(Call call)
+            {
+                if (!isLoadMore)
+                {
                     recyclerView.setRefreshComplete();
                     onRefreshCompelete();
                 }
@@ -316,15 +401,21 @@ public class UserBettingGuessRecordActivity extends BaseActivity implements Swip
     }
 
     @Override
-    public void onLoadMore() {
-        if (recyclerView.isRefreshing()) {
+    public void onLoadMore()
+    {
+        if (recyclerView.isRefreshing())
+        {
             KLog.e("刷新数据中....");
             recyclerView.setRefreshingTip("刷新数据中...");
-        } else {
+        }
+        else
+        {
             KLog.e("currentPage:" + currentPages);
-            recyclerView.postDelayed(new Runnable() {
+            recyclerView.postDelayed(new Runnable()
+            {
                 @Override
-                public void run() {
+                public void run()
+                {
                     requestUserBettingRecordInfos(currentPages, uid, bet, query, etype, true);
                 }
             }, 300);
@@ -332,10 +423,14 @@ public class UserBettingGuessRecordActivity extends BaseActivity implements Swip
     }
 
     @Override
-    public void onRefresh() {
-        if (recyclerView.isLoadMoreing()) {
+    public void onRefresh()
+    {
+        if (recyclerView.isLoadMoreing())
+        {
             onRefreshCompelete();
-        } else {
+        }
+        else
+        {
             recyclerView.setRefreshing();
             getUserInfo(uid);
         }

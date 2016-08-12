@@ -140,9 +140,29 @@ public class BqIndexHeaderView extends LinearLayout implements OnItemClickListen
     {
         if (eventsArray == null || eventsArray.isEmpty())
             return;
-        mIndexEventsView1.setJSONObject(eventsArray.getJSONObject(0));
-        mIndexEventsView2.setJSONObject(eventsArray.getJSONObject(1));
-        mIndexEventsView3.setJSONObject(eventsArray.getJSONObject(2));
+        try
+        {
+            mIndexEventsView1.setJSONObject(eventsArray.getJSONObject(0));
+        }
+        catch (Exception e)
+        {
+            return;
+        }
+        try
+        {
+            mIndexEventsView2.setJSONObject(eventsArray.getJSONObject(1));
+        }
+        catch (Exception e)
+        {
+          return;
+        }
+        try
+        {
+            mIndexEventsView3.setJSONObject(eventsArray.getJSONObject(2));
+        }
+        catch (Exception ignored)
+        {
+        }
     }
 
     @Override

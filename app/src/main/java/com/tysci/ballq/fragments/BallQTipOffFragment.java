@@ -41,14 +41,15 @@ import ru.noties.scrollable.OnScrollChangedListener;
 import ru.noties.scrollable.ScrollableLayout;
 
 /**
- * Created by HTT on 2016/7/12.
+ * Created by HTT
+ * on 2016/7/12.
  */
 public class BallQTipOffFragment extends BaseFragment implements View.OnClickListener, OnItemClickListener, BqTipOffPopupWindow.OnCheckItemCallback
 {
     @Bind(R.id.title_bar)
     protected TitleBar titleBar;
     @Bind(R.id.convenientBanner)
-    protected ConvenientBanner banner;
+    protected ConvenientBanner<BallQBannerImageEntity> banner;
     @Bind(R.id.tab_layout)
     protected SlidingTabLayout tabLayout;
     @Bind(R.id.view_pager)
@@ -81,8 +82,8 @@ public class BallQTipOffFragment extends BaseFragment implements View.OnClickLis
             public void onClick(View v)
             {
                 int item = viewPager.getCurrentItem();
-                if (item >= 0)// TODO 需求暂时不予显示
-                    return;
+                if (item > 0) return;// TODO 筛选暂不显示
+
                 if (mBqTipOffPopupWindow == null)
                 {
                     mBqTipOffPopupWindow = new BqTipOffPopupWindow(baseActivity);
@@ -183,8 +184,8 @@ public class BallQTipOffFragment extends BaseFragment implements View.OnClickLis
             @Override
             public void onPageSelected(int position)
             {
-                // TODO 需求暂时不予显示
-                titleBar.setTitleMoreVisibility(/*position == 0 || position == 1 ? View.VISIBLE : */View.GONE);
+                // TODO 筛选暂不显示
+                titleBar.setTitleMoreVisibility(View.GONE);
             }
 
             @Override
@@ -210,7 +211,6 @@ public class BallQTipOffFragment extends BaseFragment implements View.OnClickLis
     @Override
     protected void notifyEvent(String action)
     {
-
     }
 
     @Override
@@ -232,10 +232,10 @@ public class BallQTipOffFragment extends BaseFragment implements View.OnClickLis
                         tabLayout.hideMsg(0);
                         break;
                     case "article":
-                        tabLayout.showDot(1);
+                        tabLayout.showDot(2);
                         break;
                     case "article_reset":
-                        tabLayout.hideMsg(1);
+                        tabLayout.hideMsg(2);
                         break;
                 }
             }
@@ -326,10 +326,10 @@ public class BallQTipOffFragment extends BaseFragment implements View.OnClickLis
                             bannerList.clear();
                         }
                         CommonUtils.getJSONListObject(data, bannerList, BallQBannerImageEntity.class);
-                        banner.setPages(new CBViewHolderCreator()
+                        banner.setPages(new CBViewHolderCreator<BannerNetworkImageView>()
                         {
                             @Override
-                            public Object createHolder()
+                            public BannerNetworkImageView createHolder()
                             {
                                 return new BannerNetworkImageView();
                             }

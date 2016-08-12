@@ -172,6 +172,14 @@ public class UserAttentionAllFragment extends AppSwipeRefreshLoadMoreRecyclerVie
                     adapter.addDataList(data, isLoadMore, UserAttentionListEntity.class);
                     recyclerView.setStartLoadMore();
                 }
+                if (isLoadMore)
+                {
+                    currentPages++;
+                }
+                else
+                {
+                    currentPages = 2;
+                }
 //                if (!TextUtils.isEmpty(response)) {
 //                    JSONObject obj = JSONObject.parseObject(response);
 //                    if (obj != null && !obj.isEmpty() && obj.getIntValue("status") == 0) {

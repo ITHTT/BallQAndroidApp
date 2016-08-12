@@ -9,10 +9,13 @@ import android.widget.LinearLayout;
 import com.alibaba.fastjson.JSONObject;
 import com.tysci.ballq.R;
 import com.tysci.ballq.base.BaseActivity;
+import com.tysci.ballq.modles.JsonParams;
 import com.tysci.ballq.modles.UserInfoEntity;
 import com.tysci.ballq.networks.HttpClientUtil;
 import com.tysci.ballq.networks.HttpUrls;
+import com.tysci.ballq.utils.HandlerUtil;
 import com.tysci.ballq.utils.KLog;
+import com.tysci.ballq.utils.ToastUtil;
 import com.tysci.ballq.utils.UserInfoUtil;
 import com.tysci.ballq.views.UserProfileHeaderView;
 import com.tysci.ballq.views.widgets.MainMenuItemView;
@@ -155,13 +158,33 @@ public class UserProfileActivity extends BaseActivity
                 if (!TextUtils.isEmpty(response))
                 {
                     JSONObject obj = JSONObject.parseObject(response);
-                    if (obj != null)
+                    if (obj != null && JsonParams.isJsonRight(obj))
                     {
-                        UserInfoEntity userInfoEntity = obj.getObject("data", UserInfoEntity.class);
+                        UserInfoEntity userInfoEntity = null;
+                        try
+                        {
+                            userInfoEntity = obj.getObject("data", UserInfoEntity.class);
+                        }
+                        catch (Exception e)
+                        {
+                            e.printStackTrace();
+                        }
                         if (userInfoEntity != null)
                         {
                             showUserInfo(userInfoEntity);
                         }
+                    }
+                    else
+                    {
+                        ToastUtil.show(UserProfileActivity.this, obj == null ? "找不到该用户的信息" : obj.getString("message"));
+                        new HandlerUtil().postDelayed(new Runnable()
+                        {
+                            @Override
+                            public void run()
+                            {
+                                finish();
+                            }
+                        }, 250);
                     }
                 }
             }

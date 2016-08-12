@@ -1,47 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:gravity="center_vertical"
-    android:paddingTop="8dp"
-    android:paddingBottom="8dp">
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:background="@drawable/click_style"
+              android:gravity="center_vertical"
+              android:paddingBottom="8dp"
+              android:paddingTop="8dp">
+
     <TextView
         android:id="@+id/tv_user_name"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1.2"
-        android:singleLine="true"
         android:gravity="center"
-        android:textSize="13sp"
-        android:text=""/>
+        android:singleLine="true"
+        android:text=""
+        android:textSize="13sp"/>
+
     <TextView
         android:id="@+id/tv_user_tip_count"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:gravity="center"
-        android:textSize="13sp"
-        android:text=""/>
+        android:text=""
+        android:textSize="13sp"/>
+
     <TextView
         android:id="@+id/tv_user_recommend_count"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:gravity="center"
-        android:textSize="13sp"
-        android:text=""/>
+        android:text=""
+        android:textSize="13sp"/>
+
     <TextView
         android:id="@+id/tv_user_all_profit"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:gravity="center"
-        android:textSize="13sp"
-        android:text=""/>
+        android:text=""
+        android:textSize="13sp"/>
+
     <FrameLayout
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="0.8">
+
         <ImageView
             android:id="@+id/iv_attention"
             android:layout_width="20dp"

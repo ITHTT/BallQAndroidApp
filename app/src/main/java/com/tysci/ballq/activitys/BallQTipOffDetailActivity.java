@@ -457,6 +457,7 @@ public class BallQTipOffDetailActivity extends BaseActivity implements SwipeRefr
         }
 
         tvTipContent.setText(Html.fromHtml(data.getCont()));
+        tvTipContent.setText(data.getCont());
         tvSam.setText(String.valueOf(data.getSam() / 100));
 
         if (data.getMtcount() > 1)

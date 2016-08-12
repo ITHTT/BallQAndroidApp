@@ -36,4 +36,16 @@
         <item name="android:windowEnterAnimation">@anim/anim_bottom_in</item>
         <item name="android:windowExitAnimation">@anim/anim_bottom_out</item>
     </style>
+
+    <style name="MarqueeTextView">
+        <item name="android:lines">1</item>
+        <item name="android:scrollHorizontally">true</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:marqueeRepeatLimit">marquee_forever</item>
+        <item name="android:focusable">true</item>
+        <item name="android:ellipsize">marquee</item>
+        <item name="android:gravity">center</item>
+        <item name="android:focusableInTouchMode">true</item>
+        <item name="android:fadingEdge">horizontal</item>
+    </style>
 </resources>

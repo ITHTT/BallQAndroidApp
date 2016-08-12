@@ -26,8 +26,6 @@ public class JPushReceiver extends BroadcastReceiver
 {
     private final static String TAG = "JPush";
 
-    private String mExtraMessage;
-
     @Override
     public void onReceive(Context context, Intent intent)
     {
@@ -43,11 +41,7 @@ public class JPushReceiver extends BroadcastReceiver
         }
         else if (JPushInterface.ACTION_MESSAGE_RECEIVED.equals(intent.getAction()))
         {
-            mExtraMessage = bundle.getString(JPushInterface.EXTRA_MESSAGE);
-            Log.d(TAG, "[MyReceiver] 接收到推送下来的自定义消息: " + mExtraMessage);
-            // 极光推送  type url jump_type
             processCustomMessage(context, bundle);
-
         }
         else if (JPushInterface.ACTION_NOTIFICATION_RECEIVED.equals(intent.getAction()))
         {
@@ -58,6 +52,7 @@ public class JPushReceiver extends BroadcastReceiver
         }
         else if (JPushInterface.ACTION_NOTIFICATION_OPENED.equals(intent.getAction()))
         {
+            // 极光推送  type url jump_type
             userOpenNotification(context, bundle);
         }
         else if (JPushInterface.ACTION_RICHPUSH_CALLBACK.equals(intent.getAction()))
@@ -81,13 +76,14 @@ public class JPushReceiver extends BroadcastReceiver
     {
         Log.d(TAG, "[MyReceiver] 用户点击打开了通知");
 
-        if (TextUtils.isEmpty(mExtraMessage))
+        String extraExtra = bundle.getString(JPushInterface.EXTRA_EXTRA);
+        if (TextUtils.isEmpty(extraExtra))
         {
             openDefaultActivity(context, bundle);
         }
         else
         {
-            com.alibaba.fastjson.JSONObject object = JSON.parseObject(mExtraMessage);
+            com.alibaba.fastjson.JSONObject object = JSON.parseObject(extraExtra);
             // {"type":601,"url":"example_url","jump_type":0}
             if (object == null)
             {
@@ -101,7 +97,7 @@ public class JPushReceiver extends BroadcastReceiver
                 switch (type)
                 {
                     case 601:
-                        BallQBusinessControler.businessControler(context, jump_type, url);
+                        BallQBusinessControler.businessControler(context, jump_type, url, true);
                         break;
                 }
             }

@@ -20,68 +20,91 @@ import java.util.Locale;
 /**
  * Created by HTT on 2016/6/18.
  */
-public class UserTrendProfitStatisticAdapter extends BaseAdapter {
+public class UserTrendProfitStatisticAdapter extends BaseAdapter
+{
     private List<BallQTrendProfitStatisticEntity> trendProfitStatisticEntityList;
 
     private String bet, query;
     int etype;
 
-    public UserTrendProfitStatisticAdapter(List<BallQTrendProfitStatisticEntity> datas) {
+    public UserTrendProfitStatisticAdapter(List<BallQTrendProfitStatisticEntity> datas)
+    {
         this.trendProfitStatisticEntityList = datas;
     }
 
-    public void setBet(String bet) {
+    public void setBet(String bet)
+    {
         this.bet = bet;
     }
 
-    public void setQuery(String query) {
+    public void setQuery(String query)
+    {
         this.query = query;
     }
 
-    public void setEtype(int etype) {
+    public void setEtype(int etype)
+    {
         this.etype = etype;
     }
 
     @Override
-    public int getCount() {
+    public int getCount()
+    {
         return trendProfitStatisticEntityList.size();
     }
 
     @Override
-    public Object getItem(int position) {
+    public Object getItem(int position)
+    {
         return trendProfitStatisticEntityList.get(position);
     }
 
     @Override
-    public long getItemId(int position) {
+    public long getItemId(int position)
+    {
         return position;
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        UserTrendProfitStatisticViewHolder holder = null;
-        if (convertView == null) {
+    public View getView(int position, View convertView, ViewGroup parent)
+    {
+        final UserTrendProfitStatisticViewHolder holder;
+        if (convertView == null)
+        {
             convertView = LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_trend_statistic_item, parent, false);
             holder = new UserTrendProfitStatisticViewHolder(convertView);
             convertView.setTag(holder);
-        } else {
+        }
+        else
+        {
             holder = (UserTrendProfitStatisticViewHolder) convertView.getTag();
         }
         final BallQTrendProfitStatisticEntity info = trendProfitStatisticEntityList.get(position);
         int type = info.getType();
-        if (type == 1) {
+        if (type == 1)
+        {
             holder.tvTitle.setText(String.valueOf(info.getAhc_type()));
-        } else if (type == 2) {
+        }
+        else if (type == 2)
+        {
             holder.tvTitle.setText(info.getTournname());
-        } else if (type == 3) {
+        }
+        else if (type == 3)
+        {
             holder.tvTitle.setText(info.getMonth());
-        } else if (type == 4) {
+        }
+        else if (type == 4)
+        {
             holder.tvTitle.setText(String.valueOf(info.getTo_type()));
-        } else if (type == 5) {
-            String sam = String.format(Locale.getDefault(), "%.2f", (float) info.getSam() / 100F);
-            sam = sam + "(" + info.getAllq() + ")";
+        }
+        else if (type == 5)
+        {
+            String sam = String.format(Locale.getDefault(), "%.2f", info.getSam() * 1F / 100F);
+            sam = sam + "(" + info.getAllq() + "场)";
             holder.tvTitle.setText(String.valueOf(sam));
-        } else if (type == 6) {
+        }
+        else if (type == 6)
+        {
             holder.tvTitle.setText(WeekDayUtil.getZhWeekDay(info.getWeekday()));
         }
 
@@ -91,13 +114,32 @@ public class UserTrendProfitStatisticAdapter extends BaseAdapter {
         holder.tvValue.setTextColor(Color.parseColor(value > 0 ? "#ce483d" : (value == 0 ? "#9b9b9b" : "#469c4a")));
         holder.tvValue.setText(earnText);
         final Context context = holder.itemView.getContext();
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
+        holder.itemView.setOnClickListener(new View.OnClickListener()
+        {
             @Override
-            public void onClick(View v) {
+            public void onClick(View v)
+            {
                 Intent intent = new Intent(context, UserBettingGuessRecordActivity.class);
                 intent.putExtra(UserBettingGuessRecordActivity.class.getSimpleName(), String.valueOf(info.getUid()));
                 intent.putExtra("bet", bet);
-                intent.putExtra("query", query);
+
+                switch (bet)
+                {
+                    case "ahc":
+                    case "month":
+                    case "to":
+                        intent.putExtra("query", holder.tvTitle.getText().toString());
+                        break;
+                    case "amount":
+                        intent.putExtra("query", String.valueOf(info.getSam()));
+                        break;
+                    case "tourn":
+                        intent.putExtra("query", String.valueOf(info.getTournid()));
+                        break;
+                    case "weekday":
+                        intent.putExtra("query", String.valueOf(info.getWeekday()));
+                        break;
+                }
                 intent.putExtra("etype", String.valueOf(etype));
                 context.startActivity(intent);
             }
@@ -105,13 +147,15 @@ public class UserTrendProfitStatisticAdapter extends BaseAdapter {
         return convertView;
     }
 
-    public static final class UserTrendProfitStatisticViewHolder {
+    public static final class UserTrendProfitStatisticViewHolder
+    {
         public final View itemView;
 
         TextView tvTitle;
         TextView tvValue;
 
-        public UserTrendProfitStatisticViewHolder(View view) {
+        public UserTrendProfitStatisticViewHolder(View view)
+        {
             itemView = view;
 
             tvTitle = (TextView) view.findViewById(R.id.tv_title);

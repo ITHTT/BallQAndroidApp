@@ -60,6 +60,8 @@ public class TitleBar extends LinearLayout
         layoutLeftBack = (RelativeLayout) this.findViewById(R.id.layout_titlebar_back);
 
         tvTitle = (TextView) this.findViewById(R.id.tv_titlebar_title);
+        tvTitle.setFocusable(true);
+        tvTitle.requestFocus();
         mTitleMore = (ImageView) this.findViewById(R.id.iv_title_more);
 
         ivNextMenu01 = (ImageView) this.findViewById(R.id.iv_titlebar_next_menu01);
