@@ -35,24 +35,6 @@ public class BallQPersonalFragment extends BaseFragment
 {
     @Bind(R.id.title_bar)
     protected TitleBar titleBar;
-//    @Bind(R.id.iv_user_header)
-//    protected CircleImageView ivUserHeader;
-//    @Bind(R.id.iv_user_v)
-//    protected ImageView ivUserV;
-//    @Bind(R.id.iv_user_achievement_01)
-//    protected ImageView ivUserAchievement01;
-//    @Bind(R.id.iv_user_achievement_02)
-//    protected ImageView ivUserAchievement02;
-//    @Bind(R.id.tv_user_name)
-//    protected TextView tvUserName;
-//    @Bind(R.id.tv_user_bio)
-//    protected TextView tvUserBio;
-//    @Bind(R.id.tv_ROI)
-//    protected TextView tvROI;
-//    @Bind(R.id.tv_total_profi_and_loss)
-//    protected TextView tvTotalROI;
-//    @Bind(R.id.tv_winning_probability)
-//    protected TextView tvWins;
 
     @Bind(R.id.user_profile_header_view)
     protected UserProfileHeaderView mUserProfileHeaderView;
@@ -143,44 +125,7 @@ public class BallQPersonalFragment extends BaseFragment
     {
         if (userInfo != null)
         {
-//            GlideImageLoader.loadImage(this, userInfo.getPt(), R.mipmap.icon_user_default, ivUserHeader);
-//            UserInfoUtil.setUserHeaderVMark(userInfo.getIsv(), ivUserV, ivUserHeader);
-//            if (TextUtils.isEmpty(userInfo.getTitle1()))
-//            {
-//                ivUserAchievement01.setVisibility(View.GONE);
-//            }
-//            else
-//            {
-//                ivUserAchievement01.setVisibility(View.VISIBLE);
-//                GlideImageLoader.loadImage(this, userInfo.getTitle1(), R.mipmap.icon_user_achievement_circle_mark, ivUserAchievement01);
-//            }
-//            if (TextUtils.isEmpty(userInfo.getTitle2()))
-//            {
-//                ivUserAchievement02.setVisibility(View.GONE);
-//            }
-//            else
-//            {
-//                ivUserAchievement02.setVisibility(View.VISIBLE);
-//                GlideImageLoader.loadImage(this, userInfo.getTitle2(), R.mipmap.icon_user_achievement_circle_mark, ivUserAchievement02);
-//            }
-//            tvUserName.setText(userInfo.getFname());
-//            if (TextUtils.isEmpty(userInfo.getBio()))
-//            {
-//                tvUserBio.setVisibility(View.GONE);
-//            }
-//            else
-//            {
-//                tvUserBio.setVisibility(View.VISIBLE);
-//                tvUserBio.setText(userInfo.getBio());
-//            }
-            // 老用户
             oldUser.setVisibility(userInfo.getIs_old_user() == 1 ? View.VISIBLE : View.GONE);
-
-//            tvROI.setText(String.format(Locale.getDefault(), "%.2f", userInfo.getRor()));
-//            tvROI.append("%");
-//            tvTotalROI.setText(String.format(Locale.getDefault(), "%.2f", (float) userInfo.getTearn() / 100));
-//            tvWins.setText(String.format(Locale.getDefault(), "%.2f", userInfo.getWins() * 100));
-//            tvWins.append("%");
 
             mUserProfileHeaderView.setUserProfile(userInfo);
         }

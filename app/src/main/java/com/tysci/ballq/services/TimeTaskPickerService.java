@@ -169,7 +169,17 @@ public class TimeTaskPickerService extends BaseService implements Runnable
             {
                 KLog.json(response);
 
-                com.alibaba.fastjson.JSONObject object = JSON.parseObject(response);
+                com.alibaba.fastjson.JSONObject object = null;
+                try
+                {
+                    object = JSON.parseObject(response);
+                }
+                catch (Exception e)
+                {
+                    e.printStackTrace();
+                }
+                if (object == null)
+                    return;
                 if (!JsonParams.isJsonRight(object))
                 {
                     return;

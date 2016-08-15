@@ -93,7 +93,7 @@ public class BallQTrendProfitStatisticLayout extends LinearLayout {
         tvTypeName.setText(title);
     }
 
-    public void setTrendProfitStatistValue(String bet, String query, int etype, List<BallQTrendProfitStatisticEntity> datas) {
+    public void setTrendProfitStatistValue(String bet, String query, int etype,boolean isOldUser, List<BallQTrendProfitStatisticEntity> datas) {
         if (datas != null && !datas.isEmpty()) {
             if (trendProfitStatisticEntityList == null) {
                 trendProfitStatisticEntityList = new ArrayList<>();
@@ -110,6 +110,7 @@ public class BallQTrendProfitStatisticLayout extends LinearLayout {
             adapter.setBet(bet);
             adapter.setQuery(query);
             adapter.setEtype(etype);
+            adapter.setOldUser(isOldUser);
             layoutExpandable.initLayout(true);
         }
     }

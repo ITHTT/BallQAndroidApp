@@ -33,11 +33,14 @@ import java.util.List;
 import java.util.Locale;
 
 import butterknife.Bind;
+import butterknife.OnClick;
 import okhttp3.Call;
 import okhttp3.Request;
 
 /**
- * Created by Administrator on 2016/6/20.
+ * Created by HTT on 2016/6/20.
+ *
+ * @author LinDe edit
  */
 public class UserBettingGuessRecordActivity extends BaseActivity implements SwipeRefreshLayout.OnRefreshListener, AutoLoadMoreRecyclerView.OnLoadMoreListener
 {
@@ -70,6 +73,7 @@ public class UserBettingGuessRecordActivity extends BaseActivity implements Swip
     private String query;
     private String etype;
     private String tip = "没有更多的数据了...";
+    private boolean isOldUser;
 
     private int currentPages = 1;
 
@@ -106,6 +110,7 @@ public class UserBettingGuessRecordActivity extends BaseActivity implements Swip
         bet = intent.getStringExtra("bet");
         query = intent.getStringExtra("query");
         etype = intent.getStringExtra("etype");
+        isOldUser = intent.getBooleanExtra("old_user", false);
 
         showLoading();
         getUserInfo(uid);
@@ -172,7 +177,7 @@ public class UserBettingGuessRecordActivity extends BaseActivity implements Swip
      */
     private void getUserInfo(final String uid)
     {
-        String url = HttpUrls.HOST_URL_V5 + "user/" + uid + "/profile/";
+        String url = HttpUrls.HOST_URL_V5 + (isOldUser ? "old/" : "") + "user/" + uid + "/profile/";
         HashMap<String, String> params = null;
         if (UserInfoUtil.checkLogin(this))
         {
@@ -265,21 +270,25 @@ public class UserBettingGuessRecordActivity extends BaseActivity implements Swip
 //        url = "user/" + uid + "/bets/" + bet + "/?query=" + query + "&p=" + pages + (etype != null ? "&etype=" + etype : "");
         StringBuilder sbUrl = new StringBuilder();
         sbUrl.append(HttpUrls.HOST_URL_V5);
+        if (isOldUser)
+        {
+            sbUrl.append("old/");
+        }
         sbUrl.append("user/").append(uid).append("/");
         sbUrl.append("bets/");
         if (!TextUtils.isEmpty(bet))
         {
             sbUrl.append(bet).append("/");
         }
+        sbUrl.append("?p=").append(pages);
         if (!TextUtils.isEmpty(query))
         {
-            sbUrl.append("?query=").append(query);
+            sbUrl.append("&query=").append(query);
         }
         if (!TextUtils.isEmpty(etype))
         {
             sbUrl.append("&etype=").append(etype);
         }
-        sbUrl.append("&p=").append(pages);
         KLog.e("url:" + sbUrl.toString());
         HttpClientUtil.getHttpClientUtil().sendGetRequest(Tag, sbUrl.toString(), 30, new HttpClientUtil.StringResponseCallBack()
         {
@@ -350,7 +359,7 @@ public class UserBettingGuessRecordActivity extends BaseActivity implements Swip
                                 recyclerView.setAdapter(adapter);
                                 recyclerView.addItemDecoration(decoration);
                             }
-                            else
+                            else//http://int.ballq.cn:8004/api/v5/user/5824/bets/
                             {
                                 adapter.notifyDataSetChanged();
                             }
@@ -433,6 +442,21 @@ public class UserBettingGuessRecordActivity extends BaseActivity implements Swip
         {
             recyclerView.setRefreshing();
             getUserInfo(uid);
+        }
+    }
+
+    @OnClick(R.id.ivUserIcon)
+    protected void onPortraitClick(View view)
+    {
+        if (TextUtils.isEmpty(uid))
+            return;
+        try
+        {
+            UserInfoUtil.lookUserInfo(this, Integer.parseInt(uid));
+        }
+        catch (NumberFormatException e)
+        {
+            e.printStackTrace();
         }
     }
 }

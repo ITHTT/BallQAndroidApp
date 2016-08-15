@@ -46,20 +46,24 @@ import okhttp3.Response;
 /**
  * Created by Administrator on 2016/3/2.
  */
-public class HttpClientUtil {
+public class HttpClientUtil
+{
     private OkHttpClient okHttpClient;
 
     private static HttpClientUtil httpClientUtil;
 
-    /**连接超时时间*/
-    private static final long CONNECTED_TIEM_OUT=30;
-    private static final long READ_TIME_OUT=30;
-    private static final long WRITE_TIME_OUT=30;
+    /**
+     * 连接超时时间
+     */
+    private static final long CONNECTED_TIEM_OUT = 30;
+    private static final long READ_TIME_OUT = 30;
+    private static final long WRITE_TIME_OUT = 30;
 
-    private Handler devidlerHandler=new Handler(Looper.getMainLooper());
+    private Handler devidlerHandler = new Handler(Looper.getMainLooper());
 
 
-    public HttpClientUtil(Context context,String cachePath){
+    public HttpClientUtil(Context context, String cachePath)
+    {
         OkHttpClient.Builder okHttpClientBuilder = new OkHttpClient.Builder();
         okHttpClientBuilder.connectTimeout(CONNECTED_TIEM_OUT, TimeUnit.SECONDS);
         okHttpClientBuilder.readTimeout(READ_TIME_OUT, TimeUnit.SECONDS);
@@ -70,30 +74,37 @@ public class HttpClientUtil {
         /**添加cookie存储*/
         okHttpClientBuilder.cookieJar(new CookieJarImpl(new PersistentCookieStore(context)));
 
-        File file=new File(cachePath);
-        if(!file.exists()){
+        File file = new File(cachePath);
+        if (!file.exists())
+        {
             file.mkdirs();
         }
         /**设置缓存目录*/
         okHttpClientBuilder.cache(new Cache(file, 100 * 1024 * 1024));
 
-        okHttpClientBuilder.hostnameVerifier(new HostnameVerifier() {
+        okHttpClientBuilder.hostnameVerifier(new HostnameVerifier()
+        {
             @Override
-            public boolean verify(String hostname, SSLSession session) {
+            public boolean verify(String hostname, SSLSession session)
+            {
                 return true;
             }
         });
-        okHttpClient=okHttpClientBuilder.build();
+        okHttpClient = okHttpClientBuilder.build();
     }
 
-    public static void initHttpClientUtil(Context context,String cachePath){
-        if(httpClientUtil==null){
-            httpClientUtil=new HttpClientUtil(context,cachePath);
+    public static void initHttpClientUtil(Context context, String cachePath)
+    {
+        if (httpClientUtil == null)
+        {
+            httpClientUtil = new HttpClientUtil(context, cachePath);
         }
     }
 
-    public static HttpClientUtil getHttpClientUtil(){
-        if(httpClientUtil==null){
+    public static HttpClientUtil getHttpClientUtil()
+    {
+        if (httpClientUtil == null)
+        {
             throw new RuntimeException("HttpClientUtil没有初始化");
         }
         return httpClientUtil;
@@ -101,6 +112,7 @@ public class HttpClientUtil {
 
     /**
      * 取消Tag标记的请求
+     *
      * @param tag
      */
     public void cancelTag(Object tag)
@@ -108,7 +120,7 @@ public class HttpClientUtil {
         KLog.e("取消请求Tag:" + tag);
         for (Call call : okHttpClient.dispatcher().queuedCalls())
         {
-            KLog.e("Tag:"+call.request().tag());
+            KLog.e("Tag:" + call.request().tag());
             if (tag.equals(call.request().tag()))
             {
                 call.cancel();
@@ -116,7 +128,7 @@ public class HttpClientUtil {
         }
         for (Call call : okHttpClient.dispatcher().runningCalls())
         {
-            KLog.e("Tag:"+call.request().tag());
+            KLog.e("Tag:" + call.request().tag());
             if (tag.equals(call.request().tag()))
             {
                 call.cancel();
@@ -125,8 +137,9 @@ public class HttpClientUtil {
 
     }
 
-    private Request.Builder createRequestBuilder(String tag, String url, int maxAge, Map<String,String>headers){
-        Request.Builder builder=new Request.Builder();
+    private Request.Builder createRequestBuilder(String tag, String url, int maxAge, Map<String, String> headers)
+    {
+        Request.Builder builder = new Request.Builder();
         builder.tag(tag)
                 .url(url)
                 .cacheControl(createCacheControl(maxAge));
@@ -136,17 +149,20 @@ public class HttpClientUtil {
 
     /**
      * 创建请求头部参数
+     *
      * @param headers
      * @return
      */
-    protected Headers createHeaders(Map<String,String>headers)
+    protected Headers createHeaders(Map<String, String> headers)
     {
         Headers.Builder headerBuilder = new Headers.Builder();
         headerBuilder.add("Charset", "UTF-8");
         headerBuilder.add("Accept-Encoding", "gzip,deflate");
-        if (headers != null &&!headers.isEmpty()) {
+        if (headers != null && !headers.isEmpty())
+        {
 
-            for (String key : headers.keySet()) {
+            for (String key : headers.keySet())
+            {
                 headerBuilder.add(key, headers.get(key));
             }
         }
@@ -155,41 +171,51 @@ public class HttpClientUtil {
 
     /**
      * 创建请求缓存策略
+     *
      * @param maxAge
      * @return
      */
-    protected CacheControl createCacheControl(int maxAge){
-        if(maxAge>0) {
+    protected CacheControl createCacheControl(int maxAge)
+    {
+        if (maxAge > 0)
+        {
             CacheControl.Builder builder = new CacheControl.Builder();
             builder.maxAge(maxAge, TimeUnit.SECONDS);
             builder.onlyIfCached();
             return builder.build();
-        }else{
+        }
+        else
+        {
             return CacheControl.FORCE_NETWORK;
         }
     }
 
-    protected RequestBody createRequestBody(Map<String,String>params, File...files){
-        if(files==null||files.length==0){
+    protected RequestBody createRequestBody(Map<String, String> params, File... files)
+    {
+        if (files == null || files.length == 0)
+        {
             FormBody.Builder builder = new FormBody.Builder();
             addParams(params, builder);
             return builder.build();
-        }else{
+        }
+        else
+        {
             MultipartBody.Builder builder = new MultipartBody.Builder()
                     .setType(MultipartBody.FORM);
-            addParams(params,builder);
+            addParams(params, builder);
 
             for (int i = 0; i < files.length; i++)
             {
-                File file=files[i];
-                RequestBody fileBody = RequestBody.create(MediaType.parse(guessMimeType(file.getName())),file);
+                File file = files[i];
+                RequestBody fileBody = RequestBody.create(MediaType.parse(guessMimeType(file.getName())), file);
                 builder.addFormDataPart(file.getName(), file.getName(), fileBody);
             }
             return builder.build();
         }
     }
 
-    protected void addParams(Map<String,String>params, MultipartBody.Builder builder){
+    protected void addParams(Map<String, String> params, MultipartBody.Builder builder)
+    {
         if (params != null && !params.isEmpty())
         {
             for (String key : params.keySet())
@@ -200,7 +226,7 @@ public class HttpClientUtil {
         }
     }
 
-    private void addParams(Map<String,String>params, FormBody.Builder builder)
+    private void addParams(Map<String, String> params, FormBody.Builder builder)
     {
         if (params != null)
         {
@@ -222,141 +248,222 @@ public class HttpClientUtil {
         return contentTypeFor;
     }
 
-    public void sendGetRequest(String tag,String url,int maxAge, final StringResponseCallBack responseCallBack){
+    public void sendGetRequest(String tag, String url, int maxAge, final StringResponseCallBack responseCallBack)
+    {
         sendGetRequest(tag, url, maxAge, null, responseCallBack);
     }
 
-    public void sendGetRequest(String tag,String url,int maxAge,Map<String,String>headers,final StringResponseCallBack responseCallBack){
-        Request.Builder builder=createRequestBuilder(tag, url, maxAge,headers);
-        Request request=builder.get().build();
+    public void sendGetRequest(String tag, String url, int maxAge, Map<String, String> headers, final StringResponseCallBack responseCallBack)
+    {
+        Request.Builder builder = createRequestBuilder(tag, url, maxAge, headers);
+        Request request = builder.get().build();
         handlerReqeust(request, responseCallBack);
     }
 
-    public void sendPostRequest(String tag,String url,Map<String,String>header,Map<String,String>params,final StringResponseCallBack responseCallBack){
-        Request.Builder builder=createRequestBuilder(tag,url,0,header);
-        Request request=builder.post(createRequestBody(params)).build();
+    public void sendPostRequest(String tag, String url, Map<String, String> header, Map<String, String> params, final StringResponseCallBack responseCallBack)
+    {
+        Request.Builder builder = createRequestBuilder(tag, url, 0, header);
+        Request request = builder.post(createRequestBody(params)).build();
         handlerReqeust(request, responseCallBack);
     }
 
-    public void sendPostRequest(String tag,String url,Map<String,String> params,final StringResponseCallBack responseCallBack){
+    public void sendPostRequest(String tag, String url, Map<String, String> params, final StringResponseCallBack responseCallBack)
+    {
         sendPostRequest(tag, url, null, params, responseCallBack);
     }
 
-    private String getResponseResult(Response response) throws IOException {
-        String contentType=response.headers().get("Content-Encoding");
-        String result=null;
-        if(!TextUtils.isEmpty(contentType)&&contentType.equalsIgnoreCase("gzip")){
+    private String getResponseResult(Response response) throws IOException
+    {
+        String contentType = response.headers().get("Content-Encoding");
+        String result = null;
+        if (!TextUtils.isEmpty(contentType) && contentType.equalsIgnoreCase("gzip"))
+        {
             // 以GZIP形式压缩后的字符串，需要解压缩
 
-                GZIPInputStream gzip = new GZIPInputStream(new BufferedInputStream(new ByteArrayInputStream(response.body().bytes())));
-                //noinspection SpellCheckingInspection
-                ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                byte[] buffer = new byte[256];
-                int count;
-                while ((count = gzip.read(buffer)) >= 0)
-                {
-                    baos.write(buffer, 0, count);
-                }
-                byte[] bytes = baos.toByteArray();
-                result = new String(bytes,"UTF-8");
+            GZIPInputStream gzip = new GZIPInputStream(new BufferedInputStream(new ByteArrayInputStream(response.body().bytes())));
+            //noinspection SpellCheckingInspection
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            byte[] buffer = new byte[256];
+            int count;
+            while ((count = gzip.read(buffer)) >= 0)
+            {
+                baos.write(buffer, 0, count);
+            }
+            byte[] bytes = baos.toByteArray();
+            result = new String(bytes, "UTF-8");
             gzip.close();
-            baos.close();;
-        }else{
+            baos.close();
+            ;
+        }
+        else
+        {
             // 正常数据，不需要解压缩
             result = new String(response.body().bytes(), "UTF-8");
         }
         return result;
     }
 
-    private void handlerReqeust(Request request, final StringResponseCallBack responseCallBack){
+    private void handlerReqeust(Request request, final StringResponseCallBack responseCallBack)
+    {
         responseCallBack.onBefore(request);
-        okHttpClient.newCall(request).enqueue(new Callback() {
+        okHttpClient.newCall(request).enqueue(new Callback()
+        {
             @Override
-            public void onFailure(Call call, IOException e) {
-                KLog.e("message:"+e.getMessage());
-                if(call.isCanceled()){
+            public void onFailure(Call call, IOException e)
+            {
+                KLog.e("message:" + e.getMessage());
+                if (call.isCanceled())
+                {
                     return;
                 }
                 final Call resultCall = call;
                 final Exception error = e;
-                devidlerHandler.post(new Runnable() {
+                devidlerHandler.post(new Runnable()
+                {
                     @Override
-                    public void run() {
-                        responseCallBack.onError(resultCall, error);
-                        responseCallBack.onFinish(resultCall);
+                    public void run()
+                    {
+                        try
+                        {
+                            responseCallBack.onError(resultCall, error);
+                        }
+                        catch (Exception e1)
+                        {
+                            e1.printStackTrace();
+                        }
+                        try
+                        {
+                            responseCallBack.onFinish(resultCall);
+                        }
+                        catch (Exception e1)
+                        {
+                            e1.printStackTrace();
+                        }
                     }
                 });
             }
 
             @Override
-            public void onResponse(final Call call, final Response response) throws IOException {
-                KLog.e("responseCode:"+response.code());
-                if(call.isCanceled()){
+            public void onResponse(final Call call, final Response response) throws IOException
+            {
+                KLog.e("responseCode:" + response.code());
+                if (call.isCanceled())
+                {
                     return;
                 }
-                if(!response.isSuccessful()||response.code()!=200){
-                    devidlerHandler.post(new Runnable() {
+                if (!response.isSuccessful() || response.code() != 200)
+                {
+                    devidlerHandler.post(new Runnable()
+                    {
                         @Override
-                        public void run() {
-                            responseCallBack.onError(call, new Exception("请求响应失败，响应码:"+response.code()));
-                            responseCallBack.onFinish(call);
+                        public void run()
+                        {
+                            try
+                            {
+                                responseCallBack.onError(call, new Exception("请求响应失败，响应码:" + response.code()));
+                            }
+                            catch (Exception e)
+                            {
+                                e.printStackTrace();
+                            }
+                            try
+                            {
+                                responseCallBack.onFinish(call);
+                            }
+                            catch (Exception e)
+                            {
+                                e.printStackTrace();
+                            }
                         }
                     });
                     return;
                 }
                 final Call resultCall = call;
                 String result = null;
-                Exception error=null;
-                try{
-                    result=getResponseResult(response);
-                }catch(IOException exception){
-                    error=exception;
+                Exception error = null;
+                try
+                {
+                    result = getResponseResult(response);
+                }
+                catch (IOException exception)
+                {
+                    error = exception;
                 }
                 final String finalResult = result;
                 final Exception finalError = error;
-                devidlerHandler.post(new Runnable() {
+                devidlerHandler.post(new Runnable()
+                {
                     @Override
-                    public void run() {
-                        if(TextUtils.isEmpty(finalResult)||finalError !=null) {
-                            responseCallBack.onError(call, finalError);
-                        }else{
-                           // try {
-                                responseCallBack.onSuccess(call, finalResult);
-                            //}catch(Exception e){
-                               // KLog.e(e.getMessage());
-                               // responseCallBack.onError(call,e);
-                           // }
+                    public void run()
+                    {
+                        if (TextUtils.isEmpty(finalResult) || finalError != null)
+                        {
+                            try
+                            {
+                                responseCallBack.onError(call, finalError);
+                            }
+                            catch (Exception e)
+                            {
+                                e.printStackTrace();
+                            }
                         }
-                        responseCallBack.onFinish(resultCall);
+                        else
+                        {
+                            try
+                            {
+                                responseCallBack.onSuccess(call, finalResult);
+                            }
+                            catch (Exception e)
+                            {
+                                KLog.e(e.getMessage());
+//                                responseCallBack.onError(call,e);
+                            }
+                        }
+                        try
+                        {
+                            responseCallBack.onFinish(resultCall);
+                        }
+                        catch (Exception e)
+                        {
+                            e.printStackTrace();
+                        }
                     }
                 });
             }
         });
     }
 
-    public void uploadImages(String tag,String url, Map<String, String> headers, Map<String, String> params, List<String> urls, final ProgressResponseCallBack responseCallBack){
+    public void uploadImages(String tag, String url, Map<String, String> headers, Map<String, String> params, List<String> urls, final ProgressResponseCallBack responseCallBack)
+    {
         Request.Builder builder = new Request.Builder().tag(tag).url(url);
         /**添加请求头部*/
-        if (headers != null && headers.size() > 0) {
-            for (String key : headers.keySet()) {
+        if (headers != null && headers.size() > 0)
+        {
+            for (String key : headers.keySet())
+            {
                 builder.addHeader(key, headers.get(key));
             }
         }
         MultipartBody.Builder multipartBuilder = new MultipartBody.Builder()
                 .setType(MultipartBody.FORM);
-        if (params != null && params.size() > 0) {
-            for (String key : params.keySet()) {
+        if (params != null && params.size() > 0)
+        {
+            for (String key : params.keySet())
+            {
                 multipartBuilder.addFormDataPart(key, params.get(key));
             }
         }
-        if (urls != null && urls.size() > 0) {
+        if (urls != null && urls.size() > 0)
+        {
             RequestBody fileBody = null;
             int size = urls.size();
-            for (int i = 0; i < size - 1; i++) {
+            for (int i = 0; i < size - 1; i++)
+            {
                 String imgUrl = urls.get(i);
                 String fileKeyName = imgUrl + i;
                 Bitmap bitmap = PhotoUtil.compressBitmap(imgUrl, 480, 480);
-                if (bitmap != null) {
+                if (bitmap != null)
+                {
                     ByteArrayOutputStream baos = new ByteArrayOutputStream();
                     bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
                     byte[] bytes = baos.toByteArray();
@@ -368,30 +475,36 @@ public class HttpClientUtil {
                 }
             }
         }
-        RequestBody requestBody=multipartBuilder.build();
-        builder.post(new ProgressRequestBody(requestBody, new ProgressRequestBody.ProgressListener() {
+        RequestBody requestBody = multipartBuilder.build();
+        builder.post(new ProgressRequestBody(requestBody, new ProgressRequestBody.ProgressListener()
+        {
             @Override
-            public void onRequestProgress(long bytesWritten, long contentLength) {
+            public void onRequestProgress(long bytesWritten, long contentLength)
+            {
                 final int progress = (int) ((int) (bytesWritten * 100) / contentLength);
-                devidlerHandler.post(new Runnable() {
+                devidlerHandler.post(new Runnable()
+                {
                     @Override
-                    public void run() {
+                    public void run()
+                    {
                         responseCallBack.loadingProgress(progress);
                     }
                 });
             }
         }));
-        Request request=builder.build();
+        Request request = builder.build();
         handlerReqeust(request, responseCallBack);
     }
 
-    public void uploadPortrait(String tag, String url, String[] keys, File[] files, HashMap<String, String> map, final StringResponseCallBack callBack) {
+    public void uploadPortrait(String tag, String url, String[] keys, File[] files, HashMap<String, String> map, final StringResponseCallBack callBack)
+    {
         MultipartBody.Builder builder = new MultipartBody.Builder("AaB03x").setType(MultipartBody.FORM);
         RequestBody fileBody;
         File aFile;
         String aKey;
         String fileName;
-        for (int i = 0, length = files.length; i < length; i++) {
+        for (int i = 0, length = files.length; i < length; i++)
+        {
             aFile = files[i];
             aKey = keys[i];
             fileName = aFile.getName();
@@ -405,7 +518,8 @@ public class HttpClientUtil {
                             "form-data; name=\"" + aKey + "\"; filename=\"" + fileName + "\""),
                     fileBody);
         }
-        for (String key : map.keySet()) {
+        for (String key : map.keySet())
+        {
             builder.addPart(Headers.of("Content-Disposition", "form-data; name=\"" + key + "\""),
                     RequestBody.create(null, map.get(key)));
         }
@@ -413,8 +527,10 @@ public class HttpClientUtil {
         Request request = new Request.Builder().url(url).post(body).build();
         handlerReqeust(request, callBack);
     }
+
     /**
      * 上传文件
+     *
      * @param tag
      * @param url
      * @param header
@@ -422,55 +538,68 @@ public class HttpClientUtil {
      * @param responseCallBack
      * @param files
      */
-    public void uploadFiles(String tag,String url,Map<String,String>header,Map<String,String>params, final ProgressResponseCallBack responseCallBack,File...files){
-        Request.Builder builder=createRequestBuilder(tag, url, 0, header);
+    public void uploadFiles(String tag, String url, Map<String, String> header, Map<String, String> params, final ProgressResponseCallBack responseCallBack, File... files)
+    {
+        Request.Builder builder = createRequestBuilder(tag, url, 0, header);
         MultipartBody.Builder bodyBuilder = new MultipartBody.Builder()
                 .setType(MultipartBody.FORM);
-        addParams(params,bodyBuilder);
-        if(files!=null&&files.length>0) {
-            for (int i = 0; i < files.length; i++) {
+        addParams(params, bodyBuilder);
+        if (files != null && files.length > 0)
+        {
+            for (int i = 0; i < files.length; i++)
+            {
                 File file = files[i];
                 RequestBody fileBody = RequestBody.create(MediaType.parse(guessMimeType(file.getName())), file);
                 bodyBuilder.addFormDataPart(file.getName(), file.getName(), fileBody);
             }
         }
-        RequestBody requestBody=bodyBuilder.build();
-        builder.post(new ProgressRequestBody(requestBody, new ProgressRequestBody.ProgressListener() {
+        RequestBody requestBody = bodyBuilder.build();
+        builder.post(new ProgressRequestBody(requestBody, new ProgressRequestBody.ProgressListener()
+        {
             @Override
-            public void onRequestProgress(long bytesWritten, long contentLength) {
+            public void onRequestProgress(long bytesWritten, long contentLength)
+            {
                 final int progress = (int) ((int) (bytesWritten * 100) / contentLength);
-                devidlerHandler.post(new Runnable() {
+                devidlerHandler.post(new Runnable()
+                {
                     @Override
-                    public void run() {
+                    public void run()
+                    {
                         responseCallBack.loadingProgress(progress);
                     }
                 });
             }
         }));
-        Request request=builder.build();
+        Request request = builder.build();
         handlerReqeust(request, responseCallBack);
     }
 
     /**
      * 下载文件
+     *
      * @param tag
      * @param url
      * @param header
      * @param saveFile
      * @param responseCallBack
      */
-    public void downloadFile(String tag,String url,Map<String,String>header, final String saveFile,final ProgressResponseCallBack responseCallBack){
-        Request.Builder builder=createRequestBuilder(tag, url, 0, header);
+    public void downloadFile(String tag, String url, Map<String, String> header, final String saveFile, final ProgressResponseCallBack responseCallBack)
+    {
+        Request.Builder builder = createRequestBuilder(tag, url, 0, header);
 
-        Request request=builder.build();
+        Request request = builder.build();
         responseCallBack.onBefore(request);
-        okHttpClient.newCall(request).enqueue(new Callback() {
+        okHttpClient.newCall(request).enqueue(new Callback()
+        {
 
             @Override
-            public void onFailure(final Call call, final IOException e) {
-                devidlerHandler.post(new Runnable() {
+            public void onFailure(final Call call, final IOException e)
+            {
+                devidlerHandler.post(new Runnable()
+                {
                     @Override
-                    public void run() {
+                    public void run()
+                    {
                         responseCallBack.onError(call, e);
                         responseCallBack.onFinish(call);
                     }
@@ -478,20 +607,28 @@ public class HttpClientUtil {
             }
 
             @Override
-            public void onResponse(final Call call, Response response) throws IOException {
-                try {
+            public void onResponse(final Call call, Response response) throws IOException
+            {
+                try
+                {
                     final String filePath = saveDownloadFile(response, saveFile, responseCallBack);
-                    devidlerHandler.post(new Runnable() {
+                    devidlerHandler.post(new Runnable()
+                    {
                         @Override
-                        public void run() {
-                            responseCallBack.onSuccess(call,filePath);
+                        public void run()
+                        {
+                            responseCallBack.onSuccess(call, filePath);
                             responseCallBack.onFinish(call);
                         }
                     });
-                } catch (final IOException exception) {
-                    devidlerHandler.post(new Runnable() {
+                }
+                catch (final IOException exception)
+                {
+                    devidlerHandler.post(new Runnable()
+                    {
                         @Override
-                        public void run() {
+                        public void run()
+                        {
                             responseCallBack.onError(call, exception);
                             responseCallBack.onFinish(call);
                         }
@@ -501,12 +638,14 @@ public class HttpClientUtil {
         });
     }
 
-    private String saveDownloadFile(Response response, String saveFile, final ProgressResponseCallBack httpResultCallback) throws IOException {
+    private String saveDownloadFile(Response response, String saveFile, final ProgressResponseCallBack httpResultCallback) throws IOException
+    {
         InputStream is = null;
         byte[] buf = new byte[1024];
         int len = 0;
         FileOutputStream fos = null;
-        try{
+        try
+        {
             is = response.body().byteStream();
             final long total = response.body().contentLength();
             long sum = 0;
@@ -523,9 +662,11 @@ public class HttpClientUtil {
                 if (httpResultCallback != null)
                 {
                     final long finalSum = sum;
-                    devidlerHandler.post(new Runnable() {
+                    devidlerHandler.post(new Runnable()
+                    {
                         @Override
-                        public void run() {
+                        public void run()
+                        {
                             httpResultCallback.loadingProgress((int) (finalSum * 100 / total));
                         }
                     });
@@ -533,30 +674,39 @@ public class HttpClientUtil {
             }
             fos.flush();
             return file.getAbsolutePath();
-        }finally{
+        }
+        finally
+        {
             try
             {
                 if (is != null) is.close();
-            } catch (IOException e)
+            }
+            catch (IOException e)
             {
             }
             try
             {
                 if (fos != null) fos.close();
-            } catch (IOException e)
+            }
+            catch (IOException e)
             {
             }
         }
     }
 
-    public interface StringResponseCallBack{
+    public interface StringResponseCallBack
+    {
         void onBefore(Request request);
+
         void onError(Call call, Exception error);
+
         void onSuccess(Call call, String response);
+
         void onFinish(Call call);
     }
 
-    public interface ProgressResponseCallBack extends StringResponseCallBack{
+    public interface ProgressResponseCallBack extends StringResponseCallBack
+    {
         void loadingProgress(int progress);
     }
 }

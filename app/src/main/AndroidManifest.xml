@@ -1,32 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.tysci.ballq">
+<manifest
+    package="com.tysci.ballq"
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"></uses-permission>
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
     <uses-permission android:name="android.permission.READ_PHONE_STATE"></uses-permission>
 
     <permission
         android:name="${applicationId}.permission.JPUSH_MESSAGE"
-        android:protectionLevel="signature" />
+        android:protectionLevel="signature"/>
 
     <!-- Required  一些系统要求的权限，如访问网络等-->
-    <uses-permission android:name="${applicationId}.permission.JPUSH_MESSAGE" />
-    <uses-permission android:name="android.permission.RECEIVE_USER_PRESENT" />
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.WAKE_LOCK" />
-    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
-    <uses-permission android:name="android.permission.VIBRATE" />
-    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <uses-permission android:name="${applicationId}.permission.JPUSH_MESSAGE"/>
+    <uses-permission android:name="android.permission.RECEIVE_USER_PRESENT"/>
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.WAKE_LOCK"/>
+    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+    <uses-permission android:name="android.permission.VIBRATE"/>
+    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
 
     <application
         android:name=".app.BallQApp"
@@ -39,22 +40,24 @@
         <!--Glide自定义-->
         <meta-data
             android:name="com.tysci.ballq.base.BallQGlideModule"
-            android:value="GlideModule" />
-
+            android:value="GlideModule"/>
+        <meta-data
+            android:name="PGYER_APPID"
+            android:value="@string/pgy_id"></meta-data>
         <!--友盟配置-->
         <meta-data
             android:name="UMENG_APPKEY"
-            android:value="@string/umeng_key" />
+            android:value="@string/umeng_key"/>
         <meta-data
             android:name="UMENG_CHANNEL"
-            android:value="@string/umeng_channel" />
+            android:value="@string/umeng_channel"/>
         <meta-data
             android:name="UMENG_MESSAGE_SECRET"
-            android:value="@string/umeng_secret" />
+            android:value="@string/umeng_secret"/>
 
         <activity
             android:name=".activitys.BallQMainActivity"
-            android:launchMode="singleTask" />
+            android:launchMode="singleTask"/>
 
         <activity
             android:name=".wxapi.WXEntryActivity"
@@ -62,9 +65,9 @@
             android:label="@string/app_name"
             android:launchMode="singleTask">
             <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-                <category android:name="android.intent.category.DEFAULT" />
-                <data android:scheme="wx764a44d6325f4975" />
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <data android:scheme="wx764a44d6325f4975"/>
                 <!-- 注意这里，似乎对程序有影响，要加上 -->
             </intent-filter>
         </activity>
@@ -81,152 +84,156 @@
             android:name=".activitys.FirstWelcomeActivity"
             android:launchMode="singleTop">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.intent.action.MAIN"/>
 
-                <category android:name="android.intent.category.LAUNCHER" />
+                <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".activitys.UserOldTrendStatisticActivity"
-                  android:launchMode="singleTop"/>
+        <activity
+            android:name=".activitys.BqServerCustomActivity"
+            android:launchMode="singleTop"/>
+        <activity
+            android:name=".activitys.UserOldTrendStatisticActivity"
+            android:launchMode="singleTop"/>
         <activity
             android:name=".activitys.BallQGuideActivity"
-            android:launchMode="singleTop" />
+            android:launchMode="singleTop"/>
         <activity
             android:name=".activitys.BallQSettingActivity"
-            android:launchMode="singleTop" />
+            android:launchMode="singleTop"/>
         <activity
             android:name=".activitys.UserOldDataActivity"
-            android:launchMode="singleTop" />
+            android:launchMode="singleTop"/>
         <activity
             android:name=".activitys.PingPayActivity"
-            android:launchMode="singleTop" />
+            android:launchMode="singleTop"/>
         <activity
             android:name=".activitys.UserWithdrawsActivity"
-            android:launchMode="singleTop" />
+            android:launchMode="singleTop"/>
         <activity
             android:name=".activitys.UserTipOffListRecordActivity"
-            android:launchMode="singleTop" />
+            android:launchMode="singleTop"/>
         <activity
             android:name=".activitys.UserArticleListRecordActivity"
-            android:launchMode="singleTop" />
+            android:launchMode="singleTop"/>
 
-        <service android:name=".services.TimeTaskPickerService" />
-        <service android:name=".services.UserTaskService" />
+        <service android:name=".services.TimeTaskPickerService"/>
+        <service android:name=".services.UserTaskService"/>
 
 
         <!--added by LinDe-->
 
         <activity
             android:name=".activitys.LoginActivity"
-            android:launchMode="singleTop" />
+            android:launchMode="singleTop"/>
 
         <activity
             android:name=".activitys.RegisterActivity"
-            android:launchMode="singleTop" />
+            android:launchMode="singleTop"/>
 
         <activity
             android:name=".activitys.BallQBallWarpDetailActivity"
             android:launchMode="singleTop"
-            android:windowSoftInputMode="adjustResize" />
+            android:windowSoftInputMode="adjustResize"/>
 
         <activity
             android:name=".activitys.BallQTipOffDetailActivity"
             android:launchMode="singleTop"
-            android:windowSoftInputMode="adjustResize" />
+            android:windowSoftInputMode="adjustResize"/>
 
         <activity
             android:name=".activitys.BallQMatchDetailActivity"
-            android:launchMode="singleTop" />
+            android:launchMode="singleTop"/>
 
         <activity
             android:name=".activitys.BallQMatchGuessBettingActivity"
-            android:launchMode="singleTop" />
+            android:launchMode="singleTop"/>
 
         <activity
             android:name=".activitys.UserProfileActivity"
-            android:launchMode="singleTop" />
+            android:launchMode="singleTop"/>
 
         <activity
             android:name=".activitys.UserTrendStatisticActivity"
-            android:launchMode="singleTop" />
+            android:launchMode="singleTop"/>
 
         <activity
             android:name=".activitys.UserTrendStatisticDetailActivity"
-            android:launchMode="singleTop" />
+            android:launchMode="singleTop"/>
 
         <activity
             android:name=".activitys.UserBettingGuessRecordActivity"
-            android:launchMode="singleTop" />
+            android:launchMode="singleTop"/>
 
         <activity
             android:name=".activitys.UserRewardActivity"
-            android:launchMode="singleTop" />
+            android:launchMode="singleTop"/>
 
         <activity
             android:name=".activitys.UserCollectionRecordActivity"
-            android:launchMode="singleTop" />
+            android:launchMode="singleTop"/>
 
         <activity
             android:name=".activitys.UserMessageRecordActivity"
-            android:launchMode="singleTop" />
+            android:launchMode="singleTop"/>
 
         <activity
             android:name=".activitys.UserAttentionActivity"
-            android:launchMode="singleTop" />
+            android:launchMode="singleTop"/>
 
         <activity
             android:name=".activitys.UserAccountActivity"
-            android:launchMode="singleTop" />
+            android:launchMode="singleTop"/>
 
         <activity
             android:name=".activitys.BallQCircleNoteDetailActivity"
             android:launchMode="singleTop"
-            android:windowSoftInputMode="adjustResize" />
+            android:windowSoftInputMode="adjustResize"/>
 
         <activity
             android:name=".activitys.BallQTaskPointsRecordActivity"
-            android:launchMode="singleTop" />
+            android:launchMode="singleTop"/>
 
-        <activity android:name=".activitys.UserAchievementActivity" />
+        <activity android:name=".activitys.UserAchievementActivity"/>
 
-        <activity android:name=".activitys.BallQFindCircleNoteActivity" />
+        <activity android:name=".activitys.BallQFindCircleNoteActivity"/>
 
-        <activity android:name=".activitys.BallQImageBrowseActivity" />
+        <activity android:name=".activitys.BallQImageBrowseActivity"/>
 
-        <activity android:name=".activitys.BallQPublishCircleNoteActivity" />
+        <activity android:name=".activitys.BallQPublishCircleNoteActivity"/>
 
-        <activity android:name=".activitys.BallQMatchLeagueSelectActivity" />
+        <activity android:name=".activitys.BallQMatchLeagueSelectActivity"/>
 
-        <activity android:name=".activitys.BallQMatchTeamTipOffHistoryActivity" />
+        <activity android:name=".activitys.BallQMatchTeamTipOffHistoryActivity"/>
 
-        <activity android:name=".activitys.BallQTipOffSearchActivity" />
+        <activity android:name=".activitys.BallQTipOffSearchActivity"/>
 
-        <activity android:name=".activitys.BallQTipOffUserListActivity" />
+        <activity android:name=".activitys.BallQTipOffUserListActivity"/>
 
         <activity
             android:name=".activitys.BallQWebViewActivity"
-            android:hardwareAccelerated="true" />
+            android:hardwareAccelerated="true"/>
 
         <activity
             android:name=".activitys.BallQEventsPlazaActivity"
-            android:hardwareAccelerated="true" />
+            android:hardwareAccelerated="true"/>
 
-        <activity android:name=".activitys.BallQGreatWarGoActivity" />
+        <activity android:name=".activitys.BallQGreatWarGoActivity"/>
 
-        <activity android:name=".activitys.BallQMainUserRankingListActivity" />
+        <activity android:name=".activitys.BallQMainUserRankingListActivity"/>
 
-        <activity android:name=".activitys.BallQUserRankingListDetailActivity" />
+        <activity android:name=".activitys.BallQUserRankingListDetailActivity"/>
 
-        <activity android:name=".activitys.BallQUserRewardRankingDetailActivity" />
+        <activity android:name=".activitys.BallQUserRewardRankingDetailActivity"/>
 
-        <activity android:name=".activitys.BallQMatchTipOffEditActivity" />
+        <activity android:name=".activitys.BallQMatchTipOffEditActivity"/>
 
         <activity android:name=".activitys.BallQMatchTextLiveActivity"/>
 
         <activity android:name=".activitys.BallQUserGuessBettingTipOffActivity"/>
 
-        <activity android:name=".views.widgets.multiphotopicker.ui.activitys.PhotoPagerActivity" />
-        <activity android:name=".views.widgets.multiphotopicker.ui.activitys.PhotoPickerActivity" />
+        <activity android:name=".views.widgets.multiphotopicker.ui.activitys.PhotoPagerActivity"/>
+        <activity android:name=".views.widgets.multiphotopicker.ui.activitys.PhotoPickerActivity"/>
 
         <!-- Required SDK核心功能-->
         <activity
@@ -235,10 +242,10 @@
             android:exported="false"
             android:theme="@android:style/Theme.NoTitleBar">
             <intent-filter>
-                <action android:name="cn.jpush.android.ui.PushActivity" />
+                <action android:name="cn.jpush.android.ui.PushActivity"/>
 
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="${applicationId}" />
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="${applicationId}"/>
             </intent-filter>
         </activity>
         <!-- Required  SDK核心功能-->
@@ -254,10 +261,10 @@
             android:enabled="true"
             android:exported="false">
             <intent-filter>
-                <action android:name="cn.jpush.android.intent.REGISTER" />
-                <action android:name="cn.jpush.android.intent.REPORT" />
-                <action android:name="cn.jpush.android.intent.PushService" />
-                <action android:name="cn.jpush.android.intent.PUSH_TIME" />
+                <action android:name="cn.jpush.android.intent.REGISTER"/>
+                <action android:name="cn.jpush.android.intent.REPORT"/>
+                <action android:name="cn.jpush.android.intent.PushService"/>
+                <action android:name="cn.jpush.android.intent.PUSH_TIME"/>
             </intent-filter>
         </service>
 
@@ -268,8 +275,8 @@
             android:enabled="true"
             android:exported="true">
             <intent-filter>
-                <action android:name="cn.jpush.android.intent.DaemonService" />
-                <category android:name="${applicationId}" />
+                <action android:name="cn.jpush.android.intent.DaemonService"/>
+                <category android:name="${applicationId}"/>
             </intent-filter>
         </service>
 
@@ -279,27 +286,27 @@
             android:enabled="true"
             android:exported="false">
             <intent-filter android:priority="1000">
-                <action android:name="cn.jpush.android.intent.NOTIFICATION_RECEIVED_PROXY" />
+                <action android:name="cn.jpush.android.intent.NOTIFICATION_RECEIVED_PROXY"/>
                 <!--Required  显示通知栏 -->
-                <category android:name="${applicationId}" />
+                <category android:name="${applicationId}"/>
             </intent-filter>
             <intent-filter>
-                <action android:name="android.intent.action.USER_PRESENT" />
-                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+                <action android:name="android.intent.action.USER_PRESENT"/>
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE"/>
             </intent-filter>
             <!-- Optional -->
             <intent-filter>
-                <action android:name="android.intent.action.PACKAGE_ADDED" />
-                <action android:name="android.intent.action.PACKAGE_REMOVED" />
+                <action android:name="android.intent.action.PACKAGE_ADDED"/>
+                <action android:name="android.intent.action.PACKAGE_REMOVED"/>
 
-                <data android:scheme="package" />
+                <data android:scheme="package"/>
             </intent-filter>
         </receiver>
 
         <!-- Required SDK核心功能-->
         <receiver
             android:name="cn.jpush.android.service.AlarmReceiver"
-            android:exported="false" />
+            android:exported="false"/>
 
         <!-- User defined.  For test only  用户自定义的广播接收器-->
         <receiver
@@ -307,30 +314,30 @@
             android:enabled="true"
             android:exported="false">
             <intent-filter>
-                <action android:name="cn.jpush.android.intent.REGISTRATION" />
+                <action android:name="cn.jpush.android.intent.REGISTRATION"/>
                 <!--Required  用户注册SDK的intent-->
-                <action android:name="cn.jpush.android.intent.UNREGISTRATION" />
-                <action android:name="cn.jpush.android.intent.MESSAGE_RECEIVED" />
+                <action android:name="cn.jpush.android.intent.UNREGISTRATION"/>
+                <action android:name="cn.jpush.android.intent.MESSAGE_RECEIVED"/>
                 <!--Required  用户接收SDK消息的intent-->
-                <action android:name="cn.jpush.android.intent.NOTIFICATION_RECEIVED" />
+                <action android:name="cn.jpush.android.intent.NOTIFICATION_RECEIVED"/>
                 <!--Required  用户接收SDK通知栏信息的intent-->
-                <action android:name="cn.jpush.android.intent.NOTIFICATION_OPENED" />
+                <action android:name="cn.jpush.android.intent.NOTIFICATION_OPENED"/>
                 <!--Required  用户打开自定义通知栏的intent-->
-                <action android:name="cn.jpush.android.intent.ACTION_RICHPUSH_CALLBACK" />
+                <action android:name="cn.jpush.android.intent.ACTION_RICHPUSH_CALLBACK"/>
                 <!--Optional 用户接受Rich Push Javascript 回调函数的intent-->
-                <action android:name="cn.jpush.android.intent.CONNECTION" />
+                <action android:name="cn.jpush.android.intent.CONNECTION"/>
                 <!-- 接收网络变化 连接/断开 since 1.6.3 -->
-                <category android:name="${applicationId}" />
+                <category android:name="${applicationId}"/>
             </intent-filter>
         </receiver>
 
         <!-- Required  . Enable it you can get statistics data with channel -->
         <meta-data
             android:name="JPUSH_CHANNEL"
-            android:value="developer-default" />
+            android:value="developer-default"/>
         <meta-data
             android:name="JPUSH_APPKEY"
-            android:value="501f79bc7c8af4c5849cbc13" />
+            android:value="501f79bc7c8af4c5849cbc13"/>
         <!--  </>值来自开发者平台取得的AppKey-->
 
         <!-- Ping++ sdk -->
@@ -338,28 +345,28 @@
             android:name="com.pingplusplus.android.PaymentActivity"
             android:configChanges="orientation|screenSize"
             android:launchMode="singleTop"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"/>
         <!-- 微信支付 sdk ，也是 Ping++ sdk 调用入口 -->
         <activity-alias
             android:name=".wxapi.WXPayEntryActivity"
             android:exported="true"
-            android:targetActivity="com.pingplusplus.android.PaymentActivity" />
+            android:targetActivity="com.pingplusplus.android.PaymentActivity"/>
         <!-- 支付宝 sdk -->
         <activity
             android:name="com.alipay.sdk.app.H5PayActivity"
             android:configChanges="orientation|keyboardHidden|navigation"
             android:exported="false"
-            android:screenOrientation="behind" />
+            android:screenOrientation="behind"/>
         <activity
             android:name="com.alipay.sdk.auth.AuthActivity"
             android:configChanges="orientation|keyboardHidden|navigation"
             android:exported="false"
-            android:screenOrientation="behind" />
+            android:screenOrientation="behind"/>
 
         <!-- 银联支付 sdk -->
         <activity
             android:name="com.unionpay.uppay.PayActivity"
-            android:configChanges="orientation|keyboardHidden|navigation|screenSize" />
+            android:configChanges="orientation|keyboardHidden|navigation|screenSize"/>
 
         <!-- 百付宝 sdk -->
         <activity
@@ -368,7 +375,7 @@
             android:excludeFromRecents="true"
             android:exported="false"
             android:theme="@style/EbpayThemeActivityWelcome"
-            android:windowSoftInputMode="stateHidden" />
+            android:windowSoftInputMode="stateHidden"/>
         <activity
             android:name="com.baidu.paysdk.ui.WelcomeActivity"
             android:configChanges="keyboardHidden|navigation|orientation|screenSize"
@@ -376,7 +383,7 @@
             android:exported="@bool/bd_wallet_switch_global_debug"
             android:screenOrientation="portrait"
             android:theme="@style/EbpayThemeActivityWelcome"
-            android:windowSoftInputMode="stateHidden" />
+            android:windowSoftInputMode="stateHidden"/>
         <activity
             android:name="com.baidu.paysdk.ui.OrderHomeActivity"
             android:configChanges="keyboardHidden|navigation|orientation|screenSize"
@@ -385,7 +392,7 @@
             android:hardwareAccelerated="false"
             android:screenOrientation="portrait"
             android:theme="@style/EbpayThemeActivit"
-            android:windowSoftInputMode="stateHidden" />
+            android:windowSoftInputMode="stateHidden"/>
         <activity
             android:name="com.baidu.paysdk.ui.PayResultActivity"
             android:configChanges="keyboardHidden|navigation|orientation|screenSize"
@@ -393,7 +400,7 @@
             android:exported="@bool/bd_wallet_switch_global_debug"
             android:screenOrientation="portrait"
             android:theme="@style/EbpayThemeActivit"
-            android:windowSoftInputMode="stateHidden" />
+            android:windowSoftInputMode="stateHidden"/>
         <activity
             android:name="com.baidu.paysdk.ui.PcPwdCheckActivity"
             android:configChanges="keyboardHidden|navigation|orientation|screenSize"
@@ -401,7 +408,7 @@
             android:exported="@bool/bd_wallet_switch_global_debug"
             android:screenOrientation="portrait"
             android:theme="@style/EbpayThemeActivit"
-            android:windowSoftInputMode="stateVisible" />
+            android:windowSoftInputMode="stateVisible"/>
         <activity
             android:name="com.baidu.paysdk.ui.PwdCheckActivity"
             android:configChanges="keyboardHidden|navigation|orientation|screenSize"
@@ -409,14 +416,14 @@
             android:exported="@bool/bd_wallet_switch_global_debug"
             android:screenOrientation="portrait"
             android:theme="@style/EbpayThemeActivit"
-            android:windowSoftInputMode="stateVisible" />
+            android:windowSoftInputMode="stateVisible"/>
         <activity
             android:name="com.baidu.paysdk.ui.PwdSetAndConfirmActivity"
             android:configChanges="keyboardHidden|navigation|orientation|screenSize"
             android:excludeFromRecents="true"
             android:exported="@bool/bd_wallet_switch_global_debug"
             android:theme="@style/EbpayThemeActivit"
-            android:windowSoftInputMode="stateVisible" />
+            android:windowSoftInputMode="stateVisible"/>
         <activity
             android:name="com.baidu.paysdk.ui.PwdPayActivity"
             android:configChanges="keyboardHidden|navigation|orientation|screenSize"
@@ -424,7 +431,7 @@
             android:exported="@bool/bd_wallet_switch_global_debug"
             android:screenOrientation="portrait"
             android:theme="@style/EbpayThemeActivitTranslucent"
-            android:windowSoftInputMode="stateVisible|adjustResize" />
+            android:windowSoftInputMode="stateVisible|adjustResize"/>
         <activity
             android:name="com.baidu.paysdk.ui.PwdPaySmsActivity"
             android:configChanges="keyboardHidden|navigation|orientation|screenSize"
@@ -432,7 +439,7 @@
             android:exported="@bool/bd_wallet_switch_global_debug"
             android:screenOrientation="portrait"
             android:theme="@style/EbpayThemeActivitTranslucent"
-            android:windowSoftInputMode="stateHidden" />
+            android:windowSoftInputMode="stateHidden"/>
         <activity
             android:name="com.baidu.paysdk.ui.WebViewActivity"
             android:configChanges="keyboardHidden|navigation|orientation|screenSize"
@@ -440,7 +447,7 @@
             android:exported="@bool/bd_wallet_switch_global_debug"
             android:screenOrientation="portrait"
             android:theme="@style/EbpayThemeActivit"
-            android:windowSoftInputMode="stateHidden" />
+            android:windowSoftInputMode="stateHidden"/>
         <activity
             android:name="com.baidu.paysdk.ui.BindCardNoActivity"
             android:configChanges="keyboardHidden|navigation|orientation|screenSize"
@@ -449,7 +456,7 @@
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:theme="@style/EbpayThemeActivit"
-            android:windowSoftInputMode="stateHidden" />
+            android:windowSoftInputMode="stateHidden"/>
         <activity
             android:name="com.baidu.paysdk.ui.BindCardDetailActivity"
             android:configChanges="keyboardHidden|navigation|orientation|screenSize"
@@ -458,7 +465,7 @@
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:theme="@style/EbpayThemeActivit"
-            android:windowSoftInputMode="stateVisible|adjustPan" />
+            android:windowSoftInputMode="stateVisible|adjustPan"/>
         <activity
             android:name="com.baidu.paysdk.ui.BindCardDetailCredit2Activity"
             android:configChanges="keyboardHidden|navigation|orientation|screenSize"
@@ -467,7 +474,7 @@
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:theme="@style/EbpayThemeActivit"
-            android:windowSoftInputMode="stateVisible|adjustPan" />
+            android:windowSoftInputMode="stateVisible|adjustPan"/>
         <activity
             android:name="com.baidu.paysdk.ui.BindCardDetailCreditActivity"
             android:configChanges="keyboardHidden|navigation|orientation|screenSize"
@@ -476,7 +483,7 @@
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:theme="@style/EbpayThemeActivit"
-            android:windowSoftInputMode="stateVisible|adjustPan" />
+            android:windowSoftInputMode="stateVisible|adjustPan"/>
         <activity
             android:name="com.baidu.paysdk.ui.BindSmsActivity"
             android:configChanges="keyboardHidden|navigation|orientation|screenSize"
@@ -484,7 +491,7 @@
             android:exported="@bool/bd_wallet_switch_global_debug"
             android:screenOrientation="portrait"
             android:theme="@style/EbpayThemeActivit"
-            android:windowSoftInputMode="adjustResize" />
+            android:windowSoftInputMode="adjustResize"/>
         <activity
             android:name="com.baidu.paysdk.ui.SelectBindCardActivity"
             android:configChanges="keyboardHidden|navigation|orientation|screenSize"
@@ -492,7 +499,7 @@
             android:exported="@bool/bd_wallet_switch_global_debug"
             android:screenOrientation="portrait"
             android:theme="@style/EbpayThemeActivit"
-            android:windowSoftInputMode="stateHidden" />
+            android:windowSoftInputMode="stateHidden"/>
         <activity
             android:name="com.baidu.paysdk.ui.SignChannelListActivity"
             android:configChanges="keyboardHidden|navigation|orientation|screenSize"
@@ -500,7 +507,7 @@
             android:exported="@bool/bd_wallet_switch_global_debug"
             android:hardwareAccelerated="false"
             android:theme="@style/EbpayThemeActivit"
-            android:windowSoftInputMode="stateHidden" />
+            android:windowSoftInputMode="stateHidden"/>
         <!--<activity-->
         <!--android:name=".OneSDKActivity">-->
         <!--</activity>-->
@@ -511,11 +518,11 @@
             android:name="com.pingplusplus.libone.PayActivity"
             android:configChanges="orientation|screenSize"
             android:label="@string/pingpp_title_activity_pay"
-            android:theme="@android:style/Theme.Translucent" />
+            android:theme="@android:style/Theme.Translucent"/>
         <activity
             android:name="com.pingplusplus.libone.PaySuccessActivity"
             android:configChanges="orientation|screenSize"
-            android:label="@string/pingpp_title_activity_pay_sucessed" />
+            android:label="@string/pingpp_title_activity_pay_sucessed"/>
     </application>
 
 </manifest>

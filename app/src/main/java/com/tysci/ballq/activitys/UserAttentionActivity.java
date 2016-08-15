@@ -1,5 +1,6 @@
 package com.tysci.ballq.activitys;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
@@ -12,6 +13,7 @@ import com.tysci.ballq.R;
 import com.tysci.ballq.base.BaseActivity;
 import com.tysci.ballq.base.BaseFragment;
 import com.tysci.ballq.fragments.UserAttentionFragment;
+import com.tysci.ballq.modles.UserInfoEntity;
 import com.tysci.ballq.utils.UserInfoUtil;
 import com.tysci.ballq.views.adapters.BallQFragmentPagerAdapter;
 import com.tysci.ballq.views.widgets.PagerSlidingTabStrip;
@@ -35,6 +37,8 @@ public class UserAttentionActivity extends BaseActivity
 
 
     private String uid = null;
+    private int followingCount;
+    private int followerCount;
 
     @Override
     protected int getContentViewId()
@@ -62,17 +66,38 @@ public class UserAttentionActivity extends BaseActivity
             uid = UserInfoUtil.getUserId(this);
         }
         setTitle(uid.equals(UserInfoUtil.getUserId(this)) ? "我的关注" : "关注的人");
+
+        if (uid.equals(UserInfoUtil.getUserId(this)))
+        {
+            UserInfoEntity info = UserInfoUtil.getUserInfo(this);
+            if (info != null)
+            {
+                followingCount = info.getFlc();
+                followerCount = info.getFrc();
+            }
+            else
+            {
+                followingCount = 0;
+                followerCount = 0;
+            }
+        }
+        else
+        {
+            followingCount = intent.getIntExtra("flc", 0);
+            followerCount = intent.getIntExtra("frc", 0);
+        }
         addFragments();
     }
 
     private void addFragments()
     {
-        String[] titles = {"关注 0", "粉丝 0"};
+        String[] titles = new String[]{"关注 " + followingCount, "粉丝 " + followerCount};
+
         List<BaseFragment> fragments = new ArrayList<>(titles.length);
         tvTitles = new ArrayList<>(titles.length);
         for (int i = 0; i < titles.length; i++)
         {
-            View view = LayoutInflater.from(this).inflate(R.layout.layout_attention_tab_title, null);
+            @SuppressLint("InflateParams") View view = LayoutInflater.from(this).inflate(R.layout.layout_attention_tab_title, null);
             TextView title = (TextView) view.findViewById(R.id.tv_tab_title);
             title.setText(titles[i]);
             tvTitles.add(title);

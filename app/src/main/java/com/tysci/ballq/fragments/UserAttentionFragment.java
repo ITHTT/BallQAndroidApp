@@ -171,7 +171,7 @@ public class UserAttentionFragment extends BaseFragment implements SwipeRefreshL
                                 }
                             }
                             CommonUtils.getJSONListObject(arrays,userAttentionOrFansEntityList,BallQUserAttentionOrFansEntity.class);
-                            publishLoadDataEvent(userAttentionOrFansEntityList.size());
+//                            publishLoadDataEvent(userAttentionOrFansEntityList.size());
                             if(adapter==null){
                                 adapter=new UserAttentionOrFansAdapter(userAttentionOrFansEntityList);
                                 if(etype==1){

@@ -3,12 +3,11 @@
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
               android:background="@drawable/click_style"
-              android:gravity="center_vertical"
-              android:paddingBottom="8dp"
-              android:paddingTop="8dp">
+              android:gravity="center_vertical">
 
-    <TextView
+    <com.tysci.ballq.views.MarqueeTextView
         android:id="@+id/tv_user_name"
+        style="@style/MarqueeTextView"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1.2"
@@ -17,8 +16,9 @@
         android:text=""
         android:textSize="13sp"/>
 
-    <TextView
+    <com.tysci.ballq.views.MarqueeTextView
         android:id="@+id/tv_user_tip_count"
+        style="@style/MarqueeTextView"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
@@ -26,8 +26,9 @@
         android:text=""
         android:textSize="13sp"/>
 
-    <TextView
+    <com.tysci.ballq.views.MarqueeTextView
         android:id="@+id/tv_user_recommend_count"
+        style="@style/MarqueeTextView"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
@@ -35,8 +36,9 @@
         android:text=""
         android:textSize="13sp"/>
 
-    <TextView
+    <com.tysci.ballq.views.MarqueeTextView
         android:id="@+id/tv_user_all_profit"
+        style="@style/MarqueeTextView"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
@@ -45,9 +47,13 @@
         android:textSize="13sp"/>
 
     <FrameLayout
+        android:id="@+id/layout_attention"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight="0.8">
+        android:layout_weight="0.8"
+        android:background="@drawable/click_style"
+        android:paddingBottom="8dp"
+        android:paddingTop="8dp">
 
         <ImageView
             android:id="@+id/iv_attention"

@@ -26,11 +26,11 @@
             android:layout_height="wrap_content"
             android:gravity="center_vertical">
 
-            <TextView
+            <com.tysci.ballq.views.MarqueeTextView
+                style="@style/MarqueeTextView"
                 android:id="@+id/tv_user_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:ellipsize="end"
                 android:maxWidth="80dp"
                 android:text="猪八戒吃西瓜"
                 android:textColor="@color/gold"

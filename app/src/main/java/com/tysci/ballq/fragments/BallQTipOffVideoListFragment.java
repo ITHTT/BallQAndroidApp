@@ -256,7 +256,14 @@ public class BallQTipOffVideoListFragment extends BaseFragment implements SwipeR
         }
         if (mBqTipOffVideoAdapter == null || mBqTipOffVideoAdapter.getItemCount() == 0)
         {
-            showEmptyInfo();
+            showEmptyInfo("暂无相关数据", "点击刷新", new View.OnClickListener()
+            {
+                @Override
+                public void onClick(View v)
+                {
+                    requestDatas(1, false);
+                }
+            });
         }
     }
 

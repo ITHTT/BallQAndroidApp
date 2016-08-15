@@ -1,6 +1,7 @@
 package com.tysci.ballq.utils;
 
 import android.os.Handler;
+import android.os.Looper;
 
 /**
  * Created by LinDe
@@ -10,7 +11,7 @@ public final class HandlerUtil
 {
     private final Handler mHandler;
 
-    public HandlerUtil() {mHandler = new Handler();}
+    public HandlerUtil() {mHandler = new Handler(Looper.getMainLooper());}
 
     public void post(Runnable runnable)
     {

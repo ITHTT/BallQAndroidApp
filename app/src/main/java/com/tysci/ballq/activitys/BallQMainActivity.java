@@ -19,6 +19,7 @@ import com.tysci.ballq.fragments.BallQMatchFragment;
 import com.tysci.ballq.fragments.BallQPersonalFragment;
 import com.tysci.ballq.fragments.BallQTipOffFragment;
 import com.tysci.ballq.utils.ToastUtil;
+import com.tysci.ballq.utils.UserInfoUtil;
 import com.tysci.ballq.views.widgets.MainBottomMenuView;
 
 import butterknife.Bind;
@@ -391,5 +392,13 @@ public class BallQMainActivity extends BaseActivity
             System.exit(0);
         }
         return super.onKeyDown(keyCode, event);
+    }
+
+    @Override
+    protected void onResume()
+    {
+        super.onResume();
+        UserInfoUtil.getUserInfo(this, "UserAttentionActivity", UserInfoUtil.getUserId(this), false, null);
+
     }
 }

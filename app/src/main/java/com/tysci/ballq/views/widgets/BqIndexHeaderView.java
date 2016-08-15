@@ -32,7 +32,7 @@ import butterknife.ButterKnife;
 public class BqIndexHeaderView extends LinearLayout implements OnItemClickListener
 {
     @Bind(R.id.convenientBanner)
-    ConvenientBanner mConvenientBanner;
+    ConvenientBanner<BallQBannerImageEntity> mConvenientBanner;
     private SwipeRefreshLayout mSwipeRefreshLayout;
     private List<BallQBannerImageEntity> bannerImageEntityList = null;
 

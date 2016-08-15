@@ -7,6 +7,7 @@ import android.view.View;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.pgyersdk.update.PgyUpdateManager;
 import com.tysci.ballq.R;
 import com.tysci.ballq.base.BaseFragment;
 import com.tysci.ballq.modles.BallQBannerImageEntity;
@@ -104,6 +105,7 @@ public class BallQIndexPageFragment extends BaseFragment implements SwipeRefresh
         showLoading();
         getHomePageInfo();
 
+        PgyUpdateManager.register(baseActivity);
     }
 
     @Override

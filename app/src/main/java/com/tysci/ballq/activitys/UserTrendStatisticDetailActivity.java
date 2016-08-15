@@ -228,7 +228,7 @@ public class UserTrendStatisticDetailActivity extends BaseActivity
                                 List<BallQTrendProfitStatisticEntity> ahcs = new ArrayList<>(ahcArrays.size());
                                 CommonUtils.getJSONListObject(ahcArrays, ahcs, BallQTrendProfitStatisticEntity.class);
                                 setTrendProfitType(1, ahcs);
-                                trendAhc.setTrendProfitStatistValue("ahc", "ahc_type", etype, ahcs);
+                                trendAhc.setTrendProfitStatistValue("ahc", "ahc_type", etype, isOldUser, ahcs);
                             }
 
                             JSONArray tournArrays = dataObj.getJSONArray("tourn");
@@ -237,7 +237,7 @@ public class UserTrendStatisticDetailActivity extends BaseActivity
                                 List<BallQTrendProfitStatisticEntity> tourns = new ArrayList<>();
                                 CommonUtils.getJSONListObject(tournArrays, tourns, BallQTrendProfitStatisticEntity.class);
                                 setTrendProfitType(2, tourns);
-                                trendLeague.setTrendProfitStatistValue("tourn", "tournid", etype, tourns);
+                                trendLeague.setTrendProfitStatistValue("tourn", "tournid", etype, isOldUser, tourns);
                             }
 
                             JSONArray monthArrays = dataObj.getJSONArray("month");
@@ -246,7 +246,7 @@ public class UserTrendStatisticDetailActivity extends BaseActivity
                                 List<BallQTrendProfitStatisticEntity> months = new ArrayList<>();
                                 CommonUtils.getJSONListObject(monthArrays, months, BallQTrendProfitStatisticEntity.class);
                                 setTrendProfitType(3, months);
-                                trendMonth.setTrendProfitStatistValue("month", "month", etype, months);
+                                trendMonth.setTrendProfitStatistValue("month", "month", etype, isOldUser, months);
                                 setLineChartViewData(months);
                             }
 
@@ -256,7 +256,7 @@ public class UserTrendStatisticDetailActivity extends BaseActivity
                                 List<BallQTrendProfitStatisticEntity> tos = new ArrayList<>();
                                 CommonUtils.getJSONListObject(toArrays, tos, BallQTrendProfitStatisticEntity.class);
                                 setTrendProfitType(4, tos);
-                                trendTo.setTrendProfitStatistValue("to", "to_type", etype, tos);
+                                trendTo.setTrendProfitStatistValue("to", "to_type", etype, isOldUser, tos);
                             }
 
                             JSONArray amountArrays = dataObj.getJSONArray("amount");
@@ -265,7 +265,7 @@ public class UserTrendStatisticDetailActivity extends BaseActivity
                                 List<BallQTrendProfitStatisticEntity> amounts = new ArrayList<>();
                                 CommonUtils.getJSONListObject(amountArrays, amounts, BallQTrendProfitStatisticEntity.class);
                                 setTrendProfitType(5, amounts);
-                                trendGold.setTrendProfitStatistValue("amount", "sam", etype, amounts);
+                                trendGold.setTrendProfitStatistValue("amount", "sam", etype, isOldUser, amounts);
                             }
 
                             JSONArray weekArrays = dataObj.getJSONArray("weekday");
@@ -274,7 +274,7 @@ public class UserTrendStatisticDetailActivity extends BaseActivity
                                 List<BallQTrendProfitStatisticEntity> weeks = new ArrayList<>();
                                 CommonUtils.getJSONListObject(weekArrays, weeks, BallQTrendProfitStatisticEntity.class);
                                 setTrendProfitType(6, weeks);
-                                trendWeek.setTrendProfitStatistValue("weekday", "weekday", etype, weeks);
+                                trendWeek.setTrendProfitStatistValue("weekday", "weekday", etype, isOldUser, weeks);
                             }
                         }
                     }
@@ -560,10 +560,12 @@ public class UserTrendStatisticDetailActivity extends BaseActivity
                 }
             });
             dataSet.setValueTextSize(10f);
-            dataSet.setValueFormatter(new ValueFormatter() {
+            dataSet.setValueFormatter(new ValueFormatter()
+            {
                 @Override
-                public String getFormattedValue(float value, Entry entry, int dataSetIndex, ViewPortHandler viewPortHandler) {
-                    return String.format(Locale.getDefault(),"%.0f",value);
+                public String getFormattedValue(float value, Entry entry, int dataSetIndex, ViewPortHandler viewPortHandler)
+                {
+                    return String.format(Locale.getDefault(), "%.0f", value);
                 }
             });
 

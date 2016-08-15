@@ -5,7 +5,8 @@
     android:gravity="center_vertical"
     android:paddingTop="6dp"
     android:paddingBottom="6dp">
-    <TextView
+    <com.tysci.ballq.views.MarqueeTextView
+        style="@style/MarqueeTextView"
         android:id="@+id/tv_rank"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -13,7 +14,8 @@
         android:gravity="center"
         android:textSize="13sp"
         android:text="排名"/>
-    <TextView
+    <com.tysci.ballq.views.MarqueeTextView
+        style="@style/MarqueeTextView"
         android:id="@+id/tv_user_name"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -21,7 +23,8 @@
         android:gravity="center"
         android:textSize="13sp"
         android:text="昵称"/>
-    <TextView
+    <com.tysci.ballq.views.MarqueeTextView
+        style="@style/MarqueeTextView"
         android:id="@+id/tv_betting_count"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -29,7 +32,8 @@
         android:gravity="center"
         android:textSize="13sp"
         android:text="竞猜场次"/>
-    <TextView
+    <com.tysci.ballq.views.MarqueeTextView
+        style="@style/MarqueeTextView"
         android:id="@+id/tv_wins"
         android:layout_width="0dp"
         android:layout_height="wrap_content"

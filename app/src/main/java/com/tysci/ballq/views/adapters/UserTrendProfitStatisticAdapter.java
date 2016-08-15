@@ -25,11 +25,17 @@ public class UserTrendProfitStatisticAdapter extends BaseAdapter
     private List<BallQTrendProfitStatisticEntity> trendProfitStatisticEntityList;
 
     private String bet, query;
-    int etype;
+    private int etype;
+    private boolean isOldUser;
 
     public UserTrendProfitStatisticAdapter(List<BallQTrendProfitStatisticEntity> datas)
     {
         this.trendProfitStatisticEntityList = datas;
+    }
+
+    public void setOldUser(boolean isOldUser)
+    {
+        this.isOldUser = isOldUser;
     }
 
     public void setBet(String bet)
@@ -141,6 +147,7 @@ public class UserTrendProfitStatisticAdapter extends BaseAdapter
                         break;
                 }
                 intent.putExtra("etype", String.valueOf(etype));
+                intent.putExtra("old_user", isOldUser);
                 context.startActivity(intent);
             }
         });

@@ -94,6 +94,11 @@ public class TitleBar extends LinearLayout
         tvTitle.setOnClickListener(listener);
     }
 
+    public void setTitleLongClickListener(View.OnLongClickListener longClickListener)
+    {
+        tvTitle.setOnLongClickListener(longClickListener);
+    }
+
     public ImageView getLeftBack()
     {
         return ivBack;

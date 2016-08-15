@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
-import android.widget.LinearLayout;
 
 import com.alibaba.fastjson.JSONObject;
 import com.tysci.ballq.R;
@@ -18,7 +17,6 @@ import com.tysci.ballq.utils.KLog;
 import com.tysci.ballq.utils.ToastUtil;
 import com.tysci.ballq.utils.UserInfoUtil;
 import com.tysci.ballq.views.UserProfileHeaderView;
-import com.tysci.ballq.views.widgets.MainMenuItemView;
 
 import java.util.HashMap;
 
@@ -53,6 +51,7 @@ public class UserProfileActivity extends BaseActivity
 //    protected TextView tvWinProbability;
 
     private int uid;
+    private UserInfoEntity mUserInfoEntity;
 
     @Override
     protected int getContentViewId()
@@ -160,18 +159,17 @@ public class UserProfileActivity extends BaseActivity
                     JSONObject obj = JSONObject.parseObject(response);
                     if (obj != null && JsonParams.isJsonRight(obj))
                     {
-                        UserInfoEntity userInfoEntity = null;
                         try
                         {
-                            userInfoEntity = obj.getObject("data", UserInfoEntity.class);
+                            mUserInfoEntity = obj.getObject("data", UserInfoEntity.class);
                         }
                         catch (Exception e)
                         {
                             e.printStackTrace();
                         }
-                        if (userInfoEntity != null)
+                        if (mUserInfoEntity != null)
                         {
-                            showUserInfo(userInfoEntity);
+                            showUserInfo(mUserInfoEntity);
                         }
                     }
                     else
@@ -263,26 +261,31 @@ public class UserProfileActivity extends BaseActivity
         }
     }
 
-    private void setClickMenuItem(View view)
-    {
-        LinearLayout layoutUserMenus = (LinearLayout) this.findViewById(R.id.layout_user_menus);
-        int size = layoutUserMenus.getChildCount();
-        for (int i = 0; i < size; i++)
-        {
-            View v = layoutUserMenus.getChildAt(i);
-            if (v instanceof MainMenuItemView)
-            {
-                ((MainMenuItemView) v).setCheckedState(v == view);
-            }
-        }
-
-    }
+//    private void setClickMenuItem(View view)
+//    {
+//        LinearLayout layoutUserMenus = (LinearLayout) this.findViewById(R.id.layout_user_menus);
+//        int size = layoutUserMenus.getChildCount();
+//        for (int i = 0; i < size; i++)
+//        {
+//            View v = layoutUserMenus.getChildAt(i);
+//            if (v instanceof MainMenuItemView)
+//            {
+//                ((MainMenuItemView) v).setCheckedState(v == view);
+//            }
+//        }
+//
+//    }
 
     @OnClick({R.id.menu_user_trend_statistics, R.id.menu_user_guessing_record, R.id.menu_user_attentions, R.id.menu_user_tip_off_record
             , R.id.menu_user_ball_wrap_record, R.id.menu_user_achievement, R.id.menu_user_old_guess_record})
     protected void onClickMenuItem(View view)
     {
-        setClickMenuItem(view);
+        if (mUserInfoEntity == null)
+        {
+            getUserInfo(uid);
+            return;
+        }
+//        setClickMenuItem(view);
         Intent intent = null;
         switch (view.getId())
         {
@@ -305,6 +308,8 @@ public class UserProfileActivity extends BaseActivity
             case R.id.menu_user_attentions:// 关注的人
                 intent = new Intent(this, UserAttentionActivity.class);
                 intent.putExtra(UserAttentionActivity.class.getSimpleName(), String.valueOf(uid));
+                intent.putExtra("flc", mUserInfoEntity.getFlc());
+                intent.putExtra("frc", mUserInfoEntity.getFrc());
                 break;
             case R.id.menu_user_achievement:// 他的成就
                 intent = new Intent(this, UserAchievementActivity.class);

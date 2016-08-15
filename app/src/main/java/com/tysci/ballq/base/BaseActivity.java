@@ -19,6 +19,7 @@ import com.tysci.ballq.networks.HttpClientUtil;
 import com.tysci.ballq.utils.KLog;
 import com.tysci.ballq.views.widgets.TitleBar;
 import com.tysci.ballq.views.widgets.loading.LoadingViewController;
+import com.umeng.analytics.MobclickAgent;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -288,6 +289,8 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
     {
         super.onResume();
         resumeNumber++;
+        MobclickAgent.onResume(this);
+        MobclickAgent.onPageStart(Tag);
     }
 
     @Override
@@ -295,6 +298,8 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
     {
         super.onPause();
         resumeNumber--;
+        MobclickAgent.onPause(this);
+        MobclickAgent.onPageEnd(Tag);
     }
 
     public static boolean isForeground()

@@ -30,8 +30,8 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:background="@drawable/click_style"
             android:layout_height="wrap_content"
+            android:background="@drawable/click_style"
             android:orientation="vertical">
 
             <RelativeLayout
@@ -54,8 +54,9 @@
                         android:contentDescription="@string/app_name"
                         android:src="@mipmap/ic_ballq_logo"/>
 
-                    <TextView
+                    <com.tysci.ballq.views.MarqueeTextView
                         android:id="@+id/tvHtName"
+                        style="@style/MarqueeTextView"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
@@ -63,8 +64,7 @@
                         android:layout_marginStart="7dp"
                         android:layout_toEndOf="@id/ivHtLogo"
                         android:layout_toRightOf="@id/ivHtLogo"
-                        android:ellipsize="end"
-                        android:maxLines="1"
+                        android:gravity="start"
                         android:text="@string/app_name"
                         android:textColor="#282828"
                         android:textSize="13sp"/>
@@ -93,8 +93,9 @@
                         android:contentDescription="@string/app_name"
                         android:src="@mipmap/ic_ballq_logo"/>
 
-                    <TextView
+                    <com.tysci.ballq.views.MarqueeTextView
                         android:id="@+id/tvAtName"
+                        style="@style/MarqueeTextView"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
@@ -102,8 +103,6 @@
                         android:layout_marginStart="7dp"
                         android:layout_toEndOf="@id/ivAtLogo"
                         android:layout_toRightOf="@id/ivAtLogo"
-                        android:ellipsize="end"
-                        android:maxLines="1"
                         android:text="@string/app_name"
                         android:textColor="#282828"
                         android:textSize="13sp"/>
@@ -129,8 +128,9 @@
                     android:padding="@dimen/dimen10dp"
                     android:src="@drawable/icon_user_collect_selector"/>
 
-                <TextView
+                <com.tysci.ballq.views.MarqueeTextView
                     android:id="@+id/tvGameState"
+                    style="@style/MarqueeTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
@@ -143,7 +143,8 @@
                     android:textSize="13sp"/>
             </RelativeLayout>
 
-            <RelativeLayout
+            <LinearLayout
+                android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
@@ -151,24 +152,28 @@
                 android:paddingLeft="15dp"
                 android:paddingRight="15dp">
 
-                <TextView
+                <com.tysci.ballq.views.MarqueeTextView
                     android:id="@+id/tvChoice"
-                    android:layout_width="wrap_content"
+                    style="@style/MarqueeTextView"
+                    android:layout_marginRight="@dimen/dimen10dp"
+                    android:layout_marginEnd="@dimen/dimen10dp"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
                     android:layout_height="wrap_content"
                     android:text="@string/app_name"
                     android:textColor="#cdaa44"
                     android:textSize="12sp"/>
 
-                <TextView
+                <com.tysci.ballq.views.MarqueeTextView
                     android:id="@+id/tvTipCreateTime"
+                    style="@style/MarqueeTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
                     android:text="04/28 11:38"
                     android:textColor="@color/ebpay_black"
                     android:textSize="12sp"
                     tools:ignore="HardcodedText"/>
-            </RelativeLayout>
+            </LinearLayout>
 
             <!--<LinearLayout
                 android:layout_width="match_parent"
@@ -366,7 +371,7 @@
                 android:background="#828282"
                 android:contentDescription="@string/app_name"/>
 
-            <RelativeLayout
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="27dp"
                 android:layout_marginLeft="65dp"
@@ -374,13 +379,15 @@
                 android:gravity="center_vertical"
                 android:orientation="horizontal">
 
-                <TextView
+                <com.tysci.ballq.views.MarqueeTextView
                     android:id="@+id/tvUserNickName"
-                    android:layout_width="wrap_content"
+                    style="@style/MarqueeTextView"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:ellipsize="end"
-                    android:maxEms="5"
-                    android:singleLine="true"
+                    android:layout_marginEnd="@dimen/dimen10dp"
+                    android:layout_marginRight="@dimen/dimen10dp"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
                     android:text="ball"
                     android:textColor="#1a1a1a"
                     android:textSize="12sp"/>
@@ -388,8 +395,6 @@
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:layout_alignParentRight="true"
                     android:gravity="center_vertical"
                     android:paddingEnd="15dp"
                     android:paddingLeft="0dp"
@@ -418,7 +423,7 @@
                         android:layout_marginStart="@dimen/dimen10dp"
                         app:text_left_image="@mipmap/icon_tip_trend"/>
                 </LinearLayout>
-            </RelativeLayout>
+            </LinearLayout>
 
             <View
                 android:layout_width="match_parent"
@@ -468,7 +473,8 @@
                 android:textColor="#1b1b1b"
                 android:textSize="13sp"/>
 
-            <TextView
+            <com.tysci.ballq.views.MarqueeTextView
+                style="@style/MarqueeTextView"
                 android:id="@+id/tvMatchEvent"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

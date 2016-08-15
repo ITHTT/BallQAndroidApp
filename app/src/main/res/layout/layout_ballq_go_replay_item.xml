@@ -18,7 +18,8 @@
             android:gravity="center"
             android:orientation="vertical">
 
-            <TextView
+            <com.tysci.ballq.views.MarqueeTextView
+                style="@style/MarqueeTextView"
                 android:id="@+id/tvTourName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -28,7 +29,8 @@
                 android:textSize="9sp"
                 android:typeface="monospace" />
 
-            <TextView
+            <com.tysci.ballq.views.MarqueeTextView
+                style="@style/MarqueeTextView"
                 android:id="@+id/tvHomeName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -38,7 +40,8 @@
                 android:textSize="12sp"
                 android:typeface="monospace" />
 
-            <TextView
+            <com.tysci.ballq.views.MarqueeTextView
+                style="@style/MarqueeTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
@@ -47,7 +50,8 @@
                 android:textSize="13sp"
                 android:typeface="monospace" />
 
-            <TextView
+            <com.tysci.ballq.views.MarqueeTextView
+                style="@style/MarqueeTextView"
                 android:id="@+id/tvAwayName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -85,7 +89,8 @@
                 android:textSize="10sp"
                 android:typeface="monospace" />
 
-            <TextView
+            <com.tysci.ballq.views.MarqueeTextView
+                style="@style/MarqueeTextView"
                 android:id="@+id/stake_amount"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -119,7 +124,8 @@
                 android:gravity="center"
                 android:orientation="vertical">
 
-                <TextView
+                <com.tysci.ballq.views.MarqueeTextView
+                    style="@style/MarqueeTextView"
                     android:id="@+id/odds_info1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -133,7 +139,8 @@
                     android:textSize="9sp" />
 
                 <!--android:background="@drawable/shape_707070_black"-->
-                <TextView
+                <com.tysci.ballq.views.MarqueeTextView
+                    style="@style/MarqueeTextView"
                     android:id="@+id/odds_info2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -169,13 +176,12 @@
             android:contentDescription=""
             android:src="@mipmap/go_determined_flag" />
 
-        <TextView
+        <com.tysci.ballq.views.MarqueeTextView
+            style="@style/MarqueeTextView"
             android:id="@+id/win_amount"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
-            android:ellipsize="end"
-            android:lines="1"
             android:text="@string/app_name"
             android:textColor="@color/c_3a3a3a"
             android:textSize="9sp" />

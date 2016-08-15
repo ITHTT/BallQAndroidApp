@@ -54,7 +54,7 @@ public final class UserProfileHeaderView extends LinearLayout implements View.On
     @Bind(R.id.iv_user_v)
     ImageView ivUserV;// 用户V头像
     @Bind(R.id.tv_user_nickname)
-    TextView tvUserNickname;// 用户昵称
+    MarqueeTextView tvUserNickname;// 用户昵称
     @Bind(R.id.iv_expert)
     UserVStatusImageView ivUserExpert;// 砖家图标
     @Bind(R.id.tv_follow_click)
@@ -64,29 +64,30 @@ public final class UserProfileHeaderView extends LinearLayout implements View.On
     @Bind(R.id.iv_user_achievement02)
     ImageView ivUserAchievement2;// 成就图标2
     @Bind(R.id.tv_user_bio)
-    TextView tvUserBio;// 用户签名
+    MarqueeTextView tvUserBio;// 用户签名
     @Bind(R.id.iv_setting)
     ImageView ivSetting;// 设置
 
     @Bind(R.id.tv_roi)
-    TextView tv_roi;// 总盈亏
+    MarqueeTextView tv_roi;// 总盈亏
     @Bind(R.id.tv_total_profit_and_loss)
-    TextView tv_total_profit_and_loss;// 投资回报
+    MarqueeTextView tv_total_profit_and_loss;// 投资回报
     @Bind(R.id.tv_winning_probability)
-    TextView tv_winning_probability;// 胜率
+    MarqueeTextView tv_winning_probability;// 胜率
 
     @Bind(R.id.layout_user_betting_counts)
     ViewGroup layoutUserBettingCounts;// 场次视图
     @Bind(R.id.tv_all_count)
-    TextView tvAllCount;// 总场次
+    MarqueeTextView tvAllCount;// 总场次
     @Bind(R.id.tv_win_count)
-    TextView tvWinCount;// 赢场
+    MarqueeTextView tvWinCount;// 赢场
     @Bind(R.id.tv_lose_count)
-    TextView tvLoseCount;// 输场
+    MarqueeTextView tvLoseCount;// 输场
     @Bind(R.id.tv_go_count)
-    TextView tvGoneCount;// 走场
+    MarqueeTextView tvGoneCount;// 走场
 
     private String userId;
+    private String mPortraitUrl;// 头像url
 
     public UserProfileHeaderView(Context context)
     {
@@ -183,6 +184,7 @@ public final class UserProfileHeaderView extends LinearLayout implements View.On
         // 头像
         ImageUtil.loadImage(ivUserPortrait, R.mipmap.icon_user_default, userInfo.getPt());
         UserInfoUtil.setUserHeaderVMark(userInfo.getIsv(), ivUserV, ivUserPortrait);
+        mPortraitUrl = userInfo.getPt();
         // 昵称
         tvUserNickname.setText(userInfo.getFname());
         // 砖家图标

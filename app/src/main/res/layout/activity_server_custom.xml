@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical">
+
+    <include layout="@layout/layout_title_bar"/>
+
+    <EditText
+        android:id="@+id/edit_server"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/dimen10dp"
+        android:layout_marginRight="@dimen/dimen10dp"
+        android:layout_marginTop="@dimen/dimen10dp"
+        android:background="@drawable/shape_edit_text_bg_gold"
+        android:gravity="center"
+        android:hint="通用服务器地址"
+        android:paddingBottom="@dimen/dimen5dp"
+        android:paddingTop="@dimen/dimen5dp"
+        android:textColor="@color/gold"
+        android:textColorHint="@color/gold"
+        android:textSize="@dimen/dimen12sp"/>
+
+    <EditText
+        android:id="@+id/edit_circle_server"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/dimen10dp"
+        android:layout_marginRight="@dimen/dimen10dp"
+        android:layout_marginTop="@dimen/dimen10dp"
+        android:background="@drawable/shape_edit_text_bg_gold"
+        android:gravity="center"
+        android:hint="圈子服务器地址"
+        android:paddingBottom="@dimen/dimen5dp"
+        android:paddingTop="@dimen/dimen5dp"
+        android:textColor="@color/gold"
+        android:textColorHint="@color/gold"
+        android:textSize="@dimen/dimen12sp"/>
+</LinearLayout>

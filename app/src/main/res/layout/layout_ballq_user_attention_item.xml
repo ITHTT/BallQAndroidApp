@@ -39,14 +39,14 @@
                 android:visibility="gone"/>
         </RelativeLayout>
 
-        <TextView
+        <com.tysci.ballq.views.MarqueeTextView
             android:id="@+id/tvUserNickName"
+            style="@style/MarqueeTextView"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_marginLeft="5dp"
             android:layout_weight="0.8"
             android:gravity="center"
-            android:singleLine="true"
             android:text="哈哈哈哈哈哈"
             android:textColor="#1b1b1b"
             android:textSize="10sp"
@@ -64,7 +64,8 @@
                 android:layout_height="15dp"
                 android:src="@mipmap/icon_tip_count"/>
 
-            <TextView
+            <com.tysci.ballq.views.MarqueeTextView
+                style="@style/MarqueeTextView"
                 android:id="@+id/tvTipCount"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -88,7 +89,8 @@
                 android:layout_height="15dp"
                 android:src="@mipmap/icon_tip_win_rate"/>
 
-            <TextView
+            <com.tysci.ballq.views.MarqueeTextView
+                style="@style/MarqueeTextView"
                 android:id="@+id/tvWins"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -111,7 +113,8 @@
                 android:layout_height="15dp"
                 android:src="@mipmap/icon_tip_trend"/>
 
-            <TextView
+            <com.tysci.ballq.views.MarqueeTextView
+                style="@style/MarqueeTextView"
                 android:id="@+id/tvRor"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

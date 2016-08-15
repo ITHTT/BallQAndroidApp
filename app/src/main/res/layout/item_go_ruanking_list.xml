@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="vertical"
               android:layout_width="match_parent"
-              android:layout_height="match_parent">
+              android:layout_height="wrap_content"
+              android:orientation="vertical">
+
     <LinearLayout
         android:id="@+id/layoutDate"
         android:layout_width="match_parent"
@@ -19,7 +20,7 @@
             android:layout_marginLeft="20dp"
             android:layout_marginStart="20dp"
             android:contentDescription="@string/app_name"
-            android:src="@mipmap/account_date" />
+            android:src="@mipmap/account_date"/>
 
         <TextView
             android:id="@+id/tvDate"
@@ -30,7 +31,7 @@
             android:text="5月25日"
             android:textColor="@color/white"
             android:textSize="13sp"
-            android:typeface="monospace" />
+            android:typeface="monospace"/>
     </LinearLayout>
 
     <LinearLayout
@@ -49,7 +50,7 @@
             android:text="排名"
             android:textColor="#d1b06d"
             android:textSize="13sp"
-            android:typeface="monospace" />
+            android:typeface="monospace"/>
 
         <TextView
             android:layout_width="0dp"
@@ -59,7 +60,7 @@
             android:text="昵称"
             android:textColor="#d1b06d"
             android:textSize="13sp"
-            android:typeface="monospace" />
+            android:typeface="monospace"/>
 
         <TextView
             android:layout_width="0dp"
@@ -69,7 +70,7 @@
             android:text="战绩"
             android:textColor="#d1b06d"
             android:textSize="13sp"
-            android:typeface="monospace" />
+            android:typeface="monospace"/>
 
         <TextView
             android:layout_width="0dp"
@@ -79,7 +80,7 @@
             android:text="盈利额"
             android:textColor="#d1b06d"
             android:textSize="13sp"
-            android:typeface="monospace" />
+            android:typeface="monospace"/>
 
         <TextView
             android:layout_width="0dp"
@@ -91,7 +92,7 @@
             android:text="与球商GO的战绩"
             android:textColor="#d1b06d"
             android:textSize="13sp"
-            android:typeface="monospace" />
+            android:typeface="monospace"/>
     </LinearLayout>
 
     <ImageView
@@ -99,7 +100,7 @@
         android:layout_width="match_parent"
         android:layout_height="2dp"
         android:background="#e7e7e7"
-        android:contentDescription="@string/app_name" />
+        android:contentDescription="@string/app_name"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -109,8 +110,9 @@
         android:paddingBottom="10dp"
         android:paddingTop="10dp">
 
-        <TextView
+        <com.tysci.ballq.views.MarqueeTextView
             android:id="@+id/rank"
+            style="@style/MarqueeTextView"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -118,23 +120,23 @@
             android:text="排名"
             android:textColor="#f9554b"
             android:textSize="10sp"
-            android:typeface="monospace" />
+            android:typeface="monospace"/>
 
-        <TextView
+        <com.tysci.ballq.views.MarqueeTextView
             android:id="@+id/fname"
+            style="@style/MarqueeTextView"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:ellipsize="end"
             android:gravity="center"
-            android:lines="1"
             android:text="昵称"
             android:textColor="#1a1a1a"
             android:textSize="10sp"
-            android:typeface="monospace" />
+            android:typeface="monospace"/>
 
-        <TextView
+        <com.tysci.ballq.views.MarqueeTextView
             android:id="@+id/tvFightResult"
+            style="@style/MarqueeTextView"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -143,10 +145,11 @@
             android:text="战绩"
             android:textColor="#1a1a1a"
             android:textSize="10sp"
-            android:typeface="monospace" />
+            android:typeface="monospace"/>
 
-        <TextView
+        <com.tysci.ballq.views.MarqueeTextView
             android:id="@+id/profit"
+            style="@style/MarqueeTextView"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -154,25 +157,24 @@
             android:text="盈利额"
             android:textColor="#1a1a1a"
             android:textSize="10sp"
-            android:typeface="monospace" />
+            android:typeface="monospace"/>
 
-        <TextView
+        <com.tysci.ballq.views.MarqueeTextView
             android:id="@+id/yield_gap"
+            style="@style/MarqueeTextView"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="2"
-            android:ellipsize="end"
             android:gravity="center"
-            android:lines="1"
             android:text="与球商GO的战绩"
             android:textColor="#1a1a1a"
             android:textSize="10sp"
-            android:typeface="monospace" />
+            android:typeface="monospace"/>
     </LinearLayout>
 
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="2dp"
         android:background="#e7e7e7"
-        android:contentDescription="@string/app_name" />
+        android:contentDescription="@string/app_name"/>
 </LinearLayout>

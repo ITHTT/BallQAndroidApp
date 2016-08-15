@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical">
 
-    <include layout="@layout/layout_title_bar" />
+    <include layout="@layout/layout_title_bar"/>
 
     <ScrollView
         android:layout_width="match_parent"
@@ -22,24 +22,36 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/activity_setting_item_height"
                 app:setting_show_icon="true"
-                app:setting_text_title="头像:" />
+                app:setting_text_title="头像:"/>
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="@color/gold" />
+                android:background="@color/gold"/>
 
             <com.tysci.ballq.views.SettingItemView
                 android:id="@+id/setting_user_nickname"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/activity_setting_item_height"
                 app:setting_text_name="@string/app_name"
-                app:setting_text_title="昵称:" />
+                app:setting_text_title="昵称:"/>
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="@color/gold" />
+                android:background="@color/gold"/>
+
+            <com.tysci.ballq.views.SettingItemView
+                android:id="@+id/setting_check_update"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/activity_setting_item_height"
+                app:setting_text_name=""
+                app:setting_text_title="检查更新"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/gold"/>
         </LinearLayout>
     </ScrollView>
 
@@ -57,5 +69,5 @@
         android:paddingTop="@dimen/dimen10dp"
         android:text="退出登录"
         android:textColor="#ffffff"
-        android:textSize="@dimen/dimen14sp" />
+        android:textSize="@dimen/dimen14sp"/>
 </LinearLayout>

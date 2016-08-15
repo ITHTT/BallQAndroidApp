@@ -1,136 +1,162 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical">
+
     <include
         layout="@layout/layout_title_bar"/>
+
     <com.tysci.ballq.views.widgets.ResizeImageView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:scaleType="fitXY"
         android:src="@mipmap/icon_reward_top"
-        app:resize_width="1080"
-        app:resize_height="595"/>
+        app:resize_height="595"
+        app:resize_width="1080"/>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:background="@mipmap/icon_reward_bottom">
+        android:background="@mipmap/icon_reward_bottom"
+        android:orientation="vertical">
+
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:background="@color/gray"/>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingTop="6dp"
-            android:paddingBottom="6dp">
+            android:paddingBottom="6dp"
+            android:paddingTop="6dp">
+
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.8"
                 android:gravity="center"
-                android:textSize="13sp"
-                android:text="排名"/>
+                android:text="排名"
+                android:textSize="13sp"/>
+
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1.2"
                 android:gravity="center"
-                android:textSize="13sp"
-                android:text="昵称"/>
+                android:text="昵称"
+                android:textSize="13sp"/>
+
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:textSize="13sp"
-                android:text="竞猜场次"/>
+                android:text="竞猜场次"
+                android:textSize="13sp"/>
+
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:textSize="13sp"
-                android:text="亚盘胜率"/>
+                android:text="亚盘胜率"
+                android:textSize="13sp"/>
+
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.6"
                 android:gravity="center"
-                android:textSize="13sp"
-                android:text="关注"/>
+                android:text="关注"
+                android:textSize="13sp"/>
         </LinearLayout>
+
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:background="@color/gray"/>
+
         <include
+            layout="@layout/layout_swiperefresh_recyclerview"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1"
-            layout="@layout/layout_swiperefresh_recyclerview"/>
+            android:layout_weight="1"/>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
             android:background="@drawable/reward_user_info_bg"
-            android:paddingTop="3dp"
-            android:paddingBottom="3dp">
+            android:orientation="vertical"
+            android:paddingBottom="3dp"
+            android:paddingTop="3dp">
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
-                <TextView
+
+                <com.tysci.ballq.views.MarqueeTextView
                     android:id="@+id/tv_user_rank"
+                    style="@style/MarqueeTextView"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.8"
-                    android:textColor="@color/gold"
                     android:gravity="center"
+                    android:textColor="@color/gold"
                     android:textSize="13sp"/>
-                <TextView
+
+                <com.tysci.ballq.views.MarqueeTextView
                     android:id="@+id/tv_user_name"
+                    style="@style/MarqueeTextView"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1.2"
                     android:gravity="center"
                     android:textColor="@color/gold"
                     android:textSize="13sp"/>
-                <TextView
+
+                <com.tysci.ballq.views.MarqueeTextView
                     android:id="@+id/tv_user_betting_count"
+                    style="@style/MarqueeTextView"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:gravity="center"
                     android:textColor="@color/gold"
                     android:textSize="13sp"/>
-                <TextView
+
+                <com.tysci.ballq.views.MarqueeTextView
                     android:id="@+id/tv_user_wins"
+                    style="@style/MarqueeTextView"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:gravity="center"
                     android:textColor="@color/gold"
                     android:textSize="13sp"/>
-                <TextView
+
+                <com.tysci.ballq.views.MarqueeTextView
+                    style="@style/MarqueeTextView"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.6"
                     android:textSize="13sp"/>
             </LinearLayout>
-            <TextView
+
+            <com.tysci.ballq.views.MarqueeTextView
                 android:id="@+id/tv_user_extra_info"
+                style="@style/MarqueeTextView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_horizontal"
                 android:textColor="@color/gold"
-                android:textSize="13sp" />
+                android:textSize="13sp"/>
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>

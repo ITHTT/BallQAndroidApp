@@ -136,7 +136,7 @@ public class BqTipOffAdapter extends WrapRecyclerAdapter<BallQTipOffEntity, BqTi
 
         // 相关数据
 
-        holder.textSam.setText(String.format(Locale.getDefault(), "%.2f", tipInfo.getSam() * 1F / 100F));
+        holder.textSam.setText(String.format(Locale.getDefault(), "%.0f", tipInfo.getSam() * 1F / 100F));
         holder.textRead.setText(tipInfo.getReading_count());
         holder.textComment.setText(tipInfo.getComcount());
         holder.textLike.setText(tipInfo.getLike_count());
@@ -145,9 +145,9 @@ public class BqTipOffAdapter extends WrapRecyclerAdapter<BallQTipOffEntity, BqTi
 
         holder.textTipCount.setText(tipInfo.getTipcount());
         ftmp = tipInfo.getWins();
-        holder.textWins.setText((ftmp >= 0 ? "+" : "") + String.format(Locale.getDefault(), "%.2f", ftmp * 100F) + "%");
+        holder.textWins.setText((ftmp >= 0 ? "+" : "") + String.format(Locale.getDefault(), "%.0f", ftmp * 100F) + "%");
         ftmp = tipInfo.getRor();
-        holder.textRor.setText((ftmp >= 0 ? "+" : "") + String.format(Locale.getDefault(), "%.2f", ftmp));
+        holder.textRor.setText((ftmp >= 0 ? "+" : "") + String.format(Locale.getDefault(), "%.2f", ftmp) + "%");
 
         // 用户头像
         ImageUtil.loadImage(holder.ivUserPortrait, R.mipmap.icon_user_default, tipInfo.getPt());

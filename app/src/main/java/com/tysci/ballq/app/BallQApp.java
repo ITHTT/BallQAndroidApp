@@ -5,8 +5,10 @@ import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 
+import com.pgyersdk.crash.PgyCrashManager;
 import com.tysci.ballq.bigdata.BigDataUtil;
 import com.tysci.ballq.networks.HttpClientUtil;
+import com.tysci.ballq.networks.HttpUrls;
 import com.tysci.ballq.services.TimeTaskPickerService;
 import com.tysci.ballq.utils.SharedPreferencesUtil;
 import com.tysci.ballq.utils.WeChatUtil;
@@ -16,19 +18,29 @@ import cn.jpush.android.api.JPushInterface;
 /**
  * Created by HTT on 2016/5/28.
  */
-public class BallQApp extends Application {
+public class BallQApp extends Application
+{
 
     @Override
-    public void onCreate() {
+    public void onCreate()
+    {
         super.onCreate();
+
+        HttpUrls.initialized(this);
+        PgyCrashManager.register(this);
+
         // 更新版本后重新打开Guide
-        try {
+        try
+        {
             PackageManager manager = getPackageManager();
             PackageInfo info = manager.getPackageInfo(getPackageName(), 0);
-            if (info.versionCode > SharedPreferencesUtil.getVersionCode(this)) {
+            if (info.versionCode > SharedPreferencesUtil.getVersionCode(this))
+            {
                 SharedPreferencesUtil.resetGuideState(this);
             }
-        } catch (PackageManager.NameNotFoundException e) {
+        }
+        catch (PackageManager.NameNotFoundException e)
+        {
             e.printStackTrace();
         }
         // 保存版本号

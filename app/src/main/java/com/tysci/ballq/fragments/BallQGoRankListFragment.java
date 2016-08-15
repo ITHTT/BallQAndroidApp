@@ -11,6 +11,7 @@ import com.tysci.ballq.base.BaseFragment;
 import com.tysci.ballq.modles.JsonParams;
 import com.tysci.ballq.networks.HttpClientUtil;
 import com.tysci.ballq.networks.HttpUrls;
+import com.tysci.ballq.utils.HandlerUtil;
 import com.tysci.ballq.utils.KLog;
 import com.tysci.ballq.views.adapters.BallQGoRankListAdapter;
 import com.tysci.ballq.views.widgets.loadmorerecyclerview.AutoLoadMoreRecyclerView;
@@ -143,7 +144,14 @@ public class BallQGoRankListFragment extends BaseFragment implements SwipeRefres
             @Override
             public void onFinish(Call call)
             {
-
+                new HandlerUtil().postDelayed(new Runnable()
+                {
+                    @Override
+                    public void run()
+                    {
+                        mSwipeRefreshLayout.setRefreshing(false);
+                    }
+                },100);
             }
         });
     }

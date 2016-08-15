@@ -146,11 +146,11 @@ public class BallQUserBettingGuessRecordAdapter extends RecyclerView.Adapter<Bal
         float resultValue = (info.getRam() - info.getSam()) / 100f;
         if (resultValue > 0)
         {
-            holder.tvBetResultSam.setText("+" + String.format(Locale.getDefault(), "%.0f", resultValue));
+            holder.tvBetResultSam.setText("+" + String.format(Locale.getDefault(), "%.2f", resultValue));
         }
         else
         {
-            holder.tvBetResultSam.setText(String.format(Locale.getDefault(), "%.0f", resultValue));
+            holder.tvBetResultSam.setText(String.format(Locale.getDefault(), "%.2f", resultValue));
         }
     }
 

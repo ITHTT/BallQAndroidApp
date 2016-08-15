@@ -12,6 +12,8 @@ import android.view.Window;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.pgyersdk.update.PgyUpdateManager;
+import com.pgyersdk.update.UpdateManagerListener;
 import com.tysci.ballq.R;
 import com.tysci.ballq.base.BaseActivity;
 import com.tysci.ballq.dialog.EditUserNicknameDialog;
@@ -20,6 +22,7 @@ import com.tysci.ballq.modles.UserInfoEntity;
 import com.tysci.ballq.networks.HttpClientUtil;
 import com.tysci.ballq.networks.HttpUrls;
 import com.tysci.ballq.utils.FileUtil;
+import com.tysci.ballq.utils.HandlerUtil;
 import com.tysci.ballq.utils.KLog;
 import com.tysci.ballq.utils.ToastUtil;
 import com.tysci.ballq.utils.UserInfoUtil;
@@ -37,70 +40,84 @@ import okhttp3.Request;
  * Created by LinDe on 2016-07-14 0014.
  * 设置
  */
-public class BallQSettingActivity extends BaseActivity implements EditUserNicknameDialog.EditNicknameSuccessCallback {
+public class BallQSettingActivity extends BaseActivity implements EditUserNicknameDialog.EditNicknameSuccessCallback
+{
     @Bind(R.id.setting_user_icon)
     SettingItemView userIconItem;
     @Bind(R.id.setting_user_nickname)
     SettingItemView userNicknameItem;
 
     @Override
-    protected int getContentViewId() {
+    protected int getContentViewId()
+    {
         return R.layout.activity_setting;
     }
 
     @Override
-    protected void initViews() {
+    protected void initViews()
+    {
         // 用户信息展示
         UserInfoEntity userInfo = UserInfoUtil.getUserInfo(this);
-        if (userInfo != null) {
+        if (userInfo != null)
+        {
             userIconItem.setIcon(userInfo.getPt());
             userNicknameItem.setName(userInfo.getFname());
         }
     }
 
     @Override
-    protected View getLoadingTargetView() {
+    protected View getLoadingTargetView()
+    {
         return null;
     }
 
     @Override
-    protected void getIntentData(Intent intent) {
+    protected void getIntentData(Intent intent)
+    {
 
     }
 
     @Override
-    protected boolean isCanceledEventBus() {
+    protected boolean isCanceledEventBus()
+    {
         return false;
     }
 
     @Override
-    protected void saveInstanceState(Bundle outState) {
+    protected void saveInstanceState(Bundle outState)
+    {
 
     }
 
     @Override
-    protected void handleInstanceState(Bundle outState) {
+    protected void handleInstanceState(Bundle outState)
+    {
 
     }
 
     @Override
-    protected void onViewClick(View view) {
+    protected void onViewClick(View view)
+    {
 
     }
 
     @Override
-    protected void notifyEvent(String action) {
+    protected void notifyEvent(String action)
+    {
 
     }
 
     @Override
-    protected void notifyEvent(String action, Bundle data) {
+    protected void notifyEvent(String action, Bundle data)
+    {
 
     }
 
-    @OnClick({R.id.setting_user_icon, R.id.setting_user_nickname, R.id.tv_exit})
-    public void onSettingItemClick(View view) {
-        switch (view.getId()) {
+    @OnClick({R.id.setting_user_icon, R.id.setting_user_nickname, R.id.setting_check_update, R.id.tv_exit})
+    public void onSettingItemClick(View view)
+    {
+        switch (view.getId())
+        {
             case R.id.setting_user_icon:
                 EditUserPortraitDialog editUserPortraitDialog = new EditUserPortraitDialog(this);
                 Window window = editUserPortraitDialog.getWindow();
@@ -117,14 +134,41 @@ public class BallQSettingActivity extends BaseActivity implements EditUserNickna
                 UserInfoUtil.exitLogin(this);
                 finish();
                 break;
+            case R.id.setting_check_update:
+                PgyUpdateManager.register(this, new UpdateManagerListener()
+                {
+                    @Override
+                    public void onNoUpdateAvailable()
+                    {
+                        ToastUtil.show(BallQSettingActivity.this, "已经是最新版本");
+                    }
+
+                    @Override
+                    public void onUpdateAvailable(String s)
+                    {
+                        HandlerUtil util = new HandlerUtil();
+                        util.post(new Runnable()
+                        {
+                            @Override
+                            public void run()
+                            {
+                                PgyUpdateManager.register(BallQSettingActivity.this);
+                            }
+                        });
+                    }
+                });
+                break;
         }
     }
 
     @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+    public void onActivityResult(int requestCode, int resultCode, Intent data)
+    {
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == Activity.RESULT_OK) {
-            switch (requestCode) {
+        if (resultCode == Activity.RESULT_OK)
+        {
+            switch (requestCode)
+            {
                 case EditUserPortraitDialog.PHOTO_ALBUM:
                     startPhotoZoom(data.getData());
                     break;
@@ -134,7 +178,8 @@ public class BallQSettingActivity extends BaseActivity implements EditUserNickna
                     break;
                 case EditUserPortraitDialog.PHOTO_CUT:
                     KLog.e("PHOTO_CUT");
-                    if (data != null) {
+                    if (data != null)
+                    {
                         setPicToView(data);
                     }
                     break;
@@ -142,9 +187,11 @@ public class BallQSettingActivity extends BaseActivity implements EditUserNickna
         }
     }
 
-    private void setPicToView(Intent picData) {
+    private void setPicToView(Intent picData)
+    {
         Bundle extras = picData.getExtras();
-        if (extras != null) {
+        if (extras != null)
+        {
             Bitmap photo = extras.getParcelable("data");
             updateUserHeaderIcon(photo);
         }
@@ -153,7 +200,8 @@ public class BallQSettingActivity extends BaseActivity implements EditUserNickna
     /**
      * 裁剪图片方法实现
      */
-    public void startPhotoZoom(Uri uri) {
+    public void startPhotoZoom(Uri uri)
+    {
         /*
          * 至于下面这个Intent的ACTION是怎么知道的，大家可以看下自己路径下的如下网页
 		 * yourself_sdk_path/docs/reference/android/content/Intent.html
@@ -172,59 +220,74 @@ public class BallQSettingActivity extends BaseActivity implements EditUserNickna
         startActivityForResult(intent, EditUserPortraitDialog.PHOTO_CUT);
     }
 
-    private void updateUserHeaderIcon(final Bitmap photo) {
+    private void updateUserHeaderIcon(final Bitmap photo)
+    {
         HashMap<String, String> map;
-        if (UserInfoUtil.checkLogin(this)) {
+        if (UserInfoUtil.checkLogin(this))
+        {
             map = new HashMap<>();
             map.put("user", UserInfoUtil.getUserId(this));
             map.put("token", UserInfoUtil.getUserToken(this));
-        } else {
+        }
+        else
+        {
             return;
         }
         final String PHOTO_NAME = "BallQUserTmpPhoto.jpg";
         File f = new File(Environment.getExternalStorageDirectory().getPath(), PHOTO_NAME);
         FileUtil.writeBitmapToFile(f, photo);
-        HttpClientUtil.getHttpClientUtil().uploadPortrait(Tag, HttpUrls.HOST_URL_V5 + "user/edit_profile/", new String[]{"pt"}, new File[]{f}, map, new HttpClientUtil.ProgressResponseCallBack() {
+        HttpClientUtil.getHttpClientUtil().uploadPortrait(Tag, HttpUrls.HOST_URL_V5 + "user/edit_profile/", new String[]{"pt"}, new File[]{f}, map, new HttpClientUtil.ProgressResponseCallBack()
+        {
             @Override
-            public void loadingProgress(int progress) {
+            public void loadingProgress(int progress)
+            {
                 showLoading();
             }
 
             @Override
-            public void onBefore(Request request) {
+            public void onBefore(Request request)
+            {
             }
 
             @Override
-            public void onError(Call call, Exception error) {
+            public void onError(Call call, Exception error)
+            {
                 hideLoad();
             }
 
             @Override
-            public void onSuccess(Call call, String response) {
+            public void onSuccess(Call call, String response)
+            {
                 hideLoad();
                 KLog.json(response);
                 JSONObject object = JSON.parseObject(response);
-                if (object.getInteger("status") == 307) {
+                if (object.getInteger("status") == 307)
+                {
                     ToastUtil.show(BallQSettingActivity.this, "成功修改头像");
                     userIconItem.setIcon(photo);
                     updateUserInfo();
-                } else {
+                }
+                else
+                {
                     ToastUtil.show(BallQSettingActivity.this, object.getString("message"));
                 }
             }
 
             @Override
-            public void onFinish(Call call) {
+            public void onFinish(Call call)
+            {
             }
         });
     }
 
-    public void updateUserInfo() {
+    public void updateUserInfo()
+    {
         UserInfoUtil.getUserInfo(this, Tag, UserInfoUtil.getUserId(this), UserInfoUtil.checkLogin(this), null);
     }
 
     @Override
-    public void callback(EditUserNicknameDialog dialog, String nicknameNew) {
+    public void callback(EditUserNicknameDialog dialog, String nicknameNew)
+    {
         userNicknameItem.setName(nicknameNew);
         updateUserInfo();
         dialog.dismiss();

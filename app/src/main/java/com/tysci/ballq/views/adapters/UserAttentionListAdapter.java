@@ -163,7 +163,7 @@ public class UserAttentionListAdapter extends WrapRecyclerAdapter<UserAttentionL
         final int sam = info.getSam();
         holder.iv_money_icon.setVisibility(sam == 0 ? View.GONE : View.VISIBLE);
         holder.tvSam.setVisibility(sam == 0 ? View.GONE : View.VISIBLE);
-        holder.tvSam.setText(String.format(Locale.getDefault(), "%.2f", sam * 1F / 100F));
+        holder.tvSam.setText(String.format(Locale.getDefault(), "%.0f", sam * 1F / 100F));
 
         holder.itemView.setOnClickListener(new View.OnClickListener()
         {

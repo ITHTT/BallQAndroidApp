@@ -34,8 +34,9 @@
             android:textColor="@color/c_3a3a3a"
             android:textSize="@dimen/dimen12sp"/>
 
-        <TextView
+        <com.tysci.ballq.views.MarqueeTextView
             android:id="@+id/tvMatchName"
+            style="@style/MarqueeTextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/dimen5dp"
@@ -55,8 +56,9 @@
             android:layout_toRightOf="@id/tv_match_time"
             android:orientation="horizontal">
 
-            <TextView
+            <com.tysci.ballq.views.MarqueeTextView
                 android:id="@+id/tv_vs"
+                style="@style/MarqueeTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
@@ -82,8 +84,9 @@
                     android:contentDescription="@string/app_name"
                     android:src="@mipmap/ic_ballq_logo"/>
 
-                <TextView
+                <com.tysci.ballq.views.MarqueeTextView
                     android:id="@+id/tv_home_team_name"
+                    style="@style/MarqueeTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/dimen7dp"
@@ -106,8 +109,9 @@
                     android:contentDescription="@string/app_name"
                     android:src="@mipmap/ic_ballq_logo"/>
 
-                <TextView
+                <com.tysci.ballq.views.MarqueeTextView
                     android:id="@+id/tv_away_team_name"
+                    style="@style/MarqueeTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/dimen7dp"
@@ -115,8 +119,9 @@
                     android:textSize="@dimen/dimen13sp"/>
             </LinearLayout>
 
-            <TextView
+            <com.tysci.ballq.views.MarqueeTextView
                 android:id="@+id/tvChoice"
+                style="@style/MarqueeTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignLeft="@id/layout_home_team"
@@ -183,10 +188,13 @@
         android:gravity="center_vertical"
         android:orientation="horizontal">
 
-        <TextView
+        <com.tysci.ballq.views.MarqueeTextView
             android:id="@+id/tv_user_nickname"
+            style="@style/MarqueeTextView"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/dimen10dp"
+            android:layout_marginRight="@dimen/dimen10dp"
             android:layout_weight="1"
             android:text="隔壁老王"
             android:textColor="@color/c_3a3a3a"

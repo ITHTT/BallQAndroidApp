@@ -119,34 +119,41 @@ public class BallQMatchListFragment extends AppSwipeRefreshLoadMoreRecyclerViewF
                 hideLoad();
                 KLog.json(response);
                 if (!TextUtils.isEmpty(response)) {
-                    JSONObject obj = JSONObject.parseObject(response);
-                    int status=obj.getIntValue("status");
-                    if (obj != null&&!obj.isEmpty()&&status==0) {
-                        JSONObject data = obj.getJSONObject("data");
-                        if (data != null) {
-                            JSONArray array = data.getJSONArray("matches");
-                            if (array != null && !array.isEmpty()) {
-                                if (matchEntityList == null) {
-                                    matchEntityList = new ArrayList<BallQMatchEntity>(10);
-                                } else if (!matchEntityList.isEmpty()) {
-                                    matchEntityList.clear();
+                    try
+                    {
+                        JSONObject obj = JSONObject.parseObject(response);
+                        int status=obj.getIntValue("status");
+                        if (obj != null&&!obj.isEmpty()&&status==0) {
+                            JSONObject data = obj.getJSONObject("data");
+                            if (data != null) {
+                                JSONArray array = data.getJSONArray("matches");
+                                if (array != null && !array.isEmpty()) {
+                                    if (matchEntityList == null) {
+                                        matchEntityList = new ArrayList<BallQMatchEntity>(10);
+                                    } else if (!matchEntityList.isEmpty()) {
+                                        matchEntityList.clear();
+                                    }
+                                    CommonUtils.getJSONListObject(array, matchEntityList, BallQMatchEntity.class);
+                                    if (matchAdapter == null) {
+                                        matchAdapter = new BallQMatchAdapter(matchEntityList);
+                                        matchAdapter.setTag(Tag);
+                                        matchAdapter.setMatchType(0);
+                                        recyclerView.setAdapter(matchAdapter);
+                                    } else {
+                                        matchAdapter.notifyDataSetChanged();
+                                    }
+                                    recyclerView.setLoadMoreDataComplete(loadFinishedTip);
+                                    if(position>0){
+                                        recyclerView.scrollToPosition(position);
+                                    }
+                                    return;
                                 }
-                                CommonUtils.getJSONListObject(array, matchEntityList, BallQMatchEntity.class);
-                                if (matchAdapter == null) {
-                                    matchAdapter = new BallQMatchAdapter(matchEntityList);
-                                    matchAdapter.setTag(Tag);
-                                    matchAdapter.setMatchType(0);
-                                    recyclerView.setAdapter(matchAdapter);
-                                } else {
-                                    matchAdapter.notifyDataSetChanged();
-                                }
-                                recyclerView.setLoadMoreDataComplete(loadFinishedTip);
-                                if(position>0){
-                                    recyclerView.scrollToPosition(position);
-                                }
-                                return;
                             }
                         }
+                    }
+                    catch (Exception e)
+                    {
+                        e.printStackTrace();
                     }
                 }
                 showEmptyInfo();

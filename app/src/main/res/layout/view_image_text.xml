@@ -13,12 +13,14 @@
         android:contentDescription="@string/app_name"
         android:src="@mipmap/ic_ballq_logo"/>
 
-    <TextView
+    <com.tysci.ballq.views.MarqueeTextView
+        style="@style/MarqueeTextView"
         android:id="@+id/text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="@dimen/dimen12sp"
         android:layout_marginLeft="@dimen/dimen5dp"
+        android:maxWidth="@dimen/dimen50dp"
         android:layout_marginStart="@dimen/dimen5dp"
         android:text="0"
         android:textColor="@color/c_3a3a3a"/>

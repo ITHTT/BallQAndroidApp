@@ -82,7 +82,7 @@ public class BallQTipOffFragment extends BaseFragment implements View.OnClickLis
             public void onClick(View v)
             {
                 int item = viewPager.getCurrentItem();
-                if (item > 0) return;// TODO 筛选暂不显示
+                if (item >= 0) return;// TODO 筛选暂不显示
 
                 if (mBqTipOffPopupWindow == null)
                 {
