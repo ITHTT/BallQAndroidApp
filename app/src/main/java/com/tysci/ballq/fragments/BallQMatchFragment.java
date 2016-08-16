@@ -8,7 +8,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.nineoldandroids.animation.ObjectAnimator;
@@ -94,7 +93,7 @@ public class BallQMatchFragment extends BaseFragment implements BallQMatchFilter
         setLeftMenuAttrs();
         setRightMenuAttrs();
         addPopMenuItems();
-        popupMenuLayout.setTargetView(mTitleBar.getLeftBack());
+        popupMenuLayout.setTargetView(mTitleBar.getLeftBackGroup());
         popupMenuLayout.setOnPopupMenuShowListener(this);
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this.getActivity());
@@ -138,9 +137,9 @@ public class BallQMatchFragment extends BaseFragment implements BallQMatchFilter
     {
         ImageView ivLeftMenu = mTitleBar.getLeftBack();
         ivLeftMenu.setImageResource(R.mipmap.icon_match_filter_left);
-        RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) ivLeftMenu.getLayoutParams();
-        layoutParams.leftMargin = CommonUtils.dip2px(baseActivity, 12);
-        ivLeftMenu.setLayoutParams(layoutParams);
+//        RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) ivLeftMenu.getLayoutParams();
+//        layoutParams.leftMargin = CommonUtils.dip2px(baseActivity, 12);
+//        ivLeftMenu.setLayoutParams(layoutParams);
     }
 
     private void addPopMenuItems()

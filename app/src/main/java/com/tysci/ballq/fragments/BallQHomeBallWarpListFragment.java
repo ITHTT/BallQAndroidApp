@@ -54,7 +54,7 @@ public class BallQHomeBallWarpListFragment extends AppSwipeRefreshLoadMoreRecycl
         Map<String, String> params = null;
         if (UserInfoUtil.checkLogin(baseActivity))
         {
-            params = new HashMap<String, String>(2);
+            params = new HashMap<>(2);
             params.put("user", UserInfoUtil.getUserId(baseActivity));
             params.put("token", UserInfoUtil.getUserToken(baseActivity));
         }
@@ -85,7 +85,7 @@ public class BallQHomeBallWarpListFragment extends AppSwipeRefreshLoadMoreRecycl
                                 public void onClick(View v)
                                 {
                                     showLoading();
-                                    requestDatas(pages, isLoadMore);
+                                    requestDatas(pages, false);
                                 }
                             });
                         }

@@ -39,55 +39,22 @@
                     android:layout_width="@dimen/dimen60dp"
                     android:layout_height="@dimen/dimen60dp"/>
 
-                <com.tysci.ballq.views.MarqueeTextView
-                    style="@style/MarqueeTextView"
-                    android:id="@+id/tv_ballq_info_author_name"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginTop="35dp"
-                    android:layout_toRightOf="@+id/layout_ballq_info_author_header"
-                    android:maxWidth="80dp"
-                    android:singleLine="true"
-                    android:text="猪八戒吃西瓜"
-                    android:textColor="#1a1a1a"
-                    android:textSize="13sp"/>
-
-                <com.tysci.ballq.views.UserVStatusImageView
-                    android:id="@+id/user_v_status"
-                    android:layout_width="30dp"
-                    android:layout_height="15dp"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginTop="35dp"
-                    android:layout_toRightOf="@id/tv_ballq_info_author_name"/>
-
-                <ImageView
-                    android:id="@+id/iv_ballq_info_author_achievement01"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginTop="30dp"
-                    android:layout_toRightOf="@+id/user_v_status"/>
-
-                <ImageView
-                    android:id="@+id/iv_ballq_info_author_achievement02"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginTop="30dp"
-                    android:layout_toRightOf="@+id/iv_ballq_info_author_achievement01"/>
-
                 <LinearLayout
+                    android:id="@+id/layoutDate"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
                     android:layout_alignParentRight="true"
-                    android:layout_marginRight="10dp"
-                    android:layout_marginTop="35dp">
+                    android:layout_marginLeft="@dimen/dimen10dp"
+                    android:layout_marginStart="@dimen/dimen10dp"
+                    android:layout_marginTop="35dp"
+                    android:gravity="center_vertical">
 
                     <TextView
                         android:id="@+id/tv_ballq_info_create_date"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:singleLine="true"
                         android:text="04-20"
                         android:textColor="#1b1b1b"
                         android:textSize="12sp"/>
@@ -113,9 +80,56 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="3dp"
+                        android:layout_marginRight="@dimen/dimen5dp"
+                        android:singleLine="true"
                         android:text="100"
                         android:textColor="#1b1b1b"
                         android:textSize="12sp"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/dimen5dp"
+                    android:layout_marginStart="@dimen/dimen5dp"
+                    android:layout_marginTop="35dp"
+                    android:layout_toEndOf="@id/layout_ballq_info_author_header"
+                    android:layout_toLeftOf="@id/layoutDate"
+                    android:layout_toRightOf="@id/layout_ballq_info_author_header"
+                    android:layout_toStartOf="@id/layoutDate"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <com.tysci.ballq.views.MarqueeTextView
+                        android:id="@+id/tv_ballq_info_author_name"
+                        style="@style/MarqueeTextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:maxWidth="@dimen/dimen60dp"
+                        android:text="猪八戒吃西瓜"
+                        android:textColor="#1a1a1a"
+                        android:textSize="13sp"/>
+
+                    <!--<com.tysci.ballq.views.UserVStatusImageView-->
+                        <!--android:id="@+id/user_v_status"-->
+                        <!--android:layout_width="30dp"-->
+                        <!--android:layout_height="15dp"-->
+                        <!--android:layout_marginLeft="10dp"-->
+                        <!--android:visibility="gone"/>-->
+
+                    <ImageView
+                        android:id="@+id/iv_ballq_info_author_achievement01"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_marginLeft="10dp"
+                        android:src="@mipmap/icon_user_achievement_circle_mark"/>
+
+                    <ImageView
+                        android:id="@+id/iv_ballq_info_author_achievement02"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_marginLeft="5dp"
+                        android:src="@mipmap/icon_user_achievement_circle_mark"/>
                 </LinearLayout>
             </RelativeLayout>
         </FrameLayout>

@@ -247,6 +247,9 @@ public class UserAccountActivity extends BaseActivity
 
     }
 
+    /**
+     * 获得积分
+     */
     @OnClick(R.id.tvGetScoreByCompleteTask)
     protected void onTaskPointsRecord(View view)
     {
@@ -299,7 +302,7 @@ public class UserAccountActivity extends BaseActivity
             UserInfoUtil.userLogin(this);
             return;
         }
-        String url= HttpUrls.BQ_INDINAN_ORDER_NeedUserToken;
+        String url = HttpUrls.BQ_INDINAN_ORDER_NeedUserToken;
         url += "?user=";
         url += UserInfoUtil.getUserId(this);
         url += "&token=";
@@ -311,6 +314,9 @@ public class UserAccountActivity extends BaseActivity
         startActivity(intent);
     }
 
+    /**
+     * 积分抽奖
+     */
     @OnClick(R.id.tvLuckyDraw)
     protected void onLuckyDrawClick(View view)
     {

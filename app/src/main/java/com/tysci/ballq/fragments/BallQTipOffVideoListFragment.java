@@ -261,6 +261,7 @@ public class BallQTipOffVideoListFragment extends BaseFragment implements SwipeR
                 @Override
                 public void onClick(View v)
                 {
+                    showLoading();
                     requestDatas(1, false);
                 }
             });

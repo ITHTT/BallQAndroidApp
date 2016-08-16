@@ -16,8 +16,8 @@
         android:background="@drawable/shape_edit_text_bg_gold"
         android:gravity="center"
         android:hint="通用服务器地址"
-        android:paddingBottom="@dimen/dimen5dp"
-        android:paddingTop="@dimen/dimen5dp"
+        android:paddingBottom="@dimen/dimen10dp"
+        android:paddingTop="@dimen/dimen10dp"
         android:textColor="@color/gold"
         android:textColorHint="@color/gold"
         android:textSize="@dimen/dimen12sp"/>
@@ -32,9 +32,39 @@
         android:background="@drawable/shape_edit_text_bg_gold"
         android:gravity="center"
         android:hint="圈子服务器地址"
-        android:paddingBottom="@dimen/dimen5dp"
-        android:paddingTop="@dimen/dimen5dp"
+        android:paddingBottom="@dimen/dimen10dp"
+        android:paddingTop="@dimen/dimen10dp"
         android:textColor="@color/gold"
         android:textColorHint="@color/gold"
+        android:textSize="@dimen/dimen12sp"/>
+
+    <TextView
+        android:id="@+id/tv_check_test"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/dimen10dp"
+        android:layout_marginRight="@dimen/dimen10dp"
+        android:layout_marginTop="@dimen/dimen10dp"
+        android:background="@drawable/button_gold"
+        android:gravity="center"
+        android:paddingBottom="@dimen/dimen10dp"
+        android:paddingTop="@dimen/dimen10dp"
+        android:text="SERVER TEST"
+        android:textColor="@color/white"
+        android:textSize="@dimen/dimen12sp"/>
+
+    <TextView
+        android:id="@+id/tv_check_format"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/dimen10dp"
+        android:layout_marginRight="@dimen/dimen10dp"
+        android:layout_marginTop="@dimen/dimen10dp"
+        android:background="@drawable/button_gold"
+        android:gravity="center"
+        android:paddingBottom="@dimen/dimen10dp"
+        android:paddingTop="@dimen/dimen10dp"
+        android:text="SERVER FORMAT"
+        android:textColor="@color/white"
         android:textSize="@dimen/dimen12sp"/>
 </LinearLayout>

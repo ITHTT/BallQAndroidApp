@@ -84,12 +84,15 @@ public class BallQMatchLeagueSelectActivity extends BaseActivity
         TextView btnRight = titleBar.getRightMenuTextView();
         btnRight.setVisibility(View.VISIBLE);
         btnRight.setText("确定");
-        btnRight.setBackgroundResource(R.drawable.bt_ok_select_bg);
+        btnRight.setBackgroundResource(R.drawable.btn_tra_gold);
         btnRight.setGravity(Gravity.CENTER);
-        btnRight.setWidth(CommonUtils.dip2px(this, 60));
-        btnRight.setHeight(CommonUtils.dip2px(this, 30));
+        int _5px = CommonUtils.dip2px(this, 5);
+        int _10px = CommonUtils.dip2px(this, 10);
+        btnRight.setPadding(_10px, _5px, _10px, _5px);
+//        btnRight.setWidth(CommonUtils.dip2px(this, 60));
+//        btnRight.setHeight(CommonUtils.dip2px(this, 25));
         btnRight.setTextColor(this.getResources().getColor(R.color.gold));
-        btnRight.setTextSize(14);
+        btnRight.setTextSize(13);
         btnRight.setOnClickListener(new View.OnClickListener()
         {
             @Override

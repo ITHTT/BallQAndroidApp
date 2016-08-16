@@ -100,9 +100,6 @@ public class BallQPersonalFragment extends BaseFragment
     {
         if (action.equals(EventType.EVENT_USER_EXIT))
         {
-//            ivUserHeader.setImageResource(R.mipmap.icon_camera);
-//            ivUserV.setVisibility(View.GONE);
-//            tvUserName.setText("登录后即可参与竞猜");
             mUserProfileHeaderView.setUserUnLoginProfile(UserInfoUtil.getUserId(baseActivity));
         }
     }
@@ -112,7 +109,6 @@ public class BallQPersonalFragment extends BaseFragment
     {
         super.userLogin(userInfoEntity);
         setUserInfo(userInfoEntity);
-
     }
 
     @Override
@@ -130,15 +126,6 @@ public class BallQPersonalFragment extends BaseFragment
             mUserProfileHeaderView.setUserProfile(userInfo);
         }
     }
-
-//    @OnClick({R.id.iv_user_header, R.id.tv_user_name, R.id.tv_user_bio})
-//    protected void onClickUserInfo(View view)
-//    {
-//        if (!UserInfoUtil.checkLogin(baseActivity))
-//        {
-//            UserInfoUtil.userLogin(baseActivity);
-//        }
-//    }
 
     @OnClick({R.id.menu_user_trend_statistics,
             R.id.menu_user_guessing_record,

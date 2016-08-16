@@ -17,7 +17,6 @@ import com.tysci.ballq.modles.BallQBallWarpInfoEntity;
 import com.tysci.ballq.utils.CalendarUtil;
 import com.tysci.ballq.utils.ImageUtil;
 import com.tysci.ballq.utils.UserInfoUtil;
-import com.tysci.ballq.views.UserVStatusImageView;
 import com.tysci.ballq.views.widgets.CircleImageView;
 
 import butterknife.Bind;
@@ -105,8 +104,7 @@ public class BqBallWrapAdapter extends WrapRecyclerAdapter<BallQBallWarpInfoEnti
                 UserInfoUtil.lookUserInfo(context, info.getUid());
             }
         });
-
-        holder.user_v_status.setUserV_Icon(info.getIsv());
+//        holder.user_v_status.setUserV_Icon(info.getIsv());
     }
 
     static class ViewHolder extends ButterKnifeRecyclerViewHolder
@@ -137,8 +135,8 @@ public class BqBallWrapAdapter extends WrapRecyclerAdapter<BallQBallWarpInfoEnti
         @Bind(R.id.tv_ballq_info_reward_counts)
         TextView tvRewardCounts;
 
-        @Bind(R.id.user_v_status)
-        UserVStatusImageView user_v_status;
+//        @Bind(R.id.user_v_status)
+//        UserVStatusImageView user_v_status;
 
         public ViewHolder(View itemView)
         {

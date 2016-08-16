@@ -1,14 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<selector xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:state_pressed="true">
-        <shape android:shape="rectangle">
-            <solid android:color="#eacb70" />
-            <corners android:radius="5dp" />
-        </shape>
-    </item>
-    <item android:state_pressed="false">
+<ripple
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:color="@color/colorAccent">
+    <item>
         <shape xmlns:android="http://schemas.android.com/apk/res/android"
-            android:shape="rectangle">
+               android:shape="rectangle">
             <!-- 填充颜色 -->
             <solid android:color="#0000"/>
 
@@ -22,4 +18,4 @@
 
         </shape>
     </item>
-</selector>
+</ripple>

@@ -10,10 +10,12 @@ import android.widget.TextView;
 import com.tysci.ballq.R;
 import com.tysci.ballq.base.BaseActivity;
 import com.tysci.ballq.networks.HttpUrls;
+import com.tysci.ballq.utils.CommonUtils;
 import com.tysci.ballq.utils.SharedPreferencesUtil;
 import com.tysci.ballq.utils.ToastUtil;
 
 import butterknife.Bind;
+import butterknife.OnClick;
 
 /**
  * Created by Administrator on 2016-08-12 0012.
@@ -21,6 +23,9 @@ import butterknife.Bind;
  */
 public class BqServerCustomActivity extends BaseActivity
 {
+    public static final String SERVER_TEST = "server_test";
+    public static final String SERVER_FORMAT = "server_format";
+
     public static final String KEY_SERVER = "BqServerCustomActivity/KEY_SERVER";
     public static final String KEY_CIRCLE_SERVER = "BqServerCustomActivity/KEY_CIRCLE_SERVER";
     public static final String KEY_SERVER_CHANGE_TIME_MILLIS_FLAG = "BqServerCustomActivity/KEY_SERVER_CHANGE_TIME_MILLIS_FLAG";
@@ -44,7 +49,10 @@ public class BqServerCustomActivity extends BaseActivity
         tv.setBackgroundResource(R.drawable.shape_edit_text_bg_gold);
         //noinspection deprecation
         tv.setTextColor(getResources().getColor(R.color.gold));
-        tv.setPadding(10, 5, 5, 10);
+        int px5 = CommonUtils.dip2px(this, 5);
+        int px10 = CommonUtils.dip2px(this, 10);
+        tv.setPadding(px10, px5, px10, px5);
+        tv.setTextSize(12);
 
         tv.setOnClickListener(new View.OnClickListener()
         {
@@ -77,8 +85,8 @@ public class BqServerCustomActivity extends BaseActivity
                 SharedPreferencesUtil.setValue(BqServerCustomActivity.this, KEY_SERVER_CHANGE_TIME_MILLIS_FLAG, System.currentTimeMillis());
 
                 ToastUtil.show(BqServerCustomActivity.this, "修改成功");
-                HttpUrls.initialized(BqServerCustomActivity.this);
-                finish();
+                restartApplication();
+
             }
         });
     }
@@ -125,5 +133,33 @@ public class BqServerCustomActivity extends BaseActivity
     protected void notifyEvent(String action, Bundle data)
     {
 
+    }
+
+    @OnClick(R.id.tv_check_test)
+    protected void onCheckTestClick(View view)
+    {
+        SharedPreferencesUtil.setValue(this, KEY_CIRCLE_SERVER, SERVER_TEST);
+        SharedPreferencesUtil.setValue(this, KEY_SERVER, SERVER_TEST);
+        SharedPreferencesUtil.setValue(BqServerCustomActivity.this, KEY_SERVER_CHANGE_TIME_MILLIS_FLAG, System.currentTimeMillis());
+        ToastUtil.show(BqServerCustomActivity.this, "修改成功");
+        restartApplication();
+    }
+
+    @OnClick(R.id.tv_check_format)
+    protected void onCheckFormatClick(View view)
+    {
+        SharedPreferencesUtil.setValue(this, KEY_CIRCLE_SERVER, SERVER_FORMAT);
+        SharedPreferencesUtil.setValue(this, KEY_SERVER, SERVER_FORMAT);
+        SharedPreferencesUtil.setValue(BqServerCustomActivity.this, KEY_SERVER_CHANGE_TIME_MILLIS_FLAG, System.currentTimeMillis());
+        ToastUtil.show(BqServerCustomActivity.this, "修改成功");
+        restartApplication();
+    }
+
+    private void restartApplication()
+    {
+        HttpUrls.initialized(this);
+        final Intent intent = getPackageManager().getLaunchIntentForPackage(getPackageName());
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
     }
 }

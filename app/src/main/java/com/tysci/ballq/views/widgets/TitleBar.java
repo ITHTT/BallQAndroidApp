@@ -6,6 +6,7 @@ import android.os.Build;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -103,6 +104,12 @@ public class TitleBar extends LinearLayout
     {
         return ivBack;
     }
+
+    public ViewGroup getLeftBackGroup()
+    {
+        return layoutLeftBack;
+    }
+
 
     public void setTitleBarTitle(int titleRes)
     {

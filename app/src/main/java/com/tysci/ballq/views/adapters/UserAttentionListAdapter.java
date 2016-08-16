@@ -511,8 +511,7 @@ public class UserAttentionListAdapter extends WrapRecyclerAdapter<UserAttentionL
                 UserInfoUtil.lookUserInfo(context, articleInfo.getUid());
             }
         });
-
-        holder.user_v_status.setUserV_Icon(articleInfo.getIsv());
+//        holder.user_v_status.setUserV_Icon(articleInfo.getIsv());
     }
 
     @Override

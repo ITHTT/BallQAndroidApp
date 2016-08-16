@@ -70,6 +70,14 @@ public class HttpUrls
             else
                 CIRCLE_HOST_URL = "http://int.ballq.cn:8003/";// 测试服
         }
+        else if (CIRCLE_HOST_URL.equals(BqServerCustomActivity.SERVER_TEST))
+        {
+            CIRCLE_HOST_URL = "http://int.ballq.cn:8003/";// 测试服
+        }
+        else if (CIRCLE_HOST_URL.equals(BqServerCustomActivity.SERVER_FORMAT))
+        {
+            CIRCLE_HOST_URL = "http://apijt.ballq.cn/";// 正式服
+        }
         if (TextUtils.isEmpty(HOST_URL))
         {
             // 其他接口主机地址
@@ -77,6 +85,14 @@ public class HttpUrls
                 HOST_URL = "http://apit.ballq.cn";// 正式服
             else
                 HOST_URL = "http://int.ballq.cn:8004";// 测试服
+        }
+        else if (HOST_URL.equals(BqServerCustomActivity.SERVER_TEST))
+        {
+            HOST_URL = "http://int.ballq.cn:8004";// 测试服
+        }
+        else if (HOST_URL.equals(BqServerCustomActivity.SERVER_FORMAT))
+        {
+            HOST_URL = "http://apit.ballq.cn";// 正式服
         }
 
         CIRCLE_HOST_URL_V1 = CIRCLE_HOST_URL + "ballq/api/v1/";

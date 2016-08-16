@@ -9,7 +9,7 @@
         android:id="@+id/layout_user_info"
         android:layout_width="match_parent"
         android:layout_height="125dp"
-        android:background="@mipmap/icon_main_menu_bg">
+        android:background="@drawable/button_user_header_layout_bg">
 
         <com.tysci.ballq.views.widgets.CircleImageView
             android:id="@+id/iv_user_portrait"

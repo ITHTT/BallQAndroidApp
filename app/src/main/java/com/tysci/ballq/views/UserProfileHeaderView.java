@@ -26,6 +26,7 @@ import com.tysci.ballq.utils.ToastUtil;
 import com.tysci.ballq.utils.UserInfoUtil;
 import com.tysci.ballq.views.adapters.BallQUserRankInfoAdapter;
 import com.tysci.ballq.views.adapters.BallQUserRewardRankInfoAdapter;
+import com.tysci.ballq.views.dialogs.LoadingProgressDialog;
 import com.tysci.ballq.views.widgets.CircleImageView;
 
 import java.util.HashMap;
@@ -87,7 +88,6 @@ public final class UserProfileHeaderView extends LinearLayout implements View.On
     MarqueeTextView tvGoneCount;// 走场
 
     private String userId;
-    private String mPortraitUrl;// 头像url
 
     public UserProfileHeaderView(Context context)
     {
@@ -184,7 +184,6 @@ public final class UserProfileHeaderView extends LinearLayout implements View.On
         // 头像
         ImageUtil.loadImage(ivUserPortrait, R.mipmap.icon_user_default, userInfo.getPt());
         UserInfoUtil.setUserHeaderVMark(userInfo.getIsv(), ivUserV, ivUserPortrait);
-        mPortraitUrl = userInfo.getPt();
         // 昵称
         tvUserNickname.setText(userInfo.getFname());
         // 砖家图标
@@ -328,11 +327,15 @@ public final class UserProfileHeaderView extends LinearLayout implements View.On
         {
             params.put("change", "0");
         }
+        final LoadingProgressDialog dialog = new LoadingProgressDialog(context);
         HttpClientUtil.getHttpClientUtil().sendPostRequest(BallQUserRankingListDetailActivity.class.getSimpleName(), url, params, new HttpClientUtil.StringResponseCallBack()
         {
             @Override
             public void onBefore(Request request)
             {
+                //noinspection ConstantConditions
+                if (dialog != null)
+                    dialog.show();
             }
 
             @Override
@@ -370,6 +373,11 @@ public final class UserProfileHeaderView extends LinearLayout implements View.On
             public void onFinish(Call call)
             {
                 tvFollowClick.setEnabled(true);
+                //noinspection ConstantConditions
+                if (dialog != null)
+                {
+                    dialog.dismiss();
+                }
             }
         });
     }
@@ -393,5 +401,25 @@ public final class UserProfileHeaderView extends LinearLayout implements View.On
 
         Intent intent = new Intent(context, BallQSettingActivity.class);
         context.startActivity(intent);
+    }
+
+    @OnClick({R.id.iv_user_portrait, R.id.tv_user_nickname})
+    protected void onPortraitClick(View view)
+    {
+        final Context context = getContext();
+        final boolean isUserIdEmpty = TextUtils.isEmpty(userId);
+
+        if (!UserInfoUtil.checkLogin(context))
+        {
+            if (isUserIdEmpty)
+            {
+                UserInfoUtil.userLogin(context);
+            }
+        }
+        else if (!isUserIdEmpty && userId.equals(UserInfoUtil.getUserId(context)))
+        {
+            Intent intent = new Intent(context, BallQSettingActivity.class);
+            context.startActivity(intent);
+        }
     }
 }

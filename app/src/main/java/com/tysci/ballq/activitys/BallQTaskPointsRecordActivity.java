@@ -29,6 +29,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import butterknife.Bind;
+import butterknife.OnClick;
 import okhttp3.Call;
 import okhttp3.Request;
 
@@ -173,5 +174,23 @@ public class BallQTaskPointsRecordActivity extends BaseActivity {
     @Override
     protected void notifyEvent(String action, Bundle data) {
 
+    }
+    @OnClick(R.id.tvGetGoldCoinByIntegral)
+    protected void onIntegralGoldClick(View view)
+    {
+        Intent i = new Intent(this, BallQWebViewActivity.class);
+        i.putExtra("title", "积分抽奖");
+
+        //noinspection MismatchedQueryAndUpdateOfStringBuilder
+        StringBuilder sb = new StringBuilder();
+        sb.append(HttpUrls.HOST_URL).append("/weixin/gold_lottery/");
+        if (UserInfoUtil.checkLogin(this))
+        {
+            sb.append("?user=").append(UserInfoUtil.getUserId(this));
+            sb.append("&token=").append(UserInfoUtil.getUserToken(this));
+        }
+        i.putExtra("url", sb.toString());
+
+        startActivity(i);
     }
 }

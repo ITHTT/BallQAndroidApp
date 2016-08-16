@@ -159,7 +159,15 @@ public class UserAttentionAllFragment extends AppSwipeRefreshLoadMoreRecyclerVie
                     }
                     else
                     {
-                        showEmptyInfo();
+                        showEmptyInfo("暂无相关数据", "点击刷新", new View.OnClickListener()
+                        {
+                            @Override
+                            public void onClick(View v)
+                            {
+                                showLoading();
+                                requestDatas(1, false);
+                            }
+                        });
                     }
                 }
                 else if (data.size() < 10)
@@ -180,43 +188,6 @@ public class UserAttentionAllFragment extends AppSwipeRefreshLoadMoreRecyclerVie
                 {
                     currentPages = 2;
                 }
-//                if (!TextUtils.isEmpty(response)) {
-//                    JSONObject obj = JSONObject.parseObject(response);
-//                    if (obj != null && !obj.isEmpty() && obj.getIntValue("status") == 0) {
-//                        JSONArray arrays = obj.getJSONArray("data");
-//                        if (arrays != null && !arrays.isEmpty()) {
-//                            hideLoad();
-//                            if (matchEntityList == null) {
-//                                matchEntityList = new ArrayList<BallQMatchEntity>(10);
-//                            }
-//                            if (!isLoadMore) {
-//                                if (!matchEntityList.isEmpty()) {
-//                                    matchEntityList.clear();
-//                                }
-//                            }
-//                            CommonUtils.getJSONListObject(arrays, matchEntityList, BallQMatchEntity.class);
-//                            if (adapter == null) {
-//                                adapter = new BallQMatchAdapter(matchEntityList);
-//                                adapter.setTag(Tag);
-//                                adapter.setMatchType(1);
-//                                recyclerView.setAdapter(adapter);
-//                            } else {
-//                                adapter.notifyDataSetChanged();
-//                            }
-//                            if (arrays.size() < 10) {
-//                                recyclerView.setLoadMoreDataComplete();
-//                            } else {
-//                                recyclerView.setStartLoadMore();
-//                                if (isLoadMore) {
-//                                    currentPages++;
-//                                } else {
-//                                    currentPages = 2;
-//                                }
-//                            }
-//                            return;
-//                        }
-//                    }
-//                }
             }
 
             @Override
