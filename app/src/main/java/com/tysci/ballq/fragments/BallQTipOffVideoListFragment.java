@@ -197,6 +197,15 @@ public class BallQTipOffVideoListFragment extends BaseFragment implements SwipeR
         {
             recyclerView.setRefreshComplete();
         }
+        if (mBqTipOffVideoAdapter == null)
+        {
+            mBqTipOffVideoAdapter = new BqTipOffVideoAdapter();
+            recyclerView.setAdapter(mBqTipOffVideoAdapter);
+        }
+        if (!isLoadMore && mBqTipOffVideoAdapter.getItemCount() > 0)
+        {
+            mBqTipOffVideoAdapter.clear();
+        }
         if (!TextUtils.isEmpty(response))
         {
             JSONObject obj = JSONObject.parseObject(response);
@@ -206,30 +215,7 @@ public class BallQTipOffVideoListFragment extends BaseFragment implements SwipeR
                 if (objArrays != null && !objArrays.isEmpty())
                 {
                     hideLoad();
-//                    if (ballQTipOffEntityList == null)
-//                    {
-//                        ballQTipOffEntityList = new ArrayList<>(10);
-//                    }
-                    if (mBqTipOffVideoAdapter == null)
-                    {
-                        mBqTipOffVideoAdapter = new BqTipOffVideoAdapter();
-                        recyclerView.setAdapter(mBqTipOffVideoAdapter);
-                    }
-                    if (!isLoadMore && mBqTipOffVideoAdapter.getItemCount() > 0)
-                    {
-                        mBqTipOffVideoAdapter.clear();
-                    }
                     mBqTipOffVideoAdapter.addDataList(objArrays, isLoadMore, BallQTipOffEntity.class);
-//                    CommonUtils.getJSONListObject(objArrays, ballQTipOffEntityList, BallQTipOffEntity.class);
-//                    if (adapter == null)
-//                    {
-//                        adapter = new BallQTipOffVideoAdapter(ballQTipOffEntityList);
-//                        recyclerView.setAdapter(adapter);
-//                    }
-//                    else
-//                    {
-//                        adapter.notifyDataSetChanged();
-//                    }
                     if (objArrays.size() < 10)
                     {
                         recyclerView.setLoadMoreDataComplete("没有更多数据了");

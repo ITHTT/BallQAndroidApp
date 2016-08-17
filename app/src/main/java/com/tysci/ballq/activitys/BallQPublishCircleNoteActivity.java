@@ -36,7 +36,8 @@ import okhttp3.Request;
  * Created by Administrator on 2016/7/14.
  */
 public class BallQPublishCircleNoteActivity extends BaseActivity implements BallQAddImageAdapter.OnDeletePictureListener
-,SlidingTabLayout.OnTabSelectListener{
+        , SlidingTabLayout.OnTabSelectListener
+{
     @Bind(R.id.tab_layout)
     protected SlidingTabLayout tabLayout;
     @Bind(R.id.et_bbs_title)
@@ -48,38 +49,41 @@ public class BallQPublishCircleNoteActivity extends BaseActivity implements Ball
     @Bind(R.id.tv_tip)
     protected TextView tvTip;
 
-    private final int MAX_PICTURES=9;
+    private final int MAX_PICTURES = 9;
 
-    private List<BallQCircleSectionEntity> circleSectionEntityList=null;
-    private int currentItem=0;
+    private List<BallQCircleSectionEntity> circleSectionEntityList = null;
+    private int currentItem = 0;
     private int sectionId;
 
     private List<String> imgUrls;
-    private BallQAddImageAdapter adapter=null;
+    private BallQAddImageAdapter adapter = null;
 
     @Override
-    protected int getContentViewId() {
+    protected int getContentViewId()
+    {
         return R.layout.activity_publish_circle_note;
     }
 
     @Override
-    protected void initViews() {
+    protected void initViews()
+    {
         setTitle("发表帖子");
         setTitleRightAttributes();
         tabLayout.setOnTabSelectListener(this);
-        LinearLayoutManager linearLayoutManager=new LinearLayoutManager(this);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
         rvImages.setLayoutManager(linearLayoutManager);
 
-        imgUrls=new ArrayList<>(10);
+        imgUrls = new ArrayList<>(10);
         imgUrls.add("drawable://" + R.mipmap.icon_add_pictures);
-        adapter=new BallQAddImageAdapter(imgUrls);
+        adapter = new BallQAddImageAdapter(imgUrls);
         adapter.setOnDeletePictureListener(this);
         rvImages.setAdapter(adapter);
     }
 
-    public void setTitleRightAttributes(){
-        TextView btnRight=titleBar.getRightMenuTextView();
+    public void setTitleRightAttributes()
+    {
+        TextView btnRight = titleBar.getRightMenuTextView();
         btnRight.setVisibility(View.VISIBLE);
         btnRight.setText("发布");
         btnRight.setBackgroundResource(R.drawable.bt_ok_select_bg);
@@ -88,9 +92,11 @@ public class BallQPublishCircleNoteActivity extends BaseActivity implements Ball
         btnRight.setHeight(CommonUtils.dip2px(this, 30));
         btnRight.setTextColor(this.getResources().getColor(R.color.gold));
         btnRight.setTextSize(14);
-        btnRight.setOnClickListener(new View.OnClickListener() {
+        btnRight.setOnClickListener(new View.OnClickListener()
+        {
             @Override
-            public void onClick(View v) {
+            public void onClick(View v)
+            {
                 //requestBetting();
                 publishCircleNote();
 
@@ -99,148 +105,175 @@ public class BallQPublishCircleNoteActivity extends BaseActivity implements Ball
     }
 
     @Override
-    protected View getLoadingTargetView() {
+    protected View getLoadingTargetView()
+    {
         return null;
     }
 
     @Override
-    protected void getIntentData(Intent intent) {
-        currentItem=intent.getIntExtra("index", 0);
-        circleSectionEntityList=intent.getParcelableArrayListExtra("circle_sections");
-        if(circleSectionEntityList!=null){
-            sectionId=circleSectionEntityList.get(currentItem).getId();
+    protected void getIntentData(Intent intent)
+    {
+        currentItem = intent.getIntExtra("index", 0);
+        circleSectionEntityList = intent.getParcelableArrayListExtra("circle_sections");
+        if (circleSectionEntityList != null)
+        {
+            sectionId = circleSectionEntityList.get(currentItem).getId();
             setTabDatas(circleSectionEntityList);
             tabLayout.setCurrentTab(currentItem);
         }
 
     }
 
-    private void setTabDatas(List<BallQCircleSectionEntity>datas){
-        if(datas!=null&&!datas.isEmpty()){
-            int size=datas.size();
-            String[] titles=new String[size];
-            for(int i=0;i<size;i++){
-                titles[i]=datas.get(i).getName();
+    private void setTabDatas(List<BallQCircleSectionEntity> datas)
+    {
+        if (datas != null && !datas.isEmpty())
+        {
+            int size = datas.size();
+            String[] titles = new String[size];
+            for (int i = 0; i < size; i++)
+            {
+                titles[i] = datas.get(i).getName();
             }
             tabLayout.setTabDatas(titles);
         }
     }
 
     @Override
-    protected boolean isCanceledEventBus() {
+    protected boolean isCanceledEventBus()
+    {
         return false;
     }
 
     @Override
-    protected void saveInstanceState(Bundle outState) {
+    protected void saveInstanceState(Bundle outState)
+    {
 
     }
 
     @Override
-    protected void handleInstanceState(Bundle outState) {
+    protected void handleInstanceState(Bundle outState)
+    {
 
     }
 
     @Override
-    protected void onViewClick(View view) {
+    protected void onViewClick(View view)
+    {
 
     }
 
     @Override
-    protected void notifyEvent(String action) {
+    protected void notifyEvent(String action)
+    {
 
     }
 
     @Override
-    protected void notifyEvent(String action, Bundle data) {
+    protected void notifyEvent(String action, Bundle data)
+    {
 
     }
 
     @Override
-    public void onDeletePicture(int counts) {
-        tvTip.setText("已选"+(counts)+"张,还可以添加"+(MAX_PICTURES-counts)+"张");
+    public void onDeletePicture(int counts)
+    {
+        tvTip.setText("已选" + (counts) + "张,还可以添加" + (MAX_PICTURES - counts) + "张");
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    protected void onActivityResult(int requestCode, int resultCode, Intent data)
+    {
         super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode==0x0001){
-            if(resultCode==RESULT_OK){
-                if(data!=null){
+        if (requestCode == 0x0001)
+        {
+            if (resultCode == RESULT_OK)
+            {
+                if (data != null)
+                {
                     ArrayList<String> images = data.getStringArrayListExtra("selected_photos");
-                    if(images!=null&&images.size()>0){
-                        int size=imgUrls.size();
-                        imgUrls.addAll(size-1,images);
+                    if (images != null && images.size() > 0)
+                    {
+                        int size = imgUrls.size();
+                        imgUrls.addAll(size - 1, images);
                         adapter.notifyDataSetChanged();
-                        tvTip.setText("已选"+(imgUrls.size()-1)+"张,还可以添加"+(MAX_PICTURES-imgUrls.size()+1)+"张");
+                        tvTip.setText("已选" + (imgUrls.size() - 1) + "张,还可以添加" + (MAX_PICTURES - imgUrls.size() + 1) + "张");
                     }
                 }
             }
         }
     }
 
-    private void publishCircleNote(){
-        String title=etTitle.getText().toString();
-        String content=etContent.getText().toString();
-        if(TextUtils.isEmpty(title)&&TextUtils.isEmpty(content)&&imgUrls.size()<=1){
-            ToastUtil.show(this,"请输入帖子内容");
+    private void publishCircleNote()
+    {
+        String title = etTitle.getText().toString();
+        String content = etContent.getText().toString();
+        if (TextUtils.isEmpty(title) && TextUtils.isEmpty(content) && imgUrls.size() <= 1)
+        {
+            ToastUtil.show(this, "请输入帖子内容");
             etTitle.requestFocus();
             return;
         }
 
-        Map<String,String> params=new HashMap<>();
+        Map<String, String> params = new HashMap<>();
         params.put("title", title);
         params.put("content", content);
         params.put("userId", UserInfoUtil.getUserId(this));
+        params.put("token", UserInfoUtil.getUserToken(this));
         params.put("sectionId", String.valueOf(sectionId));
 
-        String url= HttpUrls.CIRCLE_HOST_URL_V2 +"bbs/topic/publish";
+        String url = HttpUrls.CIRCLE_HOST_URL_V2 + "bbs/topic/publish";
 
-        final ProgressDialog dialog=new ProgressDialog(this);
+        final ProgressDialog dialog = new ProgressDialog(this);
         dialog.setMessage("提交中...");
         dialog.setCanceledOnTouchOutside(false);
-        dialog.show();
 
-        HttpClientUtil.getHttpClientUtil().uploadImages(Tag, url, null, params, imgUrls, new HttpClientUtil.ProgressResponseCallBack() {
+        HttpClientUtil.getHttpClientUtil().uploadImages(Tag, url, null, params, imgUrls, new HttpClientUtil.ProgressResponseCallBack()
+        {
             @Override
-            public void loadingProgress(int progress) {
-                KLog.e("progress:"+progress);
+            public void loadingProgress(int progress)
+            {
+                KLog.e("progress:" + progress);
             }
 
             @Override
-            public void onBefore(Request request) {
-
+            public void onBefore(Request request)
+            {
+                dialog.show();
             }
 
             @Override
-            public void onError(Call call, Exception error) {
-                KLog.e("error:"+error.getMessage());
-                dialog.dismiss();
-
+            public void onError(Call call, Exception error)
+            {
+                KLog.e("error:" + error.getMessage());
+                ToastUtil.show(BallQPublishCircleNoteActivity.this, R.string.request_error);
             }
 
             @Override
-            public void onSuccess(Call call, String response) {
-                dialog.dismiss();
+            public void onSuccess(Call call, String response)
+            {
                 KLog.e(response);
+                ToastUtil.show(BallQPublishCircleNoteActivity.this, "发帖成功");
+                finish();
             }
 
             @Override
-            public void onFinish(Call call) {
-
-
+            public void onFinish(Call call)
+            {
+                dialog.dismiss();
             }
         });
 
     }
 
     @Override
-    public void onTabSelect(int position) {
-        sectionId=circleSectionEntityList.get(position).getId();
+    public void onTabSelect(int position)
+    {
+        sectionId = circleSectionEntityList.get(position).getId();
     }
 
     @Override
-    public void onTabReselect(int position) {
+    public void onTabReselect(int position)
+    {
 
     }
 }

@@ -21,6 +21,7 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.tysci.ballq.R;
 import com.tysci.ballq.base.BaseActivity;
+import com.tysci.ballq.dialog.ImageUrlBrowserDialog;
 import com.tysci.ballq.fragments.BallQFindCircleNoteListFragment;
 import com.tysci.ballq.modles.BallQCircleNoteEntity;
 import com.tysci.ballq.modles.BallQCircleUserCommentEntity;
@@ -468,10 +469,25 @@ public class BallQCircleNoteDetailActivity extends BaseActivity implements Swipe
             public void onClick(View v)
             {
                 int index = (int) v.getTag(R.id.tag);
-                Intent intent = new Intent(BallQCircleNoteDetailActivity.this, BallQImageBrowseActivity.class);
-                intent.putExtra("index", index);
-                intent.putParcelableArrayListExtra("images", imgUrls);
-                startActivity(intent);
+                ImageUrlBrowserDialog browserDialog = new ImageUrlBrowserDialog(BallQCircleNoteDetailActivity.this);
+                List<String> urls = new ArrayList<>();
+                String url;
+                for (BallQNoteContentEntity info : imgUrls)
+                {
+                    url = info.getOriginal();
+                    if (TextUtils.isEmpty(url))
+                    {
+                        url = info.getContent();
+                    }
+                    urls.add(url);
+                }
+                browserDialog.addUrl(urls);
+                browserDialog.setCurrentImageIndex(index);
+                browserDialog.show();
+//                Intent intent = new Intent(BallQCircleNoteDetailActivity.this, BallQImageBrowseActivity.class);
+//                intent.putExtra("index", index);
+//                intent.putParcelableArrayListExtra("images", imgUrls);
+//                startActivity(intent);
             }
         };
     }

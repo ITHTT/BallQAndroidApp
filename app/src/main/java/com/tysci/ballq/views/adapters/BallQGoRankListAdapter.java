@@ -72,9 +72,10 @@ public class BallQGoRankListAdapter extends WrapRecyclerAdapter<JSONObject, Ball
             @Override
             public void onClick(View v)
             {
+                Class<UserProfileActivity> cls = UserProfileActivity.class;
                 Context context = holder.itemView.getContext();
-                Intent intent = new Intent(context, UserProfileActivity.class);
-                intent.putExtra("Uid", json.getString("user_id"));
+                Intent intent = new Intent(context, cls);
+                intent.putExtra(cls.getSimpleName(), Integer.parseInt(json.getString("user_id")));
                 context.startActivity(intent);
             }
         });

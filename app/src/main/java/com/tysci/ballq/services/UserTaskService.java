@@ -30,18 +30,23 @@ import okhttp3.Request;
  * Created by LinDe on 2016-07-13 0013.
  * 用户任务轮询
  */
-public class UserTaskService extends BaseService {
+public class UserTaskService extends BaseService
+{
 
     private final Handler handler = new Handler();
-    private final Runnable connectToGetTaskMsg = new Runnable() {
+    private final Runnable connectToGetTaskMsg = new Runnable()
+    {
         @Override
-        public void run() {
+        public void run()
+        {
             connectToGetTaskMsg();
         }
     };
-    private final Runnable notifyShowUserTaskMsg = new Runnable() {
+    private final Runnable notifyShowUserTaskMsg = new Runnable()
+    {
         @Override
-        public void run() {
+        public void run()
+        {
             notifyShowUserTaskMsg();
         }
     };
@@ -55,13 +60,16 @@ public class UserTaskService extends BaseService {
     private CToast mToast;
 
     @Override
-    public void onCreate() {
+    public void onCreate()
+    {
         super.onCreate();
     }
 
     @Override
-    public int onStartCommand(Intent intent, int flags, int startId) {
-        if (delayList == null) {
+    public int onStartCommand(Intent intent, int flags, int startId)
+    {
+        if (delayList == null)
+        {
             delayList = new ArrayList<>();
         }
         delayList.clear();
@@ -77,8 +85,10 @@ public class UserTaskService extends BaseService {
         return super.onStartCommand(intent, flags, startId);
     }
 
-    private void connectToGetTaskMsg() {
-        if (!UserInfoUtil.checkLogin(this)) {
+    private void connectToGetTaskMsg()
+    {
+        if (!UserInfoUtil.checkLogin(this))
+        {
             return;
         }
 
@@ -86,49 +96,67 @@ public class UserTaskService extends BaseService {
         map.put("user", UserInfoUtil.getUserId(this));
         map.put("token", UserInfoUtil.getUserToken(this));
 
-        HttpClientUtil.getHttpClientUtil().sendPostRequest("UserTaskService", HttpUrls.HOST_URL_V5 + "user/notify/usersystem/", map, new HttpClientUtil.StringResponseCallBack() {
+        HttpClientUtil.getHttpClientUtil().sendPostRequest("UserTaskService", HttpUrls.HOST_URL_V5 + "user/notify/usersystem/", map, new HttpClientUtil.StringResponseCallBack()
+        {
             @Override
-            public void onBefore(Request request) {
+            public void onBefore(Request request)
+            {
             }
 
             @Override
-            public void onError(Call call, Exception error) {
+            public void onError(Call call, Exception error)
+            {
                 error.printStackTrace();
             }
 
             @Override
-            public void onSuccess(Call call, String response) {
+            public void onSuccess(Call call, String response)
+            {
                 KLog.json(response);
-                try {
+                try
+                {
                     JSONObject object = JSON.parseObject(response);
 //                    if (object.getInteger("status") == 0 && object.getString("message").equalsIgnoreCase("ok")) {
-                    if (JsonParams.isJsonRight(object)) {
+                    if (JsonParams.isJsonRight(object))
+                    {
                         data = object.getJSONArray("data");
-                        if (data == null || data.size() == 0) {
+                        if (data == null || data.size() == 0)
+                        {
                             notifyNextTask();
-                        } else {
+                        }
+                        else
+                        {
                             showTaskPosition = 0;
                             notifyShowUserTaskMsg();
                         }
-                    } else {
+                    }
+                    else
+                    {
                         notifyNextTask();
                     }
-                } catch (Exception e) {
+                }
+                catch (Exception e)
+                {
                     notifyNextTask();
                 }
             }
 
             @Override
-            public void onFinish(Call call) {
+            public void onFinish(Call call)
+            {
             }
         });
     }
 
-    private void notifyNextTask() {
+    private void notifyNextTask()
+    {
         final long delay;
-        try {
+        try
+        {
             delay = delayList.get(delayPosition++);
-        } catch (Exception e) {
+        }
+        catch (Exception e)
+        {
             stopSelf();
             return;
         }
@@ -139,21 +167,27 @@ public class UserTaskService extends BaseService {
     /**
      * 展示用户完成的任务
      */
-    private void notifyShowUserTaskMsg() {
+    private void notifyShowUserTaskMsg()
+    {
         JSONObject aData;
-        try {
+        try
+        {
             aData = data.getJSONObject(showTaskPosition++);
-        } catch (Exception e) {
+        }
+        catch (Exception e)
+        {
             stopSelf();
             return;
         }
-        if (aData == null) {
+        if (aData == null)
+        {
             stopSelf();
             return;
         }
 
         String subtype = aData.getString("subtype");
-        switch (subtype) {
+        switch (subtype)
+        {
             case "101":// 等级升级
             case "201":// 获得积分
             case "301":// 获得成就
@@ -181,8 +215,10 @@ public class UserTaskService extends BaseService {
         }
     }
 
-    private void showUserTaskCompleteNormalToast(String txt, String point, long stime) {
-        if (mToast != null) {
+    private void showUserTaskCompleteNormalToast(String txt, String point, long stime)
+    {
+        if (mToast != null)
+        {
             mToast.hide();
         }
         mToast = new CToast(this);

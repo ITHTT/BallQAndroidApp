@@ -3,8 +3,6 @@ package com.tysci.ballq.views.adapters;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Parcelable;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -13,10 +11,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
 import com.tysci.ballq.R;
 import com.tysci.ballq.activitys.BallQCircleNoteDetailActivity;
-import com.tysci.ballq.activitys.BallQImageBrowseActivity;
+import com.tysci.ballq.dialog.ImageUrlBrowserDialog;
 import com.tysci.ballq.modles.BallQCircleNoteEntity;
 import com.tysci.ballq.modles.BallQNoteContentEntity;
 import com.tysci.ballq.modles.BallQUserAchievementEntity;
@@ -32,74 +29,92 @@ import java.util.List;
 /**
  * Created by HTT on 2016/7/13.
  */
-public class BallQFindCircleNoteAdapter extends RecyclerView.Adapter<BallQFindCircleNoteAdapter.BallQFindCircleNoteViewHolder>{
+public class BallQFindCircleNoteAdapter extends RecyclerView.Adapter<BallQFindCircleNoteAdapter.BallQFindCircleNoteViewHolder>
+{
     private List<BallQCircleNoteEntity> ballQCircleNoteEntities;
 
-    public BallQFindCircleNoteAdapter(List<BallQCircleNoteEntity> ballQCircleNoteEntities) {
+    public BallQFindCircleNoteAdapter(List<BallQCircleNoteEntity> ballQCircleNoteEntities)
+    {
         this.ballQCircleNoteEntities = ballQCircleNoteEntities;
     }
 
     @Override
-    public BallQFindCircleNoteViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view= LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_ballq_circle_note_item,parent,false);
+    public BallQFindCircleNoteViewHolder onCreateViewHolder(ViewGroup parent, int viewType)
+    {
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_ballq_circle_note_item, parent, false);
         return new BallQFindCircleNoteViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(final BallQFindCircleNoteViewHolder holder, int position) {
+    public void onBindViewHolder(final BallQFindCircleNoteViewHolder holder, int position)
+    {
         final BallQCircleNoteEntity info = ballQCircleNoteEntities.get(position);
         BallQUserEntity author = info.getCreater();
         holder.tvReadCounts.setText(String.valueOf(info.getViewCount()));
         holder.tvComments.setText(String.valueOf(info.getCommentCount()));
         holder.tvLikeCounts.setText(String.valueOf(info.getClickCount()));
         holder.tvCircleName.setText(info.getSectionName());
-        GlideImageLoader.loadImage(holder.itemView.getContext(),info.getSectionPortrait(),R.mipmap.ic_ballq_logo,holder.ivCircleIcon);
+        GlideImageLoader.loadImage(holder.itemView.getContext(), info.getSectionPortrait(), R.mipmap.ic_ballq_logo, holder.ivCircleIcon);
         holder.tvCreatedTime.setText(CommonUtils.getDateAndTimeFormatString(info.getCreateTime()));
-        if (info.getTop() == 1) {
+        if (info.getTop() == 1)
+        {
             holder.tvTop.setVisibility(View.VISIBLE);
             holder.tvCreatedTime.setVisibility(View.INVISIBLE);
-        } else {
+        }
+        else
+        {
             holder.tvTop.setVisibility(View.GONE);
             holder.tvCreatedTime.setVisibility(View.VISIBLE);
         }
         setAuthorInfo(author, holder);
         setCircleNoteContent(info, holder);
 
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
+        holder.itemView.setOnClickListener(new View.OnClickListener()
+        {
             @Override
-            public void onClick(View v) {
-                Context context=holder.itemView.getContext();
-                Intent intent=new Intent(context, BallQCircleNoteDetailActivity.class);
-                intent.putExtra(BallQCircleNoteDetailActivity.class.getSimpleName(),info.getId());
+            public void onClick(View v)
+            {
+                Context context = holder.itemView.getContext();
+                Intent intent = new Intent(context, BallQCircleNoteDetailActivity.class);
+                intent.putExtra(BallQCircleNoteDetailActivity.class.getSimpleName(), info.getId());
                 context.startActivity(intent);
             }
         });
     }
 
-    private void setAuthorInfo(final BallQUserEntity author, final BallQFindCircleNoteViewHolder holder) {
-        if (author != null) {
+    private void setAuthorInfo(final BallQUserEntity author, final BallQFindCircleNoteViewHolder holder)
+    {
+        if (author != null)
+        {
             holder.tvUserName.setText(author.getFirstName());
-            final Context context=holder.itemView.getContext();
-            GlideImageLoader.loadImage(context,author.getPortrait(),R.mipmap.icon_user_default,holder.ivUserIcon);
-            UserInfoUtil.setUserHeaderVMark(author.getIsV(),holder.isV,holder.ivUserIcon);
+            final Context context = holder.itemView.getContext();
+            GlideImageLoader.loadImage(context, author.getPortrait(), R.mipmap.icon_user_default, holder.ivUserIcon);
+            UserInfoUtil.setUserHeaderVMark(author.getIsV(), holder.isV, holder.ivUserIcon);
             List<BallQUserAchievementEntity> achievementEntities = author.getAchievements();
-            if (achievementEntities == null || achievementEntities.size() == 0) {
+            if (achievementEntities == null || achievementEntities.size() == 0)
+            {
                 holder.ivUserAchievement01.setVisibility(View.GONE);
                 holder.ivUserAchievement02.setVisibility(View.GONE);
-            } else if (achievementEntities.size() == 1) {
+            }
+            else if (achievementEntities.size() == 1)
+            {
                 holder.ivUserAchievement02.setVisibility(View.GONE);
                 holder.ivUserAchievement01.setVisibility(View.VISIBLE);
-                GlideImageLoader.loadImage(context,achievementEntities.get(0).getLogo(),R.mipmap.icon_user_achievement_circle_mark,holder.ivUserAchievement01);
-            } else if (achievementEntities.size() == 2) {
+                GlideImageLoader.loadImage(context, achievementEntities.get(0).getLogo(), R.mipmap.icon_user_achievement_circle_mark, holder.ivUserAchievement01);
+            }
+            else if (achievementEntities.size() == 2)
+            {
                 holder.ivUserAchievement02.setVisibility(View.VISIBLE);
                 holder.ivUserAchievement01.setVisibility(View.VISIBLE);
-                GlideImageLoader.loadImage(context,achievementEntities.get(0).getLogo(),R.mipmap.icon_user_achievement_circle_mark,holder.ivUserAchievement01);
-                GlideImageLoader.loadImage(context,achievementEntities.get(1).getLogo(),R.mipmap.icon_user_achievement_circle_mark,holder.ivUserAchievement02);
+                GlideImageLoader.loadImage(context, achievementEntities.get(0).getLogo(), R.mipmap.icon_user_achievement_circle_mark, holder.ivUserAchievement01);
+                GlideImageLoader.loadImage(context, achievementEntities.get(1).getLogo(), R.mipmap.icon_user_achievement_circle_mark, holder.ivUserAchievement02);
             }
-            holder.ivUserIcon.setOnClickListener(new View.OnClickListener() {
+            holder.ivUserIcon.setOnClickListener(new View.OnClickListener()
+            {
                 @Override
-                public void onClick(View v) {
-                   UserInfoUtil.lookUserInfo(context,author.getUserId());
+                public void onClick(View v)
+                {
+                    UserInfoUtil.lookUserInfo(context, author.getUserId());
                 }
             });
         }
@@ -111,90 +126,138 @@ public class BallQFindCircleNoteAdapter extends RecyclerView.Adapter<BallQFindCi
      * @param info
      * @param holder
      */
-    public void setCircleNoteContent(BallQCircleNoteEntity info, BallQFindCircleNoteViewHolder holder) {
-        final Context context=holder.itemView.getContext();
+    public void setCircleNoteContent(BallQCircleNoteEntity info, BallQFindCircleNoteViewHolder holder)
+    {
+        final Context context = holder.itemView.getContext();
         List<BallQNoteContentEntity> ballQNoteContentEntityList = info.getContents();
         boolean isInitTitle = false;
-        if (!TextUtils.isEmpty(info.getTitle())) {
+        if (!TextUtils.isEmpty(info.getTitle()))
+        {
             isInitTitle = true;
             holder.tvTitle.setText(info.getTitle());
         }
         List<BallQNoteContentEntity> imageContentList = null;
-        if (ballQNoteContentEntityList != null && ballQNoteContentEntityList.size() > 0) {
+        if (ballQNoteContentEntityList != null && ballQNoteContentEntityList.size() > 0)
+        {
             BallQNoteContentEntity contentEntity = null;
             int size = ballQNoteContentEntityList.size();
-            for (int i = 0; i < size; i++) {
+            for (int i = 0; i < size; i++)
+            {
                 contentEntity = ballQNoteContentEntityList.get(i);
-                if (contentEntity.getType() == 0) {
-                    if (imageContentList == null) {
+                if (contentEntity.getType() == 0)
+                {
+                    if (imageContentList == null)
+                    {
                         imageContentList = new ArrayList<>(9);
                     }
                     imageContentList.add(contentEntity);
-                } else if (contentEntity.getType() == 4) {
-                    if (!isInitTitle) {
+                }
+                else if (contentEntity.getType() == 4)
+                {
+                    if (!isInitTitle)
+                    {
                         isInitTitle = true;
                         holder.tvTitle.setText(contentEntity.getContent());
                     }
                 }
             }
         }
-        if (isInitTitle) {
+        if (isInitTitle)
+        {
             holder.tvTitle.setVisibility(View.VISIBLE);
-        } else {
+        }
+        else
+        {
             holder.tvTitle.setVisibility(View.GONE);
         }
-        if (imageContentList == null || imageContentList.size() == 0) {
+        if (imageContentList == null || imageContentList.size() == 0)
+        {
             holder.layoutImgs.setVisibility(View.GONE);
-        } else {
+        }
+        else
+        {
             holder.layoutImgs.setVisibility(View.VISIBLE);
             setContentClickListener(imageContentList, holder);
             int size = imageContentList.size();
-            if (size == 1) {
+            if (size == 1)
+            {
                 holder.circleImg1.setVisibility(View.VISIBLE);
                 holder.circleImg2.setVisibility(View.GONE);
                 holder.layoutImg3.setVisibility(View.GONE);
-                GlideImageLoader.loadImage(context,imageContentList.get(0).getContent(),R.mipmap.icon_default_note_img,holder.circleImg1);
-            } else if (size == 2) {
+                GlideImageLoader.loadImage(context, imageContentList.get(0).getContent(), R.mipmap.icon_default_note_img, holder.circleImg1);
+            }
+            else if (size == 2)
+            {
                 holder.circleImg1.setVisibility(View.VISIBLE);
                 holder.circleImg2.setVisibility(View.VISIBLE);
                 holder.layoutImg3.setVisibility(View.GONE);
-                GlideImageLoader.loadImage(context,imageContentList.get(0).getContent(),R.mipmap.icon_default_note_img,holder.circleImg1);
-                GlideImageLoader.loadImage(context,imageContentList.get(1).getContent(),R.mipmap.icon_default_note_img,holder.circleImg2);
-            } else if (size >= 3) {
+                GlideImageLoader.loadImage(context, imageContentList.get(0).getContent(), R.mipmap.icon_default_note_img, holder.circleImg1);
+                GlideImageLoader.loadImage(context, imageContentList.get(1).getContent(), R.mipmap.icon_default_note_img, holder.circleImg2);
+            }
+            else if (size >= 3)
+            {
                 holder.circleImg1.setVisibility(View.VISIBLE);
                 holder.circleImg2.setVisibility(View.VISIBLE);
                 holder.layoutImg3.setVisibility(View.VISIBLE);
-                GlideImageLoader.loadImage(context,imageContentList.get(0).getContent(),R.mipmap.icon_default_note_img,holder.circleImg1);
-                GlideImageLoader.loadImage(context,imageContentList.get(1).getContent(),R.mipmap.icon_default_note_img,holder.circleImg2);
-                GlideImageLoader.loadImage(context,imageContentList.get(2).getContent(),R.mipmap.icon_default_note_img,holder.circleImg3);
-                if (size > 3) {
+                GlideImageLoader.loadImage(context, imageContentList.get(0).getContent(), R.mipmap.icon_default_note_img, holder.circleImg1);
+                GlideImageLoader.loadImage(context, imageContentList.get(1).getContent(), R.mipmap.icon_default_note_img, holder.circleImg2);
+                GlideImageLoader.loadImage(context, imageContentList.get(2).getContent(), R.mipmap.icon_default_note_img, holder.circleImg3);
+                if (size > 3)
+                {
                     holder.tvImgCounts.setVisibility(View.VISIBLE);
                     holder.tvImgCounts.setText(String.valueOf(size) + "图");
-                } else {
+                }
+                else
+                {
                     holder.tvImgCounts.setVisibility(View.GONE);
                 }
             }
         }
     }
 
-    private void setContentClickListener(final List<BallQNoteContentEntity> imageContentList, final BallQFindCircleNoteViewHolder holder) {
-        View.OnClickListener onClickListener = new View.OnClickListener() {
+    private void setContentClickListener(final List<BallQNoteContentEntity> imageContentList, final BallQFindCircleNoteViewHolder holder)
+    {
+        View.OnClickListener onClickListener = new View.OnClickListener()
+        {
             @Override
-            public void onClick(View v) {
+            public void onClick(View v)
+            {
                 Activity a = (Activity) holder.itemView.getContext();
                 int id = v.getId();
                 int index = 0;
-                if (id == R.id.iv_circle_picture_01) {
+                if (id == R.id.iv_circle_picture_01)
+                {
                     index = 0;
-                } else if (id == R.id.iv_circle_picture_02) {
+                }
+                else if (id == R.id.iv_circle_picture_02)
+                {
                     index = 1;
-                } else if (id == R.id.layout_circle_picture_03) {
+                }
+                else if (id == R.id.layout_circle_picture_03)
+                {
                     index = 2;
                 }
-                Intent intent = new Intent(a, BallQImageBrowseActivity.class);
-                intent.putExtra("index", index);
-                intent.putParcelableArrayListExtra("images", (ArrayList<? extends Parcelable>) imageContentList);
-                a.startActivity(intent);
+
+                ImageUrlBrowserDialog browserDialog = new ImageUrlBrowserDialog(a);
+                List<String> urls = new ArrayList<>();
+                String url;
+                for (BallQNoteContentEntity info : imageContentList)
+                {
+                    url = info.getOriginal();
+                    if (TextUtils.isEmpty(url))
+                    {
+                        url = info.getContent();
+                    }
+                    urls.add(url);
+                }
+                browserDialog.addUrl(urls);
+                browserDialog.setCurrentImageIndex(index);
+                browserDialog.show();
+
+//                Intent intent = new Intent(a, BallQImageBrowseActivity.class);
+//                intent.putExtra("index", index);
+//                intent.putParcelableArrayListExtra("images", (ArrayList<? extends Parcelable>) imageContentList);
+//                a.startActivity(intent);
             }
         };
         holder.circleImg1.setOnClickListener(onClickListener);
@@ -203,11 +266,13 @@ public class BallQFindCircleNoteAdapter extends RecyclerView.Adapter<BallQFindCi
     }
 
     @Override
-    public int getItemCount() {
+    public int getItemCount()
+    {
         return ballQCircleNoteEntities.size();
     }
 
-    public static final class BallQFindCircleNoteViewHolder extends RecyclerView.ViewHolder{
+    public static final class BallQFindCircleNoteViewHolder extends RecyclerView.ViewHolder
+    {
         CircleImageView ivUserIcon;
         ImageView isV;
         TextView tvUserName;
@@ -227,7 +292,9 @@ public class BallQFindCircleNoteAdapter extends RecyclerView.Adapter<BallQFindCi
         TextView tvReadCounts;
         TextView tvLikeCounts;
         TextView tvTop;
-        public BallQFindCircleNoteViewHolder(View itemView) {
+
+        public BallQFindCircleNoteViewHolder(View itemView)
+        {
             super(itemView);
             ivUserIcon = (CircleImageView) itemView.findViewById(R.id.ivUserIcon);
             isV = (ImageView) itemView.findViewById(R.id.isV);

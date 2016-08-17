@@ -85,7 +85,7 @@ public class BallQUserBettingGuessRecordAdapter extends RecyclerView.Adapter<Bal
         }
         holder.tvHomeTeamName.setText(info.getHtname());
         holder.tvAwayTeamName.setText(info.getAtname());
-        holder.tvSam.setText(String.valueOf(info.getSam() / 100));
+        holder.tvSam.setText(String.format(Locale.getDefault(), "%.0f", info.getSam() * 1F / 100));
         holder.tvBettingResultInfo.setText(MatchBettingInfoUtil.getBettingResultInfo(info.getChoice(), String.valueOf(info.getOtype()), info.getOdata()));
         if (info.getStatus() == 0)
         {

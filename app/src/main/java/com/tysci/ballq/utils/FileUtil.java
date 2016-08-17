@@ -13,18 +13,23 @@ import java.io.IOException;
  * Created by LinDe on 2016-07-13 0013.
  * util for file
  */
-public final class FileUtil {
-    private FileUtil() {
+public final class FileUtil
+{
+    private FileUtil()
+    {
     }
 
-    public static String readStringFromFile(File file) {
+    public static String readStringFromFile(File file)
+    {
         String result = "";
-        if (!file.exists()) {
+        if (!file.exists())
+        {
             return result;
         }
         FileInputStream fis = null;
         ByteArrayOutputStream outputStream = null;
-        try {
+        try
+        {
             fis = new FileInputStream(file);
             //new一个缓冲区
             byte[] buffer = new byte[256];
@@ -32,24 +37,37 @@ public final class FileUtil {
             outputStream = new ByteArrayOutputStream();
             int length;
             //写入数据
-            while ((length = fis.read(buffer)) != -1) {
+            while ((length = fis.read(buffer)) != -1)
+            {
                 outputStream.write(buffer, 0, length);
             }
             result = new String(outputStream.toByteArray());
-        } catch (Exception e) {
+        }
+        catch (Exception e)
+        {
             e.printStackTrace();
-        } finally {
-            if (fis != null) {
-                try {
+        }
+        finally
+        {
+            if (fis != null)
+            {
+                try
+                {
                     fis.close();
-                } catch (IOException e) {
+                }
+                catch (IOException e)
+                {
                     e.printStackTrace();
                 }
             }
-            if (outputStream != null) {
-                try {
+            if (outputStream != null)
+            {
+                try
+                {
                     outputStream.close();
-                } catch (IOException e) {
+                }
+                catch (IOException e)
+                {
                     e.printStackTrace();
                 }
             }
@@ -57,43 +75,62 @@ public final class FileUtil {
         return result;
     }
 
-    public static Bitmap readBitmapFromFile(File file) {
+    public static Bitmap readBitmapFromFile(File file)
+    {
         Bitmap bitmap = null;
-        try {
-            if (file.exists()) {
+        try
+        {
+            if (file.exists())
+            {
                 bitmap = BitmapFactory.decodeFile(file.getPath());
             }
-        } catch (Exception e) {
+        }
+        catch (Exception e)
+        {
             e.printStackTrace();
         }
         return bitmap;
     }
 
-    public static boolean writeStringToFile(File file, String write, boolean append) {
+    public static boolean writeStringToFile(File file, String write, boolean append)
+    {
         boolean result = false;
-        if (!file.exists()) {
+        if (!file.exists())
+        {
             //noinspection ResultOfMethodCallIgnored
             file.getParentFile().mkdirs();
-            try {
+            try
+            {
                 //noinspection ResultOfMethodCallIgnored
                 file.createNewFile();
-            } catch (IOException e) {
+            }
+            catch (IOException e)
+            {
                 e.printStackTrace();
             }
         }
         FileOutputStream fos = null;
-        try {
+        try
+        {
             fos = new FileOutputStream(file, append);
             byte[] b = write.getBytes();
             fos.write(b);
             result = true;
-        } catch (Exception e) {
+        }
+        catch (Exception e)
+        {
             e.printStackTrace();
-        } finally {
-            if (fos != null) {
-                try {
+        }
+        finally
+        {
+            if (fos != null)
+            {
+                try
+                {
                     fos.close();
-                } catch (IOException e) {
+                }
+                catch (IOException e)
+                {
                     e.printStackTrace();
                 }
             }
@@ -101,34 +138,63 @@ public final class FileUtil {
         return result;
     }
 
-    public static boolean writeBitmapToFile(File file, Bitmap bitmap) {
-        if (file.exists()) {
+    public static boolean writeBitmapToFile(File file, Bitmap bitmap)
+    {
+        if (file.exists())
+        {
             //noinspection ResultOfMethodCallIgnored
             file.delete();
+        }
+
+        if (!file.exists())
+        {
+            //noinspection ResultOfMethodCallIgnored
+            file.getParentFile().mkdirs();
+            try
+            {
+                //noinspection ResultOfMethodCallIgnored
+                file.createNewFile();
+            }
+            catch (IOException e)
+            {
+                e.printStackTrace();
+            }
         }
 
         boolean result = false;
         FileOutputStream fos = null;
 
-        try {
+        try
+        {
             fos = new FileOutputStream(file);
             String path = file.getPath();
-            if (path.endsWith(".png") || path.endsWith(".PNG")) {
+            if (path.endsWith(".png") || path.endsWith(".PNG"))
+            {
                 bitmap.compress(Bitmap.CompressFormat.PNG, 100, fos);
                 fos.flush();
                 result = true;
-            } else if (path.endsWith(".jpg") || path.endsWith(".JPG") || path.endsWith(".jpeg") || path.endsWith(".JPEG")) {
+            }
+            else if (path.endsWith(".jpg") || path.endsWith(".JPG") || path.endsWith(".jpeg") || path.endsWith(".JPEG"))
+            {
                 bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos);
                 fos.flush();
                 result = true;
             }
-        } catch (IOException e) {
+        }
+        catch (IOException e)
+        {
             e.printStackTrace();
-        } finally {
-            if (fos != null) {
-                try {
+        }
+        finally
+        {
+            if (fos != null)
+            {
+                try
+                {
                     fos.close();
-                } catch (IOException e) {
+                }
+                catch (IOException e)
+                {
                     e.printStackTrace();
                 }
             }

@@ -60,7 +60,7 @@ public class BallQTipOffUserInfoAdapter extends RecyclerView.Adapter<BallQTipOff
         holder.tvUserAllProfit.setText(info.getTearn() > 0 ? "+" : "");
         holder.tvUserAllProfit.append(String.format(Locale.getDefault(), "%.2f", info.getTearn() * 1F / 100F));
 
-        holder.tvUserRecommendCount.setText(String.valueOf(info.getFrc()));
+//        holder.tvUserRecommendCount.setText(String.valueOf(info.getFrc()));
         holder.ivAttention.setSelected(info.getIsf() == 1);
         holder.itemView.setOnClickListener(new View.OnClickListener()
         {
@@ -163,8 +163,8 @@ public class BallQTipOffUserInfoAdapter extends RecyclerView.Adapter<BallQTipOff
         TextView tvUuserName;
         @Bind(R.id.tv_user_tip_count)
         TextView tvUserTipCount;
-        @Bind(R.id.tv_user_recommend_count)
-        TextView tvUserRecommendCount;
+//        @Bind(R.id.tv_user_recommend_count)
+//        TextView tvUserRecommendCount;
         @Bind(R.id.tv_user_all_profit)
         TextView tvUserAllProfit;
 

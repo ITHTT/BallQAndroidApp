@@ -52,7 +52,7 @@ public class HttpUrls
 
         long changeServerTimeMillis = SharedPreferencesUtil.getValue(context, BqServerCustomActivity.KEY_SERVER_CHANGE_TIME_MILLIS_FLAG, 0L);
         // 修改后的服务器保存一定时间，超过这个时间后清除
-        if (System.currentTimeMillis() - changeServerTimeMillis >= 60 * 60 * 1000)
+        if (System.currentTimeMillis() - changeServerTimeMillis >= 60L * 60 * 1000)
         {
             SharedPreferencesUtil.setValue(context, BqServerCustomActivity.KEY_SERVER, "");
             SharedPreferencesUtil.setValue(context, BqServerCustomActivity.KEY_CIRCLE_SERVER, "");
@@ -145,6 +145,8 @@ public class HttpUrls
 
     public static String getImageUrl(String url)
     {
+        if (url == null)
+            url = "";
         if (!url.contains("http://") && !url.contains("https://"))
         {
             return IMAGE_HOST_URL + url;

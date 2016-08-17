@@ -107,6 +107,7 @@
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
         android:orientation="horizontal"
+        android:background="@drawable/click_style"
         android:paddingBottom="10dp"
         android:paddingTop="10dp">
 

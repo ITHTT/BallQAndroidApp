@@ -1,5 +1,6 @@
 package com.tysci.ballq.views;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.text.TextUtils;
@@ -15,6 +16,8 @@ import com.alibaba.fastjson.JSONObject;
 import com.tysci.ballq.R;
 import com.tysci.ballq.activitys.BallQSettingActivity;
 import com.tysci.ballq.activitys.BallQUserRankingListDetailActivity;
+import com.tysci.ballq.dialog.ImageUrlBrowserDialog;
+import com.tysci.ballq.dialog.SpinKitProgressDialog;
 import com.tysci.ballq.modles.UserInfoEntity;
 import com.tysci.ballq.modles.event.EventObject;
 import com.tysci.ballq.networks.HttpClientUtil;
@@ -26,7 +29,6 @@ import com.tysci.ballq.utils.ToastUtil;
 import com.tysci.ballq.utils.UserInfoUtil;
 import com.tysci.ballq.views.adapters.BallQUserRankInfoAdapter;
 import com.tysci.ballq.views.adapters.BallQUserRewardRankInfoAdapter;
-import com.tysci.ballq.views.dialogs.LoadingProgressDialog;
 import com.tysci.ballq.views.widgets.CircleImageView;
 
 import java.util.HashMap;
@@ -88,6 +90,7 @@ public final class UserProfileHeaderView extends LinearLayout implements View.On
     MarqueeTextView tvGoneCount;// 走场
 
     private String userId;
+    private String mPortraitUrl;
 
     public UserProfileHeaderView(Context context)
     {
@@ -118,6 +121,7 @@ public final class UserProfileHeaderView extends LinearLayout implements View.On
     public void setUserUnLoginProfile(String userId)
     {
         this.userId = userId;
+        mPortraitUrl = null;
         final boolean isUserSelf = TextUtils.isEmpty(userId) || userId.equals(UserInfoUtil.getUserId(getContext()));
 
         // 头像
@@ -175,6 +179,7 @@ public final class UserProfileHeaderView extends LinearLayout implements View.On
             return;
 
         userId = String.valueOf(userInfo.getUid());
+        mPortraitUrl = userInfo.getPt();
         final boolean isUserSelf = userId.equals(UserInfoUtil.getUserId(getContext()));
 
 //        String tmp;
@@ -327,7 +332,7 @@ public final class UserProfileHeaderView extends LinearLayout implements View.On
         {
             params.put("change", "0");
         }
-        final LoadingProgressDialog dialog = new LoadingProgressDialog(context);
+        final SpinKitProgressDialog dialog = new SpinKitProgressDialog((Activity) context);
         HttpClientUtil.getHttpClientUtil().sendPostRequest(BallQUserRankingListDetailActivity.class.getSimpleName(), url, params, new HttpClientUtil.StringResponseCallBack()
         {
             @Override
@@ -403,11 +408,38 @@ public final class UserProfileHeaderView extends LinearLayout implements View.On
         context.startActivity(intent);
     }
 
-    @OnClick({R.id.iv_user_portrait, R.id.tv_user_nickname})
+    @OnClick(R.id.iv_user_portrait)
     protected void onPortraitClick(View view)
     {
         final Context context = getContext();
         final boolean isUserIdEmpty = TextUtils.isEmpty(userId);
+
+        if (!UserInfoUtil.checkLogin(context))
+        {
+            if (isUserIdEmpty)
+            {
+                UserInfoUtil.userLogin(context);
+                return;
+            }
+        }
+        if (!TextUtils.isEmpty(mPortraitUrl))
+        {
+            ImageUrlBrowserDialog dialog = new ImageUrlBrowserDialog((Activity) context);
+            dialog.addUrl(mPortraitUrl);
+            dialog.show();
+        }
+    }
+
+    @OnClick(R.id.tv_user_nickname)
+    protected void onUserNicknameClick(View view)
+    {
+        final Context context = getContext();
+        final boolean isUserIdEmpty = TextUtils.isEmpty(userId);
+
+//        ImageUrlBrowserDialog dialog = new ImageUrlBrowserDialog((Activity) context, R.mipmap.icon_user_default);
+//        dialog.addData(mPortraitUrl, mPortraitUrl, mPortraitUrl, mPortraitUrl, mPortraitUrl, mPortraitUrl, mPortraitUrl, mPortraitUrl);
+//        dialog.setCurrentImageIndex(50);
+//        dialog.show();
 
         if (!UserInfoUtil.checkLogin(context))
         {

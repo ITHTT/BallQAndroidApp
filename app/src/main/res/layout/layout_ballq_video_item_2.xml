@@ -114,20 +114,20 @@
                     <!--android:textSize="12sp"-->
                     <!--android:visibility="gone"/>-->
 
-                    <ImageView
-                        android:layout_width="15dp"
-                        android:layout_height="15dp"
-                        android:layout_marginLeft="6dp"
-                        android:src="@mipmap/icon_read_count"/>
+                    <!--<ImageView-->
+                        <!--android:layout_width="15dp"-->
+                        <!--android:layout_height="15dp"-->
+                        <!--android:layout_marginLeft="6dp"-->
+                        <!--android:src="@mipmap/icon_read_count"/>-->
 
-                    <TextView
-                        android:id="@+id/tv_ballq_info_read_counts"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="3dp"
-                        android:text="100"
-                        android:textColor="#1b1b1b"
-                        android:textSize="12sp"/>
+                    <!--<TextView-->
+                        <!--android:id="@+id/tv_ballq_info_read_counts"-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:layout_marginLeft="3dp"-->
+                        <!--android:text="100"-->
+                        <!--android:textColor="#1b1b1b"-->
+                        <!--android:textSize="12sp"/>-->
                 </LinearLayout>
             </RelativeLayout>
         </FrameLayout>
@@ -140,12 +140,12 @@
             android:paddingLeft="15dp"
             android:paddingRight="15dp"
             android:paddingTop="5dp"
-            android:singleLine="true"
+            android:lines="1"
+            android:ellipsize="end"
             android:text="解密玫瑰绽放之谜"
             android:textColor="#1a1a1a"
-            android:textSize="15sp"
-            android:textStyle="bold"
-            android:typeface="sans"/>
+            android:textSize="13sp"
+            android:typeface="monospace"/>
 
         <View
             android:layout_width="match_parent"
@@ -168,10 +168,10 @@
                     android:layout_width="20dp"
                     android:layout_height="20dp"
                     android:scaleType="fitXY"
-                    android:src="@mipmap/icon_like_count"/>
+                    android:src="@mipmap/icon_read_count"/>
 
                 <TextView
-                    android:id="@+id/tv_ballq_info_like_count"
+                    android:id="@+id/tvReadingCount"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
@@ -228,10 +228,10 @@
                     android:layout_width="20dp"
                     android:layout_height="20dp"
                     android:scaleType="fitXY"
-                    android:src="@mipmap/icon_reward_count"/>
+                    android:src="@mipmap/icon_like_count"/>
 
                 <TextView
-                    android:id="@+id/tv_ballq_info_reward_counts"
+                    android:id="@+id/tvLikeCount"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"

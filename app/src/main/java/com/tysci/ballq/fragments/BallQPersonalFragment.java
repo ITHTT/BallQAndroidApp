@@ -154,10 +154,10 @@ public class BallQPersonalFragment extends BaseFragment
                 case R.id.menu_user_guessing_record:// 竞猜记录
                     cls = UserBettingGuessRecordActivity.class;
                     break;
-                case R.id.menu_user_collection:
+                case R.id.menu_user_collection:// 我的收藏
                     cls = UserCollectionRecordActivity.class;
                     break;
-                case R.id.menu_user_message:
+                case R.id.menu_user_message:// 我的消息
                     cls = UserMessageRecordActivity.class;
                     break;
                 case R.id.menu_user_attentions:// 关注的人

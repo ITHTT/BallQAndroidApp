@@ -44,7 +44,10 @@ public class BqTipOffVideoAdapter extends WrapRecyclerAdapter<BallQTipOffEntity,
         ImageUtil.loadImage(holder.ivUserHeader, R.mipmap.icon_user_default, info.getPt());
         UserInfoUtil.setUserHeaderVMark(info.getIsv(), holder.isV, holder.ivUserHeader);
         holder.tvUserName.setText(info.getFname());
-        holder.tvLikeCounts.setText(String.valueOf(info.getTipcount()));
+        holder.tvTitle.setText(info.getCont());
+        holder.tvCommentCounts.setText(String.valueOf(info.getComcount()));
+        holder.tvReadingCount.setText(String.valueOf(info.getReading_count()));
+        holder.tvLikeCOunt.setText(String.valueOf(info.getLike_count()));
         holder.user_v_status.setUserV_Icon(info.getIsv());
 
         tmp = info.getFirst_image();
@@ -66,21 +69,25 @@ public class BqTipOffVideoAdapter extends WrapRecyclerAdapter<BallQTipOffEntity,
             holder.tvCreateDate.setText(createCalendar.getStringFormat("MM-dd HH:mm"));
         }
 
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
+        holder.itemView.setOnClickListener(new View.OnClickListener()
+        {
             @Override
-            public void onClick(View v) {
-                Context context=v.getContext();
-                Intent intent=new Intent(context, BallQTipOffDetailActivity.class);
-                intent.putExtra(BallQTipOffDetailActivity.class.getSimpleName(),info);
+            public void onClick(View v)
+            {
+                Context context = v.getContext();
+                Intent intent = new Intent(context, BallQTipOffDetailActivity.class);
+                intent.putExtra(BallQTipOffDetailActivity.class.getSimpleName(), info);
                 context.startActivity(intent);
             }
         });
 
-        holder.ivUserHeader.setOnClickListener(new View.OnClickListener() {
+        holder.ivUserHeader.setOnClickListener(new View.OnClickListener()
+        {
             @Override
-            public void onClick(View v) {
-                Context context=v.getContext();
-                UserInfoUtil.lookUserInfo(context,info.getUid());
+            public void onClick(View v)
+            {
+                Context context = v.getContext();
+                UserInfoUtil.lookUserInfo(context, info.getUid());
             }
         });
     }
@@ -102,16 +109,16 @@ public class BqTipOffVideoAdapter extends WrapRecyclerAdapter<BallQTipOffEntity,
         @Bind(R.id.tv_ballq_info_create_date)
         TextView tvCreateDate;
         //        TextView tvCreateTime;
-        @Bind(R.id.tv_ballq_info_read_counts)
-        TextView tvReadCounts;
+//        @Bind(R.id.tv_ballq_info_read_counts)
+//        TextView tvReadCounts;
         @Bind(R.id.tv_ballq_info_title)
         TextView tvTitle;
-        @Bind(R.id.tv_ballq_info_like_count)
-        TextView tvLikeCounts;
+        @Bind(R.id.tvReadingCount)
+        TextView tvReadingCount;
         @Bind(R.id.tv_ballq_info_comments_count)
         TextView tvCommentCounts;
-        @Bind(R.id.tv_ballq_info_reward_counts)
-        TextView tvRewardCounts;
+        @Bind(R.id.tvLikeCount)
+        TextView tvLikeCOunt;
 
         @Bind(R.id.user_v_status)
         UserVStatusImageView user_v_status;

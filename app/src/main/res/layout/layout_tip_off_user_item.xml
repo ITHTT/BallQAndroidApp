@@ -26,15 +26,15 @@
         android:text=""
         android:textSize="13sp"/>
 
-    <com.tysci.ballq.views.MarqueeTextView
-        android:id="@+id/tv_user_recommend_count"
-        style="@style/MarqueeTextView"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:gravity="center"
-        android:text=""
-        android:textSize="13sp"/>
+    <!--<com.tysci.ballq.views.MarqueeTextView-->
+        <!--android:id="@+id/tv_user_recommend_count"-->
+        <!--style="@style/MarqueeTextView"-->
+        <!--android:layout_width="0dp"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_weight="1"-->
+        <!--android:gravity="center"-->
+        <!--android:text=""-->
+        <!--android:textSize="13sp"/>-->
 
     <com.tysci.ballq.views.MarqueeTextView
         android:id="@+id/tv_user_all_profit"

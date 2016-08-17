@@ -105,9 +105,19 @@ public class BallQHomeBallWarpListFragment extends AppSwipeRefreshLoadMoreRecycl
                     onRefreshCompelete();
                     hideLoad();
                 }
+                if (mBqBallWrapAdapter == null)
+                {
+                    mBqBallWrapAdapter = new BqBallWrapAdapter();
+                    recyclerView.setAdapter(mBqBallWrapAdapter);
+                }
+                if (!isLoadMore && mBqBallWrapAdapter.getItemCount() > 0)
+                {
+                    mBqBallWrapAdapter.addDataList(false);
+                }
                 if (!TextUtils.isEmpty(response))
                 {
                     JSONObject obj = JSONObject.parseObject(response);
+                    UserInfoUtil.getUserTaskMsg(baseActivity);
                     if (obj != null && !obj.isEmpty())
                     {
                         JSONObject data = obj.getJSONObject("data");
@@ -127,31 +137,7 @@ public class BallQHomeBallWarpListFragment extends AppSwipeRefreshLoadMoreRecycl
                         JSONArray objArray = data.getJSONArray("articles");
                         if (objArray != null && !objArray.isEmpty())
                         {
-                            if (mBqBallWrapAdapter == null)
-                            {
-                                mBqBallWrapAdapter = new BqBallWrapAdapter();
-                                recyclerView.setAdapter(mBqBallWrapAdapter);
-                            }
-//                            if (ballQBallWarpInfoEntityList == null)
-//                            {
-//                                ballQBallWarpInfoEntityList = new ArrayList<BallQBallWarpInfoEntity>(10);
-//                            }
-                            if (!isLoadMore && mBqBallWrapAdapter.getItemCount() > 0)
-                            {
-//                                ballQBallWarpInfoEntityList.clear();
-                                mBqBallWrapAdapter.addDataList(false);
-                            }
-//                            CommonUtils.getJSONListObject(objArray, ballQBallWarpInfoEntityList, BallQBallWarpInfoEntity.class);
                             mBqBallWrapAdapter.addDataList(objArray, isLoadMore, BallQBallWarpInfoEntity.class);
-//                            if (adapter == null)
-//                            {
-//                                adapter = new BallQBallWarpAdapter(ballQBallWarpInfoEntityList);
-//                                recyclerView.setAdapter(adapter);
-//                            }
-//                            else
-//                            {
-//                                adapter.notifyDataSetChanged();
-//                            }
                             if (objArray.size() < 10)
                             {
                                 recyclerView.setLoadMoreDataComplete("没有更多数据了");

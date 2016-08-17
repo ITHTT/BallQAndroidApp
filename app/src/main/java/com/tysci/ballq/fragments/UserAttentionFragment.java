@@ -35,7 +35,8 @@ import okhttp3.Request;
 /**
  * Created by Administrator on 2016/6/23.
  */
-public class UserAttentionFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener,AutoLoadMoreRecyclerView.OnLoadMoreListener{
+public class UserAttentionFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener, AutoLoadMoreRecyclerView.OnLoadMoreListener
+{
     @Bind(R.id.tv_push)
     protected TextView tvPush;
     @Bind(R.id.tv_attention)
@@ -48,19 +49,21 @@ public class UserAttentionFragment extends BaseFragment implements SwipeRefreshL
     protected AutoLoadMoreRecyclerView recyclerView;
 
     private List<BallQUserAttentionOrFansEntity> userAttentionOrFansEntityList;
-    private UserAttentionOrFansAdapter adapter=null;
+    private UserAttentionOrFansAdapter adapter = null;
 
     private int etype;
     private String uid;
-    private int currentPages=1;
+    private int currentPages = 1;
 
     @Override
-    protected int getViewLayoutId() {
+    protected int getViewLayoutId()
+    {
         return R.layout.fragment_user_attention_or_fans;
     }
 
     @Override
-    protected void initViews(View view, Bundle savedInstanceState) {
+    protected void initViews(View view, Bundle savedInstanceState)
+    {
         recyclerView.setLayoutManager(new LinearLayoutManager(baseActivity));
         recyclerView.setOnLoadMoreListener(this);
         swipeRefresh.setOnRefreshListener(this);
@@ -69,16 +72,21 @@ public class UserAttentionFragment extends BaseFragment implements SwipeRefreshL
         setTitleAttrs();
     }
 
-    private void setTitleAttrs(){
-        if(etype==0){
+    private void setTitleAttrs()
+    {
+        if (etype == 0)
+        {
             tvPush.setVisibility(View.GONE);
             tvAttention.setVisibility(View.GONE);
             divider.setVisibility(View.GONE);
-        }else{
+        }
+        else
+        {
             tvPush.setVisibility(View.VISIBLE);
             tvAttention.setVisibility(View.VISIBLE);
-            String id=UserInfoUtil.getUserId(baseActivity);
-            if(!uid.equals(id)){
+            String id = UserInfoUtil.getUserId(baseActivity);
+            if (!uid.equals(id))
+            {
                 tvPush.setVisibility(View.GONE);
                 tvAttention.setVisibility(View.GONE);
                 divider.setVisibility(View.GONE);
@@ -87,25 +95,34 @@ public class UserAttentionFragment extends BaseFragment implements SwipeRefreshL
     }
 
     @Override
-    protected View getLoadingTargetView() {
+    protected View getLoadingTargetView()
+    {
         return swipeRefresh;
     }
 
-    private void setRefreshing(){
-        swipeRefresh.post(new Runnable() {
+    private void setRefreshing()
+    {
+        swipeRefresh.post(new Runnable()
+        {
             @Override
-            public void run() {
+            public void run()
+            {
                 swipeRefresh.setRefreshing(true);
             }
         });
     }
 
-    private void onRefreshCompelete(){
-        if(swipeRefresh!=null) {
-            swipeRefresh.postDelayed(new Runnable() {
+    private void onRefreshCompelete()
+    {
+        if (swipeRefresh != null)
+        {
+            swipeRefresh.postDelayed(new Runnable()
+            {
                 @Override
-                public void run() {
-                    if (swipeRefresh != null) {
+                public void run()
+                {
+                    if (swipeRefresh != null)
+                    {
                         swipeRefresh.setRefreshing(false);
                         // recyclerView.setStartLoadMore();
                     }
@@ -114,161 +131,223 @@ public class UserAttentionFragment extends BaseFragment implements SwipeRefreshL
         }
     }
 
+    @Override
+    public void onResume()
+    {
+        super.onResume();
+        showLoading();
+        requestDatas(1, false);
+    }
 
-    private void requestDatas(final int pages, final boolean isLoadMore){
-        String url= HttpUrls.HOST_URL_V5 + "user/follow/?etype=" + etype + "&uid=" + uid + "&p=" + pages;
-        Map<String,String> params=null;
-        if(UserInfoUtil.checkLogin(baseActivity)){
-            params=new Hashtable<>(2);
+    private void requestDatas(final int pages, final boolean isLoadMore)
+    {
+        String url = HttpUrls.HOST_URL_V5 + "user/follow/?etype=" + etype + "&uid=" + uid + "&p=" + pages;
+        Map<String, String> params = null;
+        if (UserInfoUtil.checkLogin(baseActivity))
+        {
+            params = new Hashtable<>(2);
             params.put("user", UserInfoUtil.getUserId(baseActivity));
             params.put("token", UserInfoUtil.getUserToken(baseActivity));
         }
-        HttpClientUtil.getHttpClientUtil().sendPostRequest(Tag, url, params, new HttpClientUtil.StringResponseCallBack() {
+        HttpClientUtil.getHttpClientUtil().sendPostRequest(Tag, url, params, new HttpClientUtil.StringResponseCallBack()
+        {
             @Override
-            public void onBefore(Request request) {
+            public void onBefore(Request request)
+            {
 
             }
 
             @Override
-            public void onError(Call call, Exception error) {
-                if (!isLoadMore) {
+            public void onError(Call call, Exception error)
+            {
+                if (!isLoadMore)
+                {
                     recyclerView.setRefreshComplete();
-                    if (adapter != null) {
-                        ToastUtil.show(baseActivity,"请求失败");
+                    if (adapter != null)
+                    {
+                        ToastUtil.show(baseActivity, "请求失败");
                         recyclerView.setStartLoadMore();
-                    } else {
-                        showErrorInfo(new View.OnClickListener() {
+                    }
+                    else
+                    {
+                        showErrorInfo(new View.OnClickListener()
+                        {
                             @Override
-                            public void onClick(View v) {
+                            public void onClick(View v)
+                            {
                                 showLoading();
-                                requestDatas(pages,isLoadMore);
+                                requestDatas(pages, isLoadMore);
                             }
                         });
                     }
-                } else {
+                }
+                else
+                {
                     recyclerView.setLoadMoreDataFailed();
                 }
             }
 
             @Override
-            public void onSuccess(Call call, String response) {
-                if(!isLoadMore){
+            public void onSuccess(Call call, String response)
+            {
+                if (!isLoadMore)
+                {
                     recyclerView.setRefreshComplete();
                 }
                 KLog.json(response);
-                if(!TextUtils.isEmpty(response)){
-                    JSONObject obj=JSONObject.parseObject(response);
-                    if(obj!=null&&!obj.isEmpty()){
-                        JSONArray arrays=obj.getJSONArray("data");
-                        if(arrays!=null&&!arrays.isEmpty()){
+                if (!TextUtils.isEmpty(response))
+                {
+                    JSONObject obj = JSONObject.parseObject(response);
+                    if (obj != null && !obj.isEmpty())
+                    {
+                        JSONArray arrays = obj.getJSONArray("data");
+                        if (arrays != null && !arrays.isEmpty())
+                        {
                             hideLoad();
-                            if(userAttentionOrFansEntityList==null){
-                                userAttentionOrFansEntityList=new ArrayList<BallQUserAttentionOrFansEntity>(10);
+                            if (userAttentionOrFansEntityList == null)
+                            {
+                                userAttentionOrFansEntityList = new ArrayList<BallQUserAttentionOrFansEntity>(10);
                             }
-                            if(!isLoadMore){
-                                if(!userAttentionOrFansEntityList.isEmpty()){
+                            if (!isLoadMore)
+                            {
+                                if (!userAttentionOrFansEntityList.isEmpty())
+                                {
                                     userAttentionOrFansEntityList.clear();
                                 }
                             }
-                            CommonUtils.getJSONListObject(arrays,userAttentionOrFansEntityList,BallQUserAttentionOrFansEntity.class);
+                            CommonUtils.getJSONListObject(arrays, userAttentionOrFansEntityList, BallQUserAttentionOrFansEntity.class);
 //                            publishLoadDataEvent(userAttentionOrFansEntityList.size());
-                            if(adapter==null){
-                                adapter=new UserAttentionOrFansAdapter(userAttentionOrFansEntityList);
-                                if(etype==1){
+                            if (adapter == null)
+                            {
+                                adapter = new UserAttentionOrFansAdapter(userAttentionOrFansEntityList);
+                                if (etype == 1)
+                                {
                                     String id = UserInfoUtil.getUserId(baseActivity);
-                                    if (uid.equals(id)) {
+                                    if (uid.equals(id))
+                                    {
                                         adapter.setIsSelf(true);
-                                    } else {
+                                    }
+                                    else
+                                    {
                                         adapter.setIsSelf(false);
                                     }
                                 }
                                 recyclerView.setAdapter(adapter);
-                            }else{
+                            }
+                            else
+                            {
                                 adapter.notifyDataSetChanged();
                             }
-                            if(arrays.size()<10){
+                            if (arrays.size() < 10)
+                            {
                                 recyclerView.setLoadMoreDataComplete("没有更多数据了...");
-                            }else{
+                            }
+                            else
+                            {
                                 recyclerView.setStartLoadMore();
-                                if(isLoadMore){
+                                if (isLoadMore)
+                                {
                                     currentPages++;
-                                }else{
-                                    currentPages=2;
+                                }
+                                else
+                                {
+                                    currentPages = 2;
                                 }
                             }
                             return;
                         }
                     }
                 }
-                if (!isLoadMore) {
+                if (!isLoadMore)
+                {
                     recyclerView.setLoadMoreDataComplete();
                     showEmptyInfo();
-                } else {
+                }
+                else
+                {
                     recyclerView.setLoadMoreDataComplete("没有更多数据了...");
                 }
             }
 
             @Override
-            public void onFinish(Call call) {
-                if (!isLoadMore) {
+            public void onFinish(Call call)
+            {
+                if (!isLoadMore)
+                {
                     onRefreshCompelete();
                 }
             }
         });
     }
 
-    public void setEtype(int etype) {
+    public void setEtype(int etype)
+    {
         this.etype = etype;
     }
 
-    public void setUid(String uid) {
+    public void setUid(String uid)
+    {
         this.uid = uid;
     }
 
-    private void publishLoadDataEvent(int count){
-        EventObject eventObject=new EventObject();
+    private void publishLoadDataEvent(int count)
+    {
+        EventObject eventObject = new EventObject();
         eventObject.addReceiver(UserAttentionActivity.class);
         eventObject.getData().putInt("etype", etype);
-        eventObject.getData().putInt("count",count);
-        EventObject.postEventObject(eventObject,"user_attention");
+        eventObject.getData().putInt("count", count);
+        EventObject.postEventObject(eventObject, "user_attention");
     }
 
     @Override
-    protected boolean isCancledEventBus() {
+    protected boolean isCancledEventBus()
+    {
         return false;
     }
 
     @Override
-    protected void notifyEvent(String action) {
+    protected void notifyEvent(String action)
+    {
 
     }
 
     @Override
-    protected void notifyEvent(String action, Bundle data) {
+    protected void notifyEvent(String action, Bundle data)
+    {
 
     }
 
     @Override
-    public void onLoadMore() {
-        if(recyclerView.isRefreshing()){
+    public void onLoadMore()
+    {
+        if (recyclerView.isRefreshing())
+        {
             recyclerView.setLoadMoreDataComplete("刷新数据中...");
-        }else{
-            recyclerView.postDelayed(new Runnable() {
+        }
+        else
+        {
+            recyclerView.postDelayed(new Runnable()
+            {
                 @Override
-                public void run() {
-                    requestDatas(currentPages,true);
+                public void run()
+                {
+                    requestDatas(currentPages, true);
                 }
-            },300);
+            }, 300);
         }
     }
 
     @Override
-    public void onRefresh() {
-        if(recyclerView.isLoadMoreing()){
+    public void onRefresh()
+    {
+        if (recyclerView.isLoadMoreing())
+        {
             recyclerView.setRefreshing();
             onRefreshCompelete();
-        }else{
-            requestDatas(1,false);
+        }
+        else
+        {
+            requestDatas(1, false);
         }
     }
 }

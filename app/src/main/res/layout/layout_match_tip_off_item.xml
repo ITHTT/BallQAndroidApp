@@ -74,13 +74,15 @@
             android:layout_width="match_parent"
             android:layout_height="50dp">
 
-            <ImageView
+            <com.tysci.ballq.views.widgets.CircleImageView
                 android:id="@+id/ivUserIcon"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:contentDescription="@string/app_name"
                 android:scaleType="centerCrop"
-                android:src="@mipmap/icon_user_default"/>
+                android:src="@mipmap/icon_user_default"
+                app:border_color="@color/gray"
+                app:border_width="@dimen/dimen1dp"/>
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -93,11 +95,13 @@
                     android:paddingLeft="10dp"
                     android:paddingRight="15dp">
 
-                    <TextView
+                    <com.tysci.ballq.views.MarqueeTextView
+                        style="@style/MarqueeTextView"
                         android:id="@+id/tvUserNickName"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
+                        android:maxWidth="110dp"
                         android:text="@string/app_name"
                         android:textColor="#3a3a3a"
                         android:typeface="monospace"/>
@@ -122,6 +126,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true"
+                    android:layout_marginBottom="@dimen/dimen10dp"
                     android:layout_marginLeft="10dp"
                     android:gravity="center_vertical">
 
@@ -136,10 +141,10 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:visibility="gone"
                         android:text="爆料:"
                         android:textColor="@color/gold"
-                        android:textSize="12.5sp"/>
+                        android:textSize="12.5sp"
+                        android:visibility="gone"/>
 
                     <TextView
                         android:id="@+id/tvTipCount"
@@ -171,10 +176,10 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="8dp"
-                        android:visibility="gone"
                         android:text="胜率:"
                         android:textColor="@color/gold"
-                        android:textSize="12.5sp"/>
+                        android:textSize="12.5sp"
+                        android:visibility="gone"/>
 
                     <TextView
                         android:id="@+id/tvWinPercent"
@@ -207,9 +212,9 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="8dp"
                         android:text="盈利率:"
-                        android:visibility="gone"
                         android:textColor="@color/gold"
-                        android:textSize="12.5sp"/>
+                        android:textSize="12.5sp"
+                        android:visibility="gone"/>
 
                     <TextView
                         android:id="@+id/tvRor"
@@ -230,12 +235,12 @@
                         android:layout_width="15dp"
                         android:layout_height="15dp"
                         android:layout_marginLeft="10dp"
-                        android:visibility="gone"
                         android:layout_marginStart="10dp"
                         android:layout_toEndOf="@id/tvRor"
                         android:layout_toRightOf="@id/tvRor"
                         android:contentDescription="@string/app_name"
-                        android:src="@mipmap/icon_reward_count"/>
+                        android:src="@mipmap/icon_reward_count"
+                        android:visibility="gone"/>
 
                     <TextView
                         android:id="@+id/tvBonCount"
@@ -262,10 +267,12 @@
             android:layout_marginTop="10dp"
             android:gravity="center_vertical">
 
-            <TextView
+            <com.tysci.ballq.views.MarqueeTextView
                 android:id="@+id/tvChoice"
+                style="@style/MarqueeTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:maxWidth="140dp"
                 android:text="@string/app_name"
                 android:textColor="#3a3a3a"
                 android:textSize="14sp"
@@ -312,10 +319,10 @@
                 android:layout_gravity="center_vertical"
                 android:layout_marginLeft="5dp"
                 android:gravity="center_vertical"
-                app:rattingBar_height="20dp"
+                app:rattingBar_height="15dp"
                 app:rattingBar_num="5"
                 app:rattingBar_padding="5dp"
-                app:rattingBar_width="20dp"/>
+                app:rattingBar_width="15dp"/>
         </LinearLayout>
 
         <TextView
@@ -329,7 +336,7 @@
             android:lines="3"
             android:text="@string/app_name"
             android:textColor="#3a3a3a"
-            android:textSize="15sp"
+            android:textSize="12sp"
             android:typeface="monospace"/>
     </LinearLayout>
 </LinearLayout>

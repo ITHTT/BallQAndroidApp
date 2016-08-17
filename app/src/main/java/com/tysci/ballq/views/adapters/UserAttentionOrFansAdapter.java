@@ -21,6 +21,7 @@ import com.tysci.ballq.networks.HttpUrls;
 import com.tysci.ballq.utils.KLog;
 import com.tysci.ballq.utils.ToastUtil;
 import com.tysci.ballq.utils.UserInfoUtil;
+import com.tysci.ballq.views.dialogs.LoadingProgressDialog;
 import com.tysci.ballq.views.widgets.CircleImageView;
 
 import java.util.HashMap;
@@ -72,8 +73,10 @@ public class UserAttentionOrFansAdapter extends RecyclerView.Adapter<UserAttenti
         GlideImageLoader.loadImage(holder.itemView.getContext(), info.getPt(), R.mipmap.icon_user_default, holder.ivUserIcon);
         holder.tvTipCount.setText(String.valueOf(info.getTipcount()));
         holder.tvUserNickName.setText(info.getFname());
-        holder.tvRor.setText(String.format(Locale.getDefault(), "%.2f", info.getRor()) + "%");
-        holder.tvWins.setText(String.format(Locale.getDefault(), "%.2f", info.getWins()) + "%");
+        holder.tvRor.setText(String.format(Locale.getDefault(), "%.2f", info.getRor()));
+        holder.tvRor.append("%");
+        holder.tvWins.setText(String.format(Locale.getDefault(), "%.2f", info.getWins() * 100F));
+        holder.tvWins.append("%");
         holder.ivPush.setSelected(info.getIsa() == 1);
         holder.ivAttention.setSelected(true);
         if (isSelf)
@@ -187,11 +190,15 @@ public class UserAttentionOrFansAdapter extends RecyclerView.Adapter<UserAttenti
         params.put("token", UserInfoUtil.getUserToken(context));
         params.put("fid", String.valueOf(info.getUid()));
         params.put("change", "0");
+
+        final LoadingProgressDialog dialog = new LoadingProgressDialog(context);
+        dialog.setMessage("正在取消关注...");
         HttpClientUtil.getHttpClientUtil().sendPostRequest(tag, url, params, new HttpClientUtil.StringResponseCallBack()
         {
             @Override
             public void onBefore(Request request)
             {
+                dialog.show();
                 holder.ivAttention.setEnabled(false);
             }
 
@@ -225,13 +232,13 @@ public class UserAttentionOrFansAdapter extends RecyclerView.Adapter<UserAttenti
                         }
                     }
                 }
-                return;
             }
 
             @Override
             public void onFinish(Call call)
             {
                 holder.ivAttention.setEnabled(true);
+                dialog.dismiss();
             }
         });
     }

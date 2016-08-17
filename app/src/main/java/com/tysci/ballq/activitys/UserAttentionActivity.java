@@ -1,6 +1,7 @@
 package com.tysci.ballq.activitys;
 
 import android.annotation.SuppressLint;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
@@ -14,8 +15,10 @@ import com.tysci.ballq.base.BaseActivity;
 import com.tysci.ballq.base.BaseFragment;
 import com.tysci.ballq.fragments.UserAttentionFragment;
 import com.tysci.ballq.modles.UserInfoEntity;
+import com.tysci.ballq.utils.HandlerUtil;
 import com.tysci.ballq.utils.UserInfoUtil;
 import com.tysci.ballq.views.adapters.BallQFragmentPagerAdapter;
+import com.tysci.ballq.views.dialogs.LoadingProgressDialog;
 import com.tysci.ballq.views.widgets.PagerSlidingTabStrip;
 
 import java.util.ArrayList;
@@ -87,6 +90,42 @@ public class UserAttentionActivity extends BaseActivity
             followerCount = intent.getIntExtra("frc", 0);
         }
         addFragments();
+    }
+
+    @Override
+    protected void onResume()
+    {
+        super.onResume();
+        LoadingProgressDialog dialog = new LoadingProgressDialog(this);
+        dialog.setOnDismissListener(new DialogInterface.OnDismissListener()
+        {
+            @Override
+            public void onDismiss(DialogInterface dialog)
+            {
+                new HandlerUtil().post(new Runnable()
+                {
+                    @Override
+                    public void run()
+                    {
+                        if (uid.equals(UserInfoUtil.getUserId(UserAttentionActivity.this)))
+                        {
+                            UserInfoEntity info = UserInfoUtil.getUserInfo(UserAttentionActivity.this);
+                            if (info != null)
+                            {
+                                followingCount = info.getFlc();
+                                followerCount = info.getFrc();
+                            }
+                            else
+                            {
+                                followingCount = 0;
+                                followerCount = 0;
+                            }
+                        }
+                    }
+                });
+            }
+        });
+        UserInfoUtil.getUserInfo(this, "", UserInfoUtil.getUserId(this), false, dialog);
     }
 
     private void addFragments()

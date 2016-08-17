@@ -132,6 +132,11 @@ public class UserAttentionAllFragment extends AppSwipeRefreshLoadMoreRecyclerVie
             {
                 KLog.json(response);
                 hideLoad();
+                if (adapter == null)
+                {
+                    adapter = new UserAttentionListAdapter();
+                    recyclerView.setAdapter(adapter);
+                }
 //                mtype 1 比赛 2爆料 3球茎
                 JSONObject object = JSON.parseObject(response);
                 if (!JsonParams.isJsonRight(object))
@@ -141,12 +146,6 @@ public class UserAttentionAllFragment extends AppSwipeRefreshLoadMoreRecyclerVie
                         showEmptyInfo();
                     }
                     return;
-                }
-
-                if (adapter == null)
-                {
-                    adapter = new UserAttentionListAdapter();
-                    recyclerView.setAdapter(adapter);
                 }
 
                 JSONArray data = object.getJSONArray("data");

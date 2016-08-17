@@ -25,15 +25,15 @@
             android:layout_weight="1"
             android:gravity="center"
             android:textSize="13sp"
-            android:text="爆料次数"/>
-        <TextView
-            android:id="@+id/tv_user_recommend_count"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:textSize="13sp"
             android:text="推荐场次"/>
+        <!--<TextView-->
+            <!--android:id="@+id/tv_user_recommend_count"-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_weight="1"-->
+            <!--android:gravity="center"-->
+            <!--android:textSize="13sp"-->
+            <!--android:text="推荐场次"/>-->
         <TextView
             android:id="@+id/tv_user_all_profit"
             android:layout_width="0dp"

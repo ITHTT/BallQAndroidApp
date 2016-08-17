@@ -24,85 +24,126 @@ import okhttp3.Request;
 /**
  * Created by Administrator on 2016/5/31.
  */
-public class BallQFindCircleNoteListFragment extends AppSwipeRefreshLoadMoreRecyclerViewFragment{
+public class BallQFindCircleNoteListFragment extends AppSwipeRefreshLoadMoreRecyclerViewFragment
+{
     private List<BallQCircleNoteEntity> ballQCircleNoteEntityList;
-    private BallQFindCircleNoteAdapter adapter=null;
+    private BallQFindCircleNoteAdapter adapter = null;
     private int sectionId;
 
     @Override
-    protected void initViews(View view, Bundle savedInstanceState) {
+    protected void initViews(View view, Bundle savedInstanceState)
+    {
         showLoading();
-        requestDatas(1,false);
+        requestDatas(1, false);
     }
 
     @Override
-    protected View getLoadingTargetView() {
+    protected View getLoadingTargetView()
+    {
         return swipeRefresh;
     }
 
-    private void requestDatas(final int pages, final boolean isLoadMore){
-        String url= HttpUrls.CIRCLE_HOST_URL_V1 +"bbs/topic/list?sortType=0&pageNo="+pages+"&sectionId="+sectionId+"&pageSize=10";
-        HttpClientUtil.getHttpClientUtil().sendGetRequest(Tag, url, 30, new HttpClientUtil.StringResponseCallBack() {
+    @Override
+    public void onResume()
+    {
+        super.onResume();
+        recyclerView.smoothScrollToPosition(0);
+        showLoading();
+        requestDatas(1, false);
+    }
+
+    private void requestDatas(final int pages, final boolean isLoadMore)
+    {
+        String url = HttpUrls.CIRCLE_HOST_URL_V1 + "bbs/topic/list?sortType=0&pageNo=" + pages + "&sectionId=" + sectionId + "&pageSize=10";
+        HttpClientUtil.getHttpClientUtil().sendGetRequest(Tag, url, 30, new HttpClientUtil.StringResponseCallBack()
+        {
             @Override
-            public void onBefore(Request request) {
+            public void onBefore(Request request)
+            {
 
             }
 
             @Override
-            public void onError(Call call, Exception error) {
-                if (!isLoadMore) {
+            public void onError(Call call, Exception error)
+            {
+                if (!isLoadMore)
+                {
                     recyclerView.setRefreshComplete();
-                    if (adapter != null) {
-                        ToastUtil.show(baseActivity,"请求失败");
+                    if (adapter != null)
+                    {
+                        ToastUtil.show(baseActivity, "请求失败");
                         recyclerView.setStartLoadMore();
-                    } else {
-                        showErrorInfo(new View.OnClickListener() {
+                    }
+                    else
+                    {
+                        showErrorInfo(new View.OnClickListener()
+                        {
                             @Override
-                            public void onClick(View v) {
+                            public void onClick(View v)
+                            {
                                 showLoading();
-                                requestDatas(pages, isLoadMore);
+                                requestDatas(pages, false);
                             }
                         });
                     }
-                } else {
+                }
+                else
+                {
                     recyclerView.setLoadMoreDataFailed();
                 }
             }
 
             @Override
-            public void onSuccess(Call call, String response) {
-                if(!isLoadMore){
+            public void onSuccess(Call call, String response)
+            {
+                if (!isLoadMore)
+                {
                     recyclerView.setRefreshComplete();
                 }
                 KLog.json(response);
-                if (!TextUtils.isEmpty(response)) {
+                if (!TextUtils.isEmpty(response))
+                {
                     JSONObject obj = JSONObject.parseObject(response);
-                    if (obj != null && !obj.isEmpty()) {
+                    if (obj != null && !obj.isEmpty())
+                    {
                         JSONObject dataObj = obj.getJSONObject("dataMap");
-                        if (dataObj != null && !dataObj.isEmpty()) {
+                        if (dataObj != null && !dataObj.isEmpty())
+                        {
                             JSONArray jsonArray = dataObj.getJSONArray("topics");
-                            if (jsonArray != null && !jsonArray.isEmpty()) {
+                            if (jsonArray != null && !jsonArray.isEmpty())
+                            {
                                 hideLoad();
-                                if (ballQCircleNoteEntityList == null) {
+                                if (ballQCircleNoteEntityList == null)
+                                {
                                     ballQCircleNoteEntityList = new ArrayList<BallQCircleNoteEntity>(10);
                                 }
-                                if (!isLoadMore && !ballQCircleNoteEntityList.isEmpty()) {
+                                if (!isLoadMore && !ballQCircleNoteEntityList.isEmpty())
+                                {
                                     ballQCircleNoteEntityList.clear();
                                 }
                                 CommonUtils.getJSONListObject(jsonArray, ballQCircleNoteEntityList, BallQCircleNoteEntity.class);
-                                if (adapter == null) {
+                                if (adapter == null)
+                                {
                                     adapter = new BallQFindCircleNoteAdapter(ballQCircleNoteEntityList);
                                     recyclerView.setAdapter(adapter);
-                                } else {
+                                }
+                                else
+                                {
                                     adapter.notifyDataSetChanged();
                                 }
-                                if (jsonArray.size() < 10) {
+                                if (jsonArray.size() < 10)
+                                {
                                     recyclerView.setLoadMoreDataComplete("没有更多数据了");
-                                } else {
+                                }
+                                else
+                                {
                                     recyclerView.setStartLoadMore();
-                                    if (isLoadMore) {
+                                    if (isLoadMore)
+                                    {
                                         currentPages++;
-                                    } else {
+                                    }
+                                    else
+                                    {
                                         currentPages = 2;
                                     }
                                 }
@@ -111,16 +152,21 @@ public class BallQFindCircleNoteListFragment extends AppSwipeRefreshLoadMoreRecy
                         }
                     }
                 }
-                if (isLoadMore) {
+                if (isLoadMore)
+                {
                     recyclerView.setLoadMoreDataComplete("没有更多数据了...");
-                } else {
+                }
+                else
+                {
                     showEmptyInfo();
                 }
             }
 
             @Override
-            public void onFinish(Call call) {
-                if (!isLoadMore) {
+            public void onFinish(Call call)
+            {
+                if (!isLoadMore)
+                {
                     onRefreshCompelete();
                 }
             }
@@ -128,40 +174,49 @@ public class BallQFindCircleNoteListFragment extends AppSwipeRefreshLoadMoreRecy
     }
 
     @Override
-    protected void onLoadMoreData() {
+    protected void onLoadMoreData()
+    {
         requestDatas(currentPages, true);
     }
 
     @Override
-    protected void onRefreshData() {
-        requestDatas(1,false);
+    protected void onRefreshData()
+    {
+        requestDatas(1, false);
     }
 
     @Override
-    protected boolean isCancledEventBus() {
+    protected boolean isCancledEventBus()
+    {
         return false;
     }
 
     @Override
-    protected void notifyEvent(String action) {
+    protected void notifyEvent(String action)
+    {
 
     }
 
     @Override
-    protected void notifyEvent(String action, Bundle data) {
-        if(!TextUtils.isEmpty(action)){
-            if(action.equals("delete_circle_note")){
-                int id=data.getInt("sectionId",-1);
-                if(id==sectionId){
+    protected void notifyEvent(String action, Bundle data)
+    {
+        if (!TextUtils.isEmpty(action))
+        {
+            if (action.equals("delete_circle_note"))
+            {
+                int id = data.getInt("sectionId", -1);
+                if (id == sectionId)
+                {
                     setRefreshing();
-                    requestDatas(1,false);
+                    requestDatas(1, false);
                 }
             }
         }
 
     }
 
-    public void setCircleSectionId(int type){
-        this.sectionId=type;
+    public void setCircleSectionId(int type)
+    {
+        this.sectionId = type;
     }
 }

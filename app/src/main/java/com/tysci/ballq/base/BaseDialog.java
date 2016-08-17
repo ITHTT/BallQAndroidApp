@@ -2,6 +2,7 @@ package com.tysci.ballq.base;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.LayoutRes;
 
@@ -14,15 +15,31 @@ import butterknife.ButterKnife;
  *
  * @author LinDe
  */
-public abstract class BaseDialog extends Dialog {
-    protected final String TAG=getClass().getSimpleName();
-    public BaseDialog(Activity context) {
+public abstract class BaseDialog extends Dialog
+{
+    protected final String TAG = getClass().getSimpleName();
+
+    public BaseDialog(Context context)
+    {
+        super(context, R.style.CustomDialogStyle);
+        try
+        {
+            setOwnerActivity((Activity) context);
+        }
+        catch (Exception ignored)
+        {
+        }
+    }
+
+    public BaseDialog(Activity context)
+    {
         super(context, R.style.CustomDialogStyle);
         setOwnerActivity(context);
     }
 
     @Override
-    protected final void onCreate(Bundle savedInstanceState) {
+    protected final void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(getContentView());
         ButterKnife.bind(this);
@@ -36,7 +53,8 @@ public abstract class BaseDialog extends Dialog {
     protected abstract void initializing(Bundle savedInstanceState);
 
     @Override
-    public void dismiss() {
+    public void dismiss()
+    {
         ButterKnife.unbind(this);
         super.dismiss();
     }

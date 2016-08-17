@@ -301,7 +301,8 @@ public class UserInfoUtil
                     @Override
                     public void onBefore(Request request)
                     {
-
+                        if (loadingProgressDialog != null)
+                            loadingProgressDialog.show();
                     }
 
                     @Override

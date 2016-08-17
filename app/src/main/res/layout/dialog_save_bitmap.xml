@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:id="@+id/layout_content"
+              android:layout_height="match_parent"
+              android:orientation="vertical">
+
+    <!--<TextView-->
+    <!--android:id="@+id/tv_from_photo_album"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_marginLeft="@dimen/dimen30dp"-->
+    <!--android:layout_marginRight="@dimen/dimen30dp"-->
+    <!--android:layout_marginTop="@dimen/dimen20dp"-->
+    <!--android:background="@drawable/button_gold"-->
+    <!--android:gravity="center"-->
+    <!--android:paddingBottom="7dp"-->
+    <!--android:paddingTop="@dimen/dimen7dp"-->
+    <!--android:text="从相册获取"-->
+    <!--android:textColor="#3a3a3a"-->
+    <!--android:textSize="@dimen/dimen13sp"/>-->
+
+    <TextView
+        android:id="@+id/tv_save_bitmap_to_sd"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/dimen30dp"
+        android:layout_marginRight="@dimen/dimen30dp"
+        android:layout_marginTop="@dimen/dimen20dp"
+        android:background="@drawable/button_gold"
+        android:gravity="center"
+        android:paddingBottom="7dp"
+        android:paddingTop="@dimen/dimen7dp"
+        android:text="保存到SD卡"
+        android:textColor="#3a3a3a"
+        android:textSize="@dimen/dimen13sp"/>
+
+    <TextView
+        android:id="@+id/tv_cancel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/dimen20dp"
+        android:layout_marginLeft="@dimen/dimen30dp"
+        android:layout_marginRight="@dimen/dimen30dp"
+        android:layout_marginTop="@dimen/dimen20dp"
+        android:background="@drawable/button_gold"
+        android:gravity="center"
+        android:paddingBottom="7dp"
+        android:paddingTop="@dimen/dimen7dp"
+        android:text="取消"
+        android:textColor="#3a3a3a"
+        android:textSize="@dimen/dimen13sp"/>
+</LinearLayout>

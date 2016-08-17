@@ -18,6 +18,7 @@ import com.tysci.ballq.R;
 import com.tysci.ballq.base.BaseActivity;
 import com.tysci.ballq.dialog.EditUserNicknameDialog;
 import com.tysci.ballq.dialog.EditUserPortraitDialog;
+import com.tysci.ballq.dialog.SpinKitProgressDialog;
 import com.tysci.ballq.modles.UserInfoEntity;
 import com.tysci.ballq.networks.HttpClientUtil;
 import com.tysci.ballq.networks.HttpUrls;
@@ -135,17 +136,21 @@ public class BallQSettingActivity extends BaseActivity implements EditUserNickna
                 finish();
                 break;
             case R.id.setting_check_update:
+                final SpinKitProgressDialog dialog = new SpinKitProgressDialog(this);
+                dialog.show();
                 PgyUpdateManager.register(this, new UpdateManagerListener()
                 {
                     @Override
                     public void onNoUpdateAvailable()
                     {
                         ToastUtil.show(BallQSettingActivity.this, "已经是最新版本");
+                        dialog.dismiss();
                     }
 
                     @Override
                     public void onUpdateAvailable(String s)
                     {
+                        ToastUtil.show(BallQSettingActivity.this,"有新版本可更新");
                         HandlerUtil util = new HandlerUtil();
                         util.post(new Runnable()
                         {
@@ -155,6 +160,7 @@ public class BallQSettingActivity extends BaseActivity implements EditUserNickna
                                 PgyUpdateManager.register(BallQSettingActivity.this);
                             }
                         });
+                        dialog.dismiss();
                     }
                 });
                 break;
