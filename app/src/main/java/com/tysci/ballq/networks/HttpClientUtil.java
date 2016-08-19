@@ -600,14 +600,28 @@ public class HttpClientUtil
                     @Override
                     public void run()
                     {
-                        responseCallBack.onError(call, e);
-                        responseCallBack.onFinish(call);
+                        try
+                        {
+                            responseCallBack.onError(call, e);
+                        }
+                        catch (Exception e1)
+                        {
+                            e1.printStackTrace();
+                        }
+                        try
+                        {
+                            responseCallBack.onFinish(call);
+                        }
+                        catch (Exception e1)
+                        {
+                            e1.printStackTrace();
+                        }
                     }
                 });
             }
 
             @Override
-            public void onResponse(final Call call, Response response) throws IOException
+            public void onResponse(final Call call, final Response response) throws IOException
             {
                 try
                 {
@@ -650,9 +664,25 @@ public class HttpClientUtil
             final long total = response.body().contentLength();
             long sum = 0;
             File file = new File(saveFile);
+            if (file.exists())
+            {
+                //noinspection ResultOfMethodCallIgnored
+                file.delete();
+            }
+
             if (!file.exists())
             {
-                file.createNewFile();
+                //noinspection ResultOfMethodCallIgnored
+                file.getParentFile().mkdirs();
+                try
+                {
+                    //noinspection ResultOfMethodCallIgnored
+                    file.createNewFile();
+                }
+                catch (IOException e)
+                {
+                    e.printStackTrace();
+                }
             }
             fos = new FileOutputStream(file);
             while ((len = is.read(buf)) != -1)

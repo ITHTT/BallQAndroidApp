@@ -23,6 +23,7 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.tysci.ballq.R;
 import com.tysci.ballq.base.BaseActivity;
+import com.tysci.ballq.dialog.SpinKitProgressDialog;
 import com.tysci.ballq.modles.BallQBallWarpInfoEntity;
 import com.tysci.ballq.modles.BallQUserCommentEntity;
 import com.tysci.ballq.modles.BallQUserRewardHeaderEntity;
@@ -39,7 +40,6 @@ import com.tysci.ballq.utils.UserInfoUtil;
 import com.tysci.ballq.utils.WebViewUtil;
 import com.tysci.ballq.views.adapters.BallQUserCommentAdapter;
 import com.tysci.ballq.views.adapters.BallQUserRewardHeaderAdapter;
-import com.tysci.ballq.views.dialogs.LoadingProgressDialog;
 import com.tysci.ballq.views.dialogs.ShareDialog;
 import com.tysci.ballq.views.interfaces.OnLongClickUserHeaderListener;
 import com.tysci.ballq.views.widgets.CircleImageView;
@@ -57,7 +57,8 @@ import okhttp3.Call;
 import okhttp3.Request;
 
 /**
- * Created by Administrator on 2016/6/6.
+ * Created by HTT
+ * on 2016/6/6.
  */
 public class BallQBallWarpDetailActivity extends BaseActivity implements SwipeRefreshLayout.OnRefreshListener, AutoLoadMoreRecyclerView.OnLoadMoreListener
         , OnLongClickUserHeaderListener
@@ -92,7 +93,6 @@ public class BallQBallWarpDetailActivity extends BaseActivity implements SwipeRe
     private String replyerId;
     private String cacheCommentInfo = "";
 
-    private LoadingProgressDialog loadingProgressDialog = null;
     private ShareDialog shareDialog = null;
 
 
@@ -218,25 +218,6 @@ public class BallQBallWarpDetailActivity extends BaseActivity implements SwipeRe
                     }
                 }
             }, 1000);
-        }
-    }
-
-    private void showProgressDialog(String msg)
-    {
-        if (loadingProgressDialog == null)
-        {
-            loadingProgressDialog = new LoadingProgressDialog(this);
-            loadingProgressDialog.setCanceledOnTouchOutside(false);
-        }
-        loadingProgressDialog.setMessage(msg);
-        loadingProgressDialog.show();
-    }
-
-    private void dimssProgressDialog()
-    {
-        if (loadingProgressDialog != null && loadingProgressDialog.isShowing())
-        {
-            loadingProgressDialog.dismiss();
         }
     }
 
@@ -368,7 +349,6 @@ public class BallQBallWarpDetailActivity extends BaseActivity implements SwipeRe
         }
         tvTitle.setText(data.getTitle());
         WebView webView = WebViewUtil.getHtmlWebView(this, data.getCont());
-        KLog.e(data.getCont());
         if (webView != null)
         {
             if (webLayout.getChildCount() == 0)
@@ -658,19 +638,21 @@ public class BallQBallWarpDetailActivity extends BaseActivity implements SwipeRe
             {
                 url = delUrl;
             }
+            final SpinKitProgressDialog dialog = new SpinKitProgressDialog(this);
             final ImageView ivUserCollect = (ImageView) headerView.findViewById(R.id.iv_user_collection);
             HttpClientUtil.getHttpClientUtil().sendPostRequest(Tag, url, params, new HttpClientUtil.StringResponseCallBack()
             {
                 @Override
                 public void onBefore(Request request)
                 {
+                    dialog.show();
                     ivUserCollect.setEnabled(false);
                 }
 
                 @Override
                 public void onError(Call call, Exception error)
                 {
-
+                    ToastUtil.show(BallQBallWarpDetailActivity.this, R.string.request_error);
                 }
 
                 @Override
@@ -707,7 +689,9 @@ public class BallQBallWarpDetailActivity extends BaseActivity implements SwipeRe
                 public void onFinish(Call call)
                 {
                     ivUserCollect.setEnabled(true);
-
+                    //noinspection ConstantConditions
+                    if (dialog != null)
+                        dialog.dismiss();
                 }
             });
         }
@@ -951,12 +935,13 @@ public class BallQBallWarpDetailActivity extends BaseActivity implements SwipeRe
             params.put("reply_id", replyerId);
         }
         params.put("cont", commentInfo);
+        final SpinKitProgressDialog dialog = new SpinKitProgressDialog(this);
         HttpClientUtil.getHttpClientUtil().sendPostRequest(Tag, url, params, new HttpClientUtil.StringResponseCallBack()
         {
             @Override
             public void onBefore(Request request)
             {
-                showProgressDialog("提交中...");
+                dialog.show();
             }
 
             @Override
@@ -993,7 +978,9 @@ public class BallQBallWarpDetailActivity extends BaseActivity implements SwipeRe
             @Override
             public void onFinish(Call call)
             {
-                dimssProgressDialog();
+                //noinspection ConstantConditions
+                if (dialog != null)
+                    dialog.dismiss();
             }
         });
     }

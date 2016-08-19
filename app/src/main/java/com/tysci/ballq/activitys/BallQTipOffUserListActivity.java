@@ -19,7 +19,6 @@ import com.tysci.ballq.utils.KLog;
 import com.tysci.ballq.utils.ToastUtil;
 import com.tysci.ballq.utils.UserInfoUtil;
 import com.tysci.ballq.views.adapters.BallQTipOffUserInfoAdapter;
-import com.tysci.ballq.views.widgets.DividerDecoration;
 import com.tysci.ballq.views.widgets.loadmorerecyclerview.AutoLoadMoreRecyclerView;
 
 import java.util.ArrayList;
@@ -32,7 +31,8 @@ import okhttp3.Call;
 import okhttp3.Request;
 
 /**
- * Created by Administrator on 2016/7/15.
+ * Created by HTT
+ * on 2016/7/15.
  */
 public class BallQTipOffUserListActivity extends BaseActivity implements SwipeRefreshLayout.OnRefreshListener,AutoLoadMoreRecyclerView.OnLoadMoreListener{
     @Bind(R.id.swipe_refresh)

@@ -1,5 +1,6 @@
 package com.tysci.ballq.views.adapters;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
@@ -13,6 +14,7 @@ import com.tysci.ballq.R;
 import com.tysci.ballq.activitys.BallQTipOffDetailActivity;
 import com.tysci.ballq.base.ButterKnifeRecyclerViewHolder;
 import com.tysci.ballq.base.WrapRecyclerAdapter;
+import com.tysci.ballq.dialog.SpinKitProgressDialog;
 import com.tysci.ballq.modles.BallQTipOffEntity;
 import com.tysci.ballq.modles.JsonParams;
 import com.tysci.ballq.networks.HttpClientUtil;
@@ -24,7 +26,6 @@ import com.tysci.ballq.utils.KLog;
 import com.tysci.ballq.utils.MatchBettingInfoUtil;
 import com.tysci.ballq.utils.ToastUtil;
 import com.tysci.ballq.utils.UserInfoUtil;
-import com.tysci.ballq.views.dialogs.LoadingProgressDialog;
 import com.tysci.ballq.views.widgets.CircleImageView;
 import com.tysci.ballq.views.widgets.TextWithLeftImageView;
 
@@ -202,7 +203,7 @@ public class BqTipOffAdapter extends WrapRecyclerAdapter<BallQTipOffEntity, BqTi
             url = HttpUrls.HOST_URL_V5 + "user/favorites/add/";
             map.put("etype", String.valueOf(0));
             map.put("eid", String.valueOf(tipInfo.getId()));
-            final LoadingProgressDialog dialog = new LoadingProgressDialog(context);
+            final SpinKitProgressDialog dialog = new SpinKitProgressDialog((Activity) context);
             HttpClientUtil.getHttpClientUtil().sendPostRequest(TAG, url, map, new HttpClientUtil.StringResponseCallBack()
             {
                 @Override
@@ -246,7 +247,7 @@ public class BqTipOffAdapter extends WrapRecyclerAdapter<BallQTipOffEntity, BqTi
         {
             url = HttpUrls.HOST_URL_V5 + "user/favorites/del/";
             map.put("fid", String.valueOf(tipInfo.getFid()));
-            final LoadingProgressDialog dialog = new LoadingProgressDialog(context);
+            final SpinKitProgressDialog dialog = new SpinKitProgressDialog((Activity) context);
             HttpClientUtil.getHttpClientUtil().sendPostRequest(TAG, url, map, new HttpClientUtil.StringResponseCallBack()
             {
                 @Override

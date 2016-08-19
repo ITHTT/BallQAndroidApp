@@ -1,7 +1,9 @@
 package com.tysci.ballq.dialog;
 
 import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
+import android.view.KeyEvent;
 
 import com.tysci.ballq.R;
 import com.tysci.ballq.base.BaseDialog;
@@ -12,6 +14,12 @@ import com.tysci.ballq.base.BaseDialog;
  */
 public class SpinKitProgressDialog extends BaseDialog
 {
+
+    public SpinKitProgressDialog(Context context)
+    {
+        super(context);
+        setCancelable(false);
+    }
 
     public SpinKitProgressDialog(Activity context)
     {
@@ -28,5 +36,16 @@ public class SpinKitProgressDialog extends BaseDialog
     @Override
     protected void initializing(Bundle savedInstanceState)
     {
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event)
+    {
+        if (keyCode == KeyEvent.KEYCODE_BACK)
+        {
+            dismiss();
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
     }
 }

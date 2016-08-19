@@ -14,6 +14,7 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.tysci.ballq.R;
 import com.tysci.ballq.base.BaseFragment;
+import com.tysci.ballq.dialog.SpinKitProgressDialog;
 import com.tysci.ballq.modles.BallQGoMatchEntity;
 import com.tysci.ballq.modles.event.EventObject;
 import com.tysci.ballq.networks.HttpClientUtil;
@@ -24,7 +25,6 @@ import com.tysci.ballq.utils.ToastUtil;
 import com.tysci.ballq.utils.UserInfoUtil;
 import com.tysci.ballq.views.adapters.BallQPKGreatWarGoAdapter;
 import com.tysci.ballq.views.dialogs.BallQGoBettingRulesTipDialog;
-import com.tysci.ballq.views.dialogs.LoadingProgressDialog;
 import com.tysci.ballq.views.widgets.loadmorerecyclerview.AutoLoadMoreRecyclerView;
 
 import org.json.JSONException;
@@ -42,7 +42,8 @@ import okhttp3.Request;
  * Created by Administrator on 2016/7/15.
  * pk大战
  */
-public class BallQGoPKGreatWarFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener{
+public class BallQGoPKGreatWarFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener
+{
     @Bind(R.id.swipe_refresh)
     protected SwipeRefreshLayout swipeRefresh;
     @Bind(R.id.recycler_view)
@@ -52,18 +53,20 @@ public class BallQGoPKGreatWarFragment extends BaseFragment implements SwipeRefr
     @Bind(R.id.bt_betting)
     protected Button btBetting;
 
-    private BallQPKGreatWarGoAdapter adapter=null;
-    private List<BallQGoMatchEntity> goMatchEntityList=null;
-    private BallQGoBettingRulesTipDialog rulesTipDialog=null;
-    private LoadingProgressDialog loadingProgressDialog;
+    private BallQPKGreatWarGoAdapter adapter = null;
+    private List<BallQGoMatchEntity> goMatchEntityList = null;
+    private BallQGoBettingRulesTipDialog rulesTipDialog = null;
+//    private LoadingProgressDialog loadingProgressDialog;
 
     @Override
-    protected int getViewLayoutId() {
+    protected int getViewLayoutId()
+    {
         return R.layout.fragment_ballq_pk_great_war_go;
     }
 
     @Override
-    protected void initViews(View view, Bundle savedInstanceState) {
+    protected void initViews(View view, Bundle savedInstanceState)
+    {
         btBetting.setEnabled(false);
         recyclerView.setLayoutManager(new LinearLayoutManager(this.getActivity()));
         swipeRefresh.setOnRefreshListener(this);
@@ -73,8 +76,9 @@ public class BallQGoPKGreatWarFragment extends BaseFragment implements SwipeRefr
         requestDatas();
     }
 
-    private void addHeaderView(){
-        ImageView imageView=new ImageView(this.getActivity());
+    private void addHeaderView()
+    {
+        ImageView imageView = new ImageView(this.getActivity());
         imageView.setImageResource(R.mipmap.icon_ballq_go_pk_header);
         imageView.setScaleType(ImageView.ScaleType.FIT_XY);
         imageView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
@@ -82,31 +86,37 @@ public class BallQGoPKGreatWarFragment extends BaseFragment implements SwipeRefr
     }
 
     @Override
-    protected View getLoadingTargetView() {
+    protected View getLoadingTargetView()
+    {
         return swipeRefresh;
     }
 
-    private void showProgressDialog(String msg){
-        if(loadingProgressDialog==null){
-            loadingProgressDialog=new LoadingProgressDialog(baseActivity);
-            loadingProgressDialog.setCanceledOnTouchOutside(false);
-        }
-        loadingProgressDialog.setMessage(msg);
-        loadingProgressDialog.show();
-    }
+//    private void showProgressDialog(String msg){
+//        if(loadingProgressDialog==null){
+//            loadingProgressDialog=new LoadingProgressDialog(baseActivity);
+//            loadingProgressDialog.setCanceledOnTouchOutside(false);
+//        }
+//        loadingProgressDialog.setMessage(msg);
+//        loadingProgressDialog.show();
+//    }
+//
+//    private void dimssProgressDialog(){
+//        if(loadingProgressDialog!=null&&loadingProgressDialog.isShowing()){
+//            loadingProgressDialog.dismiss();
+//        }
+//    }
 
-    private void dimssProgressDialog(){
-        if(loadingProgressDialog!=null&&loadingProgressDialog.isShowing()){
-            loadingProgressDialog.dismiss();
-        }
-    }
-
-    private void onRefreshCompelete(){
-        if(swipeRefresh!=null) {
-            swipeRefresh.postDelayed(new Runnable() {
+    private void onRefreshCompelete()
+    {
+        if (swipeRefresh != null)
+        {
+            swipeRefresh.postDelayed(new Runnable()
+            {
                 @Override
-                public void run() {
-                    if (swipeRefresh != null) {
+                public void run()
+                {
+                    if (swipeRefresh != null)
+                    {
                         swipeRefresh.setRefreshing(false);
                     }
                 }
@@ -114,56 +124,76 @@ public class BallQGoPKGreatWarFragment extends BaseFragment implements SwipeRefr
         }
     }
 
-    private void requestDatas(){
-        String url= HttpUrls.HOST_URL_V5+"go/matches/";
-        HttpClientUtil.getHttpClientUtil().sendGetRequest(Tag, url, 60, new HttpClientUtil.StringResponseCallBack() {
+    private void requestDatas()
+    {
+        String url = HttpUrls.HOST_URL_V5 + "go/matches/";
+        HttpClientUtil.getHttpClientUtil().sendGetRequest(Tag, url, 60, new HttpClientUtil.StringResponseCallBack()
+        {
             @Override
-            public void onBefore(Request request) {
+            public void onBefore(Request request)
+            {
 
             }
 
             @Override
-            public void onError(Call call, Exception error) {
-                if (adapter == null) {
-                    showErrorInfo(new View.OnClickListener() {
+            public void onError(Call call, Exception error)
+            {
+                if (adapter == null)
+                {
+                    showErrorInfo(new View.OnClickListener()
+                    {
                         @Override
-                        public void onClick(View v) {
+                        public void onClick(View v)
+                        {
                             showLoading();
                             requestDatas();
                         }
                     });
-                } else {
+                }
+                else
+                {
                     ToastUtil.show(baseActivity, "请求失败");
                 }
 
             }
 
             @Override
-            public void onSuccess(Call call, String response) {
+            public void onSuccess(Call call, String response)
+            {
                 KLog.json(response);
-                if (!TextUtils.isEmpty(response)) {
+                if (!TextUtils.isEmpty(response))
+                {
                     JSONObject obj = JSONObject.parseObject(response);
-                    if (obj != null && !obj.isEmpty()) {
+                    if (obj != null && !obj.isEmpty())
+                    {
                         int status = obj.getIntValue("status");
-                        if (status == 0) {
+                        if (status == 0)
+                        {
                             JSONObject data = obj.getJSONObject("data");
-                            if (data != null && !data.isEmpty()) {
+                            if (data != null && !data.isEmpty())
+                            {
                                 publishBallQGOTimeRangeInfo(data);
                                 JSONArray array = data.getJSONArray("matches");
-                                if (array != null && !array.isEmpty()) {
+                                if (array != null && !array.isEmpty())
+                                {
                                     btBetting.setEnabled(true);
                                     hideLoad();
-                                    if (goMatchEntityList == null) {
+                                    if (goMatchEntityList == null)
+                                    {
                                         goMatchEntityList = new ArrayList<BallQGoMatchEntity>(10);
                                     }
-                                    if (!goMatchEntityList.isEmpty()) {
+                                    if (!goMatchEntityList.isEmpty())
+                                    {
                                         goMatchEntityList.clear();
                                     }
                                     CommonUtils.getJSONListObject(array, goMatchEntityList, BallQGoMatchEntity.class);
-                                    if (adapter == null) {
+                                    if (adapter == null)
+                                    {
                                         adapter = new BallQPKGreatWarGoAdapter(goMatchEntityList);
                                         recyclerView.setAdapter(adapter);
-                                    } else {
+                                    }
+                                    else
+                                    {
                                         adapter.notifyDataSetChanged();
                                     }
                                     return;
@@ -176,17 +206,19 @@ public class BallQGoPKGreatWarFragment extends BaseFragment implements SwipeRefr
             }
 
             @Override
-            public void onFinish(Call call) {
+            public void onFinish(Call call)
+            {
                 onRefreshCompelete();
             }
         });
     }
 
-    private void publishBallQGOTimeRangeInfo(JSONObject obj){
-        String start=obj.getString("go_start");
-        String end=obj.getString("go_end");
-        int stake=obj.getIntValue("go_stake_amount");
-        EventObject eventObject=new EventObject();
+    private void publishBallQGOTimeRangeInfo(JSONObject obj)
+    {
+        String start = obj.getString("go_start");
+        String end = obj.getString("go_end");
+        int stake = obj.getIntValue("go_stake_amount");
+        EventObject eventObject = new EventObject();
         eventObject.addReceiver(BallQGoGreatWarReViewFragment.class);
         eventObject.getData().putString("go_start", start);
         eventObject.getData().putString("go_end", end);
@@ -195,55 +227,74 @@ public class BallQGoPKGreatWarFragment extends BaseFragment implements SwipeRefr
     }
 
     @OnClick(R.id.bt_betting_rule)
-    protected void onClickRules(View view){
-        if(rulesTipDialog==null){
-            rulesTipDialog=new BallQGoBettingRulesTipDialog(this.getActivity());
+    protected void onClickRules(View view)
+    {
+        if (rulesTipDialog == null)
+        {
+            rulesTipDialog = new BallQGoBettingRulesTipDialog(this.getActivity());
         }
         rulesTipDialog.show();
     }
 
     @OnClick(R.id.bt_betting)
-    protected void onUserBetting(View view){
-        if(UserInfoUtil.checkLogin(baseActivity)){
+    protected void onUserBetting(View view)
+    {
+        if (UserInfoUtil.checkLogin(baseActivity))
+        {
             postBettingInfo();
-        }else{
+        }
+        else
+        {
             UserInfoUtil.userLogin(baseActivity);
         }
     }
 
-    private void postBettingInfo(){
-        HashMap<String,String> params=new HashMap<>(3);
+    private void postBettingInfo()
+    {
+        HashMap<String, String> params = new HashMap<>(3);
         params.put("user", UserInfoUtil.getUserId(baseActivity));
         params.put("token", UserInfoUtil.getUserToken(baseActivity));
-        final String bettingInfo=getBettingInfos(goMatchEntityList);
-        if(TextUtils.isEmpty(bettingInfo)){
+        final String bettingInfo = getBettingInfos(goMatchEntityList);
+        if (TextUtils.isEmpty(bettingInfo))
+        {
             ToastUtil.show(getActivity(), "必须投注所有比赛");
             return;
-        }else{
-            KLog.e("投注信息:"+bettingInfo);
+        }
+        else
+        {
+            KLog.e("投注信息:" + bettingInfo);
             params.put("bets", bettingInfo);
         }
-        showProgressDialog("投注请求中...");
-        String url=HttpUrls.HOST_URL_V5+"go/add_bet/";
-        HttpClientUtil.getHttpClientUtil().sendPostRequest(Tag, url, params, new HttpClientUtil.StringResponseCallBack() {
+//        showProgressDialog("投注请求中...");
+        final SpinKitProgressDialog dialog = new SpinKitProgressDialog(baseActivity);
+        String url = HttpUrls.HOST_URL_V5 + "go/add_bet/";
+        HttpClientUtil.getHttpClientUtil().sendPostRequest(Tag, url, params, new HttpClientUtil.StringResponseCallBack()
+        {
             @Override
-            public void onBefore(Request request) {
+            public void onBefore(Request request)
+            {
                 btBetting.setEnabled(false);
+                dialog.show();
             }
 
             @Override
-            public void onError(Call call, Exception error) {
+            public void onError(Call call, Exception error)
+            {
                 ToastUtil.show(baseActivity, "请求失败");
             }
 
             @Override
-            public void onSuccess(Call call, String response) {
-                if (!TextUtils.isEmpty(response)) {
+            public void onSuccess(Call call, String response)
+            {
+                if (!TextUtils.isEmpty(response))
+                {
                     JSONObject obj = JSONObject.parseObject(response);
-                    if (obj != null && !obj.isEmpty()) {
+                    if (obj != null && !obj.isEmpty())
+                    {
                         ToastUtil.show(baseActivity, obj.getString("message"));
                         int status = obj.getIntValue("status");
-                        if (status == 1200) {
+                        if (status == 1200)
+                        {
                             EventObject eventObject = new EventObject();
                             eventObject.addReceiver(BallQGoGreatWarHistoryFragment.class);
                             EventObject.postEventObject(eventObject, "refresh_great_war_history");
@@ -253,37 +304,50 @@ public class BallQGoPKGreatWarFragment extends BaseFragment implements SwipeRefr
             }
 
             @Override
-            public void onFinish(Call call) {
+            public void onFinish(Call call)
+            {
                 btBetting.setEnabled(true);
-                dimssProgressDialog();
+                dialog.dismiss();
             }
         });
     }
 
-    private String getBettingInfos(List<BallQGoMatchEntity> datas){
-        if(datas!=null&&!datas.isEmpty()){
-            int size=datas.size();
-            org.json.JSONArray jsonArray=new org.json.JSONArray();
-            for(int i=0;i<size;i++){
-                BallQGoMatchEntity info=datas.get(i);
-                if(!TextUtils.isEmpty(info.getUser_choice())){
-                    org.json.JSONObject object=new org.json.JSONObject();
-                    try {
-                        object.put("goinfo_id",info.getGoinfo_id());
-                        object.put("eid",info.getEid());
-                        object.put("etype",info.getEtype());
-                        String choice=info.getUser_choice();
-                        object.put("choice",choice);
-                        if(choice.equals("MLH")||choice.equals("MLA")){
-                            object.put("oid",info.getAhc_odds_id());
-                        }else{
-                            object.put("oid",info.getTo_odds_id());
+    private String getBettingInfos(List<BallQGoMatchEntity> datas)
+    {
+        if (datas != null && !datas.isEmpty())
+        {
+            int size = datas.size();
+            org.json.JSONArray jsonArray = new org.json.JSONArray();
+            for (int i = 0; i < size; i++)
+            {
+                BallQGoMatchEntity info = datas.get(i);
+                if (!TextUtils.isEmpty(info.getUser_choice()))
+                {
+                    org.json.JSONObject object = new org.json.JSONObject();
+                    try
+                    {
+                        object.put("goinfo_id", info.getGoinfo_id());
+                        object.put("eid", info.getEid());
+                        object.put("etype", info.getEtype());
+                        String choice = info.getUser_choice();
+                        object.put("choice", choice);
+                        if (choice.equals("MLH") || choice.equals("MLA"))
+                        {
+                            object.put("oid", info.getAhc_odds_id());
+                        }
+                        else
+                        {
+                            object.put("oid", info.getTo_odds_id());
                         }
                         jsonArray.put(object);
-                    } catch (JSONException e) {
+                    }
+                    catch (JSONException e)
+                    {
                         e.printStackTrace();
                     }
-                }else{
+                }
+                else
+                {
                     return null;
                 }
             }
@@ -294,22 +358,26 @@ public class BallQGoPKGreatWarFragment extends BaseFragment implements SwipeRefr
 
 
     @Override
-    protected boolean isCancledEventBus() {
+    protected boolean isCancledEventBus()
+    {
         return false;
     }
 
     @Override
-    protected void notifyEvent(String action) {
+    protected void notifyEvent(String action)
+    {
 
     }
 
     @Override
-    protected void notifyEvent(String action, Bundle data) {
+    protected void notifyEvent(String action, Bundle data)
+    {
 
     }
 
     @Override
-    public void onRefresh() {
+    public void onRefresh()
+    {
         requestDatas();
 
     }

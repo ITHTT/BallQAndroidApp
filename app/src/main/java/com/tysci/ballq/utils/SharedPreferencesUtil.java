@@ -213,7 +213,7 @@ public class SharedPreferencesUtil
 
     public static String getVersionName(Context context)
     {
-        return getValue(context, KEY_APP_VERSION_NAME, "");
+        return getValue(context, KEY_APP_VERSION_NAME, "1.0.0");
     }
 
     public static void notifySaveVersion(Context context)

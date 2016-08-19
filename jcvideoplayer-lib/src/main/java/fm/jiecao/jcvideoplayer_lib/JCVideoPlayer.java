@@ -728,7 +728,14 @@ public abstract class JCVideoPlayer extends FrameLayout implements View.OnClickL
         } else {
             CLICK_QUIT_FULLSCREEN_TIME = System.currentTimeMillis();
             IF_RELEASE_WHEN_ON_PAUSE = false;
-            quitFullScreenGoToNormal();
+            try
+            {
+                quitFullScreenGoToNormal();
+            }
+            catch (Exception e)
+            {
+                e.printStackTrace();
+            }
         }
     }
 

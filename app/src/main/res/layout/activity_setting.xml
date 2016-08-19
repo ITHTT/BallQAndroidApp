@@ -46,7 +46,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/activity_setting_item_height"
                 app:setting_text_name=""
-                app:setting_text_title="检查更新"/>
+                app:setting_text_title=""/>
 
             <View
                 android:layout_width="match_parent"

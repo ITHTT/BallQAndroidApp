@@ -14,13 +14,13 @@ import com.alibaba.fastjson.JSONObject;
 import com.tysci.ballq.R;
 import com.tysci.ballq.activitys.BallQUserRankingListDetailActivity;
 import com.tysci.ballq.activitys.UserTipOffListRecordActivity;
+import com.tysci.ballq.dialog.SpinKitProgressDialog;
 import com.tysci.ballq.modles.BallQUserRankInfoEntity;
 import com.tysci.ballq.networks.HttpClientUtil;
 import com.tysci.ballq.networks.HttpUrls;
 import com.tysci.ballq.utils.KLog;
 import com.tysci.ballq.utils.ToastUtil;
 import com.tysci.ballq.utils.UserInfoUtil;
-import com.tysci.ballq.views.dialogs.LoadingProgressDialog;
 
 import java.util.HashMap;
 import java.util.List;
@@ -32,7 +32,8 @@ import okhttp3.Call;
 import okhttp3.Request;
 
 /**
- * Created by Administrator on 2016/7/15.
+ * Created by HTT
+ * on 2016/7/15.
  */
 public class BallQTipOffUserInfoAdapter extends RecyclerView.Adapter<BallQTipOffUserInfoAdapter.BallQTipOffUserInfoViewHolder>
 {
@@ -95,7 +96,7 @@ public class BallQTipOffUserInfoAdapter extends RecyclerView.Adapter<BallQTipOff
                     {
                         params.put("change", "1");
                     }
-                    final LoadingProgressDialog dialog = new LoadingProgressDialog(context);
+                    final SpinKitProgressDialog dialog = new SpinKitProgressDialog(context);
                     HttpClientUtil.getHttpClientUtil().sendPostRequest(BallQUserRankingListDetailActivity.class.getSimpleName(), url, params, new HttpClientUtil.StringResponseCallBack()
                     {
                         @Override
@@ -107,7 +108,7 @@ public class BallQTipOffUserInfoAdapter extends RecyclerView.Adapter<BallQTipOff
                         @Override
                         public void onError(Call call, Exception error)
                         {
-                            ToastUtil.show(context, "请求失败");
+                            ToastUtil.show(context, R.string.request_error);
                         }
 
                         @Override
@@ -163,7 +164,7 @@ public class BallQTipOffUserInfoAdapter extends RecyclerView.Adapter<BallQTipOff
         TextView tvUuserName;
         @Bind(R.id.tv_user_tip_count)
         TextView tvUserTipCount;
-//        @Bind(R.id.tv_user_recommend_count)
+        //        @Bind(R.id.tv_user_recommend_count)
 //        TextView tvUserRecommendCount;
         @Bind(R.id.tv_user_all_profit)
         TextView tvUserAllProfit;

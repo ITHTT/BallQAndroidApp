@@ -25,6 +25,7 @@ import com.tysci.ballq.networks.HttpUrls;
 import com.tysci.ballq.utils.FileUtil;
 import com.tysci.ballq.utils.HandlerUtil;
 import com.tysci.ballq.utils.KLog;
+import com.tysci.ballq.utils.SharedPreferencesUtil;
 import com.tysci.ballq.utils.ToastUtil;
 import com.tysci.ballq.utils.UserInfoUtil;
 import com.tysci.ballq.views.SettingItemView;
@@ -47,6 +48,8 @@ public class BallQSettingActivity extends BaseActivity implements EditUserNickna
     SettingItemView userIconItem;
     @Bind(R.id.setting_user_nickname)
     SettingItemView userNicknameItem;
+    @Bind(R.id.setting_check_update)
+    SettingItemView checkUpdateItem;
 
     @Override
     protected int getContentViewId()
@@ -64,6 +67,8 @@ public class BallQSettingActivity extends BaseActivity implements EditUserNickna
             userIconItem.setIcon(userInfo.getPt());
             userNicknameItem.setName(userInfo.getFname());
         }
+        checkUpdateItem.setTitle("当前版本: v" + SharedPreferencesUtil.getVersionName(this));
+        checkUpdateItem.setRightMsg("检查更新");
     }
 
     @Override
@@ -143,16 +148,15 @@ public class BallQSettingActivity extends BaseActivity implements EditUserNickna
                     @Override
                     public void onNoUpdateAvailable()
                     {
-                        ToastUtil.show(BallQSettingActivity.this, "已经是最新版本");
+                        ToastUtil.show(BallQSettingActivity.this, "已经是最新版本了");
                         dialog.dismiss();
                     }
 
                     @Override
                     public void onUpdateAvailable(String s)
                     {
-                        ToastUtil.show(BallQSettingActivity.this,"有新版本可更新");
-                        HandlerUtil util = new HandlerUtil();
-                        util.post(new Runnable()
+                        ToastUtil.show(BallQSettingActivity.this, "有新版本需要更新");
+                        new HandlerUtil().post(new Runnable()
                         {
                             @Override
                             public void run()
@@ -160,7 +164,6 @@ public class BallQSettingActivity extends BaseActivity implements EditUserNickna
                                 PgyUpdateManager.register(BallQSettingActivity.this);
                             }
                         });
-                        dialog.dismiss();
                     }
                 });
                 break;

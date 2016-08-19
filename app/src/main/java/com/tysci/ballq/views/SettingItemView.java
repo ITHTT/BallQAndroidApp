@@ -18,41 +18,49 @@ import com.tysci.ballq.views.widgets.CircleImageView;
 /**
  * Created by Administrator on 2016-07-14 0014.
  */
-public class SettingItemView extends RelativeLayout {
-    private TextView tv_name;
+public class SettingItemView extends RelativeLayout
+{
+    private TextView tv_title, tv_name, tv_right;
 
     private CircleImageView iv_user_icon;
 
-    public SettingItemView(Context context) {
+    public SettingItemView(Context context)
+    {
         this(context, null);
     }
 
-    public SettingItemView(Context context, AttributeSet attrs) {
+    public SettingItemView(Context context, AttributeSet attrs)
+    {
         this(context, attrs, 0);
     }
 
-    public SettingItemView(Context context, AttributeSet attrs, int defStyleAttr) {
+    public SettingItemView(Context context, AttributeSet attrs, int defStyleAttr)
+    {
         super(context, attrs, defStyleAttr);
         initializing(context, attrs);
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    public SettingItemView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+    public SettingItemView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes)
+    {
         super(context, attrs, defStyleAttr, defStyleRes);
         initializing(context, attrs);
     }
 
-    private void initializing(Context context, AttributeSet attrs) {
+    private void initializing(Context context, AttributeSet attrs)
+    {
         LayoutInflater.from(context).inflate(R.layout.layout_setting_item, this, true);
 
-        TextView tv_title = (TextView) findViewById(R.id.tv_title);
+        tv_title = (TextView) findViewById(R.id.tv_title);
         tv_name = (TextView) findViewById(R.id.tv_name);
+        tv_right = (TextView) this.findViewById(R.id.tv_right);
         iv_user_icon = (CircleImageView) findViewById(R.id.iv_user_icon);
 
         String title = "";
         String name = "";
         boolean isShowIcon = false;
-        if (attrs != null) {
+        if (attrs != null)
+        {
             TypedArray ta = context.obtainStyledAttributes(attrs, R.styleable.SettingItemView);
 
             title = ta.getString(R.styleable.SettingItemView_setting_text_title);
@@ -64,37 +72,72 @@ public class SettingItemView extends RelativeLayout {
         tv_title.setText(title);
         setName(name);
 
-        if (isShowIcon) {
+        if (isShowIcon)
+        {
             iv_user_icon.setVisibility(VISIBLE);
             tv_name.setVisibility(GONE);
-        } else {
+        }
+        else
+        {
             iv_user_icon.setVisibility(GONE);
             tv_name.setVisibility(VISIBLE);
         }
     }
 
-    public final <T> void setIcon(T icon) {
-        if (icon instanceof Bitmap) {
+    public final <T> void setIcon(T icon)
+    {
+        if (icon instanceof Bitmap)
+        {
             iv_user_icon.setImageBitmap((Bitmap) icon);
-        } else
+        }
+        else
             ImageUtil.loadImage(iv_user_icon, R.mipmap.icon_user_default, icon);
     }
 
-    public final <T> void setName(T name) {
-        String result;
-        if (name == null) {
-            result = "";
-        } else if (name instanceof Integer) {
-            try {
-                result = getContext().getResources().getString((Integer) name);
-            } catch (Resources.NotFoundException e) {
-                result = name.toString();
-            }
-        } else {
-            result = name.toString();
+    private <T> String makeT_toString(T t)
+    {
+        if (t == null)
+        {
+            return "";
         }
-        if (tv_name != null) {
-            tv_name.setText(result);
+        else if (t instanceof Integer)
+        {
+            try
+            {
+                return getContext().getResources().getString((Integer) t);
+            }
+            catch (Resources.NotFoundException e)
+            {
+                return t.toString();
+            }
+        }
+        else
+        {
+            return t.toString();
+        }
+    }
+
+    public final <T> void setTitle(T title)
+    {
+        if (tv_title != null)
+        {
+            tv_title.setText(makeT_toString(title));
+        }
+    }
+
+    public final <T> void setName(T name)
+    {
+        if (tv_name != null)
+        {
+            tv_name.setText(makeT_toString(name));
+        }
+    }
+
+    public final <T> void setRightMsg(T message)
+    {
+        if (tv_right != null)
+        {
+            tv_right.setText(makeT_toString(message));
         }
     }
 }

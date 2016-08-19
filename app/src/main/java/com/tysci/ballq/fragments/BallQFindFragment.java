@@ -32,7 +32,8 @@ import okhttp3.Call;
 import okhttp3.Request;
 
 /**
- * Created by HTT on 2016/7/12.
+ * Created by HTT
+ * on 2016/7/12.
  */
 public class BallQFindFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener, AdapterView.OnItemClickListener
 {
@@ -61,14 +62,15 @@ public class BallQFindFragment extends BaseFragment implements SwipeRefreshLayou
         titleBar.setTitleBarLeftIcon(0, null);
         findMenuList.setOnItemClickListener(this);
         swipeRefresh.setOnRefreshListener(this);
-        setRefreshing();
+//        setRefreshing();
+        showLoading();
         requestFindMenus();
     }
 
     @Override
     protected View getLoadingTargetView()
     {
-        return null;
+        return contentView.findViewById(R.id.swipe_refresh);
     }
 
     @Override
@@ -87,18 +89,6 @@ public class BallQFindFragment extends BaseFragment implements SwipeRefreshLayou
     protected void notifyEvent(String action, Bundle data)
     {
 
-    }
-
-    private void setRefreshing()
-    {
-        swipeRefresh.post(new Runnable()
-        {
-            @Override
-            public void run()
-            {
-                swipeRefresh.setRefreshing(true);
-            }
-        });
     }
 
     private void onRefreshCompelete()
@@ -144,6 +134,7 @@ public class BallQFindFragment extends BaseFragment implements SwipeRefreshLayou
             @Override
             public void onSuccess(Call call, String response)
             {
+                hideLoad();
                 KLog.json(response);
                 if (!TextUtils.isEmpty(response))
                 {
@@ -156,9 +147,10 @@ public class BallQFindFragment extends BaseFragment implements SwipeRefreshLayou
                             JSONArray datas = obj.getJSONArray("data");
                             if (datas != null && !datas.isEmpty())
                             {
+                                hideLoad();
                                 if (findMenuEntityList == null)
                                 {
-                                    findMenuEntityList = new ArrayList<BallQFindMenuEntity>(10);
+                                    findMenuEntityList = new ArrayList<>(10);
                                 }
                                 if (!findMenuEntityList.isEmpty())
                                 {
@@ -174,10 +166,20 @@ public class BallQFindFragment extends BaseFragment implements SwipeRefreshLayou
                                 {
                                     adapter.notifyDataSetChanged();
                                 }
+                                return;
                             }
                         }
                     }
                 }
+                showEmptyInfo("暂无相关数据", "点击刷新", new View.OnClickListener()
+                {
+                    @Override
+                    public void onClick(View v)
+                    {
+                        showLoading();
+                        requestFindMenus();
+                    }
+                });
             }
 
             @Override

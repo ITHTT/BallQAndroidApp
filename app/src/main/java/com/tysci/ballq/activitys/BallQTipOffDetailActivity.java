@@ -22,6 +22,7 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.tysci.ballq.R;
 import com.tysci.ballq.base.BaseActivity;
+import com.tysci.ballq.dialog.SpinKitProgressDialog;
 import com.tysci.ballq.modles.BallQMatchEntity;
 import com.tysci.ballq.modles.BallQTipOffEntity;
 import com.tysci.ballq.modles.BallQUserCommentEntity;
@@ -41,7 +42,6 @@ import com.tysci.ballq.utils.ToastUtil;
 import com.tysci.ballq.utils.UserInfoUtil;
 import com.tysci.ballq.views.adapters.BallQUserCommentAdapter;
 import com.tysci.ballq.views.adapters.BallQUserRewardHeaderAdapter;
-import com.tysci.ballq.views.dialogs.LoadingProgressDialog;
 import com.tysci.ballq.views.dialogs.ShareDialog;
 import com.tysci.ballq.views.interfaces.OnLongClickUserHeaderListener;
 import com.tysci.ballq.views.widgets.CircleImageView;
@@ -95,8 +95,6 @@ public class BallQTipOffDetailActivity extends BaseActivity implements SwipeRefr
     private String replyerId;
 
     private String cacheCommentInfo = "";
-
-    private LoadingProgressDialog loadingProgressDialog = null;
 
     private ShareDialog shareDialog = null;
 
@@ -813,12 +811,15 @@ public class BallQTipOffDetailActivity extends BaseActivity implements SwipeRefr
             {
                 params.put("change", "1");
             }
+            final SpinKitProgressDialog dialog = new SpinKitProgressDialog(this);
             HttpClientUtil.getHttpClientUtil().sendPostRequest(BallQUserRankingListDetailActivity.class.getSimpleName(), url, params, new HttpClientUtil.StringResponseCallBack()
             {
                 @Override
                 public void onBefore(Request request)
                 {
-
+                    //noinspection ConstantConditions
+                    if (dialog != null)
+                        dialog.show();
                 }
 
                 @Override
@@ -853,7 +854,9 @@ public class BallQTipOffDetailActivity extends BaseActivity implements SwipeRefr
                 @Override
                 public void onFinish(Call call)
                 {
-
+                    //noinspection ConstantConditions
+                    if (dialog != null)
+                        dialog.dismiss();
                 }
             });
 
@@ -905,26 +908,6 @@ public class BallQTipOffDetailActivity extends BaseActivity implements SwipeRefr
         return sb.toString();
     }
 
-    private void showProgressDialog(String msg)
-    {
-        if (loadingProgressDialog == null)
-        {
-            loadingProgressDialog = new LoadingProgressDialog(this);
-            loadingProgressDialog.setCanceledOnTouchOutside(false);
-        }
-        loadingProgressDialog.setMessage(msg);
-        loadingProgressDialog.show();
-    }
-
-    private void dimssProgressDialog()
-    {
-        if (loadingProgressDialog != null && loadingProgressDialog.isShowing())
-        {
-            loadingProgressDialog.dismiss();
-        }
-    }
-
-
     @OnClick(R.id.btnPublish)
     protected void onClickPublishComment(View view)
     {
@@ -966,12 +949,13 @@ public class BallQTipOffDetailActivity extends BaseActivity implements SwipeRefr
             params.put("reply_id", replyerId);
         }
         params.put("cont", commentInfo);
+        final SpinKitProgressDialog dialog = new SpinKitProgressDialog(this);
         HttpClientUtil.getHttpClientUtil().sendPostRequest(Tag, url, params, new HttpClientUtil.StringResponseCallBack()
         {
             @Override
             public void onBefore(Request request)
             {
-                showProgressDialog("提交中...");
+                dialog.show();
             }
 
             @Override
@@ -1008,7 +992,7 @@ public class BallQTipOffDetailActivity extends BaseActivity implements SwipeRefr
             @Override
             public void onFinish(Call call)
             {
-                dimssProgressDialog();
+                if (dialog != null) dialog.dismiss();
             }
         });
     }

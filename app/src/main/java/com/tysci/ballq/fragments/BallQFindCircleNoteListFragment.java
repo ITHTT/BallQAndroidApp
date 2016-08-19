@@ -47,7 +47,7 @@ public class BallQFindCircleNoteListFragment extends AppSwipeRefreshLoadMoreRecy
     public void onResume()
     {
         super.onResume();
-        recyclerView.smoothScrollToPosition(0);
+//        recyclerView.smoothScrollToPosition(0);
         showLoading();
         requestDatas(1, false);
     }

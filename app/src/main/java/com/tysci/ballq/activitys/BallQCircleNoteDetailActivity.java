@@ -22,6 +22,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.tysci.ballq.R;
 import com.tysci.ballq.base.BaseActivity;
 import com.tysci.ballq.dialog.ImageUrlBrowserDialog;
+import com.tysci.ballq.dialog.SpinKitProgressDialog;
 import com.tysci.ballq.fragments.BallQFindCircleNoteListFragment;
 import com.tysci.ballq.modles.BallQCircleNoteEntity;
 import com.tysci.ballq.modles.BallQCircleUserCommentEntity;
@@ -39,7 +40,6 @@ import com.tysci.ballq.utils.ToastUtil;
 import com.tysci.ballq.utils.UserInfoUtil;
 import com.tysci.ballq.views.adapters.BallQCircleNoteCommentAdapter;
 import com.tysci.ballq.views.dialogs.BallQCircleNoteMenu;
-import com.tysci.ballq.views.dialogs.LoadingProgressDialog;
 import com.tysci.ballq.views.dialogs.ShareDialog;
 import com.tysci.ballq.views.interfaces.OnLongClickUserHeaderListener;
 import com.tysci.ballq.views.widgets.CircleImageView;
@@ -96,7 +96,7 @@ public class BallQCircleNoteDetailActivity extends BaseActivity implements Swipe
     private String cacheCommentInfo = "";
     private String fid = null;
     private ShareDialog shareDialog = null;
-    private LoadingProgressDialog loadingProgressDialog = null;
+//    private LoadingProgressDialog loadingProgressDialog = null;
 
     @Override
     protected int getContentViewId()
@@ -241,25 +241,6 @@ public class BallQCircleNoteDetailActivity extends BaseActivity implements Swipe
                     }
                 }
             }, 1000);
-        }
-    }
-
-    private void showProgressDialog(String msg)
-    {
-        if (loadingProgressDialog == null)
-        {
-            loadingProgressDialog = new LoadingProgressDialog(this);
-            loadingProgressDialog.setCanceledOnTouchOutside(false);
-        }
-        loadingProgressDialog.setMessage(msg);
-        loadingProgressDialog.show();
-    }
-
-    private void dimssProgressDialog()
-    {
-        if (loadingProgressDialog != null && loadingProgressDialog.isShowing())
-        {
-            loadingProgressDialog.dismiss();
         }
     }
 
@@ -1163,6 +1144,8 @@ public class BallQCircleNoteDetailActivity extends BaseActivity implements Swipe
 
     private void deleteCircleNote(int id)
     {
+        final SpinKitProgressDialog dialog = new SpinKitProgressDialog(this);
+
         String url = HttpUrls.CIRCLE_HOST_URL_V2 + "bbs/topic/delete/" + id;
         HashMap<String, String> params = new HashMap<>(1);
         params.put("userId", UserInfoUtil.getUserId(this));
@@ -1173,20 +1156,18 @@ public class BallQCircleNoteDetailActivity extends BaseActivity implements Swipe
             @Override
             public void onBefore(Request request)
             {
-                showProgressDialog("请求中...");
+                dialog.show();
             }
 
             @Override
             public void onError(Call call, Exception error)
             {
-                dimssProgressDialog();
                 ToastUtil.show(BallQCircleNoteDetailActivity.this, "请求失败");
             }
 
             @Override
             public void onSuccess(Call call, String response)
             {
-                dimssProgressDialog();
                 if (!TextUtils.isEmpty(response))
                 {
                     JSONObject obj = JSONObject.parseObject(response);
@@ -1209,7 +1190,11 @@ public class BallQCircleNoteDetailActivity extends BaseActivity implements Swipe
             @Override
             public void onFinish(Call call)
             {
-
+                //noinspection ConstantConditions
+                if (dialog != null)
+                {
+                    dialog.dismiss();
+                }
             }
         });
     }
@@ -1230,6 +1215,8 @@ public class BallQCircleNoteDetailActivity extends BaseActivity implements Swipe
 
     private void userComment()
     {
+        final SpinKitProgressDialog dialog = new SpinKitProgressDialog(this);
+
         SoftInputUtil.hideSoftInput(this);
         if (!UserInfoUtil.checkLogin(this))
         {
@@ -1268,8 +1255,7 @@ public class BallQCircleNoteDetailActivity extends BaseActivity implements Swipe
                 @Override
                 public void onBefore(Request request)
                 {
-                    showProgressDialog("请求中...");
-
+                    dialog.show();
                 }
 
                 @Override
@@ -1306,13 +1292,16 @@ public class BallQCircleNoteDetailActivity extends BaseActivity implements Swipe
                 @Override
                 public void onFinish(Call call)
                 {
-                    dimssProgressDialog();
+                    //noinspection ConstantConditions
+                    if (dialog != null)
+                    {
+                        dialog.dismiss();
+                    }
                 }
 
                 @Override
                 public void loadingProgress(int progress)
                 {
-
                 }
             });
         }
