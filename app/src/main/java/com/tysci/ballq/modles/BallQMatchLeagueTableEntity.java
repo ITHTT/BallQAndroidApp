@@ -1,9 +1,12 @@
 package com.tysci.ballq.modles;
 
+import com.tysci.ballq.utils.ParseUtil;
+
 /**
  * Created by Administrator on 2016/6/15.
  */
-public class BallQMatchLeagueTableEntity {
+public class BallQMatchLeagueTableEntity
+{
 
     /**
      * ranking : 1
@@ -33,99 +36,123 @@ public class BallQMatchLeagueTableEntity {
     private int id;
     private int lose_total;
 
-    public void setRanking(int ranking) {
-        this.ranking = ranking;
-    }
-
-    public void setMatches_total(int matches_total) {
-        this.matches_total = matches_total;
-    }
-
-    public void setPoints_total(int points_total) {
-        this.points_total = points_total;
-    }
-
-    public void setTeam_logo(String team_logo) {
-        this.team_logo = team_logo;
-    }
-
-    public void setDraw_total(int draw_total) {
-        this.draw_total = draw_total;
-    }
-
-    public void setTeam_id(int team_id) {
-        this.team_id = team_id;
-    }
-
-    public void setLost_total(int lost_total) {
-        this.lost_total = lost_total;
-    }
-
-    public void setTeam(String team) {
-        this.team = team;
-    }
-
-    public void setWin_total(int win_total) {
-        this.win_total = win_total;
-    }
-
-    public void setGoals_total(int goals_total) {
-        this.goals_total = goals_total;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public void setLose_total(int lose_total) {
-        this.lose_total = lose_total;
-    }
-
-    public int getRanking() {
+    public int getRanking()
+    {
         return ranking;
     }
 
-    public int getMatches_total() {
+    public int getMatches_total()
+    {
         return matches_total;
     }
 
-    public int getPoints_total() {
+    public int getPoints_total()
+    {
         return points_total;
     }
 
-    public String getTeam_logo() {
+    public String getTeam_logo()
+    {
         return team_logo;
     }
 
-    public int getDraw_total() {
+    public int getDraw_total()
+    {
         return draw_total;
     }
 
-    public int getTeam_id() {
+    public int getTeam_id()
+    {
         return team_id;
     }
 
-    public int getLost_total() {
+    public int getLost_total()
+    {
         return lost_total;
     }
 
-    public String getTeam() {
+    public String getTeam()
+    {
         return team;
     }
 
-    public int getWin_total() {
+    public int getWin_total()
+    {
         return win_total;
     }
 
-    public int getGoals_total() {
+    public int getGoals_total()
+    {
         return goals_total;
     }
 
-    public int getId() {
+    public int getId()
+    {
         return id;
     }
 
-    public int getLose_total() {
+    public int getLose_total()
+    {
         return lose_total;
+    }
+
+    public <INT> void setRanking(INT ranking)
+    {
+        this.ranking = ParseUtil.makeParse(ranking, 0);
+    }
+
+    public <INT> void setMatches_total(INT matches_total)
+    {
+        this.matches_total = ParseUtil.makeParse(matches_total, 0);
+    }
+
+    public <INT> void setPoints_total(INT points_total)
+    {
+        this.points_total = ParseUtil.makeParse(points_total, 0);
+    }
+
+    public <INT> void setTeam_logo(String team_logo)
+    {
+        this.team_logo = team_logo;
+    }
+
+    public <INT> void setDraw_total(INT draw_total)
+    {
+        this.draw_total = ParseUtil.makeParse(draw_total, 0);
+    }
+
+    public <INT> void setTeam_id(INT team_id)
+    {
+        this.team_id = ParseUtil.makeParse(team_id, 0);
+    }
+
+    public <INT> void setLost_total(INT lost_total)
+    {
+        this.lost_total = ParseUtil.makeParse(lost_total, 0);
+    }
+
+    public <INT> void setTeam(String team)
+    {
+        this.team = team;
+    }
+
+    public <INT> void setWin_total(INT win_total)
+    {
+        this.win_total = ParseUtil.makeParse(win_total, 0);
+    }
+
+    public <INT> void setGoals_total(INT goals_total)
+    {
+        this.goals_total = ParseUtil.makeParse(goals_total, 0);
+    }
+
+    public <INT> void setId(INT id)
+    {
+        this.id = ParseUtil.makeParse(id, 0);
+    }
+
+    public <INT> void setLose_total(INT lose_total)
+    {
+        this.lose_total = ParseUtil.makeParse(lose_total, 0);
     }
 }

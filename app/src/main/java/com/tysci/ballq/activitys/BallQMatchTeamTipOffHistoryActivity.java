@@ -13,6 +13,7 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.tysci.ballq.R;
 import com.tysci.ballq.base.BaseActivity;
+import com.tysci.ballq.dialog.ImageUrlBrowserDialog;
 import com.tysci.ballq.modles.BallQMatchEntity;
 import com.tysci.ballq.modles.BallQTipOffEntity;
 import com.tysci.ballq.networks.GlideImageLoader;
@@ -26,11 +27,14 @@ import com.tysci.ballq.views.widgets.loadmorerecyclerview.AutoLoadMoreRecyclerVi
 import java.util.HashMap;
 
 import butterknife.Bind;
+import butterknife.OnClick;
 import okhttp3.Call;
 import okhttp3.Request;
 
 /**
- * Created by Administrator on 2016/7/15.
+ * Created by HTT on 2016/7/15.
+ *
+ * @author LinDe edit
  */
 public class BallQMatchTeamTipOffHistoryActivity extends BaseActivity implements SwipeRefreshLayout.OnRefreshListener, AutoLoadMoreRecyclerView.OnLoadMoreListener
 {
@@ -45,7 +49,7 @@ public class BallQMatchTeamTipOffHistoryActivity extends BaseActivity implements
 
     private BallQMatchEntity matchEntity = null;
     private boolean isHomeTeam;
-//    private List<BallQTipOffEntity> tipOffEntityList;
+    //    private List<BallQTipOffEntity> tipOffEntityList;
     private BqMatchTipOffHistoryAdapter adapter = null;
     private int currentPages = 1;
 
@@ -68,18 +72,6 @@ public class BallQMatchTeamTipOffHistoryActivity extends BaseActivity implements
     protected View getLoadingTargetView()
     {
         return swipeRefresh;
-    }
-
-    private void setRefreshing()
-    {
-        swipeRefresh.post(new Runnable()
-        {
-            @Override
-            public void run()
-            {
-                swipeRefresh.setRefreshing(true);
-            }
-        });
     }
 
     private void onRefreshCompelete()
@@ -321,6 +313,18 @@ public class BallQMatchTeamTipOffHistoryActivity extends BaseActivity implements
         else
         {
             requestMatchTipOff(1, false);
+        }
+    }
+
+    @OnClick(R.id.iv_team_icon)
+    protected void onTeamLogoClick(View view)
+    {
+        if (matchEntity != null)
+        {
+            ImageUrlBrowserDialog dialog = new ImageUrlBrowserDialog(this);
+
+            dialog.addUrl(isHomeTeam ? matchEntity.getHtlogo() : matchEntity.getAtlogo());
+            dialog.show();
         }
     }
 }

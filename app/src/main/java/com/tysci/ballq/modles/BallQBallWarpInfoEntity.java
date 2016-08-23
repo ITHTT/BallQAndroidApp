@@ -3,10 +3,13 @@ package com.tysci.ballq.modles;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.tysci.ballq.utils.ParseUtil;
+
 /**
  * Created by Administrator on 2016/5/31.
  */
-public class BallQBallWarpInfoEntity implements Parcelable{
+public class BallQBallWarpInfoEntity implements Parcelable
+{
     private String cont;
     private int uid;
     private String share;
@@ -31,199 +34,250 @@ public class BallQBallWarpInfoEntity implements Parcelable{
     private int isf;
     private String url;
 
-    public int getArtcount() {
-        return artcount;
-    }
-
-    public void setArtcount(int artcount) {
-        this.artcount = artcount;
-    }
-
-    public int getBoncount() {
-        return boncount;
-    }
-
-    public void setBoncount(int boncount) {
-        this.boncount = boncount;
-    }
-
-    public int getComcount() {
-        return comcount;
-    }
-
-    public void setComcount(int comcount) {
-        this.comcount = comcount;
-    }
-
-    public String getCont() {
-        return cont;
-    }
-
-    public void setCont(String cont) {
+    public void setCont(String cont)
+    {
         this.cont = cont;
     }
 
-    public String getCover() {
-        return cover;
+    public <T> void setUid(T uid)
+    {
+        this.uid = ParseUtil.makeParse(uid, 0);
     }
 
-    public void setCover(String cover) {
-        this.cover = cover;
-    }
-
-    public String getCtime() {
-        return ctime;
-    }
-
-    public void setCtime(String ctime) {
-        this.ctime = ctime;
-    }
-
-    public String getExcerpt() {
-        return excerpt;
-    }
-
-    public void setExcerpt(String excerpt) {
-        this.excerpt = excerpt;
-    }
-
-    public int getFid() {
-        return fid;
-    }
-
-    public void setFid(int fid) {
-        this.fid = fid;
-    }
-
-    public String getFname() {
-        return fname;
-    }
-
-    public void setFname(String fname) {
-        this.fname = fname;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public int getIs_like() {
-        return is_like;
-    }
-
-    public void setIs_like(int is_like) {
-        this.is_like = is_like;
-    }
-
-    public int getIsc() {
-        return isc;
-    }
-
-    public void setIsc(int isc) {
-        this.isc = isc;
-    }
-
-    public int getIsf() {
-        return isf;
-    }
-
-    public void setIsf(int isf) {
-        this.isf = isf;
-    }
-
-    public int getIsv() {
-        return isv;
-    }
-
-    public void setIsv(int isv) {
-        this.isv = isv;
-    }
-
-    public int getLike_count() {
-        return like_count;
-    }
-
-    public void setLike_count(int like_count) {
-        this.like_count = like_count;
-    }
-
-    public String getPt() {
-        return pt;
-    }
-
-    public void setPt(String pt) {
-        this.pt = pt;
-    }
-
-    public int getReading_count() {
-        return reading_count;
-    }
-
-    public void setReading_count(int reading_count) {
-        this.reading_count = reading_count;
-    }
-
-    public String getShare() {
-        return share;
-    }
-
-    public void setShare(String share) {
+    public void setShare(String share)
+    {
         this.share = share;
     }
 
-    public String getTitle1() {
-        return title1;
+    public <T> void setLike_count(T like_count)
+    {
+        this.like_count = ParseUtil.makeParse(like_count, 0);
     }
 
-    public void setTitle1(String title1) {
-        this.title1 = title1;
+    public <T> void setReading_count(T reading_count)
+    {
+        this.reading_count = ParseUtil.makeParse(reading_count, 0);
     }
 
-    public String getTitle2() {
-        return title2;
+    public <T> void setId(T id)
+    {
+        this.id = ParseUtil.makeParse(id, 0);
     }
 
-    public void setTitle2(String title2) {
-        this.title2 = title2;
+    public <T> void setIs_like(T is_like)
+    {
+        this.is_like = ParseUtil.makeParse(is_like, 0);
     }
 
-    public String getTitle() {
-        return title;
+    public void setPt(String pt)
+    {
+        this.pt = pt;
     }
 
-    public void setTitle(String title) {
+    public void setTitle(String title)
+    {
         this.title = title;
     }
 
-    public int getUid() {
-        return uid;
+    public <T> void setArtcount(T artcount)
+    {
+        this.artcount = ParseUtil.makeParse(artcount, 0);
     }
 
-    public void setUid(int uid) {
-        this.uid = uid;
+    public <T> void setFid(T fid)
+    {
+        this.fid = ParseUtil.makeParse(fid, 0);
     }
 
-
-    public String getUrl() {
-        return url;
+    public <T> void setBoncount(T boncount)
+    {
+        this.boncount = ParseUtil.makeParse(boncount, 0);
     }
 
-    public void setUrl(String url) {
+    public void setFname(String fname)
+    {
+        this.fname = fname;
+    }
+
+    public void setExcerpt(String excerpt)
+    {
+        this.excerpt = excerpt;
+    }
+
+    public void setTitle1(String title1)
+    {
+        this.title1 = title1;
+    }
+
+    public void setTitle2(String title2)
+    {
+        this.title2 = title2;
+    }
+
+    public <T> void setComcount(T comcount)
+    {
+        this.comcount = ParseUtil.makeParse(comcount, 0);
+    }
+
+    public void setCtime(String ctime)
+    {
+        this.ctime = ctime;
+    }
+
+    public void setCover(String cover)
+    {
+        this.cover = cover;
+    }
+
+    public <T> void setIsv(T isv)
+    {
+        this.isv = ParseUtil.makeParse(isv, 0);
+    }
+
+    public <T> void setIsc(T isc)
+    {
+        this.isc = ParseUtil.makeParse(isc, 0);
+    }
+
+    public <T> void setIsf(T isf)
+    {
+        this.isf = ParseUtil.makeParse(isf, 0);
+    }
+
+    public void setUrl(String url)
+    {
         this.url = url;
     }
 
+    public String getCont()
+    {
+        return cont;
+    }
+
+    public int getUid()
+    {
+        return uid;
+    }
+
+    public String getShare()
+    {
+        return share;
+    }
+
+    public int getLike_count()
+    {
+        return like_count;
+    }
+
+    public int getReading_count()
+    {
+        return reading_count;
+    }
+
+    public int getId()
+    {
+        return id;
+    }
+
+    public int getIs_like()
+    {
+        return is_like;
+    }
+
+    public String getPt()
+    {
+        return pt;
+    }
+
+    public String getTitle()
+    {
+        return title;
+    }
+
+    public int getArtcount()
+    {
+        return artcount;
+    }
+
+    public int getFid()
+    {
+        return fid;
+    }
+
+    public int getBoncount()
+    {
+        return boncount;
+    }
+
+    public String getFname()
+    {
+        return fname;
+    }
+
+    public String getExcerpt()
+    {
+        return excerpt;
+    }
+
+    public String getTitle1()
+    {
+        return title1;
+    }
+
+    public String getTitle2()
+    {
+        return title2;
+    }
+
+    public int getComcount()
+    {
+        return comcount;
+    }
+
+    public String getCtime()
+    {
+        return ctime;
+    }
+
+    public String getCover()
+    {
+        return cover;
+    }
+
+    public int getIsv()
+    {
+        return isv;
+    }
+
+    public int getIsc()
+    {
+        return isc;
+    }
+
+    public int getIsf()
+    {
+        return isf;
+    }
+
+    public String getUrl()
+    {
+        return url;
+    }
+
+    public static Creator<BallQBallWarpInfoEntity> getCREATOR()
+    {
+        return CREATOR;
+    }
 
     @Override
-    public int describeContents() {
+    public int describeContents()
+    {
         return 0;
     }
 
     @Override
-    public void writeToParcel(Parcel dest, int flags) {
+    public void writeToParcel(Parcel dest, int flags)
+    {
         dest.writeString(this.cont);
         dest.writeInt(this.uid);
         dest.writeString(this.share);
@@ -249,10 +303,12 @@ public class BallQBallWarpInfoEntity implements Parcelable{
         dest.writeString(this.url);
     }
 
-    public BallQBallWarpInfoEntity() {
+    public BallQBallWarpInfoEntity()
+    {
     }
 
-    private BallQBallWarpInfoEntity(Parcel in) {
+    private BallQBallWarpInfoEntity(Parcel in)
+    {
         this.cont = in.readString();
         this.uid = in.readInt();
         this.share = in.readString();
@@ -278,12 +334,15 @@ public class BallQBallWarpInfoEntity implements Parcelable{
         this.url = in.readString();
     }
 
-    public static final Creator<BallQBallWarpInfoEntity> CREATOR = new Creator<BallQBallWarpInfoEntity>() {
-        public BallQBallWarpInfoEntity createFromParcel(Parcel source) {
+    public static final Creator<BallQBallWarpInfoEntity> CREATOR = new Creator<BallQBallWarpInfoEntity>()
+    {
+        public BallQBallWarpInfoEntity createFromParcel(Parcel source)
+        {
             return new BallQBallWarpInfoEntity(source);
         }
 
-        public BallQBallWarpInfoEntity[] newArray(int size) {
+        public BallQBallWarpInfoEntity[] newArray(int size)
+        {
             return new BallQBallWarpInfoEntity[size];
         }
     };

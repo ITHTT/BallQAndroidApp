@@ -46,7 +46,7 @@ public class TouchImageView extends ImageView {
 	// zoomed below or above the zoom boundaries, before animating back to the
 	// min/max zoom boundary.
 	//
-	private static final float SUPER_MIN_MULTIPLIER = .75f;
+	private static final float SUPER_MIN_MULTIPLIER = .25f;
 	private static final float SUPER_MAX_MULTIPLIER = 1.25f;
 
     //
@@ -62,7 +62,7 @@ public class TouchImageView extends ImageView {
     //
 	private Matrix matrix, prevMatrix;
 
-    private static enum State { NONE, DRAG, ZOOM, FLING, ANIMATE_ZOOM };
+    private enum State { NONE, DRAG, ZOOM, FLING, ANIMATE_ZOOM }
     private State state;
 
     private float minScale;
@@ -403,7 +403,7 @@ public class TouchImageView extends ImageView {
     /**
      * Set zoom parameters equal to another TouchImageView. Including scale, position,
      * and ScaleType.
-     * @param TouchImageView
+     * @param img
      */
     public void setZoom(TouchImageView img) {
     	PointF center = img.getScrollPosition();

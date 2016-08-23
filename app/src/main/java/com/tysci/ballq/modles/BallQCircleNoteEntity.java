@@ -4,13 +4,16 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.util.Config;
 
+import com.tysci.ballq.utils.ParseUtil;
+
 import java.util.List;
 
 /**
  * Created by Administrator on 2016/4/27.
  * 表示帖子实体
  */
-public class BallQCircleNoteEntity implements Parcelable {
+public class BallQCircleNoteEntity implements Parcelable
+{
     private int id;
     private int sectionId;
     private String sectionName;
@@ -31,165 +34,210 @@ public class BallQCircleNoteEntity implements Parcelable {
     private BallQUserEntity creater;
     private String summaryText;
 
-    public int getClickCount() {
-        return clickCount;
-    }
-
-    public void setClickCount(int clickCount) {
-        this.clickCount = clickCount;
-    }
-
-    public int getCommentCount() {
-        return commentCount;
-    }
-
-    public void setCommentCount(int commentCount) {
-        this.commentCount = commentCount;
-    }
-
-    public List<BallQNoteContentEntity> getContents() {
-        return contents;
-    }
-
-    public void setContents(List<BallQNoteContentEntity> contents) {
-        this.contents = contents;
-    }
-
-    public BallQUserEntity getCreater() {
-        return creater;
-    }
-
-    public void setCreater(BallQUserEntity creater) {
-        this.creater = creater;
-    }
-
-    public long getCreateTime() {
-        return createTime;
-    }
-
-    public void setCreateTime(long createTime) {
-        this.createTime = createTime;
-    }
-
-    public int getFid() {
-        return fid;
-    }
-
-    public void setFid(int fid) {
-        this.fid = fid;
-    }
-
-    public int getGood() {
-        return good;
-    }
-
-    public void setGood(int good) {
-        this.good = good;
-    }
-
-    public int getGoodTop() {
-        return goodTop;
-    }
-
-    public void setGoodTop(int goodTop) {
-        this.goodTop = goodTop;
-    }
-
-    public int getId() {
+    public int getId()
+    {
         return id;
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public int getIsCollect() {
-        return isCollect;
-    }
-
-    public void setIsCollect(int isCollect) {
-        this.isCollect = isCollect;
-    }
-
-    public int getIsLike() {
-        return isLike;
-    }
-
-    public void setIsLike(int isLike) {
-        this.isLike = isLike;
-    }
-
-    public int getSectionId() {
+    public int getSectionId()
+    {
         return sectionId;
     }
 
-    public void setSectionId(int sectionId) {
-        this.sectionId = sectionId;
-    }
-
-    public String getShareUrl() {
-        return shareUrl;
-    }
-
-    public void setShareUrl(String shareUrl) {
-        this.shareUrl = shareUrl;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public int getTop() {
-        return top;
-    }
-
-    public void setTop(int top) {
-        this.top = top;
-    }
-
-    public int getViewCount() {
-        return viewCount;
-    }
-
-    public void setViewCount(int viewCount) {
-        this.viewCount = viewCount;
-    }
-
-    public String getSectionName() {
+    public String getSectionName()
+    {
         return sectionName;
     }
 
-    public void setSectionName(String sectionName) {
-        this.sectionName = sectionName;
-    }
-
-    public String getSectionPortrait() {
+    public String getSectionPortrait()
+    {
         return sectionPortrait;
     }
 
-    public void setSectionPortrait(String sectionPortrait) {
-        this.sectionPortrait = sectionPortrait;
+    public String getTitle()
+    {
+        return title;
     }
 
-    public String getSummaryText() {
+    public long getCreateTime()
+    {
+        return createTime;
+    }
+
+    public int getClickCount()
+    {
+        return clickCount;
+    }
+
+    public int getCommentCount()
+    {
+        return commentCount;
+    }
+
+    public int getViewCount()
+    {
+        return viewCount;
+    }
+
+    public int getTop()
+    {
+        return top;
+    }
+
+    public int getGood()
+    {
+        return good;
+    }
+
+    public int getGoodTop()
+    {
+        return goodTop;
+    }
+
+    public String getShareUrl()
+    {
+        return shareUrl;
+    }
+
+    public int getIsLike()
+    {
+        return isLike;
+    }
+
+    public int getIsCollect()
+    {
+        return isCollect;
+    }
+
+    public int getFid()
+    {
+        return fid;
+    }
+
+    public List<BallQNoteContentEntity> getContents()
+    {
+        return contents;
+    }
+
+    public BallQUserEntity getCreater()
+    {
+        return creater;
+    }
+
+    public String getSummaryText()
+    {
         return summaryText;
     }
 
-    public void setSummaryText(String summaryText) {
+    public static Creator<BallQCircleNoteEntity> getCREATOR()
+    {
+        return CREATOR;
+    }
+
+    public <T> void setId(T id)
+    {
+        this.id = ParseUtil.makeParse(id, 0);
+    }
+
+    public <T> void setSectionId(T sectionId)
+    {
+        this.sectionId = ParseUtil.makeParse(sectionId, 0);
+    }
+
+    public void setSectionName(String sectionName)
+    {
+        this.sectionName = sectionName;
+    }
+
+    public void setSectionPortrait(String sectionPortrait)
+    {
+        this.sectionPortrait = sectionPortrait;
+    }
+
+    public void setTitle(String title)
+    {
+        this.title = title;
+    }
+
+    public void setCreateTime(long createTime)
+    {
+        this.createTime = createTime;
+    }
+
+    public <T> void setClickCount(T clickCount)
+    {
+        this.clickCount = ParseUtil.makeParse(clickCount, 0);
+    }
+
+    public <T> void setCommentCount(T commentCount)
+    {
+        this.commentCount = ParseUtil.makeParse(commentCount, 0);
+    }
+
+    public <T> void setViewCount(T viewCount)
+    {
+        this.viewCount = ParseUtil.makeParse(viewCount, 0);
+    }
+
+    public <T> void setTop(T top)
+    {
+        this.top = ParseUtil.makeParse(top, 0);
+    }
+
+    public <T> void setGood(T good)
+    {
+        this.good = ParseUtil.makeParse(good, 0);
+    }
+
+    public <T> void setGoodTop(T goodTop)
+    {
+        this.goodTop = ParseUtil.makeParse(goodTop, 0);
+    }
+
+    public void setShareUrl(String shareUrl)
+    {
+        this.shareUrl = shareUrl;
+    }
+
+    public <T> void setIsLike(T isLike)
+    {
+        this.isLike = ParseUtil.makeParse(isLike, 0);
+    }
+
+    public <T> void setIsCollect(T isCollect)
+    {
+        this.isCollect = ParseUtil.makeParse(isCollect, 0);
+    }
+
+    public <T> void setFid(T fid)
+    {
+        this.fid = ParseUtil.makeParse(fid, 0);
+    }
+
+    public void setContents(List<BallQNoteContentEntity> contents)
+    {
+        this.contents = contents;
+    }
+
+    public void setCreater(BallQUserEntity creater)
+    {
+        this.creater = creater;
+    }
+
+    public void setSummaryText(String summaryText)
+    {
         this.summaryText = summaryText;
     }
 
     @Override
-    public int describeContents() {
+    public int describeContents()
+    {
         return 0;
     }
 
     @Override
-    public void writeToParcel(Parcel dest, int flags) {
+    public void writeToParcel(Parcel dest, int flags)
+    {
         dest.writeInt(this.id);
         dest.writeInt(this.sectionId);
         dest.writeString(this.sectionName);
@@ -211,14 +259,16 @@ public class BallQCircleNoteEntity implements Parcelable {
         dest.writeString(this.summaryText);
     }
 
-    public BallQCircleNoteEntity() {
+    public BallQCircleNoteEntity()
+    {
     }
 
-    private BallQCircleNoteEntity(Parcel in) {
+    private BallQCircleNoteEntity(Parcel in)
+    {
         this.id = in.readInt();
         this.sectionId = in.readInt();
-        this.sectionName=in.readString();
-        this.sectionPortrait=in.readString();
+        this.sectionName = in.readString();
+        this.sectionPortrait = in.readString();
         this.title = in.readString();
         this.createTime = in.readLong();
         this.clickCount = in.readInt();
@@ -231,19 +281,23 @@ public class BallQCircleNoteEntity implements Parcelable {
         this.isLike = in.readInt();
         this.isCollect = in.readInt();
         this.fid = in.readInt();
-        if(contents!=null&&!contents.isEmpty()) {
+        if (contents != null && !contents.isEmpty())
+        {
             in.readTypedList(contents, BallQNoteContentEntity.CREATOR);
         }
         this.creater = in.readParcelable(Config.class.getClassLoader());
-        this.summaryText=in.readString();
+        this.summaryText = in.readString();
     }
 
-    public static final Creator<BallQCircleNoteEntity> CREATOR = new Creator<BallQCircleNoteEntity>() {
-        public BallQCircleNoteEntity createFromParcel(Parcel source) {
+    public static final Creator<BallQCircleNoteEntity> CREATOR = new Creator<BallQCircleNoteEntity>()
+    {
+        public BallQCircleNoteEntity createFromParcel(Parcel source)
+        {
             return new BallQCircleNoteEntity(source);
         }
 
-        public BallQCircleNoteEntity[] newArray(int size) {
+        public BallQCircleNoteEntity[] newArray(int size)
+        {
             return new BallQCircleNoteEntity[size];
         }
     };

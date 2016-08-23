@@ -3,6 +3,8 @@ package com.tysci.ballq.modles;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.tysci.ballq.utils.ParseUtil;
+
 /**
  * Created by Administrator on 2016/4/30.
  */
@@ -18,83 +20,108 @@ public class BallQCircleSectionEntity implements Parcelable {
     private String portrait;
     private String portraitSub1;
 
-    public int getId() {
+    public int getId()
+    {
         return id;
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public int getResId() {
+    public int getResId()
+    {
         return resId;
     }
 
-    public void setResId(int resId) {
-        this.resId = resId;
+    public String getName()
+    {
+        return name;
     }
 
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public int getDisplayIndex() {
-        return displayIndex;
-    }
-
-    public void setDisplayIndex(int displayIndex) {
-        this.displayIndex = displayIndex;
-    }
-
-    public String getPortrait() {
-        return portrait;
-    }
-
-    public void setPortrait(String portrait) {
-        this.portrait = portrait;
-    }
-
-    public int getPostTotal() {
-        return postTotal;
-    }
-
-    public void setPostTotal(int postTotal) {
-        this.postTotal = postTotal;
-    }
-
-    public int getType() {
+    public int getType()
+    {
         return type;
     }
 
-    public void setType(int type) {
-        this.type = type;
+    public String getDescription()
+    {
+        return description;
     }
 
-    public int getUserTotal() {
+    public int getDisplayIndex()
+    {
+        return displayIndex;
+    }
+
+    public int getPostTotal()
+    {
+        return postTotal;
+    }
+
+    public int getUserTotal()
+    {
         return userTotal;
     }
 
-    public void setUserTotal(int userTotal) {
-        this.userTotal = userTotal;
+    public String getPortrait()
+    {
+        return portrait;
     }
 
-    public String getPortraitSub1() {
+    public String getPortraitSub1()
+    {
         return portraitSub1;
     }
 
-    public void setPortraitSub1(String portraitSub1) {
+    public static Creator<BallQCircleSectionEntity> getCREATOR()
+    {
+        return CREATOR;
+    }
+
+    public <T>void setId(T id)
+    {
+        this.id = ParseUtil.makeParse(id,0);
+    }
+
+    public <T>void setResId(T resId)
+    {
+        this.resId = ParseUtil.makeParse(resId,0);
+    }
+
+    public void setName(String name)
+    {
+        this.name = name;
+    }
+
+    public <T>void setType(T type)
+    {
+        this.type = ParseUtil.makeParse(type,0);
+    }
+
+    public void setDescription(String description)
+    {
+        this.description = description;
+    }
+
+    public <T>void setDisplayIndex(T displayIndex)
+    {
+        this.displayIndex = ParseUtil.makeParse(displayIndex,0);
+    }
+
+    public <T>void setPostTotal(T postTotal)
+    {
+        this.postTotal = ParseUtil.makeParse(postTotal,0);
+    }
+
+    public <T>void setUserTotal(T userTotal)
+    {
+        this.userTotal = ParseUtil.makeParse(userTotal,0);
+    }
+
+    public void setPortrait(String portrait)
+    {
+        this.portrait = portrait;
+    }
+
+    public void setPortraitSub1(String portraitSub1)
+    {
         this.portraitSub1 = portraitSub1;
     }
 

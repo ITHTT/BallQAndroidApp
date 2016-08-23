@@ -2,11 +2,14 @@ package com.tysci.ballq.utils;
 
 import android.content.Context;
 import android.text.TextUtils;
+import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.widget.LinearLayout;
+
+import com.tysci.ballq.dialog.ImageUrlBrowserDialog;
 
 /**
  * Created by HTT on 2016/6/6.
@@ -39,6 +42,37 @@ public class WebViewUtil
 //            webView.loadData(html, mimeType, encoding);
             webView.loadDataWithBaseURL("fake://not/needed", html, mimeType, encoding, null);
 //            webView.loadUrl(html);
+            webView.setOnLongClickListener(new View.OnLongClickListener()
+            {
+                @Override
+                public boolean onLongClick(View v)
+                {
+                    KLog.e("长按点击");
+                    WebView wb;
+                    try
+                    {
+                        wb = (WebView) v;
+                    }
+                    catch (Exception e)
+                    {
+                        return true;
+                    }
+                    if (wb == null)
+                        return true;
+                    WebView.HitTestResult result = wb.getHitTestResult();
+                    if (result.getType() == WebView.HitTestResult.IMAGE_TYPE
+                            || result.getType() == WebView.HitTestResult.IMAGE_ANCHOR_TYPE
+                            || result.getType() == WebView.HitTestResult.SRC_IMAGE_ANCHOR_TYPE)
+                    {
+                        KLog.e("保存这个图片！" + result.getExtra());
+                        ImageUrlBrowserDialog dialog = new ImageUrlBrowserDialog(v.getContext());
+                        dialog.addUrl(result.getExtra());
+                        dialog.show();
+                    }
+
+                    return true;
+                }
+            });
             return webView;
         }
         return null;

@@ -1,12 +1,15 @@
 package com.tysci.ballq.modles;
 
+import com.tysci.ballq.utils.ParseUtil;
+
 import java.util.List;
 
 /**
  * Created by HTT on 2016/6/10.
  * 比赛预测数据实体
  */
-public class BallQMatchForecastDataEntity {
+public class BallQMatchForecastDataEntity
+{
     private int id;
     private int odds_type;
     private int match_id;
@@ -31,46 +34,6 @@ public class BallQMatchForecastDataEntity {
      */
 
     private List<MatchForecastDataEntity> matchs;
-
-    public void setId(int id)
-    {
-        this.id = id;
-    }
-
-    public void setOdds_type(int odds_type)
-    {
-        this.odds_type = odds_type;
-    }
-
-    public void setMatch_id(int match_id)
-    {
-        this.match_id = match_id;
-    }
-
-    public void setRate1(float rate1)
-    {
-        this.rate1 = rate1;
-    }
-
-    public void setRate2(float rate2)
-    {
-        this.rate2 = rate2;
-    }
-
-    public void setRate3(float rate3)
-    {
-        this.rate3 = rate3;
-    }
-
-    public void setResult_date(String result_date)
-    {
-        this.result_date = result_date;
-    }
-
-    public void setMatchs(List<MatchForecastDataEntity> matchs)
-    {
-        this.matchs = matchs;
-    }
 
     public int getId()
     {
@@ -112,7 +75,48 @@ public class BallQMatchForecastDataEntity {
         return matchs;
     }
 
-    public static final class MatchForecastDataEntity{
+    public <INT> void setId(INT id)
+    {
+        this.id = ParseUtil.makeParse(id, 0);
+    }
+
+    public <INT> void setOdds_type(INT odds_type)
+    {
+        this.odds_type = ParseUtil.makeParse(odds_type, 0);
+    }
+
+    public <INT> void setMatch_id(INT match_id)
+    {
+        this.match_id = ParseUtil.makeParse(match_id, 0);
+    }
+
+    public <FLOAT> void setRate1(FLOAT rate1)
+    {
+        this.rate1 = ParseUtil.makeParse(rate1, 0F);
+    }
+
+    public <FLOAT> void setRate2(FLOAT rate2)
+    {
+        this.rate2 = ParseUtil.makeParse(rate2, 0F);
+    }
+
+    public <FLOAT> void setRate3(FLOAT rate3)
+    {
+        this.rate3 = ParseUtil.makeParse(rate3, 0F);
+    }
+
+    public void setResult_date(String result_date)
+    {
+        this.result_date = result_date;
+    }
+
+    public void setMatchs(List<MatchForecastDataEntity> matchs)
+    {
+        this.matchs = matchs;
+    }
+
+    public static final class MatchForecastDataEntity
+    {
         private String home_name;
         private String away_name;
         private String match_date;
@@ -127,71 +131,6 @@ public class BallQMatchForecastDataEntity {
         private List<String> rt_odds;
         private List<String> handicap_records;
         private String result;
-
-        public void setHome_name(String home_name)
-        {
-            this.home_name = home_name;
-        }
-
-        public void setAway_name(String away_name)
-        {
-            this.away_name = away_name;
-        }
-
-        public void setMatch_date(String match_date)
-        {
-            this.match_date = match_date;
-        }
-
-        public void setTournament(String tournament)
-        {
-            this.tournament = tournament;
-        }
-
-        public void setMatch_id(int match_id)
-        {
-            this.match_id = match_id;
-        }
-
-        public void setFirst_odds(double first_odds)
-        {
-            this.first_odds = first_odds;
-        }
-
-        public void setLast_odds(double last_odds)
-        {
-            this.last_odds = last_odds;
-        }
-
-        public void setRate(double rate)
-        {
-            this.rate = rate;
-        }
-
-        public void setHandicap(double handicap)
-        {
-            this.handicap = handicap;
-        }
-
-        public void setHome_score(int home_score)
-        {
-            this.home_score = home_score;
-        }
-
-        public void setAway_score(int away_score)
-        {
-            this.away_score = away_score;
-        }
-
-        public void setRt_odds(List<String> rt_odds)
-        {
-            this.rt_odds = rt_odds;
-        }
-
-        public void setHandicap_records(List<String> handicap_records)
-        {
-            this.handicap_records = handicap_records;
-        }
 
         public String getHome_name()
         {
@@ -263,10 +202,74 @@ public class BallQMatchForecastDataEntity {
             return result;
         }
 
+        public void setHome_name(String home_name)
+        {
+            this.home_name = home_name;
+        }
+
+        public void setAway_name(String away_name)
+        {
+            this.away_name = away_name;
+        }
+
+        public void setMatch_date(String match_date)
+        {
+            this.match_date = match_date;
+        }
+
+        public void setTournament(String tournament)
+        {
+            this.tournament = tournament;
+        }
+
+        public <INT> void setMatch_id(INT match_id)
+        {
+            this.match_id = ParseUtil.makeParse(match_id, 0);
+        }
+
+        public <DOUBLE> void setFirst_odds(DOUBLE first_odds)
+        {
+            this.first_odds = ParseUtil.makeParse(first_odds, 0D);
+        }
+
+        public <DOUBLE> void setLast_odds(DOUBLE last_odds)
+        {
+            this.last_odds = ParseUtil.makeParse(last_odds, 0D);
+        }
+
+        public <DOUBLE> void setRate(DOUBLE rate)
+        {
+            this.rate = ParseUtil.makeParse(rate, 0D);
+        }
+
+        public <DOUBLE> void setHandicap(DOUBLE handicap)
+        {
+            this.handicap = ParseUtil.makeParse(handicap, 0D);
+        }
+
+        public <INT> void setHome_score(INT home_score)
+        {
+            this.home_score = ParseUtil.makeParse(home_score, 0);
+        }
+
+        public <INT> void setAway_score(INT away_score)
+        {
+            this.away_score = ParseUtil.makeParse(away_score, 0);
+        }
+
+        public void setRt_odds(List<String> rt_odds)
+        {
+            this.rt_odds = rt_odds;
+        }
+
+        public void setHandicap_records(List<String> handicap_records)
+        {
+            this.handicap_records = handicap_records;
+        }
+
         public void setResult(String result)
         {
             this.result = result;
         }
-
     }
 }

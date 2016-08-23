@@ -14,6 +14,7 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.tysci.ballq.R;
 import com.tysci.ballq.base.BaseActivity;
+import com.tysci.ballq.dialog.SpinKitProgressDialog;
 import com.tysci.ballq.interfaces.ITabCheck;
 import com.tysci.ballq.modles.JsonParams;
 import com.tysci.ballq.modles.UserAchievementEntity;
@@ -60,6 +61,8 @@ public class UserAchievementActivity extends BaseActivity implements SwipeRefres
 
     private boolean isShowAttained;// 显示已经获得成就
     private ArrayList<Integer> showingList;
+
+    private SpinKitProgressDialog mDialog;
 
     @Override
     protected int getContentViewId()
@@ -186,6 +189,7 @@ public class UserAchievementActivity extends BaseActivity implements SwipeRefres
             @Override
             public void onBefore(Request request)
             {
+                showDialog();
             }
 
             @Override
@@ -202,7 +206,6 @@ public class UserAchievementActivity extends BaseActivity implements SwipeRefres
                 if (JsonParams.isJsonRight(object))
                 {
                     ToastUtil.show(UserAchievementActivity.this, "修改展示成就成功");
-                    mSwipeUtil.startRefreshing();
                     onRefresh();
                 }
                 else
@@ -214,6 +217,7 @@ public class UserAchievementActivity extends BaseActivity implements SwipeRefres
             @Override
             public void onFinish(Call call)
             {
+                dismissDialog();
             }
         });
     }
@@ -338,6 +342,7 @@ public class UserAchievementActivity extends BaseActivity implements SwipeRefres
             @Override
             public void onFinish(Call call)
             {
+                dismissDialog();
             }
         });
     }
@@ -346,7 +351,7 @@ public class UserAchievementActivity extends BaseActivity implements SwipeRefres
     public void onLeftCheck()
     {
         isShowAttained = true;
-        mSwipeUtil.startRefreshing();
+        showDialog();
         onRefresh();
     }
 
@@ -359,7 +364,20 @@ public class UserAchievementActivity extends BaseActivity implements SwipeRefres
     public void onRightCheck()
     {
         isShowAttained = false;
-        mSwipeUtil.startRefreshing();
+        showDialog();
         onRefresh();
+    }
+
+    private void showDialog()
+    {
+        if (mDialog == null)
+            mDialog = new SpinKitProgressDialog(this);
+        mDialog.show();
+    }
+
+    private void dismissDialog()
+    {
+        if (mDialog != null && mDialog.isShowing())
+            mDialog.dismiss();
     }
 }

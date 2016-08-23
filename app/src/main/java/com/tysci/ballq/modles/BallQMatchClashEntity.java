@@ -1,11 +1,12 @@
 package com.tysci.ballq.modles;
 
+import com.tysci.ballq.utils.ParseUtil;
+
 /**
  * Created by Administrator on 2016/6/13.
  */
-public class BallQMatchClashEntity {
-
-
+public class BallQMatchClashEntity
+{
 
 
     /**
@@ -50,163 +51,203 @@ public class BallQMatchClashEntity {
     private String matchType;
     private int team_result;
 
-    public void setStatus(String status) {
+    public void setStatus(String status)
+    {
         this.status = status;
     }
 
-    public void setCity(String city) {
+    public void setCity(String city)
+    {
         this.city = city;
     }
 
-    public void setHome_team(String home_team) {
+    public void setHome_team(String home_team)
+    {
         this.home_team = home_team;
     }
 
-    public void setAway_team(String away_team) {
+    public void setAway_team(String away_team)
+    {
         this.away_team = away_team;
     }
 
-    public void setOdds_avalible(int odds_avalible) {
-        this.odds_avalible = odds_avalible;
+    public <INT> void setOdds_avalible(INT odds_avalible)
+    {
+        this.odds_avalible = ParseUtil.makeParse(odds_avalible, 0);
     }
 
-    public void setHome_team_logo(String home_team_logo) {
+    public void setHome_team_logo(String home_team_logo)
+    {
         this.home_team_logo = home_team_logo;
     }
 
-    public void setTips_count(int tips_count) {
-        this.tips_count = tips_count;
+    public <INT> void setTips_count(INT tips_count)
+    {
+        this.tips_count = ParseUtil.makeParse(tips_count, 0);
     }
 
-    public void setCountry(String country) {
+    public void setCountry(String country)
+    {
         this.country = country;
     }
 
-    public void setStatus_raw(String status_raw) {
+    public void setStatus_raw(String status_raw)
+    {
         this.status_raw = status_raw;
     }
 
-    public void setTournament(String tournament) {
+    public void setTournament(String tournament)
+    {
         this.tournament = tournament;
     }
 
-    public void setAway_team_logo(String away_team_logo) {
+    public void setAway_team_logo(String away_team_logo)
+    {
         this.away_team_logo = away_team_logo;
     }
 
-    public void setAway_team_score_final(String away_team_score_final) {
+    public void setAway_team_score_final(String away_team_score_final)
+    {
         this.away_team_score_final = away_team_score_final;
     }
 
-    public void setHome_team_score_final(String home_team_score_final) {
+    public void setHome_team_score_final(String home_team_score_final)
+    {
         this.home_team_score_final = home_team_score_final;
     }
 
-    public void setMatch_time(String match_time) {
+    public void setMatch_time(String match_time)
+    {
         this.match_time = match_time;
     }
 
-    public void setStadium(String stadium) {
+    public void setStadium(String stadium)
+    {
         this.stadium = stadium;
     }
 
-    public void setAway_team_score(String away_team_score) {
+    public void setAway_team_score(String away_team_score)
+    {
         this.away_team_score = away_team_score;
     }
 
-    public void setId(String id) {
+    public void setId(String id)
+    {
         this.id = id;
     }
 
-    public void setHome_team_score(String home_team_score) {
+    public void setHome_team_score(String home_team_score)
+    {
         this.home_team_score = home_team_score;
     }
 
-    public String getStatus() {
+    public String getStatus()
+    {
         return status;
     }
 
-    public String getCity() {
+    public String getCity()
+    {
         return city;
     }
 
-    public String getHome_team() {
+    public String getHome_team()
+    {
         return home_team;
     }
 
-    public String getAway_team() {
+    public String getAway_team()
+    {
         return away_team;
     }
 
-    public int getOdds_avalible() {
+    public int getOdds_avalible()
+    {
         return odds_avalible;
     }
 
-    public String getHome_team_logo() {
+    public String getHome_team_logo()
+    {
         return home_team_logo;
     }
 
-    public int getTips_count() {
+    public int getTips_count()
+    {
         return tips_count;
     }
 
-    public String getCountry() {
+    public String getCountry()
+    {
         return country;
     }
 
-    public String getStatus_raw() {
+    public String getStatus_raw()
+    {
         return status_raw;
     }
 
-    public String getTournament() {
+    public String getTournament()
+    {
         return tournament;
     }
 
-    public String getAway_team_logo() {
+    public String getAway_team_logo()
+    {
         return away_team_logo;
     }
 
-    public String getAway_team_score_final() {
+    public String getAway_team_score_final()
+    {
         return away_team_score_final;
     }
 
-    public String getHome_team_score_final() {
+    public String getHome_team_score_final()
+    {
         return home_team_score_final;
     }
 
-    public String getMatch_time() {
+    public String getMatch_time()
+    {
         return match_time;
     }
 
-    public String getStadium() {
+    public String getStadium()
+    {
         return stadium;
     }
 
-    public String getAway_team_score() {
+    public String getAway_team_score()
+    {
         return away_team_score;
     }
 
-    public String getId() {
+    public String getId()
+    {
         return id;
     }
 
-    public String getHome_team_score() {
+    public String getHome_team_score()
+    {
         return home_team_score;
     }
 
-    public String getMatchType() {
+    public String getMatchType()
+    {
         return matchType;
     }
 
-    public void setMatchType(String matchType) {
+    public void setMatchType(String matchType)
+    {
         this.matchType = matchType;
     }
 
-    public int getTeam_result() {
+    public int getTeam_result()
+    {
         return team_result;
     }
 
-    public void setTeam_result(int team_result) {
-        this.team_result = team_result;
+    public <INT> void setTeam_result(INT team_result)
+    {
+        this.team_result = ParseUtil.makeParse(team_result, 0);
     }
 }

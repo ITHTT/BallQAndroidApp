@@ -36,7 +36,6 @@ public class AutoLoadMoreRecyclerView extends RecyclerView {
     /**加载更多的监听*/
     private OnLoadMoreListener loadMoreListener;
 
-    private Adapter mAdapter;
     private Adapter mWrapAdapter;
 
     public static final int TYPE_HEADER =  -4;
@@ -99,10 +98,9 @@ public class AutoLoadMoreRecyclerView extends RecyclerView {
 
     @Override
     public void setAdapter(Adapter adapter) {
-        mAdapter  = adapter;
         mWrapAdapter = new WrapAdapter(mHeaderView, mFootView, adapter);
         super.setAdapter(mWrapAdapter);
-        mAdapter.registerAdapterDataObserver(mDataObserver);
+        adapter.registerAdapterDataObserver(mDataObserver);
     }
 
     /**

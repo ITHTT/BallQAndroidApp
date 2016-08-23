@@ -15,6 +15,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.tysci.ballq.R;
 import com.tysci.ballq.activitys.UserWithdrawsActivity;
+import com.tysci.ballq.dialog.SpinKitProgressDialog;
 import com.tysci.ballq.modles.JsonParams;
 import com.tysci.ballq.modles.event.EventObject;
 import com.tysci.ballq.networks.HttpClientUtil;
@@ -25,7 +26,6 @@ import com.tysci.ballq.utils.SoftInputUtil;
 import com.tysci.ballq.utils.ToastUtil;
 import com.tysci.ballq.utils.UserInfoUtil;
 import com.tysci.ballq.utils.WeChatUtil;
-import com.tysci.ballq.views.dialogs.LoadingProgressDialog;
 import com.tysci.ballq.views.widgets.CircleImageView;
 import com.tysci.ballq.wxapi.WXEntryActivity;
 
@@ -39,7 +39,8 @@ import okhttp3.Request;
  * Created by LinDe on 2016-07-18 0018.
  * Withdraws Header
  */
-public final class UserWithdrawalsHeaderView extends LinearLayout implements View.OnClickListener {
+public final class UserWithdrawalsHeaderView extends LinearLayout implements View.OnClickListener
+{
     TextView tvUserBalance;
     EditText etUserWithdrawals;
     TextView tvWithdrawalsMsg;
@@ -62,21 +63,28 @@ public final class UserWithdrawalsHeaderView extends LinearLayout implements Vie
 
     private String applyCheck;// 防止重复申请审核
 
-    public UserWithdrawalsHeaderView(Context context) {
+    private SpinKitProgressDialog mSpinKitProgressDialog;
+
+    public UserWithdrawalsHeaderView(Context context)
+    {
         this(context, null);
     }
 
-    public UserWithdrawalsHeaderView(Context context, AttributeSet attrs) {
+    public UserWithdrawalsHeaderView(Context context, AttributeSet attrs)
+    {
         this(context, attrs, 0);
     }
 
-    public UserWithdrawalsHeaderView(Context context, AttributeSet attrs, int defStyleAttr) {
+    public UserWithdrawalsHeaderView(Context context, AttributeSet attrs, int defStyleAttr)
+    {
         super(context, attrs, defStyleAttr);
         initializing(context);
     }
 
-    private void initializing(Context context) {
+    private void initializing(Context context)
+    {
         applyCheck = "";
+        mSpinKitProgressDialog = new SpinKitProgressDialog(context);
 
         LayoutInflater.from(context).inflate(R.layout.layout_header_withdraws, this, true);
 
@@ -100,7 +108,14 @@ public final class UserWithdrawalsHeaderView extends LinearLayout implements Vie
         setOnClickListener(this);
     }
 
-    public void setBindFlags(int balance, boolean is_bind_to_wx, String wx_name, String wx_portrait) {
+    public void onResume()
+    {
+        if (mSpinKitProgressDialog != null && mSpinKitProgressDialog.isShowing())
+            mSpinKitProgressDialog.dismiss();
+    }
+
+    public void setBindFlags(int balance, boolean is_bind_to_wx, String wx_name, String wx_portrait)
+    {
         this.balance = balance;
         this.is_bind_to_wx = is_bind_to_wx;
         this.wx_name = wx_name;
@@ -116,7 +131,8 @@ public final class UserWithdrawalsHeaderView extends LinearLayout implements Vie
         tvUserBalance.append("元");
 
         // 绑定微信
-        if (is_bind_to_wx) {
+        if (is_bind_to_wx)
+        {
             tvWithdrawalsMsg.setText("您将提现到以下微信帐号");
             tvBindToWeChat.setVisibility(View.GONE);
             ivWeChatPortrait.setVisibility(View.VISIBLE);
@@ -126,12 +142,17 @@ public final class UserWithdrawalsHeaderView extends LinearLayout implements Vie
             vgApplyRecord.setVisibility(View.VISIBLE);
 
             tvWeChatNickname.setText(wx_name);
-            if (TextUtils.isEmpty(wx_portrait)) {
+            if (TextUtils.isEmpty(wx_portrait))
+            {
                 ImageUtil.loadImage(ivWeChatPortrait, R.mipmap.icon_user_default);
-            } else {
+            }
+            else
+            {
                 ImageUtil.loadImage(ivWeChatPortrait, R.mipmap.icon_user_default, wx_portrait);
             }
-        } else {
+        }
+        else
+        {
             tvWithdrawalsMsg.setText("首次提现请绑定微信");
             tvBindToWeChat.setVisibility(View.VISIBLE);
             ivWeChatPortrait.setVisibility(View.GONE);
@@ -142,14 +163,19 @@ public final class UserWithdrawalsHeaderView extends LinearLayout implements Vie
         }
     }
 
-    private void onBindWeChat(boolean isNew) {
+    private void onBindWeChat(boolean isNew)
+    {
         isBindNewWeChat = isNew;
         isBindWeChatOnResume = true;
         WXEntryActivity.REQUEST_TAG = 3;
+        if (mSpinKitProgressDialog == null)
+            mSpinKitProgressDialog = new SpinKitProgressDialog(getContext());
+        mSpinKitProgressDialog.show();
         WeChatUtil.weChatLogin(getContext());
     }
 
-    public void setBindWeChat(final String openid, final String wx_name, final String wx_portrait) {
+    public void setBindWeChat(final String openid, final String wx_name, final String wx_portrait)
+    {
         if (!isBindWeChatOnResume)
             return;
 
@@ -158,7 +184,8 @@ public final class UserWithdrawalsHeaderView extends LinearLayout implements Vie
         WeChatUtil.setOpenId(context, openid);
 
         HashMap<String, String> map = new HashMap<>();
-        if (UserInfoUtil.checkLogin(context)) {
+        if (UserInfoUtil.checkLogin(context))
+        {
             map.put("user", UserInfoUtil.getUserId(context));
             map.put("token", UserInfoUtil.getUserToken(context));
         }
@@ -167,47 +194,61 @@ public final class UserWithdrawalsHeaderView extends LinearLayout implements Vie
         map.put("wx_name", wx_name);
         map.put("wx_portrait", wx_portrait);
 
-        final LoadingProgressDialog dialog = new LoadingProgressDialog(context);
-        dialog.show();
-        HttpClientUtil.getHttpClientUtil().sendPostRequest("UserWithdrawsHeaderView", HttpUrls.HOST_URL_V5 + "user/bind_wechat/", map, new HttpClientUtil.StringResponseCallBack() {
+        final SpinKitProgressDialog dialog = new SpinKitProgressDialog(context);
+        HttpClientUtil.getHttpClientUtil().sendPostRequest("UserWithdrawsHeaderView", HttpUrls.HOST_URL_V5 + "user/bind_wechat/", map, new HttpClientUtil.StringResponseCallBack()
+        {
             @Override
-            public void onBefore(Request request) {
+            public void onBefore(Request request)
+            {
+                dialog.show();
             }
 
             @Override
-            public void onError(Call call, Exception error) {
+            public void onError(Call call, Exception error)
+            {
                 ToastUtil.show(context, R.string.request_error);
             }
 
             @Override
-            public void onSuccess(Call call, String response) {
+            public void onSuccess(Call call, String response)
+            {
                 JSONObject object = JSONObject.parseObject(response);
-                if (JsonParams.isJsonRight(object)) {
+                if (JsonParams.isJsonRight(object))
+                {
                     setBindFlags(balance, true, wx_name, wx_portrait);
                     ToastUtil.show(context, "绑定成功");
-                } else {
+                }
+                else
+                {
                     ToastUtil.show(context, object.getString(JsonParams.MESSAGE));
                 }
             }
 
             @Override
-            public void onFinish(Call call) {
+            public void onFinish(Call call)
+            {
                 dialog.dismiss();
             }
         });
     }
 
     @Override
-    public void onClick(View v) {
-        if (v == this) {
-            try {
+    public void onClick(View v)
+    {
+        if (v == this)
+        {
+            try
+            {
                 SoftInputUtil.hideSoftInput((Activity) v.getContext());
-            } catch (Exception e) {
+            }
+            catch (Exception e)
+            {
                 e.printStackTrace();
             }
             return;
         }
-        switch (v.getId()) {
+        switch (v.getId())
+        {
             case R.id.tvBindToWeChat:
                 onBindWeChat(true);
                 break;
@@ -215,7 +256,8 @@ public final class UserWithdrawalsHeaderView extends LinearLayout implements Vie
                 onBindWeChat(false);
                 break;
             case R.id.tvApplyToWithdrawals:
-                if (TextUtils.isEmpty(applyCheck)) {
+                if (TextUtils.isEmpty(applyCheck))
+                {
                     applyCheck = getTimeMillisNumber();
                 }
                 applyToWithdrawals();
@@ -223,81 +265,105 @@ public final class UserWithdrawalsHeaderView extends LinearLayout implements Vie
         }
     }
 
-    public String getTimeMillisNumber() {
+    public String getTimeMillisNumber()
+    {
 
         StringBuilder sb = new StringBuilder();
 
         sb.append(System.currentTimeMillis());
-        while (sb.length() < 32) {
+        while (sb.length() < 32)
+        {
             sb.append((int) (Math.random() * 10));
         }
 
         return sb.toString();
     }
 
-    private void applyToWithdrawals() {
+    private void applyToWithdrawals()
+    {
         final Context context = getContext();
 
         int amount = 0;
-        try {
+        try
+        {
             amount = (int) (Float.parseFloat(etUserWithdrawals.getText().toString()) * 100);
-        } catch (NumberFormatException ignored) {
         }
-        if (amount <= 0) {
+        catch (NumberFormatException ignored)
+        {
+        }
+        if (amount <= 0)
+        {
             ToastUtil.show(context, "请输入正确的提现金额");
             return;
         }
 
         HashMap<String, String> map = new HashMap<>();
-        if (UserInfoUtil.checkLogin(context)) {
+        if (UserInfoUtil.checkLogin(context))
+        {
             map.put("user", UserInfoUtil.getUserId(context));
             map.put("token", UserInfoUtil.getUserToken(context));
         }
         map.put("amount", String.valueOf(amount));
         map.put("repeat_token", applyCheck);
 
-        HttpClientUtil.getHttpClientUtil().sendPostRequest("UserWithdrawsHeaderView", HttpUrls.HOST_URL_V5 + "user/user_apply_for_withdraw/", map, new HttpClientUtil.ProgressResponseCallBack() {
+        final SpinKitProgressDialog dialog = new SpinKitProgressDialog(context);
+        HttpClientUtil.getHttpClientUtil().sendPostRequest("UserWithdrawsHeaderView", HttpUrls.HOST_URL_V5 + "user/user_apply_for_withdraw/", map, new HttpClientUtil.ProgressResponseCallBack()
+        {
             @Override
-            public void loadingProgress(int progress) {
+            public void loadingProgress(int progress)
+            {
+                dialog.show();
             }
 
             @Override
-            public void onBefore(Request request) {
+            public void onBefore(Request request)
+            {
             }
 
             @Override
-            public void onError(Call call, Exception error) {
+            public void onError(Call call, Exception error)
+            {
                 ToastUtil.show(context, R.string.request_error);
             }
 
             @Override
-            public void onSuccess(Call call, String response) {
+            public void onSuccess(Call call, String response)
+            {
                 KLog.json(response);
 
-                try {
-                    if (JsonParams.isJsonRight(response)) {
+                try
+                {
+                    if (JsonParams.isJsonRight(response))
+                    {
                         ToastUtil.show(context, "申请成功");
                         EventObject eventObject = new EventObject();
                         eventObject.getData().putString("apply", "success");
                         eventObject.addReceiver(UserWithdrawsActivity.class);
                         EventObject.postEventObject(eventObject, "user_reward");
-                    } else {
+                    }
+                    else
+                    {
                         JSONObject object = JSON.parseObject(response);
                         ToastUtil.show(context, object.getString(JsonParams.MESSAGE));
                     }
-                } catch (NullPointerException e) {
+                }
+                catch (NullPointerException e)
+                {
                     ToastUtil.show(context, "申请失败");
                 }
             }
 
             @Override
-            public void onFinish(Call call) {
+            public void onFinish(Call call)
+            {
                 applyCheck = "";
+                dialog.show();
             }
         });
     }
 
-    public final boolean isBindToWX() {
+    public final boolean isBindToWX()
+    {
         return is_bind_to_wx;
     }
 }

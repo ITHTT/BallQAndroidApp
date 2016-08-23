@@ -257,6 +257,9 @@ public class UserAccountActivity extends BaseActivity
         startActivity(intent);
     }
 
+    /**
+     * 购买金币
+     */
     @OnClick(R.id.tvBuyGoldCoin)
     protected void onBuyGoldCoin(View view)
     {

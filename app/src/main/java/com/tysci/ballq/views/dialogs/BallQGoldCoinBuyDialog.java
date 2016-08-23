@@ -17,6 +17,7 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.tysci.ballq.R;
 import com.tysci.ballq.activitys.UserAccountActivity;
+import com.tysci.ballq.dialog.SpinKitProgressDialog;
 import com.tysci.ballq.modles.BallQGoldCoinBuyEntity;
 import com.tysci.ballq.modles.JsonParams;
 import com.tysci.ballq.networks.HttpClientUtil;
@@ -40,7 +41,8 @@ import okhttp3.Request;
 /**
  * Created by HTT on 2016/7/6.
  */
-public class BallQGoldCoinBuyDialog extends Dialog implements View.OnClickListener {
+public class BallQGoldCoinBuyDialog extends Dialog implements View.OnClickListener
+{
     private RecyclerView recyclerView;
     private LoadDataLayout loadDataLayout;
     private View layoutContent;
@@ -50,12 +52,14 @@ public class BallQGoldCoinBuyDialog extends Dialog implements View.OnClickListen
 
     private TextView tvOK;
 
-    public BallQGoldCoinBuyDialog(Context context) {
+    public BallQGoldCoinBuyDialog(Context context)
+    {
         super(context, R.style.CustomDialogStyle);
         initViews(context);
     }
 
-    private void initViews(Context context) {
+    private void initViews(Context context)
+    {
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         this.getWindow().setBackgroundDrawable(
                 new ColorDrawable(Color.TRANSPARENT));
@@ -78,24 +82,30 @@ public class BallQGoldCoinBuyDialog extends Dialog implements View.OnClickListen
         getGoldCoinBuyInfo();
     }
 
-    private void getGoldCoinBuyInfo() {
+    private void getGoldCoinBuyInfo()
+    {
         String url = HttpUrls.HOST_URL_V5 + "exchange_list/";
         Map<String, String> params = new HashMap<>(3);
         params.put("user", UserInfoUtil.getUserId(this.getContext()));
         params.put("token", UserInfoUtil.getUserToken(this.getContext()));
         params.put("exchange_type", "1");
-        HttpClientUtil.getHttpClientUtil().sendPostRequest(UserAccountActivity.class.getSimpleName(), url, params, new HttpClientUtil.StringResponseCallBack() {
+        HttpClientUtil.getHttpClientUtil().sendPostRequest(UserAccountActivity.class.getSimpleName(), url, params, new HttpClientUtil.StringResponseCallBack()
+        {
             @Override
-            public void onBefore(Request request) {
+            public void onBefore(Request request)
+            {
                 loadDataLayout.showLoading();
                 layoutContent.setVisibility(View.GONE);
             }
 
             @Override
-            public void onError(Call call, Exception error) {
-                loadDataLayout.setLoadError(new View.OnClickListener() {
+            public void onError(Call call, Exception error)
+            {
+                loadDataLayout.setLoadError(new View.OnClickListener()
+                {
                     @Override
-                    public void onClick(View v) {
+                    public void onClick(View v)
+                    {
                         loadDataLayout.showLoading();
                         getGoldCoinBuyInfo();
                     }
@@ -103,23 +113,31 @@ public class BallQGoldCoinBuyDialog extends Dialog implements View.OnClickListen
             }
 
             @Override
-            public void onSuccess(Call call, String response) {
+            public void onSuccess(Call call, String response)
+            {
                 KLog.json(response);
-                if (!TextUtils.isEmpty(response)) {
+                if (!TextUtils.isEmpty(response))
+                {
                     JSONObject obj = JSONObject.parseObject(response);
-                    if (obj != null && !obj.isEmpty()) {
+                    if (obj != null && !obj.isEmpty())
+                    {
                         JSONArray arrays = obj.getJSONArray("data");
-                        if (arrays != null && !arrays.isEmpty()) {
+                        if (arrays != null && !arrays.isEmpty())
+                        {
                             loadDataLayout.hideLoad();
                             layoutContent.setVisibility(View.VISIBLE);
-                            if (goldCoinBuyEntityList == null) {
+                            if (goldCoinBuyEntityList == null)
+                            {
                                 goldCoinBuyEntityList = new ArrayList<BallQGoldCoinBuyEntity>(10);
                             }
                             CommonUtils.getJSONListObject(arrays, goldCoinBuyEntityList, BallQGoldCoinBuyEntity.class);
-                            if (adapter == null) {
+                            if (adapter == null)
+                            {
                                 adapter = new BallQGoldCoinBuyAdapter(goldCoinBuyEntityList);
                                 recyclerView.setAdapter(adapter);
-                            } else {
+                            }
+                            else
+                            {
                                 adapter.notifyDataSetChanged();
                             }
                             return;
@@ -130,36 +148,46 @@ public class BallQGoldCoinBuyDialog extends Dialog implements View.OnClickListen
             }
 
             @Override
-            public void onFinish(Call call) {
+            public void onFinish(Call call)
+            {
 
             }
         });
     }
 
-    private void buyGoldCoin(int id) {
+    private void buyGoldCoin(int id)
+    {
         String url = HttpUrls.HOST_URL_V5 + "user/cny_to_balance/";
         Map<String, String> params = new HashMap<>(3);
         params.put("user", UserInfoUtil.getUserId(this.getContext()));
         params.put("token", UserInfoUtil.getUserToken(this.getContext()));
         params.put("eid", String.valueOf(id));
         params.put("repeat_token", RandomUtils.getOnlyOneByTimeMillis(32));
-        HttpClientUtil.getHttpClientUtil().sendPostRequest(UserAccountActivity.class.getSimpleName(), url, params, new HttpClientUtil.StringResponseCallBack() {
+        final SpinKitProgressDialog dialog = new SpinKitProgressDialog(getContext());
+        HttpClientUtil.getHttpClientUtil().sendPostRequest(UserAccountActivity.class.getSimpleName(), url, params, new HttpClientUtil.StringResponseCallBack()
+        {
             @Override
-            public void onBefore(Request request) {
-
+            public void onBefore(Request request)
+            {
+                dialog.show();
             }
 
             @Override
-            public void onError(Call call, Exception error) {
+            public void onError(Call call, Exception error)
+            {
                 ToastUtil.show(getContext(), R.string.request_error);
             }
 
             @Override
-            public void onSuccess(Call call, String response) {
+            public void onSuccess(Call call, String response)
+            {
                 KLog.json(response);
-                if (JsonParams.isJsonRight(response)) {
+                if (JsonParams.isJsonRight(response))
+                {
                     ToastUtil.show(getContext(), "购买金币成功");
-                } else {
+                }
+                else
+                {
                     JSONObject object = JSON.parseObject(response);
                     ToastUtil.show(getContext(), object.getString(JsonParams.MESSAGE));
                 }
@@ -167,21 +195,27 @@ public class BallQGoldCoinBuyDialog extends Dialog implements View.OnClickListen
             }
 
             @Override
-            public void onFinish(Call call) {
-
+            public void onFinish(Call call)
+            {
+                dialog.dismiss();
             }
         });
     }
 
     @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
+    public void onClick(View v)
+    {
+        switch (v.getId())
+        {
             case R.id.ivDismiss:
                 dismiss();
                 break;
             case R.id.tvOK:
                 BallQGoldCoinBuyEntity info = adapter.getCheckInfo();
-                buyGoldCoin(info.getId());
+                if (info != null)
+                    buyGoldCoin(info.getId());
+                else
+                    ToastUtil.show(getContext(), "请先选择购买的金币数量");
                 break;
         }
     }

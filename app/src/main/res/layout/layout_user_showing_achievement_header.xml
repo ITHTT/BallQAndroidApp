@@ -56,13 +56,13 @@
             android:contentDescription="@string/app_name"
             android:src="@mipmap/icon_user_achievement_circle_mark" />
 
-        <ImageView
-            android:layout_width="@dimen/dimen100dp"
-            android:layout_height="@dimen/dimen40dp"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:contentDescription="@string/app_name"
-            android:src="@mipmap/icon_achievement_example" />
+        <!--<ImageView-->
+            <!--android:layout_width="@dimen/dimen100dp"-->
+            <!--android:layout_height="@dimen/dimen40dp"-->
+            <!--android:layout_alignParentEnd="true"-->
+            <!--android:layout_alignParentRight="true"-->
+            <!--android:contentDescription="@string/app_name"-->
+            <!--android:src="@mipmap/icon_achievement_example" />-->
     </RelativeLayout>
 
     <TextView

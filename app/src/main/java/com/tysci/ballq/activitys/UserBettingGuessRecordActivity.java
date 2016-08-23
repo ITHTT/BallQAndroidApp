@@ -197,7 +197,6 @@ public class UserBettingGuessRecordActivity extends BaseActivity implements Swip
             @Override
             public void onError(Call call, Exception error)
             {
-                onRefreshCompelete();
                 if (adapter == null)
                 {
                     showErrorInfo(new View.OnClickListener()
@@ -232,8 +231,7 @@ public class UserBettingGuessRecordActivity extends BaseActivity implements Swip
                             GlideImageLoader.loadImage(UserBettingGuessRecordActivity.this, dataObj.getString("pt"), R.mipmap.icon_user_default, ivUserIcon);
                             UserInfoUtil.setUserHeaderVMark(dataObj.getIntValue("isv"), ivS, ivUserIcon);
                             tvUserName.setText(dataObj.getString("fname"));
-                            tvUserProfitRate.setText(String.format(Locale.getDefault(), "%.2f", dataObj.getFloat("ror")));
-                            tvUserProfitRate.append("% 盈利");
+                            tvUserProfitRate.setText(String.format(Locale.getDefault(), "%.2f", dataObj.getFloat("ror")) + "% 盈利");
                             tvAllCount.setText("场 ");
                             tvAllCount.append(dataObj.getString("bsc"));
 
@@ -259,7 +257,7 @@ public class UserBettingGuessRecordActivity extends BaseActivity implements Swip
             @Override
             public void onFinish(Call call)
             {
-
+                onRefreshCompelete();
             }
         });
     }

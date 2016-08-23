@@ -44,6 +44,14 @@ public final class ImageUrlBrowserDialog extends BaseDialog implements ViewPager
     private List<String> mUrls;
     private MyImagePagerAdapter mAdapter;
 
+    public ImageUrlBrowserDialog(Context context)
+    {
+        super(context);
+        mUrls = new ArrayList<>();
+        mAdapter = new MyImagePagerAdapter();
+        currentImageIndex = 0;
+    }
+
     public ImageUrlBrowserDialog(Activity context)
     {
         super(context);
@@ -81,7 +89,7 @@ public final class ImageUrlBrowserDialog extends BaseDialog implements ViewPager
         {
             if (!TextUtils.isEmpty(url))
             {
-                mUrls.add(url);
+                mUrls.add(HttpUrls.getImageUrl(url));
             }
         }
         mAdapter.notifyDataSetChanged();
@@ -93,7 +101,7 @@ public final class ImageUrlBrowserDialog extends BaseDialog implements ViewPager
         {
             if (!TextUtils.isEmpty(url))
             {
-                mUrls.add(url);
+                mUrls.add(HttpUrls.getImageUrl(url));
             }
         }
         mAdapter.notifyDataSetChanged();

@@ -3,14 +3,13 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
-    <TextView
+    <com.tysci.ballq.views.MarqueeTextView
+        style="@style/MarqueeTextView"
         android:id="@+id/tv_ballq_match_lineup_header_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
         android:background="#ebebeb"
-        android:ellipsize="end"
-        android:lines="1"
         android:padding="10dp"
         android:text="阿森纳首发阵容"
         android:textColor="#3a3a3a"
@@ -20,23 +19,22 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
-        <TextView
+        <com.tysci.ballq.views.MarqueeTextView
+            style="@style/MarqueeTextView"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:ellipsize="end"
             android:gravity="center"
-            android:lines="1"
             android:paddingBottom="10dp"
             android:paddingTop="10dp"
             android:text="号码"
             android:textColor="#8a8a8a"
             android:typeface="monospace" />
-        <TextView
+        <com.tysci.ballq.views.MarqueeTextView
+            style="@style/MarqueeTextView"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="2"
-            android:ellipsize="end"
             android:gravity="center"
             android:lines="1"
             android:paddingBottom="10dp"
@@ -44,11 +42,11 @@
             android:text="姓名"
             android:textColor="#8a8a8a"
             android:typeface="monospace" />
-        <TextView
+        <com.tysci.ballq.views.MarqueeTextView
+            style="@style/MarqueeTextView"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:ellipsize="end"
             android:gravity="center"
             android:lines="1"
             android:paddingBottom="10dp"
@@ -56,11 +54,11 @@
             android:text="位置"
             android:textColor="#8a8a8a"
             android:typeface="monospace" />
-        <TextView
+        <com.tysci.ballq.views.MarqueeTextView
+            style="@style/MarqueeTextView"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:ellipsize="end"
             android:gravity="center"
             android:lines="1"
             android:paddingBottom="10dp"
@@ -68,11 +66,11 @@
             android:text="出场"
             android:textColor="#8a8a8a"
             android:typeface="monospace" />
-        <TextView
+        <com.tysci.ballq.views.MarqueeTextView
+            style="@style/MarqueeTextView"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:ellipsize="end"
             android:gravity="center"
             android:lines="1"
             android:paddingBottom="10dp"
@@ -80,11 +78,11 @@
             android:text="首发"
             android:textColor="#8a8a8a"
             android:typeface="monospace" />
-        <TextView
+        <com.tysci.ballq.views.MarqueeTextView
+            style="@style/MarqueeTextView"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:ellipsize="end"
             android:gravity="center"
             android:lines="1"
             android:paddingBottom="10dp"

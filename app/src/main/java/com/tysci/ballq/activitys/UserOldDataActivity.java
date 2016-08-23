@@ -16,6 +16,8 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.tysci.ballq.R;
 import com.tysci.ballq.base.BaseActivity;
+import com.tysci.ballq.dialog.ImageUrlBrowserDialog;
+import com.tysci.ballq.dialog.SpinKitProgressDialog;
 import com.tysci.ballq.modles.BallQUserGuessBettingRecordEntity;
 import com.tysci.ballq.modles.UserInfoEntity;
 import com.tysci.ballq.networks.HttpClientUtil;
@@ -23,7 +25,6 @@ import com.tysci.ballq.networks.HttpUrls;
 import com.tysci.ballq.utils.CommonUtils;
 import com.tysci.ballq.utils.ImageUtil;
 import com.tysci.ballq.utils.KLog;
-import com.tysci.ballq.utils.SwipeUtil;
 import com.tysci.ballq.utils.TUtil;
 import com.tysci.ballq.utils.ToastUtil;
 import com.tysci.ballq.utils.UserInfoUtil;
@@ -53,9 +54,10 @@ public class UserOldDataActivity extends BaseActivity implements SwipeRefreshLay
 
     @Bind(R.id.swipe_refresh)
     SwipeRefreshLayout refreshLayout;
-    SwipeUtil mSwipeUtil;
     @Bind(R.id.recycler_view)
     AutoLoadMoreRecyclerView recycler_view;
+
+    private SpinKitProgressDialog mSpinKitProgressDialog;
 
     private List<BallQUserGuessBettingRecordEntity> dataList;
     private BallQUserBettingGuessRecordAdapter adapter;
@@ -113,8 +115,7 @@ public class UserOldDataActivity extends BaseActivity implements SwipeRefreshLay
     {
         setTitleText("老用户战绩");
 
-        mSwipeUtil = new SwipeUtil(refreshLayout);
-        refreshLayout.setOnRefreshListener(this);
+        refreshLayout.setEnabled(false);
 
         LinearLayoutManager llm = new LinearLayoutManager(this);
         llm.setOrientation(LinearLayoutManager.VERTICAL);
@@ -214,7 +215,6 @@ public class UserOldDataActivity extends BaseActivity implements SwipeRefreshLay
                     userProfile = object.getObject("data", UserInfoEntity.class);
                     refreshUserProfile();
                 }
-                mSwipeUtil.onRefreshComplete();
             }
 
             @Override
@@ -254,13 +254,11 @@ public class UserOldDataActivity extends BaseActivity implements SwipeRefreshLay
             @Override
             public void onBefore(Request request)
             {
-
             }
 
             @Override
             public void onError(Call call, Exception error)
             {
-
             }
 
             @Override
@@ -295,7 +293,7 @@ public class UserOldDataActivity extends BaseActivity implements SwipeRefreshLay
             @Override
             public void onFinish(Call call)
             {
-
+                dismissDialog();
             }
         });
     }
@@ -412,7 +410,7 @@ public class UserOldDataActivity extends BaseActivity implements SwipeRefreshLay
                 layout_guess_record_data.setVisibility(View.VISIBLE);
                 break;
         }
-        mSwipeUtil.startRefreshing();
+        showDialog();
         onRefresh();
     }
 
@@ -428,5 +426,26 @@ public class UserOldDataActivity extends BaseActivity implements SwipeRefreshLay
         Intent intent = new Intent(this, UserOldTrendStatisticActivity.class);
         intent.putExtra("uid", userId);
         startActivity(intent);
+    }
+
+    @OnClick(R.id.ivUserIcon)
+    protected void onUserPortrait(View view)
+    {
+        ImageUrlBrowserDialog dialog = new ImageUrlBrowserDialog(this);
+        dialog.addUrl(userProfile.getPt());
+        dialog.show();
+    }
+
+    private void showDialog()
+    {
+        if (mSpinKitProgressDialog == null)
+            mSpinKitProgressDialog = new SpinKitProgressDialog(this);
+        mSpinKitProgressDialog.show();
+    }
+
+    private void dismissDialog()
+    {
+        if (mSpinKitProgressDialog != null && mSpinKitProgressDialog.isShowing())
+            mSpinKitProgressDialog.dismiss();
     }
 }

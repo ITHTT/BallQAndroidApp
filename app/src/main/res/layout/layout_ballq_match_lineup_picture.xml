@@ -3,13 +3,12 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
-    <TextView
+    <com.tysci.ballq.views.MarqueeTextView
+        style="@style/MarqueeTextView"
         android:id="@+id/match_lineup_picture_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="#ebebeb"
-        android:ellipsize="end"
-        android:lines="1"
         android:padding="10dp"
         android:text="阿森纳阵型：4-3-3"
         android:textColor="#3a3a3a"

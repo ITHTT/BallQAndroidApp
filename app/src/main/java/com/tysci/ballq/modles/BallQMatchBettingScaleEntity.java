@@ -1,9 +1,12 @@
 package com.tysci.ballq.modles;
 
+import com.tysci.ballq.utils.ParseUtil;
+
 /**
  * Created by Administrator on 2016/6/28.
  */
-public class BallQMatchBettingScaleEntity {
+public class BallQMatchBettingScaleEntity
+{
     private String bettingType;
     private boolean isBigSmall;
     private int ac;
@@ -27,163 +30,203 @@ public class BallQMatchBettingScaleEntity {
     private int ds;
     private int dr;
 
-    public int getAc() {
-        return ac;
-    }
-
-    public void setAc(int ac) {
-        this.ac = ac;
-    }
-
-    public int getAr() {
-        return ar;
-    }
-
-    public void setAr(int ar) {
-        this.ar = ar;
-    }
-
-    public int getAs() {
-        return as;
-    }
-
-    public void setAs(int as) {
-        this.as = as;
-    }
-
-    public int getDc() {
-        return dc;
-    }
-
-    public void setDc(int dc) {
-        this.dc = dc;
-    }
-
-    public int getDr() {
-        return dr;
-    }
-
-    public void setDr(int dr) {
-        this.dr = dr;
-    }
-
-    public int getDs() {
-        return ds;
-    }
-
-    public void setDs(int ds) {
-        this.ds = ds;
-    }
-
-    public int getHc() {
-        return hc;
-    }
-
-    public void setHc(int hc) {
-        this.hc = hc;
-    }
-
-    public int getHr() {
-        return hr;
-    }
-
-    public void setHr(int hr) {
-        this.hr = hr;
-    }
-
-    public int getHs() {
-        return hs;
-    }
-
-    public void setHs(int hs) {
-        this.hs = hs;
-    }
-
-    public int getOc() {
-        return oc;
-    }
-
-    public void setOc(int oc) {
-        this.oc = oc;
-    }
-
-    public int getOr() {
-        return or;
-    }
-
-    public void setOr(int or) {
-        this.or = or;
-    }
-
-    public int getOs() {
-        return os;
-    }
-
-    public void setOs(int os) {
-        this.os = os;
-    }
-
-    public int getR() {
-        return r;
-    }
-
-    public void setR(int r) {
-        this.r = r;
-    }
-
-    public int  getS() {
-        return s;
-    }
-
-    public void setS(int s) {
-        this.s = s;
-    }
-
-    public float getT() {
-        return t;
-    }
-
-    public void setT(float t) {
-        this.t = t;
-    }
-
-    public int getUc() {
-        return uc;
-    }
-
-    public void setUc(int uc) {
-        this.uc = uc;
-    }
-
-    public int getUr() {
-        return ur;
-    }
-
-    public void setUr(int ur) {
-        this.ur = ur;
-    }
-
-    public int getUs() {
-        return us;
-    }
-
-    public void setUs(int us) {
-        this.us = us;
-    }
-
-    public String getBettingType() {
+    public String getBettingType()
+    {
         return bettingType;
     }
 
-    public void setBettingType(String bettingType) {
-        this.bettingType = bettingType;
-    }
-
-    public boolean isBigSmall() {
+    public boolean isBigSmall()
+    {
         return isBigSmall;
     }
 
-    public void setIsBigSmall(boolean isBigSmall) {
+    public int getAc()
+    {
+        return ac;
+    }
+
+    public int getHr()
+    {
+        return hr;
+    }
+
+    public int getHs()
+    {
+        return hs;
+    }
+
+    public int getAs()
+    {
+        return as;
+    }
+
+    public int getS()
+    {
+        return s;
+    }
+
+    public int getR()
+    {
+        return r;
+    }
+
+    public float getT()
+    {
+        return t;
+    }
+
+    public int getHc()
+    {
+        return hc;
+    }
+
+    public int getAr()
+    {
+        return ar;
+    }
+
+    public int getOc()
+    {
+        return oc;
+    }
+
+    public int getUs()
+    {
+        return us;
+    }
+
+    public int getUr()
+    {
+        return ur;
+    }
+
+    public int getOs()
+    {
+        return os;
+    }
+
+    public int getOr()
+    {
+        return or;
+    }
+
+    public int getUc()
+    {
+        return uc;
+    }
+
+    public int getDc()
+    {
+        return dc;
+    }
+
+    public int getDs()
+    {
+        return ds;
+    }
+
+    public int getDr()
+    {
+        return dr;
+    }
+
+    public void setBettingType(String bettingType)
+    {
+        this.bettingType = bettingType;
+    }
+
+    public void setIsBigSmall(boolean isBigSmall)
+    {
         this.isBigSmall = isBigSmall;
+    }
+
+    public <INT> void setAc(INT ac)
+    {
+        this.ac = ParseUtil.makeParse(ac, 0);
+    }
+
+    public <INT> void setHr(INT hr)
+    {
+        this.hr = ParseUtil.makeParse(hr, 0);
+    }
+
+    public <INT> void setHs(INT hs)
+    {
+        this.hs = ParseUtil.makeParse(hs, 0);
+    }
+
+    public <INT> void setAs(INT as)
+    {
+        this.as = ParseUtil.makeParse(as, 0);
+    }
+
+    public <INT> void setS(INT s)
+    {
+        this.s = ParseUtil.makeParse(s, 0);
+    }
+
+    public <INT> void setR(INT r)
+    {
+        this.r = ParseUtil.makeParse(r, 0);
+    }
+
+    public <FLOAT> void setT(FLOAT t)
+    {
+        this.t = ParseUtil.makeParse(t, 0f);
+    }
+
+    public <INT> void setHc(INT hc)
+    {
+        this.hc = ParseUtil.makeParse(hc, 0);
+    }
+
+    public <INT> void setAr(INT ar)
+    {
+        this.ar = ParseUtil.makeParse(ar, 0);
+    }
+
+    public <INT> void setOc(INT oc)
+    {
+        this.oc = ParseUtil.makeParse(oc, 0);
+    }
+
+    public <INT> void setUs(INT us)
+    {
+        this.us = ParseUtil.makeParse(us, 0);
+    }
+
+    public <INT> void setUr(INT ur)
+    {
+        this.ur = ParseUtil.makeParse(ur, 0);
+    }
+
+    public <INT> void setOs(INT os)
+    {
+        this.os = ParseUtil.makeParse(os, 0);
+    }
+
+    public <INT> void setOr(INT or)
+    {
+        this.or = ParseUtil.makeParse(or, 0);
+    }
+
+    public <INT> void setUc(INT uc)
+    {
+        this.uc = ParseUtil.makeParse(uc, 0);
+    }
+
+    public <INT> void setDc(INT dc)
+    {
+        this.dc = ParseUtil.makeParse(dc, 0);
+    }
+
+    public <INT> void setDs(INT ds)
+    {
+        this.ds = ParseUtil.makeParse(ds, 0);
+    }
+
+    public <INT> void setDr(INT dr)
+    {
+        this.dr = ParseUtil.makeParse(dr, 0);
     }
 }

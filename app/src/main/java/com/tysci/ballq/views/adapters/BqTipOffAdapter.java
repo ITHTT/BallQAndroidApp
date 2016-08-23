@@ -164,9 +164,9 @@ public class BqTipOffAdapter extends WrapRecyclerAdapter<BallQTipOffEntity, BqTi
                 checkCollection(holder, tipInfo, position);
             }
         });
-        // 输赢
+        // 输赢走
         holder.ivBetResult.setVisibility(View.VISIBLE);
-        switch (tipInfo.getStatus())
+        switch (tipInfo.getMstatus())
         {
             case -1:
             case 0:

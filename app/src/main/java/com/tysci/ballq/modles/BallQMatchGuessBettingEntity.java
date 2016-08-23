@@ -3,10 +3,13 @@ package com.tysci.ballq.modles;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.tysci.ballq.utils.ParseUtil;
+
 /**
  * Created by Administrator on 2016/5/10.
  */
-public class BallQMatchGuessBettingEntity implements Parcelable {
+public class BallQMatchGuessBettingEntity implements Parcelable
+{
     private int id;
     private int AO_cnt;
     private int HO_cnt;
@@ -25,142 +28,180 @@ public class BallQMatchGuessBettingEntity implements Parcelable {
     private int bettingMoney;
     private String bettingType;
 
-    public int getAO_cnt() {
-        return AO_cnt;
-    }
-
-    public void setAO_cnt(int AO_cnt) {
-        this.AO_cnt = AO_cnt;
-    }
-
-    public int getDO_cnt() {
-        return DO_cnt;
-    }
-
-    public void setDO_cnt(int DO_cnt) {
-        this.DO_cnt = DO_cnt;
-    }
-
-    public int getEid() {
-        return eid;
-    }
-
-    public void setEid(int eid) {
-        this.eid = eid;
-    }
-
-    public int getEtype() {
-        return etype;
-    }
-
-    public void setEtype(int etype) {
-        this.etype = etype;
-    }
-
-    public int getHO_cnt() {
-        return HO_cnt;
-    }
-
-    public void setHO_cnt(int HO_cnt) {
-        this.HO_cnt = HO_cnt;
-    }
-
-    public int getId() {
+    public int getId()
+    {
         return id;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public int getAO_cnt()
+    {
+        return AO_cnt;
     }
 
-    public int getMLA_cnt() {
-        return MLA_cnt;
+    public int getHO_cnt()
+    {
+        return HO_cnt;
     }
 
-    public void setMLA_cnt(int MLA_cnt) {
-        this.MLA_cnt = MLA_cnt;
-    }
-
-    public int getMLH_cnt() {
-        return MLH_cnt;
-    }
-
-    public void setMLH_cnt(int MLH_cnt) {
-        this.MLH_cnt = MLH_cnt;
-    }
-
-    public String getOdata() {
-        return odata;
-    }
-
-    public void setOdata(String odata) {
-        this.odata = odata;
-    }
-
-    public int getOO_cnt() {
-        return OO_cnt;
-    }
-
-    public void setOO_cnt(int OO_cnt) {
-        this.OO_cnt = OO_cnt;
-    }
-
-    public String getOtype() {
-        return otype;
-    }
-
-    public void setOtype(String otype) {
-        this.otype = otype;
-    }
-
-    public int getUO_cnt() {
+    public int getUO_cnt()
+    {
         return UO_cnt;
     }
 
-    public void setUO_cnt(int UO_cnt) {
-        this.UO_cnt = UO_cnt;
+    public int getOO_cnt()
+    {
+        return OO_cnt;
     }
 
-    public int getDataType() {
+    public int getDO_cnt()
+    {
+        return DO_cnt;
+    }
+
+    public int getMLA_cnt()
+    {
+        return MLA_cnt;
+    }
+
+    public int getMLH_cnt()
+    {
+        return MLH_cnt;
+    }
+
+    public String getOdata()
+    {
+        return odata;
+    }
+
+    public String getOtype()
+    {
+        return otype;
+    }
+
+    public int getEid()
+    {
+        return eid;
+    }
+
+    public int getEtype()
+    {
+        return etype;
+    }
+
+    public int getDataType()
+    {
         return dataType;
     }
 
-    public void setDataType(int dataType) {
-        this.dataType = dataType;
-    }
-
-    public String getBettingInfo() {
+    public String getBettingInfo()
+    {
         return bettingInfo;
     }
 
-    public void setBettingInfo(String bettingInfo) {
-        this.bettingInfo = bettingInfo;
-    }
-
-    public int getBettingMoney() {
+    public int getBettingMoney()
+    {
         return bettingMoney;
     }
 
-    public void setBettingMoney(int bettingMoney) {
-        this.bettingMoney = bettingMoney;
-    }
-
-    public String getBettingType() {
+    public String getBettingType()
+    {
         return bettingType;
     }
 
-    public void setBettingType(String bettingType) {
+    public static Creator<BallQMatchGuessBettingEntity> getCREATOR()
+    {
+        return CREATOR;
+    }
+
+    public <INT> void setId(INT id)
+    {
+        this.id = ParseUtil.makeParse(id, 0);
+    }
+
+    public <INT> void setAO_cnt(INT AO_cnt)
+    {
+        this.AO_cnt = ParseUtil.makeParse(AO_cnt, 0);
+    }
+
+    public <INT> void setHO_cnt(INT HO_cnt)
+    {
+        this.HO_cnt = ParseUtil.makeParse(HO_cnt, 0);
+    }
+
+    public <INT> void setUO_cnt(INT UO_cnt)
+    {
+        this.UO_cnt = ParseUtil.makeParse(UO_cnt, 0);
+    }
+
+    public <INT> void setOO_cnt(INT OO_cnt)
+    {
+        this.OO_cnt = ParseUtil.makeParse(OO_cnt, 0);
+    }
+
+    public <INT> void setDO_cnt(INT DO_cnt)
+    {
+        this.DO_cnt = ParseUtil.makeParse(DO_cnt, 0);
+    }
+
+    public <INT> void setMLA_cnt(INT MLA_cnt)
+    {
+        this.MLA_cnt = ParseUtil.makeParse(MLA_cnt, 0);
+    }
+
+    public <INT> void setMLH_cnt(INT MLH_cnt)
+    {
+        this.MLH_cnt = ParseUtil.makeParse(MLH_cnt, 0);
+    }
+
+    public <INT> void setOdata(String odata)
+    {
+        this.odata = odata;
+    }
+
+    public <INT> void setOtype(String otype)
+    {
+        this.otype = otype;
+    }
+
+    public <INT> void setEid(INT eid)
+    {
+        this.eid = ParseUtil.makeParse(eid, 0);
+    }
+
+    public <INT> void setEtype(INT etype)
+    {
+        this.etype = ParseUtil.makeParse(etype, 0);
+    }
+
+    public <INT> void setDataType(INT dataType)
+    {
+        this.dataType = ParseUtil.makeParse(dataType, 0);
+    }
+
+    public <INT> void setBettingInfo(String bettingInfo)
+    {
+        this.bettingInfo = bettingInfo;
+    }
+
+    public <INT> void setBettingMoney(INT bettingMoney)
+    {
+        this.bettingMoney = ParseUtil.makeParse(bettingMoney, 0);
+    }
+
+    public void setBettingType(String bettingType)
+    {
         this.bettingType = bettingType;
     }
 
-
     @Override
-    public int describeContents() {
+    public int describeContents()
+    {
         return 0;
     }
 
     @Override
-    public void writeToParcel(Parcel dest, int flags) {
+    public void writeToParcel(Parcel dest, int flags)
+    {
         dest.writeInt(this.id);
         dest.writeInt(this.AO_cnt);
         dest.writeInt(this.HO_cnt);
@@ -179,10 +220,12 @@ public class BallQMatchGuessBettingEntity implements Parcelable {
         dest.writeString(this.bettingType);
     }
 
-    public BallQMatchGuessBettingEntity() {
+    public BallQMatchGuessBettingEntity()
+    {
     }
 
-    private BallQMatchGuessBettingEntity(Parcel in) {
+    private BallQMatchGuessBettingEntity(Parcel in)
+    {
         this.id = in.readInt();
         this.AO_cnt = in.readInt();
         this.HO_cnt = in.readInt();
@@ -201,12 +244,15 @@ public class BallQMatchGuessBettingEntity implements Parcelable {
         this.bettingType = in.readString();
     }
 
-    public static final Creator<BallQMatchGuessBettingEntity> CREATOR = new Creator<BallQMatchGuessBettingEntity>() {
-        public BallQMatchGuessBettingEntity createFromParcel(Parcel source) {
+    public static final Creator<BallQMatchGuessBettingEntity> CREATOR = new Creator<BallQMatchGuessBettingEntity>()
+    {
+        public BallQMatchGuessBettingEntity createFromParcel(Parcel source)
+        {
             return new BallQMatchGuessBettingEntity(source);
         }
 
-        public BallQMatchGuessBettingEntity[] newArray(int size) {
+        public BallQMatchGuessBettingEntity[] newArray(int size)
+        {
             return new BallQMatchGuessBettingEntity[size];
         }
     };

@@ -11,27 +11,23 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/dimen10dp"
-        android:background="@color/white">
+        android:background="@drawable/click_style">
 
         <ImageView
             android:id="@+id/ivBetResult"
-            android:layout_width="110dp"
-            android:layout_height="125dp"
-            android:layout_alignParentBottom="true"
+            android:layout_width="130dp"
+            android:layout_height="130dp"
+            android:layout_alignBottom="@+id/layout_1"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
             android:contentDescription="@string/app_name"
             android:paddingBottom="25dp"
-            android:paddingEnd="10dp"
-            android:paddingLeft="0dp"
-            android:paddingRight="10dp"
-            android:paddingStart="0dp"
             android:src="@mipmap/watermark_gone"/>
 
         <LinearLayout
+            android:id="@+id/layout_1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/click_style"
             android:orientation="vertical">
 
             <RelativeLayout
@@ -144,22 +140,22 @@
             </RelativeLayout>
 
             <LinearLayout
-                android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
                 android:gravity="center_vertical"
+                android:orientation="horizontal"
                 android:paddingLeft="15dp"
                 android:paddingRight="15dp">
 
                 <com.tysci.ballq.views.MarqueeTextView
                     android:id="@+id/tvChoice"
                     style="@style/MarqueeTextView"
-                    android:layout_marginRight="@dimen/dimen10dp"
-                    android:layout_marginEnd="@dimen/dimen10dp"
                     android:layout_width="0dp"
-                    android:layout_weight="1"
                     android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/dimen10dp"
+                    android:layout_marginRight="@dimen/dimen10dp"
+                    android:layout_weight="1"
                     android:text="@string/app_name"
                     android:textColor="#cdaa44"
                     android:textSize="12sp"/>
@@ -474,8 +470,8 @@
                 android:textSize="13sp"/>
 
             <com.tysci.ballq.views.MarqueeTextView
-                style="@style/MarqueeTextView"
                 android:id="@+id/tvMatchEvent"
+                style="@style/MarqueeTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"

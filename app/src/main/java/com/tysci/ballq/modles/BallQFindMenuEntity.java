@@ -1,9 +1,12 @@
 package com.tysci.ballq.modles;
 
+import com.tysci.ballq.utils.ParseUtil;
+
 /**
  * Created by Administrator on 2016/7/15.
  */
-public class BallQFindMenuEntity {
+public class BallQFindMenuEntity
+{
 
     /**
      * jump_type : 1
@@ -21,51 +24,63 @@ public class BallQFindMenuEntity {
     private String jump_url;
     private String pic_url;
 
-    public void setJump_type(int jump_type) {
-        this.jump_type = jump_type;
+    public <T> void setJump_type(T jump_type)
+    {
+        this.jump_type = ParseUtil.makeParse(jump_type, 0);
     }
 
-    public void setName(String name) {
+    public void setName(String name)
+    {
         this.name = name;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public <T> void setId(T id)
+    {
+        this.id = ParseUtil.makeParse(id, 0);
     }
 
-    public void setNote(String note) {
+    public void setNote(String note)
+    {
         this.note = note;
     }
 
-    public void setJump_url(String jump_url) {
+    public void setJump_url(String jump_url)
+    {
         this.jump_url = jump_url;
     }
 
-    public void setPic_url(String pic_url) {
+    public void setPic_url(String pic_url)
+    {
         this.pic_url = pic_url;
     }
 
-    public int getJump_type() {
+    public int getJump_type()
+    {
         return jump_type;
     }
 
-    public String getName() {
+    public String getName()
+    {
         return name;
     }
 
-    public int getId() {
+    public int getId()
+    {
         return id;
     }
 
-    public String getNote() {
+    public String getNote()
+    {
         return note;
     }
 
-    public String getJump_url() {
+    public String getJump_url()
+    {
         return jump_url;
     }
 
-    public String getPic_url() {
+    public String getPic_url()
+    {
         return pic_url;
     }
 }

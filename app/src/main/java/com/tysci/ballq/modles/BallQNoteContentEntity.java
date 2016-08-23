@@ -3,6 +3,8 @@ package com.tysci.ballq.modles;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.tysci.ballq.utils.ParseUtil;
+
 /**
  * Created by Administrator on 2016/4/27.
  * 帖子内容实体
@@ -16,62 +18,75 @@ public class BallQNoteContentEntity implements Parcelable {
     private int length;
     private String mimeType;
 
-    public String getContent() {
-        return content;
-    }
-
-    public void setContent(String content) {
-        this.content = content;
-    }
-
-    public int getHeight() {
-        return height;
-    }
-
-    public void setHeight(int height) {
-        this.height = height;
-    }
-
-    public int getLength() {
-        return length;
-    }
-
-    public void setLength(int length) {
-        this.length = length;
-    }
-
-    public String getMimeType() {
-        return mimeType;
-    }
-
-    public void setMimeType(String mimeType) {
-        this.mimeType = mimeType;
-    }
-
-    public String getOriginal() {
-        return original;
-    }
-
-    public void setOriginal(String original) {
-        this.original = original;
-    }
-
-    public int getType() {
+    public int getType()
+    {
         return type;
     }
 
-    public void setType(int type) {
-        this.type = type;
+    public String getContent()
+    {
+        return content;
     }
 
-    public int getWidth() {
+    public String getOriginal()
+    {
+        return original;
+    }
+
+    public int getWidth()
+    {
         return width;
     }
 
-    public void setWidth(int width) {
-        this.width = width;
+    public int getHeight()
+    {
+        return height;
     }
 
+    public int getLength()
+    {
+        return length;
+    }
+
+    public String getMimeType()
+    {
+        return mimeType;
+    }
+
+    public <T>void setType(T type)
+    {
+        this.type = ParseUtil.makeParse(type,0);
+    }
+
+    public void setContent(String content)
+    {
+        this.content = content;
+    }
+
+    public void setOriginal(String original)
+    {
+        this.original = original;
+    }
+
+    public <T>void setWidth(T width)
+    {
+        this.width = ParseUtil.makeParse(width,0);
+    }
+
+    public <T>void setHeight(T height)
+    {
+        this.height = ParseUtil.makeParse(height,0);
+    }
+
+    public <T>void setLength(T length)
+    {
+        this.length = ParseUtil.makeParse(length,0);
+    }
+
+    public void setMimeType(String mimeType)
+    {
+        this.mimeType = mimeType;
+    }
 
     @Override
     public int describeContents() {

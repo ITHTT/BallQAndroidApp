@@ -1,29 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="@color/white"
-    android:orientation="horizontal"
-    android:paddingBottom="10dp"
-    android:paddingTop="10dp"
-    android:paddingLeft="5dp"
-    android:paddingRight="5dp">
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:background="@color/white"
+              android:orientation="horizontal"
+              android:paddingBottom="10dp"
+              android:paddingLeft="5dp"
+              android:paddingRight="5dp"
+              android:paddingTop="10dp">
 
     <LinearLayout
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="1.2"
         android:gravity="center">
+
         <TextView
             android:id="@+id/tvRanking"
             android:layout_width="20dp"
             android:layout_height="20dp"
             android:ellipsize="end"
-            android:textSize="12sp"
-            android:textColor="#3a3a3a"
             android:gravity="center"
             android:lines="1"
-            android:text="1" />
+            android:text="1"
+            android:textColor="#3a3a3a"
+            android:textSize="12sp"/>
+
         <ImageView
             android:id="@+id/ivTeamLogo"
             android:layout_width="20dp"
@@ -34,101 +36,102 @@
             android:src="@mipmap/ic_ballq_logo"/>
     </LinearLayout>
 
-    <TextView
+    <com.tysci.ballq.views.MarqueeTextView
         android:id="@+id/tvTeamName"
+        style="@style/MarqueeTextView"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1.8"
-        android:textSize="12sp"
-        android:textColor="#3a3a3a"
         android:gravity="center"
-        android:ellipsize="end"
         android:lines="1"
         android:paddingLeft="5dp"
-        android:text="球队" />
 
-    <TextView
+        android:text="球队"
+        android:textColor="#3a3a3a"
+        android:textSize="12sp"/>
+
+    <com.tysci.ballq.views.MarqueeTextView
         android:id="@+id/tvRounds"
+        style="@style/MarqueeTextView"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:textSize="12sp"
-        android:textColor="#3a3a3a"
         android:gravity="center"
-        android:ellipsize="end"
         android:lines="1"
-        android:text="场次" />
+        android:text="场次"
+        android:textColor="#3a3a3a"
+        android:textSize="12sp"/>
 
-    <TextView
+    <com.tysci.ballq.views.MarqueeTextView
         android:id="@+id/tvGoalDifference"
+        style="@style/MarqueeTextView"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:textSize="12sp"
-        android:textColor="#3a3a3a"
         android:gravity="center"
-        android:ellipsize="end"
         android:lines="1"
         android:text="净胜球"
-        android:visibility="gone" />
+        android:textColor="#3a3a3a"
+        android:textSize="12sp"
+        android:visibility="gone"/>
 
-    <TextView
+    <com.tysci.ballq.views.MarqueeTextView
         android:id="@+id/tvWin"
+        style="@style/MarqueeTextView"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="0.6"
-        android:textSize="12sp"
-        android:textColor="#3a3a3a"
         android:gravity="center"
-        android:ellipsize="end"
         android:lines="1"
-        android:text="胜" />
+        android:text="胜"
+        android:textColor="#3a3a3a"
+        android:textSize="12sp"/>
 
-    <TextView
+    <com.tysci.ballq.views.MarqueeTextView
         android:id="@+id/tvEqual"
+        style="@style/MarqueeTextView"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="0.6"
-        android:textSize="12sp"
-        android:textColor="#3a3a3a"
         android:gravity="center"
-        android:ellipsize="end"
         android:lines="1"
-        android:text="平" />
+        android:text="平"
+        android:textColor="#3a3a3a"
+        android:textSize="12sp"/>
 
-    <TextView
+    <com.tysci.ballq.views.MarqueeTextView
         android:id="@+id/tvLose"
+        style="@style/MarqueeTextView"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="0.6"
-        android:textSize="12sp"
-        android:textColor="#3a3a3a"
         android:gravity="center"
-        android:ellipsize="end"
         android:lines="1"
-        android:text="负" />
+        android:text="负"
+        android:textColor="#3a3a3a"
+        android:textSize="12sp"/>
 
-    <TextView
+    <com.tysci.ballq.views.MarqueeTextView
         android:id="@+id/tvHaveConceded"
+        style="@style/MarqueeTextView"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:textSize="12sp"
-        android:textColor="#3a3a3a"
         android:gravity="center"
-        android:ellipsize="end"
         android:lines="1"
-        android:text="得失球" />
+        android:text="得失球"
+        android:textColor="#3a3a3a"
+        android:textSize="12sp"/>
 
-    <TextView
+    <com.tysci.ballq.views.MarqueeTextView
         android:id="@+id/tvIntegral"
+        style="@style/MarqueeTextView"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:textSize="12sp"
-        android:textColor="#3a3a3a"
         android:gravity="center"
-        android:ellipsize="end"
         android:lines="1"
-        android:text="积分" />
+        android:text="积分"
+        android:textColor="#3a3a3a"
+        android:textSize="12sp"/>
 </LinearLayout>

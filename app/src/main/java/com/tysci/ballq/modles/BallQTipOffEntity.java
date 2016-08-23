@@ -3,6 +3,8 @@ package com.tysci.ballq.modles;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.tysci.ballq.utils.ParseUtil;
+
 /**
  * Created by HTT on 2016/6/5.
  */
@@ -64,9 +66,9 @@ public class BallQTipOffEntity implements Parcelable
         return fid;
     }
 
-    public void setFid(int fid)
+    public <T> void setFid(T fid)
     {
-        this.fid = fid;
+        this.fid=ParseUtil.makeParse(fid,0);
     }
 
     public int getAtid()
@@ -74,9 +76,9 @@ public class BallQTipOffEntity implements Parcelable
         return atid;
     }
 
-    public void setAtid(int atid)
+    public <T> void setAtid(T atid)
     {
-        this.atid = atid;
+        this.atid = ParseUtil.makeParse(atid, 0);
     }
 
     public int getUid()
@@ -84,9 +86,9 @@ public class BallQTipOffEntity implements Parcelable
         return uid;
     }
 
-    public void setUid(int uid)
+    public <T> void setUid(T uid)
     {
-        this.uid = uid;
+        this.uid=ParseUtil.makeParse(uid,0);
     }
 
     public String getAtlogo()
@@ -94,7 +96,7 @@ public class BallQTipOffEntity implements Parcelable
         return atlogo;
     }
 
-    public void setAtlogo(String atlogo)
+    public <T> void setAtlogo(String atlogo)
     {
         this.atlogo = atlogo;
     }
@@ -104,7 +106,7 @@ public class BallQTipOffEntity implements Parcelable
         return odata;
     }
 
-    public void setOdata(String odata)
+    public <T> void setOdata(String odata)
     {
         this.odata = odata;
     }
@@ -114,7 +116,7 @@ public class BallQTipOffEntity implements Parcelable
         return atscore;
     }
 
-    public void setAtscore(String atscore)
+    public <T> void setAtscore(String atscore)
     {
         this.atscore = atscore;
     }
@@ -124,7 +126,7 @@ public class BallQTipOffEntity implements Parcelable
         return choice;
     }
 
-    public void setChoice(String choice)
+    public <T> void setChoice(String choice)
     {
         this.choice = choice;
     }
@@ -134,9 +136,9 @@ public class BallQTipOffEntity implements Parcelable
         return rtype;
     }
 
-    public void setRtype(int rtype)
+    public <T> void setRtype(T rtype)
     {
-        this.rtype = rtype;
+        this.rtype=ParseUtil.makeParse(rtype,0);
     }
 
     public int getReading_count()
@@ -144,9 +146,9 @@ public class BallQTipOffEntity implements Parcelable
         return reading_count;
     }
 
-    public void setReading_count(int reading_count)
+    public <T> void setReading_count(T reading_count)
     {
-        this.reading_count = reading_count;
+        this.reading_count=ParseUtil.makeParse(reading_count,0);
     }
 
     public int getEid()
@@ -154,9 +156,9 @@ public class BallQTipOffEntity implements Parcelable
         return eid;
     }
 
-    public void setEid(int eid)
+    public <T> void setEid(T eid)
     {
-        this.eid = eid;
+        this.eid = ParseUtil.makeParse(eid, 0);
     }
 
     public String getHtname()
@@ -164,7 +166,7 @@ public class BallQTipOffEntity implements Parcelable
         return htname;
     }
 
-    public void setHtname(String htname)
+    public <T> void setHtname(String htname)
     {
         this.htname = htname;
     }
@@ -174,9 +176,9 @@ public class BallQTipOffEntity implements Parcelable
         return sam;
     }
 
-    public void setSam(int sam)
+    public <T> void setSam(T sam)
     {
-        this.sam = sam;
+        this.sam = ParseUtil.makeParse(sam, 0);
     }
 
     public String getHtlogo()
@@ -184,7 +186,7 @@ public class BallQTipOffEntity implements Parcelable
         return htlogo;
     }
 
-    public void setHtlogo(String htlogo)
+    public <T> void setHtlogo(String htlogo)
     {
         this.htlogo = htlogo;
     }
@@ -194,9 +196,9 @@ public class BallQTipOffEntity implements Parcelable
         return id;
     }
 
-    public void setId(int id)
+    public <T> void setId(T id)
     {
-        this.id = id;
+        this.id = ParseUtil.makeParse(id, 0);
     }
 
     public int getTournament_id()
@@ -204,9 +206,9 @@ public class BallQTipOffEntity implements Parcelable
         return tournament_id;
     }
 
-    public void setTournament_id(int tournament_id)
+    public <T> void setTournament_id(T tournament_id)
     {
-        this.tournament_id = tournament_id;
+        this.tournament_id = ParseUtil.makeParse(tournament_id, 0);
     }
 
     public int getIsc()
@@ -214,9 +216,9 @@ public class BallQTipOffEntity implements Parcelable
         return isc;
     }
 
-    public void setIsc(int isc)
+    public <T> void setIsc(T isc)
     {
-        this.isc = isc;
+        this.isc = ParseUtil.makeParse(isc, 0);
     }
 
     public String getCont()
@@ -224,7 +226,7 @@ public class BallQTipOffEntity implements Parcelable
         return cont;
     }
 
-    public void setCont(String cont)
+    public <T> void setCont(String cont)
     {
         this.cont = cont;
     }
@@ -234,9 +236,9 @@ public class BallQTipOffEntity implements Parcelable
         return etype;
     }
 
-    public void setEtype(int etype)
+    public <T> void setEtype(T etype)
     {
-        this.etype = etype;
+        this.etype = ParseUtil.makeParse(etype, 0);
     }
 
     public String getFname()
@@ -244,7 +246,7 @@ public class BallQTipOffEntity implements Parcelable
         return fname;
     }
 
-    public void setFname(String fname)
+    public <T> void setFname(String fname)
     {
         this.fname = fname;
     }
@@ -254,9 +256,9 @@ public class BallQTipOffEntity implements Parcelable
         return ror;
     }
 
-    public void setRor(float ror)
+    public <T> void setRor(T ror)
     {
-        this.ror = ror;
+        this.ror = ParseUtil.makeParse(ror, 0F);
     }
 
     public int getBtyc()
@@ -264,9 +266,9 @@ public class BallQTipOffEntity implements Parcelable
         return btyc;
     }
 
-    public void setBtyc(int btyc)
+    public <T> void setBtyc(T btyc)
     {
-        this.btyc = btyc;
+        this.btyc = ParseUtil.makeParse(btyc, 0);
     }
 
     public String getAtname()
@@ -274,7 +276,7 @@ public class BallQTipOffEntity implements Parcelable
         return atname;
     }
 
-    public void setAtname(String atname)
+    public <T> void setAtname(String atname)
     {
         this.atname = atname;
     }
@@ -284,9 +286,9 @@ public class BallQTipOffEntity implements Parcelable
         return comcount;
     }
 
-    public void setComcount(int comcount)
+    public <T> void setComcount(T comcount)
     {
-        this.comcount = comcount;
+        this.comcount = ParseUtil.makeParse(comcount, 0);
     }
 
     public String getTitle1()
@@ -294,7 +296,7 @@ public class BallQTipOffEntity implements Parcelable
         return title1;
     }
 
-    public void setTitle1(String title1)
+    public <T> void setTitle1(String title1)
     {
         this.title1 = title1;
     }
@@ -304,9 +306,9 @@ public class BallQTipOffEntity implements Parcelable
         return status;
     }
 
-    public void setStatus(int status)
+    public <T> void setStatus(T status)
     {
-        this.status = status;
+        this.status = ParseUtil.makeParse(status, 0);
     }
 
     public String getTitle2()
@@ -314,7 +316,7 @@ public class BallQTipOffEntity implements Parcelable
         return title2;
     }
 
-    public void setTitle2(String title2)
+    public <T> void setTitle2(String title2)
     {
         this.title2 = title2;
     }
@@ -324,9 +326,9 @@ public class BallQTipOffEntity implements Parcelable
         return is_like;
     }
 
-    public void setIs_like(int is_like)
+    public <T> void setIs_like(T is_like)
     {
-        this.is_like = is_like;
+        this.is_like = ParseUtil.makeParse(is_like, 0);
     }
 
     public int getTipcount()
@@ -334,9 +336,9 @@ public class BallQTipOffEntity implements Parcelable
         return tipcount;
     }
 
-    public void setTipcount(int tipcount)
+    public <T> void setTipcount(T tipcount)
     {
-        this.tipcount = tipcount;
+        this.tipcount = ParseUtil.makeParse(tipcount, 0);
     }
 
     public String getMtime()
@@ -344,7 +346,7 @@ public class BallQTipOffEntity implements Parcelable
         return mtime;
     }
 
-    public void setMtime(String mtime)
+    public <T> void setMtime(String mtime)
     {
         this.mtime = mtime;
     }
@@ -354,9 +356,9 @@ public class BallQTipOffEntity implements Parcelable
         return fcount;
     }
 
-    public void setFcount(int fcount)
+    public <T> void setFcount(T fcount)
     {
-        this.fcount = fcount;
+        this.fcount = ParseUtil.makeParse(fcount, 0);
     }
 
     public int getMstatus()
@@ -364,9 +366,9 @@ public class BallQTipOffEntity implements Parcelable
         return mstatus;
     }
 
-    public void setMstatus(int mstatus)
+    public <T> void setMstatus(T mstatus)
     {
-        this.mstatus = mstatus;
+        this.mstatus = ParseUtil.makeParse(mstatus, 0);
     }
 
     public int getConfidence()
@@ -374,9 +376,9 @@ public class BallQTipOffEntity implements Parcelable
         return confidence;
     }
 
-    public void setConfidence(int confidence)
+    public <T> void setConfidence(T confidence)
     {
-        this.confidence = confidence;
+        this.confidence = ParseUtil.makeParse(confidence, 0);
     }
 
     public int getIsv()
@@ -384,9 +386,9 @@ public class BallQTipOffEntity implements Parcelable
         return isv;
     }
 
-    public void setIsv(int isv)
+    public <T> void setIsv(T isv)
     {
-        this.isv = isv;
+        this.isv=ParseUtil.makeParse(isv,0);
     }
 
     public String getCtime()
@@ -394,7 +396,7 @@ public class BallQTipOffEntity implements Parcelable
         return ctime;
     }
 
-    public void setCtime(String ctime)
+    public <T> void setCtime(String ctime)
     {
         this.ctime = ctime;
     }
@@ -404,7 +406,7 @@ public class BallQTipOffEntity implements Parcelable
         return htscore;
     }
 
-    public void setHtscore(String htscore)
+    public <T> void setHtscore(String htscore)
     {
         this.htscore = htscore;
     }
@@ -414,9 +416,9 @@ public class BallQTipOffEntity implements Parcelable
         return like_count;
     }
 
-    public void setLike_count(int like_count)
+    public <T> void setLike_count(T like_count)
     {
-        this.like_count = like_count;
+        this.like_count = ParseUtil.makeParse(like_count, 0);
     }
 
     public String getPt()
@@ -424,7 +426,7 @@ public class BallQTipOffEntity implements Parcelable
         return pt;
     }
 
-    public void setPt(String pt)
+    public <T> void setPt(String pt)
     {
         this.pt = pt;
     }
@@ -434,7 +436,7 @@ public class BallQTipOffEntity implements Parcelable
         return tourname;
     }
 
-    public void setTourname(String tourname)
+    public <T> void setTourname(String tourname)
     {
         this.tourname = tourname;
     }
@@ -444,7 +446,7 @@ public class BallQTipOffEntity implements Parcelable
         return otype;
     }
 
-    public void setOtype(String otype)
+    public <T> void setOtype(String otype)
     {
         this.otype = otype;
     }
@@ -454,9 +456,9 @@ public class BallQTipOffEntity implements Parcelable
         return wins;
     }
 
-    public void setWins(float wins)
+    public <T> void setWins(T wins)
     {
-        this.wins = wins;
+        this.wins = ParseUtil.makeParse(wins, 0F);
     }
 
     public int getHtid()
@@ -464,9 +466,9 @@ public class BallQTipOffEntity implements Parcelable
         return htid;
     }
 
-    public void setHtid(int htid)
+    public <T> void setHtid(T htid)
     {
-        this.htid = htid;
+        this.htid = ParseUtil.makeParse(htid, 0);
     }
 
     public int getMtcount()
@@ -474,9 +476,9 @@ public class BallQTipOffEntity implements Parcelable
         return mtcount;
     }
 
-    public void setMtcount(int mtcount)
+    public <T> void setMtcount(T mtcount)
     {
-        this.mtcount = mtcount;
+        this.mtcount = ParseUtil.makeParse(mtcount, 0);
     }
 
     public int getSettled()
@@ -484,9 +486,9 @@ public class BallQTipOffEntity implements Parcelable
         return settled;
     }
 
-    public void setSettled(int settled)
+    public <T> void setSettled(T settled)
     {
-        this.settled = settled;
+        this.settled = ParseUtil.makeParse(settled, 0);
     }
 
     public int getSorder()
@@ -494,9 +496,9 @@ public class BallQTipOffEntity implements Parcelable
         return sorder;
     }
 
-    public void setSorder(int sorder)
+    public <T> void setSorder(T sorder)
     {
-        this.sorder = sorder;
+        this.sorder = ParseUtil.makeParse(sorder, 0);
     }
 
     public int getBoncount()
@@ -504,9 +506,9 @@ public class BallQTipOffEntity implements Parcelable
         return boncount;
     }
 
-    public void setBoncount(int boncount)
+    public <T> void setBoncount(T boncount)
     {
-        this.boncount = boncount;
+        this.boncount = ParseUtil.makeParse(boncount, 0);
     }
 
     public String getUrl()
@@ -524,9 +526,9 @@ public class BallQTipOffEntity implements Parcelable
         return richtext_type;
     }
 
-    public void setRichtext_type(int richtext_type)
+    public <T> void setRichtext_type(T richtext_type)
     {
-        this.richtext_type = richtext_type;
+        this.richtext_type = ParseUtil.makeParse(richtext_type, 0);
     }
 
     public String getFirst_image()
@@ -560,9 +562,9 @@ public class BallQTipOffEntity implements Parcelable
         return isf;
     }
 
-    public void setIsf(int isf)
+    public <T> void setIsf(T isf)
     {
-        this.isf = isf;
+        this.isf = ParseUtil.makeParse(isf, 0);
     }
 
     @Override

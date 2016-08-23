@@ -581,7 +581,6 @@ public class BallQTipOffDetailActivity extends BaseActivity implements SwipeRefr
             @Override
             public void onError(Call call, Exception error)
             {
-
             }
 
             @Override

@@ -13,6 +13,7 @@ import android.widget.EditText;
 import com.pingplusplus.android.Pingpp;
 import com.tysci.ballq.R;
 import com.tysci.ballq.base.BaseActivity;
+import com.tysci.ballq.dialog.SpinKitProgressDialog;
 import com.tysci.ballq.networks.HttpClientUtil;
 import com.tysci.ballq.networks.HttpUrls;
 import com.tysci.ballq.utils.KLog;
@@ -45,7 +46,8 @@ import okhttp3.Request;
  * 4）onActivityResult 中获得支付结构。
  * 5）如果支付成功。服务端会收到ping++ 异步通知，支付成功依据服务端异步通知为准。
  */
-public class PingPayActivity extends BaseActivity implements TextWatcher {
+public class PingPayActivity extends BaseActivity implements TextWatcher
+{
     /**
      * 开发者需要填一个服务端URL 该URL是用来请求支付需要的charge。务必确保，URL能返回json格式的charge对象。
      * 服务端生成charge 的方式可以参考ping++官方文档，地址 https://pingxx.com/guidance/server/import
@@ -87,14 +89,17 @@ public class PingPayActivity extends BaseActivity implements TextWatcher {
     private String currentAmount;
 
     private boolean isPaying;// 用作判断 防止重复提交支付
+    private SpinKitProgressDialog mSpinKitProgressDialog;
 
     @Override
-    protected int getContentViewId() {
+    protected int getContentViewId()
+    {
         return R.layout.activity_ping_pay;
     }
 
     @Override
-    protected void initViews() {
+    protected void initViews()
+    {
         setTitleText("球商充值");
 
         currentAmount = "";
@@ -105,67 +110,82 @@ public class PingPayActivity extends BaseActivity implements TextWatcher {
     }
 
     @Override
-    protected View getLoadingTargetView() {
+    protected View getLoadingTargetView()
+    {
         return null;
     }
 
     @Override
-    protected void getIntentData(Intent intent) {
+    protected void getIntentData(Intent intent)
+    {
 
     }
 
     @Override
-    protected boolean isCanceledEventBus() {
+    protected boolean isCanceledEventBus()
+    {
         return false;
     }
 
     @Override
-    protected void saveInstanceState(Bundle outState) {
+    protected void saveInstanceState(Bundle outState)
+    {
 
     }
 
     @Override
-    protected void handleInstanceState(Bundle outState) {
+    protected void handleInstanceState(Bundle outState)
+    {
 
     }
 
     @Override
-    protected void onViewClick(View view) {
+    protected void onViewClick(View view)
+    {
 
     }
 
     @Override
-    protected void notifyEvent(String action) {
+    protected void notifyEvent(String action)
+    {
 
     }
 
     @Override
-    protected void notifyEvent(String action, Bundle data) {
+    protected void notifyEvent(String action, Bundle data)
+    {
 
     }
 
     @Override
-    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+    public void beforeTextChanged(CharSequence s, int start, int count, int after)
+    {
     }
 
     @Override
-    public void onTextChanged(CharSequence s, int start, int before, int count) {
+    public void onTextChanged(CharSequence s, int start, int before, int count)
+    {
     }
 
     @Override
-    public void afterTextChanged(Editable s) {
+    public void afterTextChanged(Editable s)
+    {
         adapter.removeCheckAmount();
 
         etOtherMoney.removeTextChangedListener(this);
 
-        if (!s.toString().equals(currentAmount)) {
+        if (!s.toString().equals(currentAmount))
+        {
             etOtherMoney.removeTextChangedListener(this);
             String replaceable = String.format("[%s, \\s.]", NumberFormat.getCurrencyInstance(Locale.CHINA).getCurrency().getSymbol(Locale.CHINA));
             String cleanString = s.toString().replaceAll(replaceable, "");
 
-            if (cleanString.equals("") || new BigDecimal(cleanString).toString().equals("0")) {
+            if (cleanString.equals("") || new BigDecimal(cleanString).toString().equals("0"))
+            {
                 etOtherMoney.setText(null);
-            } else {
+            }
+            else
+            {
                 double parsed = Double.parseDouble(cleanString);
                 String formatted = NumberFormat.getCurrencyInstance(Locale.CHINA).format((parsed / 100));
                 currentAmount = formatted;
@@ -181,13 +201,15 @@ public class PingPayActivity extends BaseActivity implements TextWatcher {
      * 微信支付、支付宝支付
      */
     @OnClick({R.id.layoutPayWeChat, R.id.layoutPayALi})
-    protected void onPayWeChatClick(View view) {
+    protected void onPayWeChatClick(View view)
+    {
         if (isPaying)
             return;
         isPaying = true;
 
         String channel = null;
-        switch (view.getId()) {
+        switch (view.getId())
+        {
             case R.id.layoutPayWeChat:
                 channel = CHANNEL_WECHAT;
                 break;
@@ -198,7 +220,8 @@ public class PingPayActivity extends BaseActivity implements TextWatcher {
         if (channel == null)
             return;
         String amount = String.valueOf(adapter.getCheckAmount() * 100);
-        if (TextUtils.isEmpty(amount) || amount.equals(String.valueOf(0))) {
+        if (TextUtils.isEmpty(amount) || amount.equals(String.valueOf(0)))
+        {
             amount = etOtherMoney.getText().toString();
             if (TextUtils.isEmpty(amount))
                 return;
@@ -208,37 +231,48 @@ public class PingPayActivity extends BaseActivity implements TextWatcher {
         }
 
         HashMap<String, String> map = new HashMap<>();
-        if (UserInfoUtil.checkLogin(this)) {
+        if (UserInfoUtil.checkLogin(this))
+        {
             map.put("user", UserInfoUtil.getUserId(this));
             map.put("token", UserInfoUtil.getUserToken(this));
         }
         map.put("channel", channel);
         map.put("amount", amount);
         KLog.e(map);
-        HttpClientUtil.getHttpClientUtil().sendPostRequest(Tag, URL, map, new HttpClientUtil.ProgressResponseCallBack() {
+        HttpClientUtil.getHttpClientUtil().sendPostRequest(Tag, URL, map, new HttpClientUtil.ProgressResponseCallBack()
+        {
             @Override
-            public void loadingProgress(int progress) {
+            public void loadingProgress(int progress)
+            {
 
             }
 
             @Override
-            public void onBefore(Request request) {
-
+            public void onBefore(Request request)
+            {
+                if (mSpinKitProgressDialog == null)
+                    mSpinKitProgressDialog = new SpinKitProgressDialog(PingPayActivity.this);
+                mSpinKitProgressDialog.show();
             }
 
             @Override
-            public void onError(Call call, Exception error) {
-                showMsg("请求出错", "请检查URL", "URL无法获取charge");
+            public void onError(Call call, Exception error)
+            {
+                showMsg("", "请求出错", getResources().getString(R.string.request_error));
+                isPaying = false;
+                if (mSpinKitProgressDialog != null && mSpinKitProgressDialog.isShowing())
+                    mSpinKitProgressDialog.dismiss();
             }
 
             @Override
-            public void onSuccess(Call call, String response) {
+            public void onSuccess(Call call, String response)
+            {
                 Pingpp.createPayment(PingPayActivity.this, response);
             }
 
             @Override
-            public void onFinish(Call call) {
-
+            public void onFinish(Call call)
+            {
             }
         });
     }
@@ -247,13 +281,18 @@ public class PingPayActivity extends BaseActivity implements TextWatcher {
      * onActivityResult 获得支付结果，如果支付成功，服务器会收到ping++ 服务器发送的异步通知。
      * 最终支付成功根据异步通知为准
      */
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    protected void onActivityResult(int requestCode, int resultCode, Intent data)
+    {
 
         isPaying = false;
+        if (mSpinKitProgressDialog != null && mSpinKitProgressDialog.isShowing())
+            mSpinKitProgressDialog.dismiss();
 
         //支付页面返回处理
-        if (requestCode == Pingpp.REQUEST_CODE_PAYMENT) {
-            if (resultCode == Activity.RESULT_OK) {
+        if (requestCode == Pingpp.REQUEST_CODE_PAYMENT)
+        {
+            if (resultCode == Activity.RESULT_OK)
+            {
                 String result = data.getExtras().getString("pay_result");
                 /* 处理返回值
                  * "success" - payment succeed
@@ -266,13 +305,20 @@ public class PingPayActivity extends BaseActivity implements TextWatcher {
                 KLog.e(result);
                 KLog.e(errorMsg);
                 KLog.e(extraMsg);
-                if ("cancel".equals(result)) {
+                if ("cancel".equals(result))
+                {
                     errorMsg = "已取消此次充值";
-                } else if ("success".equals(result)) {
+                }
+                else if ("success".equals(result))
+                {
                     errorMsg = "充值成功";
-                } else if ("fail".equals(result)) {
+                }
+                else if ("fail".equals(result))
+                {
                     errorMsg = "充值失败";
-                } else if ("wx_app_not_installed".equals(errorMsg)) {
+                }
+                else if ("wx_app_not_installed".equals(errorMsg))
+                {
                     errorMsg = "未安装微信";
                 }
                 showMsg("", errorMsg, extraMsg);
@@ -280,12 +326,15 @@ public class PingPayActivity extends BaseActivity implements TextWatcher {
         }
     }
 
-    public void showMsg(String title, String msg1, String msg2) {
+    public void showMsg(String title, String msg1, String msg2)
+    {
         String str = title;
-        if (null != msg1 && msg1.length() != 0) {
+        if (null != msg1 && msg1.length() != 0)
+        {
             str += "\n" + msg1;
         }
-        if (null != msg2 && msg2.length() != 0) {
+        if (null != msg2 && msg2.length() != 0)
+        {
             str += "\n" + msg2;
         }
         AlertDialog.Builder builder = new AlertDialog.Builder(PingPayActivity.this);

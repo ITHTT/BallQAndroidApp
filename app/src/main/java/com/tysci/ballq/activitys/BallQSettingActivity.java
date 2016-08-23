@@ -155,6 +155,7 @@ public class BallQSettingActivity extends BaseActivity implements EditUserNickna
                     @Override
                     public void onUpdateAvailable(String s)
                     {
+                        dialog.dismiss();
                         ToastUtil.show(BallQSettingActivity.this, "有新版本需要更新");
                         new HandlerUtil().post(new Runnable()
                         {

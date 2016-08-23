@@ -10,7 +10,8 @@ import org.json.JSONObject;
 /**
  * Created by Administrator on 2016/5/31.
  */
-public class KLog {
+public class KLog
+{
 
     private static boolean IS_SHOW_LOG = true;
 
@@ -26,97 +27,120 @@ public class KLog {
     private static final int A = 0x6;
     private static final int JSON = 0x7;
 
-    public static void init(boolean isShowLog) {
+    public static void init(boolean isShowLog)
+    {
         IS_SHOW_LOG = isShowLog;
     }
 
-    public static void v() {
+    public static void v()
+    {
         printLog(V, null, DEFAULT_MESSAGE);
     }
 
-    public static <T> void v(T msg) {
+    public static <T> void v(T msg)
+    {
         printLog(V, null, msg);
     }
 
-    public static <T> void v(String tag, T msg) {
+    public static <T> void v(String tag, T msg)
+    {
         printLog(V, tag, msg);
     }
 
-    public static void d() {
+    public static void d()
+    {
         printLog(D, null, DEFAULT_MESSAGE);
     }
 
-    public static <T> void d(T msg) {
+    public static <T> void d(T msg)
+    {
         printLog(D, null, msg);
     }
 
-    public static <T> void d(String tag, T msg) {
+    public static <T> void d(String tag, T msg)
+    {
         printLog(D, tag, msg);
     }
 
-    public static void i() {
+    public static void i()
+    {
         printLog(I, null, DEFAULT_MESSAGE);
     }
 
-    public static <T> void i(T msg) {
+    public static <T> void i(T msg)
+    {
         printLog(I, null, msg);
     }
 
-    public static <T> void i(String tag, T msg) {
+    public static <T> void i(String tag, T msg)
+    {
         printLog(I, tag, msg);
     }
 
-    public static void w() {
+    public static void w()
+    {
         printLog(W, null, DEFAULT_MESSAGE);
     }
 
-    public static <T> void w(T msg) {
+    public static <T> void w(T msg)
+    {
         printLog(W, null, msg);
     }
 
-    public static <T> void w(String tag, T msg) {
+    public static <T> void w(String tag, T msg)
+    {
         printLog(W, tag, msg);
     }
 
-    public static void e() {
+    public static void e()
+    {
         printLog(E, null, DEFAULT_MESSAGE);
     }
 
-    public static <T> void e(T msg) {
+    public static <T> void e(T msg)
+    {
         printLog(E, null, msg);
     }
 
-    public static <T> void e(String tag, T msg) {
+    public static <T> void e(String tag, T msg)
+    {
         printLog(E, tag, msg);
     }
 
-    public static void a() {
+    public static void a()
+    {
         printLog(A, null, DEFAULT_MESSAGE);
     }
 
-    public static <T> void a(T msg) {
+    public static <T> void a(T msg)
+    {
         printLog(A, null, msg);
     }
 
-    public static <T> void a(String tag, T msg) {
+    public static <T> void a(String tag, T msg)
+    {
         printLog(A, tag, msg);
     }
 
 
-    public static <T> void json(T jsonFormat) {
+    public static <T> void json(T jsonFormat)
+    {
         printLog(JSON, null, jsonFormat);
     }
 
-    public static <T> void json(String tag, T jsonFormat) {
+    public static <T> void json(String tag, T jsonFormat)
+    {
         printLog(JSON, tag, jsonFormat);
     }
 
 
-    private static <T> void printLog(int type, String tagStr, T t) {
+    private static <T> void printLog(int type, String tagStr, T t)
+    {
 
-        String msg = t.toString();
+        String msg = t == null ? "" : t.toString();
 
-        if (!IS_SHOW_LOG) {
+        if (!IS_SHOW_LOG)
+        {
             return;
         }
 
@@ -133,13 +157,15 @@ public class KLog {
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append("[ (").append(className).append(":").append(lineNumber).append(")#").append(methodName).append(" ] ");
 
-        if (msg != null && type != JSON) {
+        if (msg != null && type != JSON)
+        {
             stringBuilder.append(msg);
         }
 
         String logStr = stringBuilder.toString();
 
-        switch (type) {
+        switch (type)
+        {
             case V:
                 Log.v(tag, logStr);
                 break;
@@ -158,24 +184,32 @@ public class KLog {
             case A:
                 Log.wtf(tag, logStr);
                 break;
-            case JSON: {
+            case JSON:
+            {
 
-                if (TextUtils.isEmpty(msg)) {
+                if (TextUtils.isEmpty(msg))
+                {
                     Log.d(tag, "Empty or Null json content");
                     return;
                 }
 
                 String message = null;
 
-                try {
-                    if (msg.startsWith("{")) {
+                try
+                {
+                    if (msg.startsWith("{"))
+                    {
                         JSONObject jsonObject = new JSONObject(msg);
                         message = jsonObject.toString(JSON_INDENT);
-                    } else if (msg.startsWith("[")) {
+                    }
+                    else if (msg.startsWith("["))
+                    {
                         JSONArray jsonArray = new JSONArray(msg);
                         message = jsonArray.toString(JSON_INDENT);
                     }
-                } catch (JSONException e) {
+                }
+                catch (JSONException e)
+                {
                     e(tag, e.getCause().getMessage() + "\n" + msg);
                     return;
                 }
@@ -184,7 +218,8 @@ public class KLog {
                 message = logStr + LINE_SEPARATOR + message;
                 String[] lines = message.split(LINE_SEPARATOR);
                 StringBuilder jsonContent = new StringBuilder();
-                for (String line : lines) {
+                for (String line : lines)
+                {
                     jsonContent.append("║ ").append(line).append(LINE_SEPARATOR);
                 }
                 Log.d(tag, jsonContent.toString());
@@ -195,10 +230,14 @@ public class KLog {
 
     }
 
-    private static void printLine(String tag, boolean isTop) {
-        if (isTop) {
+    private static void printLine(String tag, boolean isTop)
+    {
+        if (isTop)
+        {
             Log.d(tag, "╔═══════════════════════════════════════════════════════════════════════════════════════");
-        } else {
+        }
+        else
+        {
             Log.d(tag, "╚═══════════════════════════════════════════════════════════════════════════════════════");
         }
     }

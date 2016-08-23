@@ -3,10 +3,13 @@ package com.tysci.ballq.modles;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.tysci.ballq.utils.ParseUtil;
+
 /**
  * Created by Administrator on 2016/5/1.
  */
-public class BallQMatchEntity implements Parcelable {
+public class BallQMatchEntity implements Parcelable
+{
 
     /**
      * status : 90
@@ -53,191 +56,242 @@ public class BallQMatchEntity implements Parcelable {
     private int group_id;
     private int tipcount;
     private int isf;
-    private int is_live=0;
+    private int is_live = 0;
 
-    public void setStatus(int status) {
-        this.status = status;
-    }
-
-    public void setAtscore(String atscore) {
-        this.atscore = atscore;
-    }
-
-    public void setBetcount(int betcount) {
-        this.betcount = betcount;
-    }
-
-    public void setTourid(int tourid) {
-        this.tourid = tourid;
-    }
-
-    public void setAtid(int atid) {
-        this.atid = atid;
-    }
-
-    public void setHtlogo(String htlogo) {
-        this.htlogo = htlogo;
-    }
-
-    public void setHtid(int htid) {
-        this.htid = htid;
-    }
-
-    public void setChampion_id(int champion_id) {
-        this.champion_id = champion_id;
-    }
-
-    public void setTourname(String tourname) {
-        this.tourname = tourname;
-    }
-
-    public void setComcount(int comcount) {
-        this.comcount = comcount;
-    }
-
-    public void setHtscore(String htscore) {
-        this.htscore = htscore;
-    }
-
-    public void setUtourid(int utourid) {
-        this.utourid = utourid;
-    }
-
-    public void setAtlogo(String atlogo) {
-        this.atlogo = atlogo;
-    }
-
-    public void setHtname(String htname) {
-        this.htname = htname;
-    }
-
-    public void setEid(int eid) {
-        this.eid = eid;
-    }
-
-    public void setMtime(String mtime) {
-        this.mtime = mtime;
-    }
-
-    public void setEtype(int etype) {
-        this.etype = etype;
-    }
-
-    public void setAtname(String atname) {
-        this.atname = atname;
-    }
-
-    public void setGroup_id(int group_id) {
-        this.group_id = group_id;
-    }
-
-    public void setTipcount(int tipcount) {
-        this.tipcount = tipcount;
-    }
-
-    public void setIsf(int isf) {
-        this.isf = isf;
-    }
-
-    public int getStatus() {
+    public int getStatus()
+    {
         return status;
     }
 
-    public String getAtscore() {
+    public String getAtscore()
+    {
         return atscore;
     }
 
-    public int getBetcount() {
+    public int getBetcount()
+    {
         return betcount;
     }
 
-    public int getTourid() {
+    public int getTourid()
+    {
         return tourid;
     }
 
-    public int getAtid() {
+    public int getAtid()
+    {
         return atid;
     }
 
-    public String getHtlogo() {
+    public String getHtlogo()
+    {
         return htlogo;
     }
 
-    public int getHtid() {
+    public int getHtid()
+    {
         return htid;
     }
 
-    public int getChampion_id() {
+    public int getChampion_id()
+    {
         return champion_id;
     }
 
-    public String getTourname() {
+    public String getTourname()
+    {
         return tourname;
     }
 
-    public int getComcount() {
+    public int getComcount()
+    {
         return comcount;
     }
 
-    public String getHtscore() {
+    public String getHtscore()
+    {
         return htscore;
     }
 
-    public int getUtourid() {
+    public int getUtourid()
+    {
         return utourid;
     }
 
-    public String getAtlogo() {
+    public String getAtlogo()
+    {
         return atlogo;
     }
 
-    public String getHtname() {
+    public String getHtname()
+    {
         return htname;
     }
 
-    public int getEid() {
+    public int getEid()
+    {
         return eid;
     }
 
-    public String getMtime() {
+    public String getMtime()
+    {
         return mtime;
     }
 
-    public int getEtype() {
+    public int getEtype()
+    {
         return etype;
     }
 
-    public String getAtname() {
+    public String getAtname()
+    {
         return atname;
     }
 
-    public int getGroup_id() {
+    public int getGroup_id()
+    {
         return group_id;
     }
 
-    public int getTipcount() {
+    public int getTipcount()
+    {
         return tipcount;
     }
 
-    public int getIsf() {
+    public int getIsf()
+    {
         return isf;
     }
 
-    public int getIs_live() {
+    public int getIs_live()
+    {
         return is_live;
     }
 
-    public void setIs_live(int is_live) {
-        this.is_live = is_live;
+    public static Creator<BallQMatchEntity> getCREATOR()
+    {
+        return CREATOR;
+    }
+
+    public <INT> void setStatus(INT status)
+    {
+        this.status = ParseUtil.makeParse(status, 0);
+    }
+
+    public <INT> void setAtscore(String atscore)
+    {
+        this.atscore = atscore;
+    }
+
+    public <INT> void setBetcount(INT betcount)
+    {
+        this.betcount = ParseUtil.makeParse(betcount, 0);
+    }
+
+    public <INT> void setTourid(INT tourid)
+    {
+        this.tourid = ParseUtil.makeParse(tourid, 0);
+    }
+
+    public <INT> void setAtid(INT atid)
+    {
+        this.atid = ParseUtil.makeParse(atid, 0);
+    }
+
+    public <INT> void setHtlogo(String htlogo)
+    {
+        this.htlogo = htlogo;
+    }
+
+    public <INT> void setHtid(INT htid)
+    {
+        this.htid = ParseUtil.makeParse(htid, 0);
+    }
+
+    public <INT> void setChampion_id(INT champion_id)
+    {
+        this.champion_id = ParseUtil.makeParse(champion_id, 0);
+    }
+
+    public <INT> void setTourname(String tourname)
+    {
+        this.tourname = tourname;
+    }
+
+    public <INT> void setComcount(INT comcount)
+    {
+        this.comcount = ParseUtil.makeParse(comcount, 0);
+    }
+
+    public <INT> void setHtscore(String htscore)
+    {
+        this.htscore = htscore;
+    }
+
+    public <INT> void setUtourid(INT utourid)
+    {
+        this.utourid = ParseUtil.makeParse(utourid, 0);
+    }
+
+    public <INT> void setAtlogo(String atlogo)
+    {
+        this.atlogo = atlogo;
+    }
+
+    public <INT> void setHtname(String htname)
+    {
+        this.htname = htname;
+    }
+
+    public <INT> void setEid(INT eid)
+    {
+        this.eid = ParseUtil.makeParse(eid, 0);
+    }
+
+    public <INT> void setMtime(String mtime)
+    {
+        this.mtime = mtime;
+    }
+
+    public <INT> void setEtype(INT etype)
+    {
+        this.etype = ParseUtil.makeParse(etype, 0);
+    }
+
+    public <INT> void setAtname(String atname)
+    {
+        this.atname = atname;
+    }
+
+    public <INT> void setGroup_id(INT group_id)
+    {
+        this.group_id = ParseUtil.makeParse(group_id, 0);
+    }
+
+    public <INT> void setTipcount(INT tipcount)
+    {
+        this.tipcount = ParseUtil.makeParse(tipcount, 0);
+    }
+
+    public <INT> void setIsf(INT isf)
+    {
+        this.isf = ParseUtil.makeParse(isf, 0);
+    }
+
+    public <INT> void setIs_live(INT is_live)
+    {
+        this.is_live = ParseUtil.makeParse(is_live, 0);
     }
 
     @Override
-    public int describeContents() {
+    public int describeContents()
+    {
         return 0;
     }
 
     @Override
-    public void writeToParcel(Parcel dest, int flags) {
+    public void writeToParcel(Parcel dest, int flags)
+    {
         dest.writeInt(this.status);
         dest.writeString(this.atscore);
         dest.writeInt(this.betcount);
@@ -262,10 +316,12 @@ public class BallQMatchEntity implements Parcelable {
         dest.writeInt(this.is_live);
     }
 
-    public BallQMatchEntity() {
+    public BallQMatchEntity()
+    {
     }
 
-    private BallQMatchEntity(Parcel in) {
+    private BallQMatchEntity(Parcel in)
+    {
         this.status = in.readInt();
         this.atscore = in.readString();
         this.betcount = in.readInt();
@@ -287,15 +343,18 @@ public class BallQMatchEntity implements Parcelable {
         this.group_id = in.readInt();
         this.tipcount = in.readInt();
         this.isf = in.readInt();
-        this.is_live=in.readInt();
+        this.is_live = in.readInt();
     }
 
-    public static final Creator<BallQMatchEntity> CREATOR = new Creator<BallQMatchEntity>() {
-        public BallQMatchEntity createFromParcel(Parcel source) {
+    public static final Creator<BallQMatchEntity> CREATOR = new Creator<BallQMatchEntity>()
+    {
+        public BallQMatchEntity createFromParcel(Parcel source)
+        {
             return new BallQMatchEntity(source);
         }
 
-        public BallQMatchEntity[] newArray(int size) {
+        public BallQMatchEntity[] newArray(int size)
+        {
             return new BallQMatchEntity[size];
         }
     };

@@ -1,9 +1,12 @@
 package com.tysci.ballq.modles;
 
+import com.tysci.ballq.utils.ParseUtil;
+
 /**
  * Created by Administrator on 2016/7/18.
  */
-public class BallQGoReplayEntity {
+public class BallQGoReplayEntity
+{
 
     /**
      * match_status : 完场
@@ -52,179 +55,223 @@ public class BallQGoReplayEntity {
     private int stake_amount;
     private String matchTime;
 
-    public void setMatch_status(String match_status) {
-        this.match_status = match_status;
-    }
-
-    public void setOdds_info(String odds_info) {
-        this.odds_info = odds_info;
-    }
-
-    public void setTourname_short(String tourname_short) {
-        this.tourname_short = tourname_short;
-    }
-
-    public void setOdds_type(int odds_type) {
-        this.odds_type = odds_type;
-    }
-
-    public void setCtime(String ctime) {
-        this.ctime = ctime;
-    }
-
-    public void setWin_amount(int win_amount) {
-        this.win_amount = win_amount;
-    }
-
-    public void setStatus_id(int status_id) {
-        this.status_id = status_id;
-    }
-
-    public void setAt_name(String at_name) {
-        this.at_name = at_name;
-    }
-
-    public void setHt_name(String ht_name) {
-        this.ht_name = ht_name;
-    }
-
-    public void setTourname(String tourname) {
-        this.tourname = tourname;
-    }
-
-    public void setAt_score(String at_score) {
-        this.at_score = at_score;
-    }
-
-    public void setChoice(String choice) {
-        this.choice = choice;
-    }
-
-    public void setContent(String content) {
-        this.content = content;
-    }
-
-    public void setTips_count(int tips_count) {
-        this.tips_count = tips_count;
-    }
-
-    public void setMatch_time(String match_time) {
-        this.match_time = match_time;
-    }
-
-    public void setStatus(int status) {
-        this.status = status;
-    }
-
-    public void setEid(int eid) {
-        this.eid = eid;
-    }
-
-    public void setReturn_amount(int return_amount) {
-        this.return_amount = return_amount;
-    }
-
-    public void setEtype(int etype) {
-        this.etype = etype;
-    }
-
-    public void setHt_score(String ht_score) {
-        this.ht_score = ht_score;
-    }
-
-    public void setStake_amount(int stake_amount) {
-        this.stake_amount = stake_amount;
-    }
-
-    public String getMatch_status() {
+    public String getMatch_status()
+    {
         return match_status;
     }
 
-    public String getOdds_info() {
+    public String getOdds_info()
+    {
         return odds_info;
     }
 
-    public String getTourname_short() {
+    public String getTourname_short()
+    {
         return tourname_short;
     }
 
-    public int getOdds_type() {
+    public int getOdds_type()
+    {
         return odds_type;
     }
 
-    public String getCtime() {
+    public String getCtime()
+    {
         return ctime;
     }
 
-    public int getWin_amount() {
+    public int getWin_amount()
+    {
         return win_amount;
     }
 
-    public int getStatus_id() {
+    public int getStatus_id()
+    {
         return status_id;
     }
 
-    public String getAt_name() {
+    public String getAt_name()
+    {
         return at_name;
     }
 
-    public String getHt_name() {
+    public String getHt_name()
+    {
         return ht_name;
     }
 
-    public String getTourname() {
+    public String getTourname()
+    {
         return tourname;
     }
 
-    public String getAt_score() {
+    public String getAt_score()
+    {
         return at_score;
     }
 
-    public String getChoice() {
+    public String getChoice()
+    {
         return choice;
     }
 
-    public String getContent() {
+    public String getContent()
+    {
         return content;
     }
 
-    public int getTips_count() {
+    public int getTips_count()
+    {
         return tips_count;
     }
 
-    public String getMatch_time() {
+    public String getMatch_time()
+    {
         return match_time;
     }
 
-    public int getStatus() {
+    public int getStatus()
+    {
         return status;
     }
 
-    public int getEid() {
+    public int getEid()
+    {
         return eid;
     }
 
-    public int getReturn_amount() {
+    public int getReturn_amount()
+    {
         return return_amount;
     }
 
-    public int getEtype() {
+    public int getEtype()
+    {
         return etype;
     }
 
-    public String getHt_score() {
+    public String getHt_score()
+    {
         return ht_score;
     }
 
-    public int getStake_amount() {
+    public int getStake_amount()
+    {
         return stake_amount;
     }
 
-    public String getMatchTime() {
+    public String getMatchTime()
+    {
         return matchTime;
     }
 
-    public void setMatchTime(String matchTime) {
+    public void setMatch_status(String match_status)
+    {
+        this.match_status = match_status;
+    }
+
+    public void setOdds_info(String odds_info)
+    {
+        this.odds_info = odds_info;
+    }
+
+    public void setTourname_short(String tourname_short)
+    {
+        this.tourname_short = tourname_short;
+    }
+
+    public <INT> void setOdds_type(INT odds_type)
+    {
+        this.odds_type = ParseUtil.makeParse(odds_type, 0);
+    }
+
+    public <INT> void setCtime(String ctime)
+    {
+        this.ctime = ctime;
+    }
+
+    public <INT> void setWin_amount(INT win_amount)
+    {
+        this.win_amount = ParseUtil.makeParse(win_amount, 0);
+    }
+
+    public <INT> void setStatus_id(INT status_id)
+    {
+        this.status_id = ParseUtil.makeParse(status_id, 0);
+    }
+
+    public <INT> void setAt_name(String at_name)
+    {
+        this.at_name = at_name;
+    }
+
+    public <INT> void setHt_name(String ht_name)
+    {
+        this.ht_name = ht_name;
+    }
+
+    public <INT> void setTourname(String tourname)
+    {
+        this.tourname = tourname;
+    }
+
+    public <INT> void setAt_score(String at_score)
+    {
+        this.at_score = at_score;
+    }
+
+    public <INT> void setChoice(String choice)
+    {
+        this.choice = choice;
+    }
+
+    public <INT> void setContent(String content)
+    {
+        this.content = content;
+    }
+
+    public <INT> void setTips_count(INT tips_count)
+    {
+        this.tips_count = ParseUtil.makeParse(tips_count, 0);
+    }
+
+    public <INT> void setMatch_time(String match_time)
+    {
+        this.match_time = match_time;
+    }
+
+    public <INT> void setStatus(INT status)
+    {
+        this.status = ParseUtil.makeParse(status, 0);
+    }
+
+    public <INT> void setEid(INT eid)
+    {
+        this.eid = ParseUtil.makeParse(eid, 0);
+    }
+
+    public <INT> void setReturn_amount(INT return_amount)
+    {
+        this.return_amount = ParseUtil.makeParse(return_amount, 0);
+    }
+
+    public <INT> void setEtype(INT etype)
+    {
+        this.etype = ParseUtil.makeParse(etype, 0);
+    }
+
+    public <INT> void setHt_score(String ht_score)
+    {
+        this.ht_score = ht_score;
+    }
+
+    public <INT> void setStake_amount(INT stake_amount)
+    {
+        this.stake_amount = ParseUtil.makeParse(stake_amount, 0);
+    }
+
+    public <INT> void setMatchTime(String matchTime)
+    {
         this.matchTime = matchTime;
     }
 }

@@ -39,7 +39,7 @@ public class BallQTipOffListFragment extends BaseFragment implements SwipeRefres
     protected AutoLoadMoreRecyclerView recyclerView;
 
     private int etype = -1;
-    private int currentPages = 1;
+    private int nextPage = 1;
 
     //    private BallQTipOffAdapter adapter = null;
     private BqTipOffAdapter mBqTipOffAdapter;
@@ -76,9 +76,11 @@ public class BallQTipOffListFragment extends BaseFragment implements SwipeRefres
         recyclerView.setLayoutManager(new LinearLayoutManager(this.getActivity()));
         recyclerView.setOnLoadMoreListener(this);
         recyclerView.setBackgroundResource(R.color.white);
+        mBqTipOffAdapter = new BqTipOffAdapter();
+        recyclerView.setAdapter(mBqTipOffAdapter);
         // recyclerView.setAdapter(new BallQHomeTipOffAdapter());
         showLoading();
-        requestDatas(currentPages, false);
+        requestDatas(false);
     }
 
     @Override
@@ -122,12 +124,21 @@ public class BallQTipOffListFragment extends BaseFragment implements SwipeRefres
     {
         this.etype = etype;
         showLoading();
-        requestDatas(1, false);
+        requestDatas(false);
     }
 
-    private void requestDatas(int pages, final boolean isLoadMore)
+    private void requestDatas(final boolean isLoadMore)
     {
-        String url = HttpUrls.TIP_OFF_LIST_URL + etype + "&p=" + pages;
+        final int page;
+        if (isLoadMore)
+        {
+            page = nextPage;
+        }
+        else
+        {
+            page = 1;
+        }
+        String url = HttpUrls.TIP_OFF_LIST_URL + etype + "&p=" + page;
         HashMap<String, String> params = null;
         if (UserInfoUtil.checkLogin(baseActivity))
         {
@@ -136,6 +147,7 @@ public class BallQTipOffListFragment extends BaseFragment implements SwipeRefres
             params.put("token", UserInfoUtil.getUserToken(baseActivity));
         }
 
+        KLog.d(url);
         HttpClientUtil.getHttpClientUtil().sendPostRequest(Tag, url, params, new HttpClientUtil.StringResponseCallBack()
         {
             @Override
@@ -146,10 +158,11 @@ public class BallQTipOffListFragment extends BaseFragment implements SwipeRefres
             @Override
             public void onError(Call call, Exception error)
             {
+                hideLoad();
                 if (!isLoadMore)
                 {
                     recyclerView.setRefreshComplete();
-                    if (mBqTipOffAdapter != null)
+                    if (mBqTipOffAdapter != null && mBqTipOffAdapter.getItemCount() > 0)
                     {
                         recyclerView.setStartLoadMore();
                     }
@@ -161,7 +174,7 @@ public class BallQTipOffListFragment extends BaseFragment implements SwipeRefres
                             public void onClick(View v)
                             {
                                 showLoading();
-                                requestDatas(1, false);
+                                requestDatas(false);
                             }
                         });
                     }
@@ -192,21 +205,9 @@ public class BallQTipOffListFragment extends BaseFragment implements SwipeRefres
 
     protected void onResponseSuccess(String response, boolean isLoadMore)
     {
-        if (!isLoadMore)
-        {
-            recyclerView.setRefreshComplete();
-        }
-        if (mBqTipOffAdapter == null)
-        {
-            mBqTipOffAdapter = new BqTipOffAdapter();
-            recyclerView.setAdapter(mBqTipOffAdapter);
-        }
-        if (!isLoadMore && mBqTipOffAdapter.getItemCount() > 0)
-        {
-            mBqTipOffAdapter.addDataList(false);
-        }
         if (!TextUtils.isEmpty(response))
         {
+            hideLoad();
             JSONObject obj = JSONObject.parseObject(response);
             if (obj != null && !obj.isEmpty())
             {
@@ -225,8 +226,15 @@ public class BallQTipOffListFragment extends BaseFragment implements SwipeRefres
                 JSONArray objArrays = data.getJSONArray("tips");
                 if (objArrays != null && !objArrays.isEmpty())
                 {
-                    hideLoad();
                     mBqTipOffAdapter.addDataList(objArrays, isLoadMore, BallQTipOffEntity.class);
+                    if (!isLoadMore)
+                    {
+                        nextPage = 2;
+                    }
+                    else
+                    {
+                        ++nextPage;
+                    }
                     if (objArrays.size() < 10)
                     {
                         recyclerView.setLoadMoreDataComplete("没有更多数据了");
@@ -234,14 +242,6 @@ public class BallQTipOffListFragment extends BaseFragment implements SwipeRefres
                     else
                     {
                         recyclerView.setStartLoadMore();
-                        if (!isLoadMore)
-                        {
-                            currentPages = 2;
-                        }
-                        else
-                        {
-                            currentPages++;
-                        }
                     }
                     return;
                 }
@@ -266,14 +266,14 @@ public class BallQTipOffListFragment extends BaseFragment implements SwipeRefres
         }
         else
         {
-            recyclerView.postDelayed(new Runnable()
+            recyclerView.post(new Runnable()
             {
                 @Override
                 public void run()
                 {
-                    requestDatas(currentPages, true);
+                    requestDatas(true);
                 }
-            }, 300);
+            });
         }
 
     }
@@ -288,7 +288,7 @@ public class BallQTipOffListFragment extends BaseFragment implements SwipeRefres
         }
         else
         {
-            requestDatas(1, false);
+            requestDatas(false);
         }
     }
 

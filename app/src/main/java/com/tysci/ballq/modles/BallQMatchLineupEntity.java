@@ -1,5 +1,7 @@
 package com.tysci.ballq.modles;
 
+import com.tysci.ballq.utils.ParseUtil;
+
 import java.util.List;
 
 /**
@@ -57,8 +59,8 @@ public class BallQMatchLineupEntity {
         this.pos_GMDF = pos_GMDF;
     }
 
-    public void setShirt_number(int shirt_number) {
-        this.shirt_number = shirt_number;
+    public<INT> void setShirt_number(INT shirt_number) {
+        this.shirt_number = ParseUtil.makeParse(shirt_number,0);
     }
 
     public void setNationality(String nationality) {
@@ -73,8 +75,8 @@ public class BallQMatchLineupEntity {
         this.id = id;
     }
 
-    public void setSubstitute(int substitute) {
-        this.substitute = substitute;
+    public <INT>void setSubstitute(INT substitute) {
+        this.substitute = ParseUtil.makeParse(substitute,0);
     }
 
     public MatchStatusEntity getStatus() {

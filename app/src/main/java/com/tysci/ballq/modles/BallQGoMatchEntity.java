@@ -1,9 +1,12 @@
 package com.tysci.ballq.modles;
 
+import com.tysci.ballq.utils.ParseUtil;
+
 /**
  * Created by Administrator on 2016/5/23.
  */
-public class BallQGoMatchEntity {
+public class BallQGoMatchEntity
+{
 
     /**
      * goinfo_id : 17
@@ -45,147 +48,183 @@ public class BallQGoMatchEntity {
 
     private String user_choice;
 
-    public void setGoinfo_id(int goinfo_id) {
-        this.goinfo_id = goinfo_id;
-    }
-
-    public void setTourname_short(String tourname_short) {
-        this.tourname_short = tourname_short;
-    }
-
-    public void setAhc_odds_type(int ahc_odds_type) {
-        this.ahc_odds_type = ahc_odds_type;
-    }
-
-    public void setAt_name(String at_name) {
-        this.at_name = at_name;
-    }
-
-    public void setHt_name(String ht_name) {
-        this.ht_name = ht_name;
-    }
-
-    public void setAhc_odds_id(int ahc_odds_id) {
-        this.ahc_odds_id = ahc_odds_id;
-    }
-
-    public void setTourname(String tourname) {
-        this.tourname = tourname;
-    }
-
-    public void setGo_choice(String go_choice) {
-        this.go_choice = go_choice;
-    }
-
-    public void setTo_odds_info(String to_odds_info) {
-        this.to_odds_info = to_odds_info;
-    }
-
-    public void setGo_odds_type(int go_odds_type) {
-        this.go_odds_type = go_odds_type;
-    }
-
-    public void setMatch_time(String match_time) {
-        this.match_time = match_time;
-    }
-
-    public void setEid(int eid) {
-        this.eid = eid;
-    }
-
-    public void setAhc_odds_info(String ahc_odds_info) {
-        this.ahc_odds_info = ahc_odds_info;
-    }
-
-    public void setEtype(int etype) {
-        this.etype = etype;
-    }
-
-    public void setTo_odds_type(int to_odds_type) {
-        this.to_odds_type = to_odds_type;
-    }
-
-    public void setGo_odds_info(String go_odds_info) {
-        this.go_odds_info = go_odds_info;
-    }
-
-    public void setTo_odds_id(int to_odds_id) {
-        this.to_odds_id = to_odds_id;
-    }
-
-    public int getGoinfo_id() {
+    public int getGoinfo_id()
+    {
         return goinfo_id;
     }
 
-    public String getTourname_short() {
+    public String getTourname_short()
+    {
         return tourname_short;
     }
 
-    public int getAhc_odds_type() {
+    public int getAhc_odds_type()
+    {
         return ahc_odds_type;
     }
 
-    public String getAt_name() {
+    public String getAt_name()
+    {
         return at_name;
     }
 
-    public String getHt_name() {
+    public String getHt_name()
+    {
         return ht_name;
     }
 
-    public int getAhc_odds_id() {
+    public int getAhc_odds_id()
+    {
         return ahc_odds_id;
     }
 
-    public String getTourname() {
+    public String getTourname()
+    {
         return tourname;
     }
 
-    public String getGo_choice() {
+    public String getGo_choice()
+    {
         return go_choice;
     }
 
-    public String getTo_odds_info() {
+    public String getTo_odds_info()
+    {
         return to_odds_info;
     }
 
-    public int getGo_odds_type() {
+    public int getGo_odds_type()
+    {
         return go_odds_type;
     }
 
-    public String getMatch_time() {
+    public String getMatch_time()
+    {
         return match_time;
     }
 
-    public int getEid() {
+    public int getEid()
+    {
         return eid;
     }
 
-    public String getAhc_odds_info() {
+    public String getAhc_odds_info()
+    {
         return ahc_odds_info;
     }
 
-    public int getEtype() {
+    public int getEtype()
+    {
         return etype;
     }
 
-    public int getTo_odds_type() {
+    public int getTo_odds_type()
+    {
         return to_odds_type;
     }
 
-    public String getGo_odds_info() {
+    public String getGo_odds_info()
+    {
         return go_odds_info;
     }
 
-    public int getTo_odds_id() {
+    public int getTo_odds_id()
+    {
         return to_odds_id;
     }
 
-    public String getUser_choice() {
+    public String getUser_choice()
+    {
         return user_choice;
     }
 
-    public void setUser_choice(String user_choice) {
+    public <INT> void setGoinfo_id(INT goinfo_id)
+    {
+        this.goinfo_id = ParseUtil.makeParse(goinfo_id, 0);
+    }
+
+    public void setTourname_short(String tourname_short)
+    {
+        this.tourname_short = tourname_short;
+    }
+
+    public <INT> void setAhc_odds_type(INT ahc_odds_type)
+    {
+        this.ahc_odds_type = ParseUtil.makeParse(ahc_odds_type, 0);
+    }
+
+    public void setAt_name(String at_name)
+    {
+        this.at_name = at_name;
+    }
+
+    public void setHt_name(String ht_name)
+    {
+        this.ht_name = ht_name;
+    }
+
+    public <INT> void setAhc_odds_id(INT ahc_odds_id)
+    {
+        this.ahc_odds_id = ParseUtil.makeParse(ahc_odds_id, 0);
+    }
+
+    public void setTourname(String tourname)
+    {
+        this.tourname = tourname;
+    }
+
+    public void setGo_choice(String go_choice)
+    {
+        this.go_choice = go_choice;
+    }
+
+    public void setTo_odds_info(String to_odds_info)
+    {
+        this.to_odds_info = to_odds_info;
+    }
+
+    public <INT> void setGo_odds_type(INT go_odds_type)
+    {
+        this.go_odds_type = ParseUtil.makeParse(go_odds_type, 0);
+    }
+
+    public void setMatch_time(String match_time)
+    {
+        this.match_time = match_time;
+    }
+
+    public <INT> void setEid(INT eid)
+    {
+        this.eid = ParseUtil.makeParse(eid, 0);
+    }
+
+    public void setAhc_odds_info(String ahc_odds_info)
+    {
+        this.ahc_odds_info = ahc_odds_info;
+    }
+
+    public <INT> void setEtype(INT etype)
+    {
+        this.etype = ParseUtil.makeParse(etype, 0);
+    }
+
+    public <INT> void setTo_odds_type(INT to_odds_type)
+    {
+        this.to_odds_type = ParseUtil.makeParse(to_odds_type, 0);
+    }
+
+    public void setGo_odds_info(String go_odds_info)
+    {
+        this.go_odds_info = go_odds_info;
+    }
+
+    public <INT> void setTo_odds_id(INT to_odds_id)
+    {
+        this.to_odds_id = ParseUtil.makeParse(to_odds_id, 0);
+    }
+
+    public void setUser_choice(String user_choice)
+    {
         this.user_choice = user_choice;
     }
 }

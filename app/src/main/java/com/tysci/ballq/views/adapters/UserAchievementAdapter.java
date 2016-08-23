@@ -10,10 +10,12 @@ import android.widget.TextView;
 import com.tysci.ballq.R;
 import com.tysci.ballq.activitys.UserAchievementActivity;
 import com.tysci.ballq.base.ButterKnifeRecyclerViewHolder;
+import com.tysci.ballq.dialog.ImageUrlBrowserDialog;
 import com.tysci.ballq.modles.UserAchievementEntity;
 import com.tysci.ballq.utils.ImageUtil;
 import com.tysci.ballq.utils.ToastUtil;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
@@ -51,7 +53,7 @@ public class UserAchievementAdapter extends RecyclerView.Adapter<UserAchievement
     }
 
     @Override
-    public void onBindViewHolder(final ViewHolder holder, int position)
+    public void onBindViewHolder(final ViewHolder holder, final int position)
     {
         final UserAchievementEntity info = dataList.get(position);
 
@@ -80,6 +82,23 @@ public class UserAchievementAdapter extends RecyclerView.Adapter<UserAchievement
                 }
             });
         }
+        holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v)
+            {
+                ImageUrlBrowserDialog dialog = new ImageUrlBrowserDialog(v.getContext());
+                List<String> tmp = new ArrayList<>();
+                for (UserAchievementEntity info : dataList)
+                {
+                    tmp.add(info.getLogo());
+                }
+                dialog.addUrl(tmp);
+                dialog.setCurrentImageIndex(position);
+                dialog.show();
+
+                return true;
+            }
+        });
     }
 
     @Override
