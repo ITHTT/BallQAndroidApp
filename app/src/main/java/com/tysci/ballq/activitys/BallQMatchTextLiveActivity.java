@@ -149,7 +149,7 @@ public class BallQMatchTextLiveActivity extends BaseActivity implements SwipeRef
     }
 
     @Override
-    protected void handleInstanceState(Bundle outState) {
+    protected void handleInstanceState(Bundle savedInstanceState) {
 
     }
 

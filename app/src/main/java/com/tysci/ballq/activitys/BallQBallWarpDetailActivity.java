@@ -27,6 +27,7 @@ import com.tysci.ballq.dialog.SpinKitProgressDialog;
 import com.tysci.ballq.modles.BallQBallWarpInfoEntity;
 import com.tysci.ballq.modles.BallQUserCommentEntity;
 import com.tysci.ballq.modles.BallQUserRewardHeaderEntity;
+import com.tysci.ballq.modles.JsonParams;
 import com.tysci.ballq.modles.UserInfoEntity;
 import com.tysci.ballq.modles.event.EventType;
 import com.tysci.ballq.networks.GlideImageLoader;
@@ -277,6 +278,13 @@ public class BallQBallWarpDetailActivity extends BaseActivity implements SwipeRe
                     JSONObject obj = JSONObject.parseObject(response);
                     if (obj != null)
                     {
+                        if (!JsonParams.isJsonRight(obj))
+                        {
+                            ToastUtil.show(BallQBallWarpDetailActivity.this, obj.getString("message"));
+                            finish();
+                            return;
+                        }
+                        UserInfoUtil.getUserTaskMsg(BallQBallWarpDetailActivity.this);
                         BallQBallWarpInfoEntity data = obj.getObject("data", BallQBallWarpInfoEntity.class);
                         if (data != null)
                         {
@@ -717,7 +725,7 @@ public class BallQBallWarpDetailActivity extends BaseActivity implements SwipeRe
     }
 
     @Override
-    protected void handleInstanceState(Bundle outState)
+    protected void handleInstanceState(Bundle savedInstanceState)
     {
 
     }

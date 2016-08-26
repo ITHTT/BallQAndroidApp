@@ -57,7 +57,8 @@
 
         <activity
             android:name=".activitys.BallQMainActivity"
-            android:launchMode="singleTask"/>
+            android:launchMode="singleTask"
+            android:theme="@style/MainTheme"/>
 
         <activity
             android:name=".wxapi.WXEntryActivity"
@@ -82,7 +83,8 @@
         <!--added by LinDe-->
         <activity
             android:name=".activitys.FirstWelcomeActivity"
-            android:launchMode="singleTop">
+            android:launchMode="singleTop"
+            android:theme="@style/MainTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
@@ -97,7 +99,8 @@
             android:launchMode="singleTop"/>
         <activity
             android:name=".activitys.BallQGuideActivity"
-            android:launchMode="singleTop"/>
+            android:launchMode="singleTop"
+            android:theme="@style/MainTheme"/>
         <activity
             android:name=".activitys.BallQSettingActivity"
             android:launchMode="singleTop"/>
@@ -115,6 +118,9 @@
             android:launchMode="singleTop"/>
         <activity
             android:name=".activitys.UserArticleListRecordActivity"
+            android:launchMode="singleTop"/>
+        <activity
+            android:name=".activitys.BqErrorActivity"
             android:launchMode="singleTop"/>
 
         <service android:name=".services.TimeTaskPickerService"/>

@@ -74,7 +74,7 @@ public class PhotoPagerActivity extends BaseActivity implements ViewPager.OnPage
     }
 
     @Override
-    protected void handleInstanceState(Bundle outState) {
+    protected void handleInstanceState(Bundle savedInstanceState) {
 
     }
 

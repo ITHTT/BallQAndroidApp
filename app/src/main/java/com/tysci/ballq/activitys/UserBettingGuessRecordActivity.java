@@ -147,7 +147,7 @@ public class UserBettingGuessRecordActivity extends BaseActivity implements Swip
     }
 
     @Override
-    protected void handleInstanceState(Bundle outState)
+    protected void handleInstanceState(Bundle savedInstanceState)
     {
 
     }

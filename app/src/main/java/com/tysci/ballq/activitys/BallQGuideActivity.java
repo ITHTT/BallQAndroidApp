@@ -6,6 +6,7 @@ import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.widget.TextView;
 
+import com.jude.swipbackhelper.SwipeBackHelper;
 import com.tysci.ballq.R;
 import com.tysci.ballq.base.BaseActivity;
 import com.tysci.ballq.base.BaseFragment;
@@ -24,7 +25,8 @@ import butterknife.OnClick;
  * Created by LinDe on 2016-07-13 0013.
  * guide for BallQ
  */
-public class BallQGuideActivity extends BaseActivity implements ViewPager.OnPageChangeListener {
+public class BallQGuideActivity extends BaseActivity implements ViewPager.OnPageChangeListener
+{
     @Bind(R.id.view_pager)
     CustomSlidingViewPager viewPager;
     @Bind(R.id.point_view)
@@ -33,12 +35,15 @@ public class BallQGuideActivity extends BaseActivity implements ViewPager.OnPage
     TextView tv_commit;
 
     @Override
-    protected int getContentViewId() {
+    protected int getContentViewId()
+    {
         return R.layout.activity_guide;
     }
 
     @Override
-    protected void initViews() {
+    protected void initViews()
+    {
+        SwipeBackHelper.getCurrentPage(this).setSwipeBackEnable(false);
         tv_commit.setVisibility(View.GONE);
 
         final List<BaseFragment> mFragmentList = new ArrayList<>();
@@ -75,65 +80,78 @@ public class BallQGuideActivity extends BaseActivity implements ViewPager.OnPage
     }
 
     @Override
-    protected View getLoadingTargetView() {
+    protected View getLoadingTargetView()
+    {
         return null;
     }
 
     @Override
-    protected void getIntentData(Intent intent) {
+    protected void getIntentData(Intent intent)
+    {
 
     }
 
     @Override
-    protected boolean isCanceledEventBus() {
+    protected boolean isCanceledEventBus()
+    {
         return false;
     }
 
     @Override
-    protected void saveInstanceState(Bundle outState) {
+    protected void saveInstanceState(Bundle outState)
+    {
 
     }
 
     @Override
-    protected void handleInstanceState(Bundle outState) {
+    protected void handleInstanceState(Bundle savedInstanceState)
+    {
 
     }
 
     @Override
-    protected void onViewClick(View view) {
+    protected void onViewClick(View view)
+    {
 
     }
 
     @Override
-    protected void notifyEvent(String action) {
+    protected void notifyEvent(String action)
+    {
 
     }
 
     @Override
-    protected void notifyEvent(String action, Bundle data) {
+    protected void notifyEvent(String action, Bundle data)
+    {
 
     }
 
     @Override
-    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels)
+    {
         tv_commit.setVisibility(position == 3 ? View.VISIBLE : View.GONE);
         pointView.setVisibility(position == 3 ? View.GONE : View.VISIBLE);
     }
 
     @Override
-    public void onPageSelected(int position) {
+    public void onPageSelected(int position)
+    {
         pointView.setCheckPosition(position);
     }
 
     @Override
-    public void onPageScrollStateChanged(int state) {
+    public void onPageScrollStateChanged(int state)
+    {
     }
 
     @OnClick(R.id.tv_commit)
-    public void onCommitClick(View view) {
+    public void onCommitClick(View view)
+    {
         Intent intent = new Intent(this, BallQMainActivity.class);
         startActivity(intent);
         SharedPreferencesUtil.notifyGuideSuccess(this);
+        overridePendingTransition(0, 0);
         finish();
     }
 }

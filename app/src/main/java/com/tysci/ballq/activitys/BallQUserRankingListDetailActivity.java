@@ -158,7 +158,7 @@ public class BallQUserRankingListDetailActivity extends BaseActivity implements 
     }
 
     @Override
-    protected void handleInstanceState(Bundle outState) {
+    protected void handleInstanceState(Bundle savedInstanceState) {
 
     }
 

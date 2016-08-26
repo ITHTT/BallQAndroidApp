@@ -172,7 +172,7 @@ public class UserOldTrendStatisticActivity extends BaseActivity
 
     private void getUserTrendStatisticInfo(String uid)
     {
-        String url = HttpUrls.HOST_URL_V5 + "user/" + uid + "/betting_stats_summary/";
+        String url = HttpUrls.HOST_URL_V5 + "old/user/" + uid + "/betting_stats_summary/";
         HttpClientUtil.getHttpClientUtil().sendGetRequest(Tag, url, 60, new HttpClientUtil.StringResponseCallBack()
         {
             @Override
@@ -272,7 +272,7 @@ public class UserOldTrendStatisticActivity extends BaseActivity
     }
 
     @Override
-    protected void handleInstanceState(Bundle outState)
+    protected void handleInstanceState(Bundle savedInstanceState)
     {
 
     }

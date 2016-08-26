@@ -75,7 +75,7 @@ public class BallQImageBrowseActivity extends BaseActivity implements ViewPager.
     }
 
     @Override
-    protected void handleInstanceState(Bundle outState) {
+    protected void handleInstanceState(Bundle savedInstanceState) {
 
     }
 

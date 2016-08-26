@@ -41,7 +41,7 @@ public class BallQTipOffRecordActivity extends BaseActivity {
     }
 
     @Override
-    protected void handleInstanceState(Bundle outState) {
+    protected void handleInstanceState(Bundle savedInstanceState) {
 
     }
 

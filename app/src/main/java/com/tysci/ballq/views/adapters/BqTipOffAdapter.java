@@ -27,6 +27,7 @@ import com.tysci.ballq.utils.MatchBettingInfoUtil;
 import com.tysci.ballq.utils.ToastUtil;
 import com.tysci.ballq.utils.UserInfoUtil;
 import com.tysci.ballq.views.widgets.CircleImageView;
+import com.tysci.ballq.views.widgets.CustomRattingBar;
 import com.tysci.ballq.views.widgets.TextWithLeftImageView;
 
 import java.util.HashMap;
@@ -121,6 +122,19 @@ public class BqTipOffAdapter extends WrapRecyclerAdapter<BallQTipOffEntity, BqTi
         // 玩法
         String choice = MatchBettingInfoUtil.getBettingResultInfo(tipInfo.getChoice(), tipInfo.getOtype(), tipInfo.getOdata());
         holder.tvChoice.setText(choice);
+        // 信心指数
+        final int confidence = tipInfo.getConfidence();
+        if (confidence == 0)
+        {
+            holder.tvRattingBarText.setVisibility(View.GONE);
+            holder.mRattingBar.setVisibility(View.GONE);
+        }
+        else if (confidence > 0 && confidence % 10 == 0)
+        {
+            holder.tvRattingBarText.setVisibility(View.VISIBLE);
+            holder.mRattingBar.setVisibility(View.VISIBLE);
+            holder.mRattingBar.setRattingValue(confidence / 10);
+        }
         // 本爆料创建时间
         CalendarUtil tipCreateCalendarUtil = CalendarUtil.parseStringTZ(tipInfo.getCtime());
         if (tipCreateCalendarUtil == null)
@@ -166,13 +180,13 @@ public class BqTipOffAdapter extends WrapRecyclerAdapter<BallQTipOffEntity, BqTi
         });
         // 输赢走
         holder.ivBetResult.setVisibility(View.VISIBLE);
-        switch (tipInfo.getMstatus())
+        switch (tipInfo.getStatus())
         {
             case -1:
             case 0:
             case 4:// 重新派彩
             default:
-                holder.ivBetResult.setVisibility(View.INVISIBLE);
+                holder.ivBetResult.setVisibility(View.GONE);
                 break;
             case 1:// 赢
                 holder.ivBetResult.setImageResource(R.mipmap.watermark_win);
@@ -318,6 +332,10 @@ public class BqTipOffAdapter extends WrapRecyclerAdapter<BallQTipOffEntity, BqTi
 
         @Bind(R.id.tvChoice)
         TextView tvChoice;// 作者投注选择
+        @Bind(R.id.tvRattingBarText)
+        TextView tvRattingBarText;// 信心指数文字
+        @Bind(R.id.rating_bar)
+        CustomRattingBar mRattingBar;// 信心指数
         @Bind(R.id.tvTipCreateTime)
         TextView tvTipCreateTime;// 爆料创建时间
         @Bind(R.id.tvContent)

@@ -1,6 +1,8 @@
 package com.tysci.ballq.activitys;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -45,11 +47,15 @@ import okhttp3.Request;
 public class BallQSettingActivity extends BaseActivity implements EditUserNicknameDialog.EditNicknameSuccessCallback
 {
     @Bind(R.id.setting_user_icon)
-    SettingItemView userIconItem;
+    SettingItemView userIconItem;// 修改头像
     @Bind(R.id.setting_user_nickname)
-    SettingItemView userNicknameItem;
+    SettingItemView userNicknameItem;// 修改昵称
     @Bind(R.id.setting_check_update)
-    SettingItemView checkUpdateItem;
+    SettingItemView checkUpdateItem;// 检查更新
+    @Bind(R.id.setting_clear_cache)
+    SettingItemView clearCacheItem;// 清除缓存
+    @Bind(R.id.setting_developer)
+    SettingItemView developerItem;// 开发测试
 
     @Override
     protected int getContentViewId()
@@ -69,6 +75,13 @@ public class BallQSettingActivity extends BaseActivity implements EditUserNickna
         }
         checkUpdateItem.setTitle("当前版本: v" + SharedPreferencesUtil.getVersionName(this));
         checkUpdateItem.setRightMsg("检查更新");
+
+        clearCacheItem.setRightMsg("清除缓存");
+        clearCacheItem.setTitle("缓存大小:");
+        clearCacheItem.setName(FileUtil.getFileLengthMsg(FileUtil.getFileLength(new File(Environment.getExternalStorageDirectory().getPath() + "/BallQ"))));
+
+        developerItem.setTitle("test photoView");
+        developerItem.setVisibility(View.GONE);
     }
 
     @Override
@@ -96,7 +109,7 @@ public class BallQSettingActivity extends BaseActivity implements EditUserNickna
     }
 
     @Override
-    protected void handleInstanceState(Bundle outState)
+    protected void handleInstanceState(Bundle savedInstanceState)
     {
 
     }
@@ -119,8 +132,78 @@ public class BallQSettingActivity extends BaseActivity implements EditUserNickna
 
     }
 
+    @OnClick(R.id.setting_developer)
+    protected void onDeveloperItemClick(View view)
+    {
+
+    }
+
+    @OnClick(R.id.setting_clear_cache)
+    protected void onClearCacheItemClick(View view)
+    {
+        String basePath = Environment.getExternalStorageDirectory().getPath() + "/BallQ/";
+        if (FileUtil.getFileLength(new File(basePath)) == 0)
+        {
+            ToastUtil.show(this, "目前没有缓存数据");
+            return;
+        }
+        final String downloadPath = Environment.getExternalStorageDirectory().getPath() + "/BallQ/Download/";
+        File downloadFile = new File(downloadPath);
+        File[] downloadChildren = downloadFile.listFiles();
+        if (downloadChildren != null && downloadChildren.length > 0)
+        {
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setTitle("警告！");
+            builder.setMessage("清除缓存后保存的图片数据将会被清空");
+            builder.setPositiveButton("仍要清除", new DialogInterface.OnClickListener()
+            {
+                @Override
+                public void onClick(DialogInterface dialog, int which)
+                {
+                    clearCache();
+                }
+            });
+            builder.setNegativeButton("我再想想", null);
+            builder.create().show();
+        }
+        else
+        {
+            clearCache();
+        }
+    }
+
+    private void clearCache()
+    {
+        SpinKitProgressDialog spinKitProgressDialog = new SpinKitProgressDialog(BallQSettingActivity.this);
+        spinKitProgressDialog.show();
+        String basePath = Environment.getExternalStorageDirectory().getPath() + "/BallQ/";
+
+        File[] files = new File(basePath).listFiles();
+        boolean[] success = new boolean[files.length];
+        for (int i = 0, length = files.length; i < length; i++)
+        {
+            success[i] = FileUtil.deleteFile(files[i], false, true);
+        }
+        boolean deleteSuccess = true;
+        for (boolean b : success)
+        {
+            if (!b)
+            {
+                deleteSuccess = false;
+                break;
+            }
+        }
+        if (deleteSuccess)
+            ToastUtil.show(BallQSettingActivity.this, "缓存已清除");
+        else
+            ToastUtil.show(BallQSettingActivity.this, "缓存清除失败或未清理干净");
+
+        spinKitProgressDialog.dismiss();
+        clearCacheItem.setName(FileUtil.getFileLengthMsg(FileUtil.getFileLength(new File(Environment.getExternalStorageDirectory().getPath() + "/BallQ"))));
+    }
+
     @OnClick({R.id.setting_user_icon, R.id.setting_user_nickname, R.id.setting_check_update, R.id.tv_exit})
-    public void onSettingItemClick(View view)
+    protected void onSettingItemClick(View view)
     {
         switch (view.getId())
         {

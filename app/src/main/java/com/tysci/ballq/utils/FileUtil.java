@@ -4,13 +4,14 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
-import android.os.Environment;
+import android.support.annotation.Nullable;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.Locale;
 
 /**
  * Created by LinDe on 2016-07-13 0013.
@@ -205,24 +206,146 @@ public final class FileUtil
         return result;
     }
 
-//    public static String getGen()
-//    {
-//        if (sdardExists())
-//            return Environment.getExternalStorageDirectory().getPath();
-//        else
-//            return Environment.i
-//    }
-
-    public static boolean sdardExists()
+    /**
+     * 获取指定文件/文件夹的大小
+     *
+     * @return 字节
+     */
+    public static long getFileLength(File file)
     {
-        return Environment.getExternalStorageState().equals(android.os.Environment.MEDIA_MOUNTED);
+        if (file == null)
+            return 0;
+
+        long size = 0;
+        if (file.isDirectory())
+        {
+            File[] list = null;
+            try
+            {
+                list = file.listFiles();
+            }
+            catch (Exception e)
+            {
+                e.printStackTrace();
+            }
+            if (list != null)
+            {
+                for (File aFile : list)
+                {
+                    size += (aFile.isDirectory() ? getFileLength(aFile) : aFile.length());
+                }
+            }
+        }
+        else
+        {
+            try
+            {
+                size = file.length();
+            }
+            catch (Exception e)
+            {
+                e.printStackTrace();
+            }
+        }
+        return size;
     }
 
+    /**
+     * 删除文件
+     *
+     * @param file            指定文件/文件夹
+     * @param deleteDirectory 删除文件夹
+     * @return 删除成功/删除失败或删除不全
+     */
+    public static boolean deleteFile(File file, boolean deleteDirectory, boolean deleteChildDirectory)
+    {
+        if (file == null)
+            return false;
+        boolean deleteSuccess;
+
+        if (file.isDirectory())
+        {
+            File[] list = file.listFiles();
+            boolean[] deleteChild = new boolean[list.length];
+
+            for (int i = 0, length = list.length; i < length; i++)
+            {
+                if (list[i].isDirectory())
+                {
+                    deleteChild[i] = deleteFile(list[i], deleteChildDirectory, deleteChildDirectory);
+                }
+                else
+                {
+                    deleteChild[i] = list[i].delete();
+                }
+            }
+            deleteSuccess = true;
+            for (boolean b : deleteChild)
+            {
+                if (!b)
+                {
+                    deleteSuccess = false;
+                    break;
+                }
+            }
+            if (deleteDirectory)
+            {
+                deleteSuccess = file.delete();
+            }
+        }
+        else
+        {
+            deleteSuccess = file.delete();
+        }
+
+        return deleteSuccess;
+    }
+
+    public static String getFileLengthMsg(long fileLength)
+    {
+        int Hex = 1000;
+        if (fileLength < Hex)
+        {
+            if (fileLength < 0)
+                return "0B";
+            return fileLength + "B";
+        }
+        double kb = fileLength * 1D / Hex;
+        if (kb < Hex)
+        {
+            return String.format(Locale.getDefault(), "%.2f", kb) + "KB";
+        }
+        double mb = kb / Hex;
+        if (mb < Hex)
+        {
+            return String.format(Locale.getDefault(), "%.2f", mb) + "MB";
+        }
+        double gb = mb / Hex;
+        if (gb < Hex)
+        {
+            return String.format(Locale.getDefault(), "%.2f", gb) + "GB";
+        }
+        double tb = gb / Hex;
+        return String.format(Locale.getDefault(), "%.2f", tb) + "TB";
+    }
+
+    /**
+     * 打开文件 由于机型差异，打开Intent可能会报错，所以打开Intent时需要尽情异常捕获处理
+     */
+    @Nullable
     public static Intent openFile(String filePath)
     {
 
         File file = new File(filePath);
         if (!file.exists()) return null;
+        if (file.isDirectory())
+        {
+            Intent intent = new Intent(Intent.ACTION_VIEW);
+            intent.addCategory(Intent.CATEGORY_DEFAULT);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            intent.setDataAndType(Uri.fromFile(file), "file/*");
+            return intent;
+        }
         /* 取得扩展名 */
         String end = file.getName().substring(file.getName().lastIndexOf(".") + 1, file.getName().length()).toLowerCase();
         /* 依扩展名的类型决定MimeType */
@@ -264,7 +387,7 @@ public final class FileUtil
     }
 
     //Android获取一个用于打开APK文件的intent
-    public static Intent getAllIntent(String param)
+    private static Intent getAllIntent(String param)
     {
 
         Intent intent = new Intent();
@@ -276,7 +399,7 @@ public final class FileUtil
     }
 
     //Android获取一个用于打开APK文件的intent
-    public static Intent getApkFileIntent(String param)
+    private static Intent getApkFileIntent(String param)
     {
 
         Intent intent = new Intent();
@@ -288,7 +411,7 @@ public final class FileUtil
     }
 
     //Android获取一个用于打开VIDEO文件的intent
-    public static Intent getVideoFileIntent(String param)
+    private static Intent getVideoFileIntent(String param)
     {
 
         Intent intent = new Intent("android.intent.action.VIEW");
@@ -301,7 +424,7 @@ public final class FileUtil
     }
 
     //Android获取一个用于打开AUDIO文件的intent
-    public static Intent getAudioFileIntent(String param)
+    private static Intent getAudioFileIntent(String param)
     {
 
         Intent intent = new Intent("android.intent.action.VIEW");
@@ -314,7 +437,7 @@ public final class FileUtil
     }
 
     //Android获取一个用于打开Html文件的intent
-    public static Intent getHtmlFileIntent(String param)
+    private static Intent getHtmlFileIntent(String param)
     {
 
         Uri uri = Uri.parse(param).buildUpon().encodedAuthority("com.android.htmlfileprovider").scheme("content").encodedPath(param).build();
@@ -324,7 +447,7 @@ public final class FileUtil
     }
 
     //Android获取一个用于打开图片文件的intent
-    public static Intent getImageFileIntent(String param)
+    private static Intent getImageFileIntent(String param)
     {
 
         Intent intent = new Intent("android.intent.action.VIEW");
@@ -336,7 +459,7 @@ public final class FileUtil
     }
 
     //Android获取一个用于打开PPT文件的intent
-    public static Intent getPptFileIntent(String param)
+    private static Intent getPptFileIntent(String param)
     {
 
         Intent intent = new Intent("android.intent.action.VIEW");
@@ -348,7 +471,7 @@ public final class FileUtil
     }
 
     //Android获取一个用于打开Excel文件的intent
-    public static Intent getExcelFileIntent(String param)
+    private static Intent getExcelFileIntent(String param)
     {
 
         Intent intent = new Intent("android.intent.action.VIEW");
@@ -360,7 +483,7 @@ public final class FileUtil
     }
 
     //Android获取一个用于打开Word文件的intent
-    public static Intent getWordFileIntent(String param)
+    private static Intent getWordFileIntent(String param)
     {
 
         Intent intent = new Intent("android.intent.action.VIEW");
@@ -372,7 +495,7 @@ public final class FileUtil
     }
 
     //Android获取一个用于打开CHM文件的intent
-    public static Intent getChmFileIntent(String param)
+    private static Intent getChmFileIntent(String param)
     {
 
         Intent intent = new Intent("android.intent.action.VIEW");
@@ -384,7 +507,7 @@ public final class FileUtil
     }
 
     //Android获取一个用于打开文本文件的intent
-    public static Intent getTextFileIntent(String param, boolean paramBoolean)
+    private static Intent getTextFileIntent(String param, boolean paramBoolean)
     {
 
         Intent intent = new Intent("android.intent.action.VIEW");
@@ -404,7 +527,7 @@ public final class FileUtil
     }
 
     //Android获取一个用于打开PDF文件的intent
-    public static Intent getPdfFileIntent(String param)
+    private static Intent getPdfFileIntent(String param)
     {
 
         Intent intent = new Intent("android.intent.action.VIEW");

@@ -102,7 +102,7 @@ public class UserArticleListRecordActivity extends BaseActivity implements Swipe
     }
 
     @Override
-    protected void handleInstanceState(Bundle outState)
+    protected void handleInstanceState(Bundle savedInstanceState)
     {
 
     }

@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.jude.swipbackhelper.SwipeBackHelper;
 import com.tysci.ballq.R;
 import com.tysci.ballq.base.BaseActivity;
 import com.tysci.ballq.bigdata.BigDataOPT;
@@ -44,6 +45,7 @@ public class FirstWelcomeActivity extends BaseActivity {
 
     @Override
     protected void initViews() {
+        SwipeBackHelper.getCurrentPage(this).setSwipeBackEnable(false);
         BigDataUtil.uploadNormal(this, BigDataST.OTHERS, BigDataOPT.IN, "0");
 
         tv_cancel.setVisibility(View.GONE);
@@ -59,6 +61,7 @@ public class FirstWelcomeActivity extends BaseActivity {
                 public void run() {
                     Intent intent = new Intent(FirstWelcomeActivity.this, BallQGuideActivity.class);
                     startActivity(intent);
+                    overridePendingTransition(0,0);
                     finish();
                 }
             }, 3000);
@@ -140,6 +143,7 @@ public class FirstWelcomeActivity extends BaseActivity {
                             public void onClick(View v) {
                                 Intent intent = new Intent(FirstWelcomeActivity.this, BallQMainActivity.class);
                                 startActivity(intent);
+                                overridePendingTransition(0, 0);
                                 finish();
                             }
                         });
@@ -157,6 +161,7 @@ public class FirstWelcomeActivity extends BaseActivity {
             public void run() {
                 Intent intent = new Intent(FirstWelcomeActivity.this, BallQMainActivity.class);
                 startActivity(intent);
+                overridePendingTransition(0,0);
                 finish();
             }
         }, show_time);
@@ -183,7 +188,7 @@ public class FirstWelcomeActivity extends BaseActivity {
     }
 
     @Override
-    protected void handleInstanceState(Bundle outState) {
+    protected void handleInstanceState(Bundle savedInstanceState) {
 
     }
 

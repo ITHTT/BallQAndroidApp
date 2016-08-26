@@ -47,7 +47,8 @@ public class BallQApp extends Application
         SharedPreferencesUtil.notifySaveVersion(this);
 
         AppConfigInfo.initAppConfigInfo(this);
-        AppExceptionHandler.getInstance().init(this);
+//        AppExceptionHandler.getInstance().init(this);
+        CustomActivityOnCrash.install(this);
         HttpClientUtil.initHttpClientUtil(this, AppConfigInfo.APP_HTTP_CACHE_PATH);
         WeChatUtil.registerWXApi(this);
 

@@ -134,7 +134,7 @@ public class PingPayActivity extends BaseActivity implements TextWatcher
     }
 
     @Override
-    protected void handleInstanceState(Bundle outState)
+    protected void handleInstanceState(Bundle savedInstanceState)
     {
 
     }

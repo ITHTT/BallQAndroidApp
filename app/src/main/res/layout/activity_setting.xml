@@ -20,38 +20,36 @@
             <com.tysci.ballq.views.SettingItemView
                 android:id="@+id/setting_user_icon"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/activity_setting_item_height"
+                android:layout_height="wrap_content"
                 app:setting_show_icon="true"
                 app:setting_text_title="头像:"/>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/gold"/>
 
             <com.tysci.ballq.views.SettingItemView
                 android:id="@+id/setting_user_nickname"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/activity_setting_item_height"
+                android:layout_height="wrap_content"
                 app:setting_text_name="@string/app_name"
                 app:setting_text_title="昵称:"/>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/gold"/>
 
             <com.tysci.ballq.views.SettingItemView
                 android:id="@+id/setting_check_update"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/activity_setting_item_height"
+                android:layout_height="wrap_content"
                 app:setting_text_name=""
                 app:setting_text_title=""/>
 
-            <View
+            <com.tysci.ballq.views.SettingItemView
+                android:id="@+id/setting_clear_cache"
                 android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/gold"/>
+                android:layout_height="wrap_content"
+                app:setting_text_name=""
+                app:setting_text_title="We are all developer"/>
+            <com.tysci.ballq.views.SettingItemView
+                android:id="@+id/setting_developer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:setting_text_name=""
+                app:setting_text_title="We are all developer"/>
         </LinearLayout>
     </ScrollView>
 

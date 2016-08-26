@@ -11,6 +11,7 @@ import android.widget.ImageView;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.jude.swipbackhelper.SwipeBackHelper;
 import com.tysci.ballq.R;
 import com.tysci.ballq.base.BaseActivity;
 import com.tysci.ballq.fragments.BallQFindFragment;
@@ -35,7 +36,7 @@ public class BallQMainActivity extends BaseActivity
     protected MainBottomMenuView menuHome;
     @Bind(R.id.menu_match)
     protected MainBottomMenuView menuMatch;
-//    @Bind(R.id.menu_tip_off)
+    //    @Bind(R.id.menu_tip_off)
 //    protected MainBottomMenuView menuTipOff;
     @Bind(R.id.iv_tip_off)
     protected ImageView iv_tip_off;
@@ -62,6 +63,7 @@ public class BallQMainActivity extends BaseActivity
     @Override
     protected void initViews()
     {
+        SwipeBackHelper.getCurrentPage(this).setSwipeBackEnable(false);
         setSelectedTab(R.id.menu_home);
     }
 
@@ -257,13 +259,16 @@ public class BallQMainActivity extends BaseActivity
     @Override
     protected void saveInstanceState(Bundle outState)
     {
-
+        outState.putInt("currentTab", currentTab);
     }
 
     @Override
-    protected void handleInstanceState(Bundle outState)
+    protected void handleInstanceState(Bundle savedInstanceState)
     {
-
+        if (savedInstanceState != null)
+        {
+            currentTab = savedInstanceState.getInt("currentTab", currentTab);
+        }
     }
 
     @Override
@@ -398,7 +403,7 @@ public class BallQMainActivity extends BaseActivity
     protected void onResume()
     {
         super.onResume();
-        UserInfoUtil.getUserInfo(this, "UserAttentionActivity", UserInfoUtil.getUserId(this), false, null);
+        UserInfoUtil.getUserInfo(this, "BallQMainActivity", UserInfoUtil.getUserId(this), false, null);
 
     }
 }

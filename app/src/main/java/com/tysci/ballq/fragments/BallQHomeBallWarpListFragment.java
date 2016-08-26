@@ -117,7 +117,6 @@ public class BallQHomeBallWarpListFragment extends AppSwipeRefreshLoadMoreRecycl
                 if (!TextUtils.isEmpty(response))
                 {
                     JSONObject obj = JSONObject.parseObject(response);
-                    UserInfoUtil.getUserTaskMsg(baseActivity);
                     if (obj != null && !obj.isEmpty())
                     {
                         JSONObject data = obj.getJSONObject("data");

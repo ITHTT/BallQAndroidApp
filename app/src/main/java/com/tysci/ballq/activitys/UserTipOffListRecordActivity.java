@@ -102,7 +102,7 @@ public class UserTipOffListRecordActivity extends BaseActivity implements SwipeR
     }
 
     @Override
-    protected void handleInstanceState(Bundle outState)
+    protected void handleInstanceState(Bundle savedInstanceState)
     {
 
     }

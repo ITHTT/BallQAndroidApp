@@ -45,8 +45,8 @@
 
                     <ImageView
                         android:id="@+id/ivHtLogo"
-                        android:layout_width="25dp"
-                        android:layout_height="25dp"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
                         android:contentDescription="@string/app_name"
                         android:src="@mipmap/ic_ballq_logo"/>
 
@@ -79,13 +79,13 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/_rl1"
-                    android:layout_marginTop="5dp"
+                    android:layout_marginTop="8dp"
                     android:orientation="vertical">
 
                     <ImageView
                         android:id="@+id/ivAtLogo"
-                        android:layout_width="25dp"
-                        android:layout_height="25dp"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
                         android:contentDescription="@string/app_name"
                         android:src="@mipmap/ic_ballq_logo"/>
 
@@ -115,8 +115,8 @@
 
                 <ImageView
                     android:id="@+id/ivCheckCollection"
-                    android:layout_width="45dp"
-                    android:layout_height="45dp"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
                     android:layout_alignParentEnd="true"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
@@ -136,7 +136,7 @@
                     android:layout_toStartOf="@id/ivCheckCollection"
                     android:text="未开始"
                     android:textColor="@color/c_3a3a3a"
-                    android:textSize="13sp"/>
+                    android:textSize="12sp"/>
             </RelativeLayout>
 
             <LinearLayout
@@ -148,26 +148,56 @@
                 android:paddingLeft="15dp"
                 android:paddingRight="15dp">
 
-                <com.tysci.ballq.views.MarqueeTextView
-                    android:id="@+id/tvChoice"
-                    style="@style/MarqueeTextView"
+                <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="@dimen/dimen10dp"
-                    android:layout_marginRight="@dimen/dimen10dp"
-                    android:layout_weight="1"
-                    android:text="@string/app_name"
-                    android:textColor="#cdaa44"
-                    android:textSize="12sp"/>
+                    android:layout_weight="1">
+
+                    <com.tysci.ballq.views.MarqueeTextView
+                        android:id="@+id/tvChoice"
+                        style="@style/MarqueeTextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="@dimen/dimen10dp"
+                        android:layout_marginRight="@dimen/dimen10dp"
+                        android:maxWidth="@dimen/dimen100dp"
+                        android:text="@string/app_name"
+                        android:textColor="#cdaa44"
+                        android:textSize="10sp"/>
+
+                    <com.tysci.ballq.views.MarqueeTextView
+                        android:id="@+id/tvRattingBarText"
+                        style="@style/MarqueeTextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:maxWidth="@dimen/dimen80dp"
+                        android:text="信心指数:"
+                        android:textColor="#cdaa44"
+                        android:textSize="10sp"/>
+
+                    <com.tysci.ballq.views.widgets.CustomRattingBar
+                        android:id="@+id/rating_bar"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="5dp"
+                        android:gravity="center_vertical"
+                        app:rattingBar_height="10dp"
+                        app:rattingBar_num="5"
+                        app:rattingBar_padding="3dp"
+                        app:rattingBar_width="10dp"/>
+
+                </LinearLayout>
 
                 <com.tysci.ballq.views.MarqueeTextView
                     android:id="@+id/tvTipCreateTime"
                     style="@style/MarqueeTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:maxWidth="@dimen/dimen70dp"
                     android:text="04/28 11:38"
                     android:textColor="@color/ebpay_black"
-                    android:textSize="12sp"
+                    android:textSize="10sp"
                     tools:ignore="HardcodedText"/>
             </LinearLayout>
 
@@ -243,7 +273,7 @@
                 android:paddingRight="15dp"
                 android:text="@string/app_name"
                 android:textColor="#676767"
-                android:textSize="13sp"/>
+                android:textSize="12sp"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -400,7 +430,7 @@
                     <com.tysci.ballq.views.widgets.TextWithLeftImageView
                         android:id="@+id/text_tip_count"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_height="15dp"
                         app:text_left_image="@mipmap/icon_tip_count"/>
 
                     <com.tysci.ballq.views.widgets.TextWithLeftImageView

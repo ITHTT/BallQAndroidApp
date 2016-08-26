@@ -82,7 +82,7 @@ public class BallQTipOffUserListActivity extends BaseActivity implements SwipeRe
     }
 
     @Override
-    protected void handleInstanceState(Bundle outState) {
+    protected void handleInstanceState(Bundle savedInstanceState) {
 
     }
 

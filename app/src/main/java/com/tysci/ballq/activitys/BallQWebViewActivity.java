@@ -2,10 +2,12 @@ package com.tysci.ballq.activitys;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
+import android.webkit.DownloadListener;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
@@ -15,9 +17,11 @@ import android.widget.TextView;
 
 import com.tysci.ballq.R;
 import com.tysci.ballq.base.BaseActivity;
+import com.tysci.ballq.dialog.ImageUrlBrowserDialog;
 import com.tysci.ballq.modles.event.EventObject;
 import com.tysci.ballq.networks.HttpUrls;
 import com.tysci.ballq.utils.CommonUtils;
+import com.tysci.ballq.utils.FilterBqUrlUtil;
 import com.tysci.ballq.utils.KLog;
 import com.tysci.ballq.utils.UserInfoUtil;
 
@@ -31,7 +35,7 @@ import butterknife.ButterKnife;
  *
  * @author LinDe edit
  */
-public class BallQWebViewActivity extends BaseActivity
+public class BallQWebViewActivity extends BaseActivity implements View.OnLongClickListener, DownloadListener
 {
     @Bind(R.id.pb_web)
     protected ProgressBar progressBar;
@@ -106,6 +110,8 @@ public class BallQWebViewActivity extends BaseActivity
         //webView.addJavascriptInterface(new JavascriptInterface(this.getActivity()), "infohandler");
         webView.setWebViewClient(new CustomWebViewClient());
         webView.setWebChromeClient(new CustomWebChromeClient());
+        webView.setDownloadListener(this);
+        webView.setOnLongClickListener(this);
     }
 
     @Override
@@ -121,7 +127,7 @@ public class BallQWebViewActivity extends BaseActivity
     }
 
     @Override
-    protected void handleInstanceState(Bundle outState)
+    protected void handleInstanceState(Bundle savedInstanceState)
     {
 
     }
@@ -210,87 +216,39 @@ public class BallQWebViewActivity extends BaseActivity
         }
     }
 
-    private boolean filterUrl(String url)
+    @Override
+    public boolean onLongClick(View v)
     {
-        if (url.equals("ballqinapp://login"))
+        WebView wb;
+        try
         {
-            UserInfoUtil.userLogin(this);
+            wb = (WebView) v;
+        }
+        catch (ClassCastException e)
+        {
             return true;
         }
-        else if (url.contains("ballqinapp://event/signing"))
-        {
-            if (UserInfoUtil.checkLogin(this))
-            {
-                String userId = UserInfoUtil.getUserId(this);
-                String token = UserInfoUtil.getUserToken(this);
-                String urlStr = HttpUrls.HOST_URL + "/weixin/events/show_lottery/?user=" + userId + "&token=" + token;
-                try
-                {
-                    //urlStr=urlStr+"&"+BigDataUtil2.getBaseStatisticsParams(getActivity(),99,"2:6:1",1,"0","0","0","0","0");
-                }
-                catch (Exception e)
-                {
-                    e.printStackTrace();
-                }
-                KLog.e("urlStr:" + urlStr);
-                String title = "活动签到";
-                Intent intent = new Intent(this, BallQWebViewActivity.class);
-                intent.putExtra("url", urlStr);
-                intent.putExtra("title", title);
-                startActivity(intent);
-            }
-            else
-            {
-                UserInfoUtil.userLogin(this);
-            }
+        if (wb == null)
             return true;
-        }
-        else if (!url.contains(HttpUrls.HOST_URL + "/weixin/events/lobby"))
+        WebView.HitTestResult result = wb.getHitTestResult();
+        if (result.getType() == WebView.HitTestResult.IMAGE_TYPE
+                || result.getType() == WebView.HitTestResult.IMAGE_ANCHOR_TYPE
+                || result.getType() == WebView.HitTestResult.SRC_IMAGE_ANCHOR_TYPE)
         {
-            String urlStr = url;
-            KLog.e("url:" + url);
-            if (UserInfoUtil.checkLogin(this))
-            {
-                String userId = UserInfoUtil.getUserId(this);
-                String token = UserInfoUtil.getUserToken(this);
-                String[] urls = urlStr.split("\\?");
-                urlStr = urls[0] + "?user=" + userId + "&token=" + token;
-            }
-            if (!urlStr.contains("?"))
-            {
-                try
-                {
-                    // urlStr=urlStr+"?"+BigDataUtil2.getBaseStatisticsParams(getActivity(),99,"2:6:1",1,"0","0","0","0","0");
-                }
-                catch (Exception e)
-                {
-                    e.printStackTrace();
-                }
-            }
-            else
-            {
-                try
-                {
-                    //urlStr=urlStr+"&"+BigDataUtil2.getBaseStatisticsParams(getActivity(),99,"2:6:1",1,"0","0","0","0","0");
-                }
-                catch (Exception e)
-                {
-                    e.printStackTrace();
-                }
-            }
-            String title = "球商";
-            Intent intent = new Intent(this, BallQWebViewActivity.class);
-            KLog.e("strUrl:" + urlStr);
-            intent.putExtra("url", urlStr);
-            intent.putExtra("title", title);
-            intent.putExtra("is_ding_dan", url.contains("ballq/indiana"));
-            startActivity(intent);
-            return true;
+            KLog.e("保存这个图片！" + result.getExtra());
+            ImageUrlBrowserDialog dialog = new ImageUrlBrowserDialog(v.getContext());
+            dialog.addUrl(result.getExtra());
+            dialog.show();
         }
-        else
-        {
-            return false;
-        }
+        return true;
+    }
+
+    @Override
+    public void onDownloadStart(String url, String userAgent, String contentDisposition, String mimetype, long contentLength)
+    {
+        Uri uri = Uri.parse(url);
+        Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+        startActivity(intent);
     }
 
     private class CustomWebViewClient extends WebViewClient
@@ -298,13 +256,13 @@ public class BallQWebViewActivity extends BaseActivity
         @Override
         public boolean shouldOverrideUrlLoading(WebView view, String url)
         {
-            return filterUrl(url) || super.shouldOverrideUrlLoading(view, url);
+            KLog.d(url);
+            return FilterBqUrlUtil.filterUrl(BallQWebViewActivity.this, url) || super.shouldOverrideUrlLoading(view, url);
         }
 
         @Override
         public void onPageFinished(WebView view, String url)
         {
-
         }
 
     }

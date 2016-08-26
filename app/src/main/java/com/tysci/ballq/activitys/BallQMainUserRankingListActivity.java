@@ -117,7 +117,7 @@ public class BallQMainUserRankingListActivity extends BaseActivity implements Sw
     }
 
     @Override
-    protected void handleInstanceState(Bundle outState) {
+    protected void handleInstanceState(Bundle savedInstanceState) {
 
     }
 

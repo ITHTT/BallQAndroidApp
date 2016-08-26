@@ -133,7 +133,7 @@ public class UserAchievementActivity extends BaseActivity implements SwipeRefres
     protected void saveInstanceState(Bundle outState) {}
 
     @Override
-    protected void handleInstanceState(Bundle outState)
+    protected void handleInstanceState(Bundle savedInstanceState)
     {
 
     }

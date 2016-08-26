@@ -119,7 +119,7 @@ public class UserWithdrawsActivity extends BaseActivity implements SwipeRefreshL
     }
 
     @Override
-    protected void handleInstanceState(Bundle outState)
+    protected void handleInstanceState(Bundle savedInstanceState)
     {
 
     }

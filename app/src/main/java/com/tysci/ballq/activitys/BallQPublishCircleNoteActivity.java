@@ -151,7 +151,7 @@ public class BallQPublishCircleNoteActivity extends BaseActivity implements Ball
     }
 
     @Override
-    protected void handleInstanceState(Bundle outState)
+    protected void handleInstanceState(Bundle savedInstanceState)
     {
 
     }

@@ -135,7 +135,7 @@ public class UserRewardActivity extends BaseActivity implements AdapterView.OnIt
     }
 
     @Override
-    protected void handleInstanceState(Bundle outState) {
+    protected void handleInstanceState(Bundle savedInstanceState) {
 
     }
 

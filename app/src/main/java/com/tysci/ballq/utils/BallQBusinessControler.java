@@ -6,7 +6,6 @@ import android.text.TextUtils;
 
 import com.tysci.ballq.activitys.BallQBallWarpDetailActivity;
 import com.tysci.ballq.activitys.BallQCircleNoteDetailActivity;
-import com.tysci.ballq.activitys.BallQEventsPlazaActivity;
 import com.tysci.ballq.activitys.BallQFindCircleNoteActivity;
 import com.tysci.ballq.activitys.BallQGreatWarGoActivity;
 import com.tysci.ballq.activitys.BallQMainActivity;
@@ -101,7 +100,7 @@ public class BallQBusinessControler
         if (jumpUrl.contains("ballqinapp://event/square"))
         {
             // 跳转→活动广场
-            Intent intent = new Intent(context, BallQEventsPlazaActivity.class);
+            Intent intent = new Intent(context, BallQWebViewActivity.class);
             intent = getJPushIntent(intent, jpush);
             context.startActivity(intent);
         }

@@ -9,6 +9,7 @@ import android.os.Looper;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.pgyersdk.crash.PgyCrashManager;
 import com.tysci.ballq.activitys.BqServerCustomActivity;
 import com.tysci.ballq.utils.SharedPreferencesUtil;
 
@@ -29,7 +30,7 @@ import java.util.TreeSet;
  *
  * @author lifuqiang
  */
-
+@Deprecated
 public class AppExceptionHandler implements UncaughtExceptionHandler
 {
 
@@ -101,6 +102,10 @@ public class AppExceptionHandler implements UncaughtExceptionHandler
     @Override
     public void uncaughtException(Thread thread, Throwable ex)
     {
+        if (ex instanceof Exception)
+        {
+            PgyCrashManager.reportCaughtException(mContext, (Exception) ex);
+        }
         if (!handleException(ex) && mDefaultHandler != null)
         {
             //如果用户没有处理则让系统默认的异常处理器来处理   

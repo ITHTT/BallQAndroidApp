@@ -408,8 +408,8 @@ public class BallQTipOffDetailActivity extends BaseActivity implements SwipeRefr
             {
                 if (!TextUtils.isEmpty(matchState) && matchState.equals("未开始"))
                 {
-                    tvMatchTime.setText(CommonUtils.getTimeOfDay(date));
-                    tvMatchDate.setText(CommonUtils.getMM_ddString(date));
+                    tvMatchTime.setText(CommonUtils.getTimeOfDay(matchDate));
+                    tvMatchDate.setText(CommonUtils.getMM_ddString(matchDate));
                 }
                 else
                 {
@@ -420,8 +420,8 @@ public class BallQTipOffDetailActivity extends BaseActivity implements SwipeRefr
             }
             else
             {
-                tvMatchTime.setText(CommonUtils.getTimeOfDay(date));
-                tvMatchDate.setText(CommonUtils.getMM_ddString(date));
+                tvMatchTime.setText(CommonUtils.getTimeOfDay(matchDate));
+                tvMatchDate.setText(CommonUtils.getMM_ddString(matchDate));
             }
         }
 
@@ -745,7 +745,7 @@ public class BallQTipOffDetailActivity extends BaseActivity implements SwipeRefr
     }
 
     @Override
-    protected void handleInstanceState(Bundle outState)
+    protected void handleInstanceState(Bundle savedInstanceState)
     {
 
     }
