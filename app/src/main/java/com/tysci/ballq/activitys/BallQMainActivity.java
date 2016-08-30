@@ -65,6 +65,8 @@ public class BallQMainActivity extends BaseActivity
     {
         SwipeBackHelper.getCurrentPage(this).setSwipeBackEnable(false);
         setSelectedTab(R.id.menu_home);
+
+//        throw new RuntimeException("测试报错闪退跳转到报错界面并提醒用户重启球商");
     }
 
     @Override

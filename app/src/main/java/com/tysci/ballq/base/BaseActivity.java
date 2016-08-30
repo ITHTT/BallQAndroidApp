@@ -373,4 +373,11 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
         super.finalize();
         KLog.e("finalize...");
     }
+
+    @Override
+    public void finish()
+    {
+//        SwipeBackHelper.finish(this);
+        super.finish();
+    }
 }

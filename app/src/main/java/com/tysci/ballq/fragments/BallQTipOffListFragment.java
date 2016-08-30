@@ -1,13 +1,13 @@
 package com.tysci.ballq.fragments;
 
 import android.os.Bundle;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.text.TextUtils;
 import android.view.View;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.image.swiperefresh.PullToRefreshView;
 import com.tysci.ballq.R;
 import com.tysci.ballq.base.BaseFragment;
 import com.tysci.ballq.modles.BallQTipOffEntity;
@@ -31,10 +31,10 @@ import ru.noties.scrollable.OnFlingOverListener;
 /**
  * Created by Administrator on 2016/5/31.
  */
-public class BallQTipOffListFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener, AutoLoadMoreRecyclerView.OnLoadMoreListener, CanScrollVerticallyDelegate, OnFlingOverListener
+public class BallQTipOffListFragment extends BaseFragment implements PullToRefreshView.OnRefreshListener, AutoLoadMoreRecyclerView.OnLoadMoreListener, CanScrollVerticallyDelegate, OnFlingOverListener
 {
     @Bind(R.id.swipe_refresh)
-    protected SwipeRefreshLayout swipeRefresh;
+    protected PullToRefreshView swipeRefresh;
     @Bind(R.id.recycler_view)
     protected AutoLoadMoreRecyclerView recyclerView;
 

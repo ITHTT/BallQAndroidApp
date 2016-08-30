@@ -410,6 +410,12 @@ public class UserBettingGuessRecordActivity extends BaseActivity implements Swip
     @Override
     public void onLoadMore()
     {
+        if(recyclerView==null)
+        {
+            ToastUtil.show(this,"应用数据被系统回收");
+            finish();
+            return;
+        }
         if (recyclerView.isRefreshing())
         {
             KLog.e("刷新数据中....");
@@ -423,7 +429,9 @@ public class UserBettingGuessRecordActivity extends BaseActivity implements Swip
                 @Override
                 public void run()
                 {
-                    requestUserBettingRecordInfos(currentPages, uid, bet, query, etype, true);
+                    //noinspection ConstantConditions
+                    if (UserBettingGuessRecordActivity.this != null)
+                        requestUserBettingRecordInfos(currentPages, uid, bet, query, etype, true);
                 }
             }, 300);
         }

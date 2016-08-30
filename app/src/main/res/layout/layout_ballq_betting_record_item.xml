@@ -56,7 +56,7 @@
                 android:layout_height="wrap_content"
                 android:maxWidth="110dp"
                 android:text="英国足总杯联赛"
-                android:textSize="13sp"/>
+                android:textSize="12sp"/>
 
             <TextView
                 android:id="@+id/tv_betting_match_date"
@@ -64,7 +64,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="8dp"
                 android:text="07-01"
-                android:textSize="13sp"/>
+                android:textSize="12sp"/>
         </LinearLayout>
 
         <LinearLayout
@@ -81,7 +81,7 @@
                 android:maxWidth="@dimen/dimen80dp"
                 android:text="阿森纳"
                 android:textColor="@color/black"
-                android:textSize="13.5sp"/>
+                android:textSize="12sp"/>
 
             <TextView
                 android:id="@+id/tv_match_state"
@@ -101,7 +101,7 @@
                 android:maxWidth="@dimen/dimen80dp"
                 android:text="阿森纳"
                 android:textColor="@color/black"
-                android:textSize="13.5sp"/>
+                android:textSize="12sp"/>
         </LinearLayout>
 
         <LinearLayout
@@ -117,7 +117,7 @@
                 android:maxWidth="110dp"
                 android:text="亚盘 客队+0.25@1.14“"
                 android:textColor="@color/gold"
-                android:textSize="13sp"/>
+                android:textSize="12sp"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -142,7 +142,7 @@
                     android:singleLine="true"
                     android:text="0"
                     android:textColor="#3a3a3a"
-                    android:textSize="13sp"
+                    android:textSize="12sp"
                     android:typeface="monospace"/>
             </LinearLayout>
         </LinearLayout>
