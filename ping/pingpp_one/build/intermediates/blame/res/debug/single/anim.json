@@ -1,10 +1,10 @@
 [
     {
-        "merged": "D:\\Android\\AndroidProjects\\ballq_androidv2\\ping\\pingpp_one\\build\\intermediates\\res\\merged\\debug\\anim\\dialog_exit.xml",
-        "source": "D:\\Android\\AndroidProjects\\ballq_androidv2\\ping\\pingpp_one\\res\\anim\\dialog_exit.xml"
+        "merged": "D:\\Android\\AndroidProjects\\BallQAndroidApp\\ping\\pingpp_one\\build\\intermediates\\res\\merged\\debug\\anim\\dialog_enter.xml",
+        "source": "D:\\Android\\AndroidProjects\\BallQAndroidApp\\ping\\pingpp_one\\res\\anim\\dialog_enter.xml"
     },
     {
-        "merged": "D:\\Android\\AndroidProjects\\ballq_androidv2\\ping\\pingpp_one\\build\\intermediates\\res\\merged\\debug\\anim\\dialog_enter.xml",
-        "source": "D:\\Android\\AndroidProjects\\ballq_androidv2\\ping\\pingpp_one\\res\\anim\\dialog_enter.xml"
+        "merged": "D:\\Android\\AndroidProjects\\BallQAndroidApp\\ping\\pingpp_one\\build\\intermediates\\res\\merged\\debug\\anim\\dialog_exit.xml",
+        "source": "D:\\Android\\AndroidProjects\\BallQAndroidApp\\ping\\pingpp_one\\res\\anim\\dialog_exit.xml"
     }
 ]

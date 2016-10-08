@@ -37,7 +37,7 @@ public class BqMatchTipOffHistoryAdapter extends WrapRecyclerAdapter<BallQTipOff
     }
 
     @Override
-    protected void onBindViewHolder(final ViewHolder holder, final BallQTipOffEntity tipInfo, int position)
+    protected void onBindViewHolder2(final ViewHolder holder, final BallQTipOffEntity tipInfo, int position)
     {
 
         ImageUtil.loadImage(holder.ivUserIcon, R.mipmap.icon_user_default, tipInfo.getPt());

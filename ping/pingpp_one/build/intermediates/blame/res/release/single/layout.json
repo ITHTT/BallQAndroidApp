@@ -1,13 +1,5 @@
 [
     {
-        "merged": "D:\\Android\\AndroidProjects\\ballq_androidv2\\ping\\pingpp_one\\build\\intermediates\\res\\merged\\release\\layout\\pingpp_activity_pay.xml",
-        "source": "D:\\Android\\AndroidProjects\\ballq_androidv2\\ping\\pingpp_one\\res\\layout\\pingpp_activity_pay.xml"
-    },
-    {
-        "merged": "D:\\Android\\AndroidProjects\\ballq_androidv2\\ping\\pingpp_one\\build\\intermediates\\res\\merged\\release\\layout\\fragment_pay_way_dialog.xml",
-        "source": "D:\\Android\\AndroidProjects\\ballq_androidv2\\ping\\pingpp_one\\res\\layout\\fragment_pay_way_dialog.xml"
-    },
-    {
         "merged": "D:\\Android\\AndroidProjects\\BallQAndroidApp\\ping\\pingpp_one\\build\\intermediates\\res\\merged\\release\\layout\\pingpp_activity_pay_successed.xml",
         "source": "D:\\Android\\AndroidProjects\\BallQAndroidApp\\ping\\pingpp_one\\res\\layout\\pingpp_activity_pay_successed.xml"
     },
@@ -22,13 +14,5 @@
     {
         "merged": "D:\\Android\\AndroidProjects\\BallQAndroidApp\\ping\\pingpp_one\\build\\intermediates\\res\\merged\\release\\layout\\pingpp_activity_pay.xml",
         "source": "D:\\Android\\AndroidProjects\\BallQAndroidApp\\ping\\pingpp_one\\res\\layout\\pingpp_activity_pay.xml"
-    },
-    {
-        "merged": "D:\\Android\\AndroidProjects\\ballq_androidv2\\ping\\pingpp_one\\build\\intermediates\\res\\merged\\release\\layout\\pingpp_activity_pay_successed.xml",
-        "source": "D:\\Android\\AndroidProjects\\ballq_androidv2\\ping\\pingpp_one\\res\\layout\\pingpp_activity_pay_successed.xml"
-    },
-    {
-        "merged": "D:\\Android\\AndroidProjects\\ballq_androidv2\\ping\\pingpp_one\\build\\intermediates\\res\\merged\\release\\layout\\pingpp_pay_channel_item.xml",
-        "source": "D:\\Android\\AndroidProjects\\ballq_androidv2\\ping\\pingpp_one\\res\\layout\\pingpp_pay_channel_item.xml"
     }
 ]

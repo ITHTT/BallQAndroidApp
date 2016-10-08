@@ -27,6 +27,7 @@ public class HttpUrls
     public static String HOST_URL_V3;
     public static String HOST_URL_V5;
     public static String HOST_URL_V6;
+    public static String HOST_URL_ARES;
 
     public static String IMAGE_HOST_URL;
 
@@ -46,7 +47,7 @@ public class HttpUrls
         /**
          * 正式服标签
          */
-        final boolean isFormatServerFlag = true;
+        final boolean isFormatServerFlag = false;
         HOST_URL = "";
         CIRCLE_HOST_URL = "";
 
@@ -56,8 +57,7 @@ public class HttpUrls
         {
             SharedPreferencesUtil.setValue(context, BqServerCustomActivity.KEY_SERVER, "");
             SharedPreferencesUtil.setValue(context, BqServerCustomActivity.KEY_CIRCLE_SERVER, "");
-        }
-        else
+        } else
         {
             HOST_URL = SharedPreferencesUtil.getValue(context, BqServerCustomActivity.KEY_SERVER, "");
             CIRCLE_HOST_URL = SharedPreferencesUtil.getValue(context, BqServerCustomActivity.KEY_CIRCLE_SERVER, "");
@@ -69,12 +69,10 @@ public class HttpUrls
                 CIRCLE_HOST_URL = "http://apijt.ballq.cn/";// 正式服
             else
                 CIRCLE_HOST_URL = "http://int.ballq.cn:8003/";// 测试服
-        }
-        else if (CIRCLE_HOST_URL.equals(BqServerCustomActivity.SERVER_TEST))
+        } else if (CIRCLE_HOST_URL.equals(BqServerCustomActivity.SERVER_TEST))
         {
             CIRCLE_HOST_URL = "http://int.ballq.cn:8003/";// 测试服
-        }
-        else if (CIRCLE_HOST_URL.equals(BqServerCustomActivity.SERVER_FORMAT))
+        } else if (CIRCLE_HOST_URL.equals(BqServerCustomActivity.SERVER_FORMAT))
         {
             CIRCLE_HOST_URL = "http://apijt.ballq.cn/";// 正式服
         }
@@ -85,12 +83,10 @@ public class HttpUrls
                 HOST_URL = "http://apit.ballq.cn";// 正式服
             else
                 HOST_URL = "http://int.ballq.cn:8004";// 测试服
-        }
-        else if (HOST_URL.equals(BqServerCustomActivity.SERVER_TEST))
+        } else if (HOST_URL.equals(BqServerCustomActivity.SERVER_TEST))
         {
             HOST_URL = "http://int.ballq.cn:8004";// 测试服
-        }
-        else if (HOST_URL.equals(BqServerCustomActivity.SERVER_FORMAT))
+        } else if (HOST_URL.equals(BqServerCustomActivity.SERVER_FORMAT))
         {
             HOST_URL = "http://apit.ballq.cn";// 正式服
         }
@@ -103,6 +99,7 @@ public class HttpUrls
         HOST_URL_V3 = HOST_URL + "/api/v3/";
         HOST_URL_V5 = HOST_URL + "/api/v5/";
         HOST_URL_V6 = HOST_URL + "/api/v6/";
+        HOST_URL_ARES = HOST_URL + "/api/ares/";
 
         // 图片主机地址
         IMAGE_HOST_URL = "http://static-cdn.ballq.cn/";

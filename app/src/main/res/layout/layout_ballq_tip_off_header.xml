@@ -22,6 +22,7 @@
     </LinearLayout>
 
     <include
+        android:visibility="gone"
         layout="@layout/layout_ballq_match_header"
         android:background="@color/white"/>
 
@@ -29,6 +30,7 @@
         android:id="@+id/layout_betting_result"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:visibility="gone"
         android:layout_gravity="center"
         android:gravity="center_vertical"
         android:orientation="horizontal"
@@ -75,6 +77,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
+        android:visibility="gone"
         android:gravity="center_vertical"
         android:paddingLeft="15dp"
         android:paddingRight="15dp">
@@ -133,6 +136,7 @@
         android:gravity="center"
         android:orientation="horizontal"
         android:paddingBottom="@dimen/dimen5dp"
+        android:visibility="gone"
         android:paddingLeft="15dp"
         android:paddingRight="15dp"
         android:paddingTop="@dimen/dimen5dp">

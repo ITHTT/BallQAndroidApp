@@ -36,7 +36,7 @@ public class BqBallWrapAdapter extends WrapRecyclerAdapter<BallQBallWarpInfoEnti
     }
 
     @Override
-    protected void onBindViewHolder(final ViewHolder holder, final BallQBallWarpInfoEntity info, int position)
+    protected void onBindViewHolder2(final ViewHolder holder, final BallQBallWarpInfoEntity info, int position)
     {
         String tmp;
 

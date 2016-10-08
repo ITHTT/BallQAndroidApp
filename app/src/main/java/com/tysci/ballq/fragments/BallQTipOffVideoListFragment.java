@@ -16,7 +16,7 @@ import com.tysci.ballq.networks.HttpClientUtil;
 import com.tysci.ballq.networks.HttpUrls;
 import com.tysci.ballq.utils.KLog;
 import com.tysci.ballq.utils.UserInfoUtil;
-import com.tysci.ballq.views.adapters.BqTipOffVideoAdapter;
+import com.tysci.ballq.views.adapters.BqTipOffVideoAdapter2;
 import com.tysci.ballq.views.widgets.loadmorerecyclerview.AutoLoadMoreRecyclerView;
 
 import java.util.HashMap;
@@ -39,7 +39,7 @@ public class BallQTipOffVideoListFragment extends BaseFragment implements SwipeR
     protected AutoLoadMoreRecyclerView recyclerView;
     private int etype = -1;
 
-    private BqTipOffVideoAdapter mBqTipOffVideoAdapter;
+    private BqTipOffVideoAdapter2 mBqTipOffVideoAdapter;
     //    private BallQTipOffVideoAdapter adapter = null;
 //    private List<BallQTipOffEntity> ballQTipOffEntityList = null;
     private int currentPages = 1;
@@ -109,13 +109,11 @@ public class BallQTipOffVideoListFragment extends BaseFragment implements SwipeR
     @Override
     protected void notifyEvent(String action)
     {
-
     }
 
     @Override
     protected void notifyEvent(String action, Bundle data)
     {
-
     }
 
     public void setEtype(int etype)
@@ -127,7 +125,7 @@ public class BallQTipOffVideoListFragment extends BaseFragment implements SwipeR
 
     private void requestDatas(int pages, final boolean isLoadMore)
     {
-        String url = HttpUrls.HOST_URL_V5 + "tips/?settled=-1&etype=" + etype + "&rtype=2&p=" + pages;
+        String url = HttpUrls.HOST_URL_ARES + "tips/?settled=-1&etype=" + etype + "&rtype=2&p=" + pages;
         KLog.e("url:" + url);
         HashMap<String, String> params = null;
         if (UserInfoUtil.checkLogin(baseActivity))
@@ -153,8 +151,7 @@ public class BallQTipOffVideoListFragment extends BaseFragment implements SwipeR
                     if (mBqTipOffVideoAdapter != null)
                     {
                         recyclerView.setStartLoadMore();
-                    }
-                    else
+                    } else
                     {
                         showErrorInfo(new View.OnClickListener()
                         {
@@ -166,8 +163,7 @@ public class BallQTipOffVideoListFragment extends BaseFragment implements SwipeR
                             }
                         });
                     }
-                }
-                else
+                } else
                 {
                     recyclerView.setLoadMoreDataFailed();
                 }
@@ -199,7 +195,7 @@ public class BallQTipOffVideoListFragment extends BaseFragment implements SwipeR
         }
         if (mBqTipOffVideoAdapter == null)
         {
-            mBqTipOffVideoAdapter = new BqTipOffVideoAdapter();
+            mBqTipOffVideoAdapter = new BqTipOffVideoAdapter2();
             recyclerView.setAdapter(mBqTipOffVideoAdapter);
         }
         if (!isLoadMore && mBqTipOffVideoAdapter.getItemCount() > 0)
@@ -211,23 +207,24 @@ public class BallQTipOffVideoListFragment extends BaseFragment implements SwipeR
             JSONObject obj = JSONObject.parseObject(response);
             if (obj != null && !obj.isEmpty())
             {
-                JSONArray objArrays = obj.getJSONArray("data");
+                JSONObject objArrays = obj.getJSONObject("data");
+                JSONArray tips = null;
                 if (objArrays != null && !objArrays.isEmpty())
+                    tips = objArrays.getJSONArray("tips");
+                if (tips != null && !tips.isEmpty())
                 {
                     hideLoad();
-                    mBqTipOffVideoAdapter.addDataList(objArrays, isLoadMore, BallQTipOffEntity.class);
+                    mBqTipOffVideoAdapter.addDataList(tips, isLoadMore, BallQTipOffEntity.class);
                     if (objArrays.size() < 10)
                     {
                         recyclerView.setLoadMoreDataComplete("没有更多数据了");
-                    }
-                    else
+                    } else
                     {
                         recyclerView.setStartLoadMore();
                         if (!isLoadMore)
                         {
                             currentPages = 2;
-                        }
-                        else
+                        } else
                         {
                             currentPages++;
                         }
@@ -260,8 +257,7 @@ public class BallQTipOffVideoListFragment extends BaseFragment implements SwipeR
         if (recyclerView.isRefreshing())
         {
             recyclerView.setLoadMoreDataComplete("刷新数据中...");
-        }
-        else
+        } else
         {
             recyclerView.postDelayed(new Runnable()
             {
@@ -282,8 +278,7 @@ public class BallQTipOffVideoListFragment extends BaseFragment implements SwipeR
         {
             recyclerView.setRefreshing();
             onRefreshCompelete();
-        }
-        else
+        } else
         {
             requestDatas(1, false);
         }

@@ -3,8 +3,18 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/BallQAndroidApp.iml" filepath="$PROJECT_DIR$/BallQAndroidApp.iml" />
+      <module fileurl="file://$PROJECT_DIR$/DanmakuFlameMaster/DanmakuFlameMaster.iml" filepath="$PROJECT_DIR$/DanmakuFlameMaster/DanmakuFlameMaster.iml" />
+      <module fileurl="file://$PROJECT_DIR$/SpinKit/SpinKit.iml" filepath="$PROJECT_DIR$/SpinKit/SpinKit.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ping/bdwallet_pay_sdk/bdwallet_pay_sdk.iml" filepath="$PROJECT_DIR$/ping/bdwallet_pay_sdk/bdwallet_pay_sdk.iml" />
+      <module fileurl="file://$PROJECT_DIR$/imageswiperefresh/imageswiperefresh.iml" filepath="$PROJECT_DIR$/imageswiperefresh/imageswiperefresh.iml" />
+      <module fileurl="file://$PROJECT_DIR$/jcvideoplayer-lib/jcvideoplayer-lib.iml" filepath="$PROJECT_DIR$/jcvideoplayer-lib/jcvideoplayer-lib.iml" />
       <module fileurl="file://$PROJECT_DIR$/libammsdk/libammsdk.iml" filepath="$PROJECT_DIR$/libammsdk/libammsdk.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ping/ping.iml" filepath="$PROJECT_DIR$/ping/ping.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ping/pingpp/pingpp.iml" filepath="$PROJECT_DIR$/ping/pingpp/pingpp.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ping/pingpp_one/pingpp_one.iml" filepath="$PROJECT_DIR$/ping/pingpp_one/pingpp_one.iml" />
+      <module fileurl="file://$PROJECT_DIR$/scrollable/scrollable.iml" filepath="$PROJECT_DIR$/scrollable/scrollable.iml" />
+      <module fileurl="file://$PROJECT_DIR$/swipebackhelper/swipebackhelper.iml" filepath="$PROJECT_DIR$/swipebackhelper/swipebackhelper.iml" />
     </modules>
   </component>
 </project>

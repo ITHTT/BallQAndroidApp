@@ -34,7 +34,7 @@ public class BallQGoRankListAdapter extends WrapRecyclerAdapter<JSONObject, Ball
     }
 
     @Override
-    protected void onBindViewHolder(final ViewHolder holder, final JSONObject json, int position)
+    protected void onBindViewHolder2(final ViewHolder holder, final JSONObject json, int position)
     {
         if (position == 0)
         {

@@ -52,7 +52,7 @@ public class BqTipOffAdapter extends WrapRecyclerAdapter<BallQTipOffEntity, BqTi
     }
 
     @Override
-    protected void onBindViewHolder(final ViewHolder holder, final BallQTipOffEntity tipInfo, final int position)
+    protected void onBindViewHolder2(final ViewHolder holder, final BallQTipOffEntity tipInfo, final int position)
     {
         holder.itemView.setOnClickListener(new View.OnClickListener()
         {

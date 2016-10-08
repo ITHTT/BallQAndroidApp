@@ -406,6 +406,5 @@ public class BallQMainActivity extends BaseActivity
     {
         super.onResume();
         UserInfoUtil.getUserInfo(this, "BallQMainActivity", UserInfoUtil.getUserId(this), false, null);
-
     }
 }

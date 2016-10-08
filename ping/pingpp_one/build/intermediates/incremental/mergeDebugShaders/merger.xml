@@ -1,2 +1,2 @@
 <?xml version="1.0" encoding="utf-8"?>
-<merger version="3"><dataSet config="main"><source path="D:\Android\AndroidProjects\ballq_androidv2\ping\pingpp_one\src\main\shaders"/></dataSet><dataSet config="debug"><source path="D:\Android\AndroidProjects\ballq_androidv2\ping\pingpp_one\src\debug\shaders"/></dataSet></merger>
+<merger version="3"><dataSet config="main"><source path="D:\Android\AndroidProjects\BallQAndroidApp\ping\pingpp_one\src\main\shaders"/></dataSet><dataSet config="debug"><source path="D:\Android\AndroidProjects\BallQAndroidApp\ping\pingpp_one\src\debug\shaders"/></dataSet></merger>

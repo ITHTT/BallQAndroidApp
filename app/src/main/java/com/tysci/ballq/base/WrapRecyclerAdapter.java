@@ -61,7 +61,7 @@ public abstract class WrapRecyclerAdapter<Bean, VH extends ButterKnifeRecyclerVi
     @Override
     public final void onBindViewHolder(VH holder, int position)
     {
-        onBindViewHolder(holder, getItem(position), position);
+        onBindViewHolder2(holder, getItem(position), position);
     }
 
     public final void addDataList(boolean append, Bean... beans)
@@ -114,5 +114,5 @@ public abstract class WrapRecyclerAdapter<Bean, VH extends ButterKnifeRecyclerVi
     @Override
     public abstract VH onCreateViewHolder(ViewGroup parent, int viewType);
 
-    protected abstract void onBindViewHolder(VH holder, Bean bean, int position);
+    protected abstract void onBindViewHolder2(VH holder, Bean bean, int position);
 }

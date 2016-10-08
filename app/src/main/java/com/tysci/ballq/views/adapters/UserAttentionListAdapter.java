@@ -68,7 +68,7 @@ public class UserAttentionListAdapter extends WrapRecyclerAdapter<UserAttentionL
     }
 
     @Override
-    protected void onBindViewHolder(ButterKnifeRecyclerViewHolder holder, UserAttentionListEntity info, int position)
+    protected void onBindViewHolder2(ButterKnifeRecyclerViewHolder holder, UserAttentionListEntity info, int position)
     {
         switch (info.getMtype())
         {

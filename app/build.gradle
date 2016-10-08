@@ -14,9 +14,9 @@ android {
     defaultConfig {
         applicationId "com.tysci.ballq"
         minSdkVersion 15
-        targetSdkVersion 23
-        versionCode 1
-        versionName "1.0"
+        targetSdkVersion 22
+        versionCode 65
+        versionName "1.6.5"
     }
     buildTypes {
         release {
@@ -25,6 +25,8 @@ android {
             signingConfig signingConfigs.config
         }
         debug {
+            minifyEnabled false
+//            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.config
         }
     }
@@ -38,7 +40,7 @@ allprojects {
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile fileTree(include: ['*.jar'], dir: 'libs')
     testCompile 'junit:junit:4.12'
     compile 'com.android.support:appcompat-v7:23.2.0'
     compile 'com.android.support:design:23.2.0'
@@ -50,5 +52,16 @@ dependencies {
     compile 'com.nineoldandroids:library:2.4.0'
     compile 'com.github.PhilJay:MPAndroidChart:v2.2.5'
     compile project(':libammsdk')
+    compile project(':scrollable')
+    compile 'com.umeng.analytics:analytics:latest.integration'
+    compile project(':jcvideoplayer-lib')
+    compile project(':DanmakuFlameMaster')
+    compile project(':SpinKit')
+    compile project(':swipebackhelper')
+    compile project(':imageswiperefresh')
+    compile project(':ping:pingpp_one')
+    compile project(':ping:pingpp')
+    compile project(':ping:bdwallet_pay_sdk')
     compile files('libs/jpush-android-2.1.6.jar')
+    compile files('libs/pgyer_sdk_2.4.2.jar')
 }

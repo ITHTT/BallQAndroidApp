@@ -2,6 +2,8 @@ package com.tysci.ballq.utils;
 
 import android.text.TextUtils;
 
+import java.util.Locale;
+
 /**
  * Created by LinDe
  * on 2016-08-19 0019.
@@ -25,47 +27,40 @@ public final class ParseUtil
             try
             {
                 i = Integer.parseInt(s);
-            }
-            catch (NumberFormatException e)
+            } catch (NumberFormatException e)
             {
                 i = 0;
             }
             return (T) i;
-        }
-        else if (defValue instanceof Long)
+        } else if (defValue instanceof Long)
         {
             Long l;
             try
             {
                 l = Long.parseLong(s);
-            }
-            catch (NumberFormatException e)
+            } catch (NumberFormatException e)
             {
                 l = 0L;
             }
             return (T) l;
-        }
-        else if (defValue instanceof Float)
+        } else if (defValue instanceof Float)
         {
             Float f;
             try
             {
                 f = Float.parseFloat(s);
-            }
-            catch (NumberFormatException e)
+            } catch (NumberFormatException e)
             {
                 f = 0F;
             }
             return (T) f;
-        }
-        else if (defValue instanceof Double)
+        } else if (defValue instanceof Double)
         {
             Double d;
             try
             {
                 d = Double.parseDouble(s);
-            }
-            catch (NumberFormatException e)
+            } catch (NumberFormatException e)
             {
                 d = 0D;
             }
@@ -105,8 +100,7 @@ public final class ParseUtil
         {
             //noinspection unchecked
             return (Return) parse;
-        }
-        catch (ClassCastException e)
+        } catch (ClassCastException e)
         {
             e.printStackTrace();
         }
@@ -144,5 +138,31 @@ public final class ParseUtil
         }
 
         return defValue;
+    }
+
+    /**
+     * 处理小数，保留指定位数的小数，并去掉末位的0
+     *
+     * @param d             待处理小数
+     * @param decimalLength 小数点位数（最高为10）
+     * @return {@link String}
+     */
+    public static String handlerDecimal(double d, int decimalLength)
+    {
+        if (d == 0) return String.valueOf(0);
+
+        if (decimalLength < 0) decimalLength = 0;
+        else if (decimalLength > 10) decimalLength = 10;
+
+        int point;
+        for (int i = 0, baseNumber = 10; i <= decimalLength; i++)
+        {
+            point = (int) Math.pow(baseNumber, i);
+            if ((d * point) % 1 == 0)
+            {
+                return String.format(Locale.getDefault(), "%." + i + "f", d);
+            }
+        }
+        return String.format(Locale.getDefault(), "%." + decimalLength + "f", d);
     }
 }

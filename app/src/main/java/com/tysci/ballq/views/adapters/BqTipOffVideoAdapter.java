@@ -27,6 +27,7 @@ import butterknife.Bind;
  *
  * @author used in 2016-08-02
  */
+@Deprecated
 public class BqTipOffVideoAdapter extends WrapRecyclerAdapter<BallQTipOffEntity, BqTipOffVideoAdapter.ViewHolder>
 {
     @Override
@@ -37,7 +38,7 @@ public class BqTipOffVideoAdapter extends WrapRecyclerAdapter<BallQTipOffEntity,
     }
 
     @Override
-    protected void onBindViewHolder(final ViewHolder holder, final BallQTipOffEntity info, int position)
+    protected void onBindViewHolder2(final ViewHolder holder, final BallQTipOffEntity info, int position)
     {
         String tmp;
 
@@ -54,8 +55,7 @@ public class BqTipOffVideoAdapter extends WrapRecyclerAdapter<BallQTipOffEntity,
         if (!TextUtils.isEmpty(tmp))
         {
             ImageUtil.loadImage(holder.ivInfoConver, R.mipmap.icon_ball_wrap_default_img, tmp);
-        }
-        else
+        } else
         {
             holder.ivInfoConver.setImageResource(R.mipmap.icon_ball_wrap_default_img);
         }
@@ -63,8 +63,7 @@ public class BqTipOffVideoAdapter extends WrapRecyclerAdapter<BallQTipOffEntity,
         if (createCalendar == null)
         {
             holder.tvCreateDate.setText("");
-        }
-        else
+        } else
         {
             holder.tvCreateDate.setText(createCalendar.getStringFormat("MM-dd HH:mm"));
         }
@@ -92,6 +91,7 @@ public class BqTipOffVideoAdapter extends WrapRecyclerAdapter<BallQTipOffEntity,
         });
     }
 
+    @Deprecated
     class ViewHolder extends ButterKnifeRecyclerViewHolder
     {
         @Bind(R.id.iv_ballq_info_cover)
